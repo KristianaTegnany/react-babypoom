@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Babypoom</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="description" content="Babypoom - Annoncez la naissance de bébé de façon originale.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body class="view-login">
+  <div id="root"></div>
+  <link href="//fonts.googleapis.com/css?family=Amatic+SC|Raleway" rel="stylesheet">
+  <script src="//polyfill.io/v2/polyfill.min.js?<%=
+    htmlWebpackPlugin.options.locales.map(function(loc) { return 'Intl.~locale.' + loc; }).join(',')
+  %>"></script>
+  <script async src="//widget.cloudinary.com/global/all.js"></script>
+</body>
+</html>

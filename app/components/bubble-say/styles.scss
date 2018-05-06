@@ -1,0 +1,22 @@
+@import '../../../config/bootstrap-pre-customizations';
+
+$height: 150px;
+
+.bubble-say-container {
+  text-align: center;
+
+  &> div:first-child + div::before {
+    margin-left: -70px;
+  }
+}
+
+.img {
+  display: inline-block;
+  width: $height;
+  height: $height;
+  border: 2px solid white;
+  border-radius: $height;
+  margin-bottom: 10px;
+  background: transparent none center no-repeat;
+  background-size: cover;
+}

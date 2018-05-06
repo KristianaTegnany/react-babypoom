@@ -1,0 +1,133 @@
+@import '../../../config/bootstrap-pre-customizations';
+
+.game-container {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.babyname-container {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: $main-padding;
+
+  &> div {
+    font-family: 'Amatic SC', 'Arial narrow', Impact, Arial;
+    text-align: center;
+    //margin-top: 15px;
+    border: 1px solid var(--neutral-secondary-F);
+    border-radius: 10px;
+    padding: 0 10px;
+
+    &> div {
+      font-size: 30px;
+      font-weight: bold;
+      line-height: 70px;
+    }
+  }
+
+  .name {
+    margin: 0;
+  }
+}
+
+
+.char {
+  font-family: 'Amatic SC', 'Arial narrow', Impact, Arial;
+  text-transform: uppercase;
+}
+
+.name {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 10px 0 20px;
+
+  .char {
+    flex: 1;
+    max-width: 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: var(--neutral-secondary-F);
+
+    &.ko {
+      span {
+        visibility: hidden;
+      }
+      &::after {
+        content: '';
+        display: inline-block;
+        width: 94%;
+        max-width: 26px;
+        height: 4px;
+        border-radius: 4px;
+        background: var(--neutral-secondary-F);
+        margin-top: -14px;
+      }
+    }
+  }
+}
+
+.charset {
+  background: var(--neutral-secondary-B);
+  width: calc(100% + #{$main-padding});
+  margin-top: 0;
+  margin-left: -$main-padding / 2;
+  margin-right: -$main-padding / 2;
+  margin-bottom: -$main-padding / 2;
+  padding: 2px;
+
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  .char {
+    width: (100% / 7);
+    text-align: center;
+    float: left;
+    font-size: 30px;
+    font-weight: bold;
+    position: relative;
+
+    &::before {
+      content: '';
+      padding-top: 100%;
+      float: left;
+    }
+
+    &.ok, &.ko {
+      .content { color: white; } // Color OK
+    }
+    &.ok {
+      .content { background: #84c152; } // Color OK
+    }
+    &.ko {
+      .content { background: #e83838; } // Color OK
+    }
+
+    .content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      line-height: 110%;
+      border-radius: 2px;
+      margin: 2px;
+      background: var(--neutral-secondary-F);
+      color: var(--neutral-secondary-B);
+    }
+  }
+}

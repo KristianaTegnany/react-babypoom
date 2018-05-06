@@ -1,0 +1,41 @@
+$css-var: () !default !global;
+
+@function add-css-var($var) {
+  $var-name: str-slice($var, 5, str-length($var) - 1);
+  @if (null == index($css-var, $var-name)) {
+    $css-var: append($css-var, $var-name) !global;
+  }
+  @return $var;
+}
+
+
+// Override sass functions
+
+@function darken($color, $amt) {
+  @if (null != str-index(inspect($color), 'var(')) {
+    $str: str-insert($color, '-darken-' + inspect($amt / 1%), str-length($color));
+    @return add-css-var($str);
+  } @else {
+    @return adjust-color($color, $lightness: -$amt)
+  }
+}
+
+@function lighten($color, $amt) {
+  @if (null != str-index(inspect($color), 'var(')) {
+    $str: str-insert($color, '-lighten-' + inspect($amt / 1%), str-length($color));
+    @return add-css-var($str);
+  } @else {
+    @return adjust-color($color, $lightness: $amt)
+  }
+}
+
+@function rgba($color, $args...) {
+  @if (null != str-index(inspect($color), 'var(')) {
+    $str: str-insert($color, '-rgba-' + inspect(nth($args, 1) * 100), str-length($color));
+    @return add-css-var($str);
+  }
+  @if (length($args) > 1) {
+    @return mix(rgb($color, nth($args, 1), nth($args, 2)), transparent, nth($args, 3) * 100);
+  }
+  @return mix($color, transparent, nth($args, 1) * 100);
+}

@@ -1,0 +1,47 @@
+@import '../../../config/bootstrap-pre-customizations';
+
+$height: 150px;
+
+.message-container {
+  margin-left: $main-padding;
+  background: white; // Color Ok
+}
+
+.content {
+  display: flex;
+  position: relative;
+  border: $main-padding solid white; // Color Ok
+  border-left: 0;
+
+  background: linear-gradient(to bottom, white, white 22px, #d4e5eb 1px); // Color Ok
+  background-position: 75% center;
+  background-repeat: repeat-y;
+  background-size: calc(100% - #{2 * $main-padding}) 23px;
+
+  // Image
+  &> div:first-child {
+    position: relative;
+    left: -$main-padding;
+  }
+}
+
+.actions {
+  position: absolute;
+  top: $main-padding;
+  right: $main-padding;
+}
+
+.edit {
+  color: var(--brand-primary-A);
+}
+
+.title {
+  color: var(--brand-primary-A);
+  font-weight: bold;
+}
+
+.message {
+  color: var(--brand-primary-D);
+  font-weight: bold;
+  white-space: pre-wrap;
+}

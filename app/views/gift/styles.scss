@@ -1,0 +1,60 @@
+@import '../../../config/bootstrap-pre-customizations';
+@import '../../components/bubble/styles.scss';
+
+.gift-container {
+  &> div {
+    margin-top: $main-padding;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .mascot {
+    padding-left: 60px;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 80px;
+      z-index: 1;
+      background: transparent url(../../images/mascot.png) left center no-repeat;
+      background-size: contain;
+    }
+
+    &> :first-child {
+      padding-left: 15px + $bubble-padding;
+    }
+  }
+
+  .action {
+    text-align: center;
+
+    :global {
+      & .btn {
+        margin-top: 30px;
+      }
+    }
+  }
+
+  :global {
+    .btn-link {
+      padding: 0;
+      color: var(--brand-secondary);
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .help {
+    font-size: small;
+    font-style: italic;
+  }
+}

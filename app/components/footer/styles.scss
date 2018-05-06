@@ -1,0 +1,29 @@
+@import '../../../config/bootstrap-pre-customizations';
+@import '../../../node_modules/bootstrap/scss/_variables';
+
+.footer {
+  background: var(--brand-secondary-B);
+  position: relative;
+  display: flex;
+
+  a {
+    text-decoration: none;
+    flex: 1;
+    margin: 5px;
+    padding: ($btn-padding-y - .2rem) 8px;
+    font-family: 'Amatic SC', 'Arial narrow', Impact, Arial;
+    font-size: 27px;
+    font-weight: bold;
+    color: var(--neutral-secondary-F) !important;
+
+    &+ a {
+      margin-top: 5px !important;
+      margin-left: 0;
+      color: var(--neutral-primary-F) !important;
+    }
+
+    &:first-child:last-child {
+      width: 100%;
+    }
+  }
+}

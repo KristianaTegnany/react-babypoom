@@ -1,0 +1,11 @@
+{
+  "apps" : [{
+    "name":   "worker",
+    "script": "./server.bundle.js",
+    "watch":  true,
+    "env": {
+      "NODE_ENV": "production",
+      "PORT":     8080
+    }
+  }]
+}

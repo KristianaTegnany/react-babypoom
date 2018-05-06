@@ -1,0 +1,37 @@
+@import '../../../config/bootstrap-pre-customizations';
+
+.arrival-container {
+  &> div + div {
+    margin-top: $main-padding * 1.25;
+  }
+}
+
+.info {
+  background: var(--neutral-secondary);
+  padding: $main-padding;
+  border-radius: 10px;
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  th {
+    font-weight: normal;
+    color: var(--brand-secondary-B);
+  }
+
+  td {
+    font-weight: bold;
+    color: var(--neutral-secondary-F);
+  }
+
+  tr + tr {
+    border-top: 1px solid var(--brand-secondary-B);
+  }
+}

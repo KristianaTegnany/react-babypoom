@@ -1,0 +1,34 @@
+@import '../../../config/bootstrap-pre-customizations';
+
+$bpoom-img-width: 70px;
+$bpoom-img-height: 80px;
+
+.img {
+  background: #414141 none center no-repeat;
+  background-size: cover;
+  width: $bpoom-img-width;
+  height: $bpoom-img-height;
+}
+
+.img-container {
+  display: inline-block;
+}
+
+.img-border {
+  padding: 5px;
+  background-color: white; // Color Ok
+  transform: rotate(1.8deg);
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.15);
+}
+
+.img-text {
+  display: block;
+  margin-top: 5px;
+  line-height: 20px;
+  min-height: 20px;
+  text-align: center;
+  font-size: 12px;
+  max-width: $bpoom-img-width;
+  text-overflow: ellipsis;
+}
+

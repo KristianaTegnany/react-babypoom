@@ -1,0 +1,43 @@
+@import '../../../config/bootstrap-pre-customizations';
+
+$padding: 45px;
+
+.left, .right {
+  position: relative;
+}
+
+.img {
+  position: absolute;
+  top: -7px;
+  z-index: 1;
+  width: $padding + 36px;
+  height: $padding + 36px;
+  border: 2px solid white;
+  border-radius: $padding;
+  background: transparent none center no-repeat;
+  background-size: cover;
+}
+
+.left {
+  padding-left: $padding;
+
+  &> div:first-child + div {
+    padding-left: 29px;
+  }
+
+  .img {
+    left: -7px;
+  }
+}
+
+.right {
+  padding-right: $padding;
+
+  &> div:first-child + div {
+    padding-right: 29px;
+  }
+
+  .img {
+    right: -7px;
+  }
+}

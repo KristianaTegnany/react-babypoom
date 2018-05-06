@@ -1,0 +1,38 @@
+@import '../../../config/bootstrap-pre-customizations';
+
+.visitorbook-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.visitorbook-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: $main-padding;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+
+  &> button {
+    flex: none;
+    margin: $main-padding 0;
+  }
+}
+
+.visitorbook-msgs {
+  &> div {
+    padding: $main-padding 0 0 0;
+    position: relative;
+
+    &:first-child {
+      padding-top: 0;
+    }
+  }
+}

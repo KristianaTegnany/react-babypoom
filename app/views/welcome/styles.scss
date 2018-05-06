@@ -1,0 +1,22 @@
+@import '../../../config/bootstrap-pre-customizations';
+
+$bottom-height: 135px;
+
+.welcome-container {
+  position: relative;
+  padding-bottom: $bottom-height;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 60px;
+    right: 0;
+    bottom: -5px;
+    height: $bottom-height;
+    background: transparent url(../../images/baby.png) center no-repeat;
+    background-size: contain;
+  }
+}

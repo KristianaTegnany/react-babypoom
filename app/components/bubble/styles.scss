@@ -1,0 +1,136 @@
+@import '../../../config/bootstrap-pre-customizations';
+
+$bubble-padding: 5px;
+
+.bubble {
+  background: #fff;
+  border-radius: 10px;
+  min-height: 55px;
+  padding: $bubble-padding;
+  position: relative;
+  flex: 1;
+}
+
+.content {
+  padding: 5px 10px;
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+.scrollable {
+  .content {
+    position: absolute;
+    top: $bubble-padding;
+    left: $bubble-padding;
+    right: $bubble-padding;
+    bottom: $bubble-padding;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: auto;
+  }
+
+  // white gradient
+  &::after {
+    content: '';
+    position: absolute;
+    left: $bubble-padding + 10px;
+    right: $bubble-padding + 10px;
+    bottom: 0;
+    z-index: 1;
+    height: $bubble-padding + 15px;
+    background: green;
+    background: linear-gradient(to top, white, white 6px, rgba(255,255,255, 0.001));
+  }
+}
+
+// bubble arrow
+.top, .left, .right, .bottom {
+  &::before {
+    content: '';
+    position: absolute;
+    border: 0;
+    border-style: solid;
+    border-color: transparent #fff;
+  }
+}
+
+.top {
+  &.bend-left::before {
+    transform: rotate(-25deg);
+  }
+
+  &::before {
+    top: -24px;
+    border-top-width: 30px;
+    transform: rotate(25deg);
+  }
+}
+
+.bottom {
+  &.bend-left::before {
+    transform: rotate(25deg);
+  }
+
+  &::before {
+    bottom: -24px;
+    border-bottom-width: 30px;
+    transform: rotate(-25deg);
+  }
+}
+
+.top, .bottom {
+  &.bend-left::before {
+    border-left-width: 20px;
+    border-right-width: 0;
+  }
+
+  &::before {
+    left: 50%;
+    margin-left: -10px;
+    height: 30px;
+    width: 0;
+    border-right-width: 20px;
+  }
+}
+
+
+.left {
+  &.bend-bottom::before {
+    transform: rotate(25deg);
+  }
+
+  &::before {
+    left: -24px;
+    border-right-width: 30px;
+    transform: rotate(-25deg);
+  }
+}
+
+.right {
+  &.bend-bottom::before {
+    transform: rotate(-25deg);
+  }
+
+  &::before {
+    right: -24px;
+    border-left-width: 30px;
+    transform: rotate(25deg);
+  }
+}
+
+.left, .right {
+  &.bend-bottom::before {
+    border-bottom-width: 20px;
+    border-top-width: 0;
+  }
+
+  &::before {
+    top: 50%;
+    margin-top: -10px;
+    height: 0;
+    width: 30px;
+    border-top-width: 20px;
+  }
+}
+

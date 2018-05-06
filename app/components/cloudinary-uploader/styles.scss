@@ -1,0 +1,32 @@
+@import '../../../config/bootstrap-pre-customizations';
+
+
+.upload-input {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  button {
+    width: 100%;
+  }
+
+  input {
+    opacity: 0;
+    font-size: 55px;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+}
+
+:global {
+  .uploader {
+    .progress {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  }
+}

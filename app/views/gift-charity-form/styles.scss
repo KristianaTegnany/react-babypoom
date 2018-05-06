@@ -1,0 +1,48 @@
+@import '../../../config/bootstrap-pre-customizations';
+
+.visitorbook-form {
+  form {
+    padding: $main-padding;
+    background: var(--neutral-primary-D);
+  }
+
+  :global {
+    .form-group {
+      position: relative;
+      padding-top: $main-padding;
+      margin-bottom: 4px;
+    }
+  }
+
+  label {
+    position: absolute;
+    top: 1px;
+    margin: 0;
+    z-index: 1;
+    left: $main-padding / 2;
+    text-shadow: -3px 0 3px white, 0 3px 3px white, 3px 0 3px white, 0 -3px 3px white;
+  }
+}
+
+.actions {
+  display: flex;
+  margin-top: $main-padding;
+
+  button {
+    width: 50%;
+    margin-left: $main-padding;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+
+.powered-by {
+  margin-top: $main-padding;
+}
+
+hr {
+  margin: $main-padding 0 $main-padding / 2;
+}
+

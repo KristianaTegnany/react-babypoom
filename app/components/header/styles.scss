@@ -1,0 +1,99 @@
+@import '../../../config/bootstrap-pre-customizations';
+@import '../../../node_modules/bootstrap/scss/_variables';
+
+header {
+  background: var(--brand-secondary-B);
+
+  .nav-brand {
+    padding: 0;
+
+    img {
+      height: 38px;
+    }
+  }
+
+  .mobile-nav {
+    border: 0;
+    padding: 0;
+    position: absolute;
+    left: 100px;
+    right: 72px;
+  }
+
+  // TODO: only for mobile...
+  .mobile-menu {
+    position: relative;
+
+    &> div {
+      position: absolute;
+      z-index: 10;
+      background: var(--brand-primary);
+      margin-top: $navbar-padding-y;
+      left: -$navbar-padding-x;
+      right: -$navbar-padding-x;
+
+      li {
+        &+ li {
+          border-top: 1px solid white;
+        }
+      }
+
+      a, .disabled-link {
+        padding: 0.6em $navbar-padding-x !important;
+        font-weight: bold;
+      }
+
+      .disabled-link {
+        background: #616161; // Color Ok
+        color: rgba(white, 0.5) !important;
+      }
+
+      a.current {
+        background: var(--brand-primary-D);
+      }
+
+      a {
+        color: var(--neutral-primary-F) !important;
+      }
+    }
+  }
+
+  .nav-button {
+    width: 100%;
+
+    button {
+      background: var(--neutral-primary-F) !important; // TODO
+      color: var(--brand-primary) !important;
+      width: 100%;
+      //@include variable(border-color, --brand-primary, $brand-primary, true);
+      //@include variable(color, --brand-primary, $brand-primary, true);
+      //background: white !important;
+
+      &::after {
+        //@include variable(border-top-color, --brand-primary, $brand-primary);
+      }
+    }
+  }
+
+  .toggler {
+    border: 0;
+    margin-top: 4px;
+    font-size: 0;
+    padding: 3px;
+
+    &::before, .icon::before, .icon::after {
+      content: '';
+      width: 24px;
+      height: 5px;
+      border-radius: 5px;
+      background-color: var(--brand-primary);
+      display: block;
+      margin-top: 4px;
+    }
+
+    &::before {
+      margin-top: 0;
+    }
+  }
+}
+
