@@ -1,0 +1,76 @@
+$css-var: () !default !global;
+
+// override
+// prettier-ignore
+@function color-yiq($color) {
+  @if (null != str-index(inspect($color), 'var(')) {
+    @return $yiq-text-light;
+  }
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+
+  $yiq: (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
+
+  @if ($yiq >= $yiq-contrasted-threshold) {
+    @return $yiq-text-dark;
+  } @else {
+    @return $yiq-text-light;
+  }
+}
+
+// override
+// prettier-ignore
+@function theme-color-level($color-name: "primary", $level: 0) {
+  $color: theme-color($color-name);
+  @if (null != str-index(inspect($color), 'var(')) {
+    @return $color;
+  }
+  $color-base: if($level > 0, #000, #fff);
+  $level: abs($level);
+
+  @return mix($color-base, $color, $level * $theme-color-interval);
+}
+
+// prettier-ignore
+@function add-css-var($var) {
+  $var-name: str-slice($var, 5, str-length($var) - 1);
+  @if (null == index($css-var, $var-name)) {
+    $css-var: append($css-var, $var-name) !global;
+  }
+  @return $var;
+}
+
+// Override sass functions
+
+// prettier-ignore
+@function darken($color, $amt) {
+  @if (null != str-index(inspect($color), 'var(')) {
+    $str: str-insert($color, '-darken-' + inspect($amt / 1%), str-length($color));
+    @return add-css-var($str);
+  } @else {
+    @return adjust-color($color, $lightness: -$amt);
+  }
+}
+
+// prettier-ignore
+@function lighten($color, $amt) {
+  @if (null != str-index(inspect($color), 'var(')) {
+    $str: str-insert($color, '-lighten-' + inspect($amt / 1%), str-length($color));
+    @return add-css-var($str);
+  } @else {
+    @return adjust-color($color, $lightness: $amt);
+  }
+}
+
+// prettier-ignore
+@function rgba($color, $args...) {
+  @if (null != str-index(inspect($color), 'var(')) {
+    $str: str-insert($color, '-rgba-' + inspect(nth($args, 1) * 100), str-length($color));
+    @return add-css-var($str);
+  }
+  @if (length($args) > 1) {
+    @return mix(rgb($color, nth($args, 1), nth($args, 2)), transparent, nth($args, 3) * 100);
+  }
+  @return mix($color, transparent, nth($args, 1) * 100);
+}

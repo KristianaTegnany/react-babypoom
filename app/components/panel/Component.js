@@ -1,26 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 // CSS
-import CSSModules from 'react-css-modules';
-import styles from './styles.scss';
+import styles from './styles.scss'
 
-
-@CSSModules(styles, { allowMultiple: true })
 export default class extends Component {
-
   render() {
-    let props = this.props;
+    let props = this.props
 
     return (
       <div styleName="panel" data-img={props.imgType}>
-        <div styleName="header">
-          {props.title}
-        </div>
-        <div styleName="block">
-          {props.children}
-        </div>
+        <div styleName="header">{props.title}</div>
+        <div styleName="block">{props.children}</div>
       </div>
     )
   }
 }
-

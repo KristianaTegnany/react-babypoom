@@ -1,0 +1,30 @@
+@import '../../../config/bootstrap/bootstrap-var';
+
+.media-queries {
+  position: fixed;
+  z-index: -1;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  font-size: 1px;
+  background: transparent;
+  animation-duration: 0.001s;
+}
+
+:global {
+  @each $size-type, $breakpoint in $grid-breakpoints {
+    @media screen and (min-width: $breakpoint) {
+      :local(.media-queries) {
+        animation-name: $size-type;
+      }
+    }
+    @keyframes :global(#{$size-type}) {
+      from {
+        width: 1px;
+      }
+      to {
+        width: 0;
+      }
+    }
+  }
+}

@@ -1,6 +1,8 @@
 module.exports = {
   plugins: {
-    'autoprefixer': { /* ...options */ },
+    autoprefixer: {
+      /* ...options */
+    },
     'postcss-pxtorem': {
       rootValue: 16,
       unitPrecision: 5,
@@ -8,7 +10,7 @@ module.exports = {
       selectorBlackList: [],
       replace: true,
       mediaQuery: true,
-      minPixelValue: 0
-    }
-  }
-};
+      minPixelValue: 0,
+    },
+  },
+}

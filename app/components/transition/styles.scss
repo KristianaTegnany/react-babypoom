@@ -1,0 +1,24 @@
+@import '../../../config/bootstrap/bootstrap-var';
+
+.share-container {
+  margin-top: 0.85rem;
+  margin-bottom: 5px;
+
+  & > :first-child {
+    margin-right: 1em;
+  }
+
+  & > * {
+    margin-top: $main-padding;
+  }
+}
+
+.share {
+  vertical-align: bottom;
+  display: inline-block;
+
+  & > * {
+    line-height: 18px;
+    font-weight: bold;
+  }
+}

@@ -1,7 +1,5 @@
-@import '../../../config/bootstrap-pre-customizations';
-
-$bpoom-img-width: 70px;
-$bpoom-img-height: 80px;
+@import '../../../config/bootstrap/bootstrap-var';
+@import './vars';
 
 .img {
   background: #414141 none center no-repeat;
@@ -18,7 +16,15 @@ $bpoom-img-height: 80px;
   padding: 5px;
   background-color: white; // Color Ok
   transform: rotate(1.8deg);
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.15);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+}
+
+.clickable {
+  cursor: pointer;
+
+  &:hover a {
+    text-decoration: underline;
+  }
 }
 
 .img-text {
@@ -32,3 +38,19 @@ $bpoom-img-height: 80px;
   text-overflow: ellipsis;
 }
 
+@media (min-width: map-get($grid-breakpoints, md)) {
+  $bpoom-lg-img-width: 140px;
+  $bpoom-lg-img-height: 160px;
+
+  .img {
+    width: $bpoom-lg-img-width;
+    height: $bpoom-lg-img-height;
+  }
+  .img-border {
+    padding: 10px;
+  }
+  .img-text {
+    margin-top: 10px;
+    max-width: $bpoom-lg-img-width;
+  }
+}

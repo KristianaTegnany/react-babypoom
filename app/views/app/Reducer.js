@@ -1,39 +1,41 @@
-import {
-  BPOOM,
-  CURRENT_STEP,
-  STEP_INDEX,
-  AVAILABLE_STEPS,
-  SAVE_VISITORBOOK_MSG } from './types';
-
-import { NAMES_TO_PATHS } from './steps';
+import { BPOOM, STEPS, NO_NAV, SAVE_VISITORBOOK_MSG, DELETE_VISITORBOOK_MSG } from './types'
 
 // TODO: store it in the session or localstorage or cookie, with bpoomId /!\ important
 let defaultState = {
   bpoom: {},
-  currentStep: [...NAMES_TO_PATHS.keys()][0],
-  availableSteps: [],
-  maxStepIndex: 0,
-  stepUnlocked: false,
-  cardPreRegistration: {}
-};
+  steps: {
+    index: -1,
+    maxIndex: 0,
+  },
+  noNav: null,
+  cardPreRegistration: {},
+}
 
-
-export default function(state=defaultState, action) {
+export default function(state = defaultState, action) {
+  let bpoom
   switch (action.type) {
     case BPOOM:
-      return { ...state, bpoom: action.bpoom };
+      return { ...state, bpoom: action.bpoom }
     case SAVE_VISITORBOOK_MSG:
-      let bpoom = { ...state.bpoom };
-      let msg = action.visitorbookMsg;
-      (bpoom.bp_visitorbook.bp_visitorbook_msgs = bpoom.bp_visitorbook.bp_visitorbook_msgs.slice(0)).push(msg);
-      return { ...state, bpoom };
-    case CURRENT_STEP:
-      return state.currentStep === action.currentStep ? state : { ...state, currentStep: action.currentStep };
-    case STEP_INDEX:
-      let maxStepIndex = Math.max(state.maxStepIndex, action.stepIndex);
-      return maxStepIndex === state.currentStep ? state : { ...state, maxStepIndex };
-    case AVAILABLE_STEPS:
-      return { ...state, availableSteps: action.availableSteps };
+      bpoom = { ...state.bpoom }
+      let msg = action.visitorbookMsg
+      ;(bpoom.bp_visitorbook.bp_visitorbook_msgs = bpoom.bp_visitorbook.bp_visitorbook_msgs.slice(0)).push(msg)
+      return { ...state, bpoom }
+    case DELETE_VISITORBOOK_MSG:
+      bpoom = { ...state.bpoom }
+      bpoom.bp_visitorbook.bp_visitorbook_msgs = bpoom.bp_visitorbook.bp_visitorbook_msgs.filter(
+        msg => !action.id.includes(msg.id)
+      )
+      return { ...state, bpoom }
+    case STEPS:
+      if (state.steps.current === action.steps.current) {
+        return state
+      }
+      action.steps.ok = action.steps.index >= 0
+      action.steps.maxIndex = Math.max(state.steps.maxIndex, action.steps.index)
+      return { ...state, steps: action.steps }
+    case NO_NAV:
+      return { ...state, noNav: action.noNav }
   }
-  return state;
+  return state
 }

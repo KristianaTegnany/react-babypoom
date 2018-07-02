@@ -1,238 +1,294 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { defineMessages, FormattedDate } from 'react-intl';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { defineMessages, FormattedDate } from 'react-intl'
 
-import BubblePic from '../../components/bubble-pic/Component';
+import { loadSlideshow, openSlideshow } from '../../components/slideshow/Actions'
 
-import { nextStep } from '../../views/app/steps';
+import BubblePic from '../../components/bubble-pic/Component'
+import BubbleSay from '../../components/bubble-say/Component'
+import BpoomTitle from '../../components/bpoom-title/Component'
+import Transition from '../../components/transition/Component'
 
 // i18n
-import t from '../../i18n/i18n';
-import stepMsg from '../../i18n/messages/steps';
+import t from '../../i18n/i18n'
 
 // CSS
-import CSSModules from 'react-css-modules';
-import styles from './styles.scss';
+import styles from './styles.scss'
 
-@connect(mapStateToProps)
-@CSSModules(styles, { allowMultiple: true })
+@connect(mapStateToProps, { loadSlideshow, openSlideshow })
+export default class Arrival extends Component {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let bpoom = nextProps.bpoom
+    let items = [
+      { src: bpoom.photo_mum, description: bpoom.reaction_mum },
+      { src: bpoom.photo_dad, description: bpoom.reaction_dad },
+    ].filter(x => x.src)
+    if (items.length) {
+      nextProps.loadSlideshow({ items })
+    }
+    return null
+  }
 
-export default class extends Component {
+  constructor(props) {
+    super(props)
+    this.picIndex = -1
+    this.state = {}
+  }
+
   birthday(date) {
-    if (!date) return '';
-    let attrs = { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" };
+    if (!date) return ''
+    let attrs = { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' }
     if (date.indexOf('T') >= 0) {
-      attrs.hour = "numeric";
+      attrs.hour = 'numeric'
     }
     return <FormattedDate value={new Date(date)} {...attrs} />
   }
 
-  getText(info, attrName) {
-    let attr = info[attrName];
-    if (!attr) return '';
-    let msg = MSG[`${attrName}_${attr}`];
-    return msg ? t(msg) : attr;
+  getText(info, attrName, msgName) {
+    let attr = info[attrName]
+    if (!attr) return ''
+    let msg = MSG[`${msgName || attrName}_${attr}`]
+    return msg ? t(msg) : attr
   }
 
   render() {
-    let bpoom = this.props.bpoom;
-    let arrival = bpoom.bp_arrival || {};
-    let transition = t(stepMsg[nextStep(this.props).transition]);
+    let props = this.props
+    let bpoom = props.bpoom
+    let arrival = bpoom.bp_arrival || {}
 
     let info = [
-      ['gender',            this.getText(bpoom, 'gender')],
-      ['orthernames',       bpoom.othernames],
-      ['lastname',          bpoom.lastname],
-      ['birthday',          this.birthday(bpoom.birthday), { gender: bpoom.gender || 'M' }],
-      ['location_hospital', bpoom.location_hospital],
-      ['location_country',  bpoom.country],
-      ['location_state',    bpoom.state],
-      ['weight',            bpoom.weight && bpoom.weight_unit ? `${bpoom.weight} ${bpoom.weight_unit}` : ''],
-      ['size',              bpoom.size && bpoom.size_unit ? `${bpoom.size} ${bpoom.size_unit}` : ''],
-      ['zodiac',            this.getText(bpoom, 'zodiac')],
-      ['hair_color',        this.getText(bpoom, 'hair_color')],
-      ['eyes_colors',       this.getText(bpoom, 'eyes_colors')]
-    ].filter(pair => pair[1]);
+      ['gender', this.getText(bpoom, 'gender')],
+      ['name', (bpoom.babyname || '').trim()],
+      ['orthernames', (bpoom.othernames || '').trim()],
+      ['lastname', (bpoom.lastname || '').trim()],
+      ['birthday', this.birthday(bpoom.birthday), { gender: bpoom.gender || 'M' }],
+      ['location_hospital', (bpoom.location_hospital || '').trim()],
+      ['location_country', (bpoom.country || '').trim()],
+      ['location_state', (bpoom.state || '').trim()],
+      ['weight', bpoom.weight && bpoom.weight_unit ? `${bpoom.weight} ${bpoom.weight_unit}` : ''],
+      ['size', bpoom.size && bpoom.size_unit ? `${bpoom.size} ${bpoom.size_unit}` : ''],
+      ['zodiac', this.getText(bpoom, 'zodiac_sign', 'zodiac')],
+      ['hair_color', this.getText(bpoom, 'hair_color', 'hair')],
+      ['eyes_colors', this.getText(bpoom, 'eyes_colors', 'eye')],
+    ].filter(pair => pair[1])
 
     return (
       <div styleName="arrival-container">
-        {this.renderBubbleMsg(bpoom.photo, arrival.message, 'left')}
-        {
-          info.length
-            ? <div styleName="info">
-                <table>
-                  <tbody>
-                    {
-                      info.map(pair => {
-                        return (
-                          <tr key={pair[0]}>
-                            <th>{t({ ...MSG[`title_${pair[0]}`], values: (pair[2] || {}) })}</th>
-                            <td>{pair[1]}</td>
-                          </tr>
-                        )
-                      })
-                    }
-                  </tbody>
-                </table>
-              </div>
-            : ''
-        }
-        {this.renderBubbleMsg(bpoom.photo_mum, bpoom.reaction_mum, 'left')}
-        {this.renderBubbleMsg(bpoom.photo_dad, bpoom.reaction_dad, 'right')}
-        <BubblePic imgSrc={bpoom.photo}>{transition}</BubblePic>
+        {this.renderBubbleMsg(bpoom.photo_thumbnail, arrival.message, 'left')}
+        {info.length ? (
+          <div styleName="info">
+            <table>
+              <tbody>
+                {info.map(pair => {
+                  return (
+                    <tr key={pair[0]}>
+                      <th>{t({ ...MSG[`title_${pair[0]}`], values: pair[2] || {} })}</th>
+                      <td>{pair[1]}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          ''
+        )}
+        {bpoom.reaction_mum && bpoom.reaction_dad ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
+        {this.renderBubbleMsg(bpoom.photo_mum_thumbnail, bpoom.reaction_mum, 'left', true)}
+        {this.renderBubbleMsg(bpoom.photo_dad_thumbnail, bpoom.reaction_dad, 'right', true)}
+        {props.noNav ? '' : this.renderBubbleMsg(bpoom.photo_thumbnail, <Transition />, 'left')}
       </div>
     )
   }
 
-  renderBubbleMsg(pic, msg, side) {
-    return msg ? <BubblePic { ...{ side } } imgSrc={pic}>{msg}</BubblePic> : '';
+  renderBubbleMsg(pic, msg, side, click) {
+    if (!msg) return ''
+    if (click) ++this.picIndex
+    let index = this.picIndex // important
+    return this.props.desktop ? (
+      <BubbleSay onClick={click ? () => this.props.openSlideshow(index) : null} speechDir={side} imgSrc={pic}>
+        {msg}
+      </BubbleSay>
+    ) : (
+      <BubblePic onClick={click ? () => this.props.openSlideshow(index) : null} side={side} imgSrc={pic}>
+        {msg}
+      </BubblePic>
+    )
   }
 }
 
 function mapStateToProps(state) {
-  const { app: { bpoom, currentStep, availableSteps } } = state;
-  return { bpoom, currentStep, availableSteps };
+  const { app: { bpoom, noNav }, mediaQueries: { desktop } } = state
+  return { bpoom, noNav, desktop }
 }
 
-
-
 const MSG = defineMessages({
+  parent_reaction: {
+    id: 'arrival.parent_reaction',
+    defaultMessage: 'La réaction des parents',
+  },
   title_gender: {
     id: 'arrival.title_gender',
-    defaultMessage: "Je suis"
+    defaultMessage: 'Je suis',
+  },
+  title_name: {
+    id: 'arrival.title_name',
+    defaultMessage: 'Mon prénom',
   },
   title_orthernames: {
     id: 'arrival.title_orthernames',
-    defaultMessage: "Mes prénoms"
+    defaultMessage: 'Autres prénoms',
   },
   title_lastname: {
     id: 'arrival.title_lastname',
-    defaultMessage: "Mon nom"
+    defaultMessage: 'Mon nom',
   },
   title_birthday: {
     id: 'arrival.title_birthday',
-    defaultMessage: "Je suis {gender, select, M {né} F {née}} le"
+    defaultMessage: 'Je suis {gender, select, M {né} F {née}} le',
   },
   title_location_hospital: {
     id: 'arrival.title_location_hospital',
-    defaultMessage: "Clinique"
+    defaultMessage: 'Clinique',
   },
   title_location_country: {
     id: 'arrival.title_location_country',
-    defaultMessage: "Pays"
+    defaultMessage: 'Pays',
   },
   title_location_state: {
     id: 'arrival.title_location_state',
-    defaultMessage: "État"
+    defaultMessage: 'État',
   },
   title_weight: {
     id: 'arrival.title_weight',
-    defaultMessage: "Je pèse"
+    defaultMessage: 'Je pèse',
   },
   title_size: {
     id: 'arrival.title_size',
-    defaultMessage: "Je mesure"
+    defaultMessage: 'Je mesure',
   },
   title_zodiac: {
     id: 'arrival.title_zodiac',
-    defaultMessage: "Mon signe"
+    defaultMessage: 'Mon signe',
   },
   title_hair_color: {
     id: 'arrival.title_hair_color',
-    defaultMessage: "Mes cheveux"
+    defaultMessage: 'Mes cheveux',
   },
   title_eyes_colors: {
     id: 'arrival.title_eyes_colors',
-    defaultMessage: "Mes yeux"
+    defaultMessage: 'Mes yeux',
   },
   gender_F: {
     id: 'gender.F',
-    defaultMessage: 'Une petite fille'
+    defaultMessage: 'Une petite fille',
   },
   gender_M: {
     id: 'gender.M',
-    defaultMessage: 'Un petit garçon'
+    defaultMessage: 'Un petit garçon',
   },
   zodiac_aries: {
     id: 'zodiac.aries',
-    defaultMessage: 'Bélier'
+    defaultMessage: 'Bélier',
   },
   zodiac_taurus: {
     id: 'zodiac.taurus',
-    defaultMessage: 'Taureau'
+    defaultMessage: 'Taureau',
   },
   zodiac_gemini: {
     id: 'zodiac.gemini',
-    defaultMessage: 'Gémeaux'
+    defaultMessage: 'Gémeaux',
   },
   zodiac_cancer: {
     id: 'zodiac.cancer',
-    defaultMessage: 'Cancer'
+    defaultMessage: 'Cancer',
   },
   zodiac_leo: {
     id: 'zodiac.leo',
-    defaultMessage: 'Lion'
+    defaultMessage: 'Lion',
   },
   zodiac_virgo: {
     id: 'zodiac.virgo',
-    defaultMessage: 'Vierge'
+    defaultMessage: 'Vierge',
   },
   zodiac_libra: {
     id: 'zodiac.libra',
-    defaultMessage: 'Balance'
+    defaultMessage: 'Balance',
   },
   zodiac_scorpio: {
     id: 'zodiac.scorpio',
-    defaultMessage: 'Scorpion'
+    defaultMessage: 'Scorpion',
   },
   zodiac_sagittarius: {
     id: 'zodiac.sagittarius',
-    defaultMessage: 'Sagittaire'
+    defaultMessage: 'Sagittaire',
   },
   zodiac_capricorn: {
     id: 'zodiac.capricorn',
-    defaultMessage: 'Capricorne'
+    defaultMessage: 'Capricorne',
   },
   zodiac_aquarius: {
     id: 'zodiac.aquarius',
-    defaultMessage: 'Verseau'
+    defaultMessage: 'Verseau',
   },
-  eye_blue : {
+  zodiac_pisces: {
+    id: 'zodiac.pisces',
+    defaultMessage: 'Poisson',
+  },
+  eye_blue: {
     id: 'eye.blue ',
-    defaultMessage: 'Bleu'
-  },
-  eye_brown: {
-    id: 'eye.brown',
-    defaultMessage: 'Marron'
-  },
-  eye_grey : {
-    id: 'eye.grey ',
-    defaultMessage: 'Gris'
+    defaultMessage: 'Bleu',
   },
   eye_green: {
     id: 'eye.green',
-    defaultMessage: 'Vert'
+    defaultMessage: 'Vert',
+  },
+  eye_brown: {
+    id: 'eye.brown',
+    defaultMessage: 'Marron',
   },
   eye_hazel: {
     id: 'eye.hazel',
-    defaultMessage: 'Noisette'
+    defaultMessage: 'Noisette',
   },
   eye_black: {
     id: 'eye.black',
-    defaultMessage: 'Noir'
+    defaultMessage: 'Noir',
+  },
+  eye_green_blue: {
+    id: 'eye.green_blue ',
+    defaultMessage: 'Bleu-vert',
+  },
+  eye_grey: {
+    id: 'eye.grey ',
+    defaultMessage: 'Gris',
   },
   hair_black: {
     id: 'hair.black',
-    defaultMessage: 'Noir'
+    defaultMessage: 'Noir',
   },
   hair_dark_brown: {
     id: 'hair.dark_brown',
-    defaultMessage: 'Brun'
+    defaultMessage: 'Brun',
+  },
+  hair_light_brown: {
+    id: 'hair.light_brown',
+    defaultMessage: 'Châtain',
   },
   hair_blond: {
     id: 'hair.blond',
-    defaultMessage: 'Blond'
-  }
-});
-
-
+    defaultMessage: 'Blond',
+  },
+  hair_ginger: {
+    id: 'hair.ginger',
+    defaultMessage: 'Roux',
+  },
+  hair_auburn: {
+    id: 'hair.auburn',
+    defaultMessage: 'Auburn',
+  },
+  hair_white: {
+    id: 'hair.white',
+    defaultMessage: 'Blanc',
+  },
+})

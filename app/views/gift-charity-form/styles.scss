@@ -1,17 +1,9 @@
-@import '../../../config/bootstrap-pre-customizations';
+@import '../../../config/bootstrap/bootstrap-var';
 
 .visitorbook-form {
   form {
     padding: $main-padding;
     background: var(--neutral-primary-D);
-  }
-
-  :global {
-    .form-group {
-      position: relative;
-      padding-top: $main-padding;
-      margin-bottom: 4px;
-    }
   }
 
   label {
@@ -22,6 +14,12 @@
     left: $main-padding / 2;
     text-shadow: -3px 0 3px white, 0 3px 3px white, 3px 0 3px white, 0 -3px 3px white;
   }
+}
+
+.icon {
+  position: relative;
+  top: -2px;
+  margin-right: 1em;
 }
 
 .actions {
@@ -40,9 +38,9 @@
 
 .powered-by {
   margin-top: $main-padding;
+  width: 100%;
 }
 
 hr {
   margin: $main-padding 0 $main-padding / 2;
 }
-

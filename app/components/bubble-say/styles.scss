@@ -1,13 +1,37 @@
-@import '../../../config/bootstrap-pre-customizations';
+@import '../../../config/bootstrap/bootstrap-var';
 
 $height: 150px;
 
-.bubble-say-container {
+.top {
   text-align: center;
 
-  &> div:first-child + div::before {
+  & > div:first-child + div::before {
     margin-left: -70px;
   }
+}
+
+.left,
+.right {
+  display: flex;
+  flex-direction: row;
+
+  & > div {
+    flex: 1 1 auto;
+    align-self: center;
+  }
+
+  .img {
+    flex: 0 0 auto;
+  }
+}
+
+.left .img {
+  margin-right: 40px;
+}
+
+.right .img {
+  order: 1;
+  margin-left: 40px;
 }
 
 .img {
@@ -17,6 +41,17 @@ $height: 150px;
   border: 2px solid white;
   border-radius: $height;
   margin-bottom: 10px;
-  background: transparent none center no-repeat;
+  background: white none center no-repeat;
   background-size: cover;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .img {
+    border-width: 4px;
+    margin-bottom: 0;
+  }
 }

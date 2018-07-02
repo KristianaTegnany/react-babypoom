@@ -1,10 +1,12 @@
-@import '../../../config/bootstrap-pre-customizations';
+@import '../../../config/bootstrap/bootstrap-var';
 
 $height: 150px;
 
 .message-container {
   margin-left: $main-padding;
+  position: relative;
   background: white; // Color Ok
+  box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.15);
 }
 
 .content {
@@ -13,13 +15,13 @@ $height: 150px;
   border: $main-padding solid white; // Color Ok
   border-left: 0;
 
-  background: linear-gradient(to bottom, white, white 22px, #d4e5eb 1px); // Color Ok
+  background: linear-gradient(to bottom, white, white 22px, #e5eff3 1px); // Color Ok
   background-position: 75% center;
   background-repeat: repeat-y;
   background-size: calc(100% - #{2 * $main-padding}) 23px;
 
   // Image
-  &> div:first-child {
+  & > div:first-child {
     position: relative;
     left: -$main-padding;
   }
@@ -27,12 +29,21 @@ $height: 150px;
 
 .actions {
   position: absolute;
-  top: $main-padding;
-  right: $main-padding;
+  top: -10px;
+  right: -12px;
 }
 
-.edit {
-  color: var(--brand-primary-A);
+.delete {
+  padding: $main-padding / 2;
+  line-height: 1em;
+  font-size: 150%;
+  border-radius: 100%;
+  cursor: pointer;
+
+  & > * {
+    position: relative;
+    top: -2px;
+  }
 }
 
 .title {
@@ -44,4 +55,33 @@ $height: 150px;
   color: var(--brand-primary-D);
   font-weight: bold;
   white-space: pre-wrap;
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .message-container {
+    margin-left: $main-padding * 2;
+  }
+
+  .content {
+    border-width: $main-padding * 2;
+    background-size: calc(100% - #{4 * $main-padding}) 23px;
+
+    // Image
+    & > div:first-child {
+      left: -$main-padding * 2;
+    }
+  }
+
+  .actions {
+    top: -13px;
+    right: -15px;
+  }
+
+  .delete {
+    box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.15);
+  }
+
+  .message {
+    margin-top: 10px;
+  }
 }

@@ -1,4 +1,1 @@
-import id from '../../../lib/types';
-
-export const
-  GUESSED = id();
+export const GUESSED = 'GUESSED'

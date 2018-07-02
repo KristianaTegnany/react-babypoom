@@ -1,22 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 // CSS
-import CSSModules from 'react-css-modules';
-import styles from './styles.scss';
+import styles from './styles.scss'
 
-
-@CSSModules(styles)
 export default class extends Component {
   render() {
-    let styles = this.props.imgSrc ? { ...(this.props.style || {}), backgroundImage: `url(${this.props.imgSrc})` } : {};
+    let props = this.props
+    let styles = props.imgSrc ? { ...(props.style || {}), backgroundImage: `url(${props.imgSrc})` } : {}
     return (
-      <div onClick={this.props.onClick} styleName="img-container">
+      <div
+        className="bp-image"
+        onClick={props.onClick}
+        styleName={['img-container', props.onClick ? 'clickable' : ''].join(' ')}
+      >
         <div styleName="img-border">
-          <div styleName="img" style={styles}></div>
-          <span styleName="img-text">{this.props.imgText}</span>
+          <div styleName="img" style={styles} />
+          <span styleName="img-text">{props.imgText}</span>
         </div>
       </div>
     )
   }
 }
-

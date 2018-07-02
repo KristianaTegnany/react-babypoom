@@ -1,0 +1,39 @@
+@import '../../../config/bootstrap/bootstrap-var';
+
+$bg: var(--neutral-secondary);
+
+.bpoom-title {
+  text-align: center;
+
+  & > div {
+    position: relative;
+    color: var(--neutral-secondary-F);
+    font-family: $bpoom-font;
+    font-size: 22px;
+    font-weight: bold;
+    display: inline-block;
+    padding: 0 60px;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      margin-top: -30px;
+      left: 0;
+      right: 0;
+      z-index: -1;
+      border: 30px solid $bg;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+    }
+  }
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .bpoom-title {
+    & > div {
+      font-size: 30px;
+    }
+  }
+}

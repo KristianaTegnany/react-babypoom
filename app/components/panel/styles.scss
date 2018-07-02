@@ -1,6 +1,6 @@
-@import '../../../config/bootstrap-pre-customizations';
+@import '../../../config/bootstrap/bootstrap-var';
 
-$panel-padding: 15px;
+$panel-padding: $main-padding;
 $img-size: 120px;
 
 .panel {
@@ -27,10 +27,10 @@ $img-size: 120px;
       //padding-top: $panel-padding * 2;
     }
   }
-  &[data-img="piggy-bank"] .header::before {
+  &[data-img='piggy-bank'] .header::before {
     background-image: url(../../images/piggy-bank.png);
   }
-  &[data-img="gifts"] .header::before {
+  &[data-img='gifts'] .header::before {
     background-image: url(../../images/gifts.png);
   }
 }
@@ -39,7 +39,7 @@ $img-size: 120px;
   padding: $panel-padding;
   background-color: var(--neutral-secondary);
   color: var(--neutral-secondary-F);
-  font-family: 'Amatic SC', 'Arial narrow', Impact, Arial;
+  font-family: $bpoom-font;
   font-weight: bold;
   font-size: 28px;
 }
@@ -51,3 +51,13 @@ $img-size: 120px;
   color: var(--neutral-secondary);
 }
 
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .header {
+    padding-left: $panel-padding * 2;
+    padding-right: $panel-padding * 2;
+  }
+
+  .block {
+    padding: $panel-padding * 2;
+  }
+}

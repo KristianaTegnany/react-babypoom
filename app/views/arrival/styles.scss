@@ -1,7 +1,7 @@
-@import '../../../config/bootstrap-pre-customizations';
+@import '../../../config/bootstrap/bootstrap-var';
 
 .arrival-container {
-  &> div + div {
+  & > div + div {
     margin-top: $main-padding * 1.25;
   }
 }
@@ -16,14 +16,15 @@
     width: 100%;
   }
 
-  th, td {
+  th,
+  td {
     padding-left: 5px;
     padding-right: 5px;
   }
 
   th {
     font-weight: normal;
-    color: var(--brand-secondary-B);
+    color: var(--neutral-secondary-E);
   }
 
   td {
@@ -33,5 +34,23 @@
 
   tr + tr {
     border-top: 1px solid var(--brand-secondary-B);
+  }
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .arrival-container {
+    & > div + div {
+      margin-top: $main-padding * 2 * 1.25;
+    }
+  }
+
+  .info {
+    padding: $main-padding * 2;
+    margin-left: 190px;
+    margin-top: 0 !important; //$main-padding * 1.25 !important;
+
+    & + * {
+      margin-top: $main-padding * 3 * 1.25 !important;
+    }
   }
 }

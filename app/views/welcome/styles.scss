@@ -1,22 +1,61 @@
-@import '../../../config/bootstrap-pre-customizations';
+@import '../../../config/bootstrap/bootstrap-var';
 
 $bottom-height: 135px;
 
 .welcome-container {
+  max-width: map-get($grid-breakpoints, lg) !important;
   position: relative;
   padding-bottom: $bottom-height;
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
+}
 
-  &::before {
-    content: '';
-    position: absolute;
-    left: 60px;
-    right: 0;
-    bottom: -5px;
-    height: $bottom-height;
-    background: transparent url(../../images/baby.png) center no-repeat;
-    background-size: contain;
+.baby {
+  position: absolute;
+  left: 60px;
+  right: 0;
+  bottom: -5px;
+  z-index: 2;
+  height: $bottom-height;
+  background: transparent none center no-repeat;
+  background-size: contain;
+}
+
+.wrapper {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  $baby-size: 300px;
+  $baby-margin: 40px;
+
+  .wrapper {
+    flex: 0 0 60%;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+
+  .welcome-container {
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 0 !important;
+
+    :global .bp-bubble {
+      width: 100%;
+      flex: 0 0 auto;
+      align-self: center;
+    }
+  }
+
+  .baby {
+    position: static;
+    width: 30%;
+    max-width: $baby-size;
+    height: $baby-size;
+    margin: 40px $baby-margin 0 0;
+    align-self: center;
   }
 }

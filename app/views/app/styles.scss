@@ -1,12 +1,14 @@
-@import '../../../config/bootstrap-pre-customizations';
+@import '../../../config/bootstrap/bootstrap-var';
 
 // Skeleton: sticky footer
 :global {
-  html, body, #root, #root > div {
+  html,
+  body,
+  #root {
     height: 100%;
   }
 
-  #root > div > div {
+  #root > div {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -14,11 +16,12 @@
   }
 }
 
-@keyframes :global(slideDownUp) {
+@keyframes slideDownUp {
   0% {
     transform: translate(0, -100%);
   }
-  7%, 93% {
+  7%,
+  93% {
     transform: translate(0, 0);
   }
   100% {
@@ -27,20 +30,18 @@
 }
 
 .flash {
-  :global {
-    .alert {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 90000;
-      border-radius: 0;
-      animation-name: slideDownUp;
-      animation-duration: 3s;
-      animation-timing-function: linear;
-      transform: translate(0, -100%);
-      white-space: pre-wrap;
-    }
+  & > * {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 90000;
+    border-radius: 0;
+    animation-name: slideDownUp;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    transform: translate(0, -100%);
+    white-space: pre-wrap;
   }
 
   &:empty {
@@ -48,7 +49,8 @@
   }
 }
 
-header, footer {
+header,
+footer {
   flex: none; /* 2 */
 }
 
@@ -56,10 +58,11 @@ main {
   flex: 1 0 auto; /* 2 */
   width: 100%;
   background: var(--brand-secondary-C);
-  background: linear-gradient(to bottom, var(--brand-secondary-C), var(--brand-secondary-A));
+  background: linear-gradient(to bottom, var(--brand-secondary-A), var(--brand-secondary-C));
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow-y: hidden;
 }
 
 main > div:first-child {
@@ -68,11 +71,18 @@ main > div:first-child {
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 2;
   padding: $main-padding;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
+
+  & > div:first-child {
+    width: 100%;
+    max-width: map-get($grid-breakpoints, md);
+    margin: 0 auto;
+  }
 }
 
 main::after {
@@ -83,6 +93,36 @@ main::after {
   visibility: hidden;
 }
 
+.cloud {
+  display: none;
+}
+
+.welcome {
+  .cloud {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    overflow: hidden;
+
+    path {
+      fill: var(--brand-secondary-B);
+    }
+  }
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  main > div:first-child {
+    padding: 0;
+
+    & > div:first-child {
+      padding: $main-padding * 2;
+    }
+  }
+}
+
 // Fonts
 body {
   font-family: 'Raleway', sans-serif;
@@ -91,13 +131,14 @@ body {
 }
 
 // Scrollbars
-::-webkit-scrollbar {
-  -webkit-appearance: none;
-  width: 5px;
+@media (max-width: map-get($grid-breakpoints, md) - 1px) {
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+  }
 }
-::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-  background-color: rgba(0,0,0,.5);
-  -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
-}
-

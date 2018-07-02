@@ -1,42 +1,36 @@
-var webpack = require('webpack');
-var _ = require('lodash');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var WebpackNotifierPlugin = require('webpack-notifier');
+var webpack = require('webpack')
+var _ = require('lodash')
+var WebpackNotifierPlugin = require('webpack-notifier')
 
-
-var config = require('./webpack.common.config.js');
-
+var config = require('./webpack.common.config.js')
 
 _.merge(config, {
+  mode: 'development',
   entry: [
-    'webpack-dev-server/client?http://localhost:8080',
+    'webpack-dev-server/client?http://localhost:8181',
     'webpack/hot/only-dev-server',
-    'react-hot-loader/patch'
+    'react-hot-loader/patch',
   ].concat(config.entry),
   stats: {
-    errorDetails: true
+    errorDetails: true,
+    modules: true,
+    reasons: true,
   },
   output: {
-    pathinfo: true
+    pathinfo: true,
   },
-  plugins: [
+  plugins: config.plugins.concat([
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.LoaderOptionsPlugin({ debug: true }),
     new WebpackNotifierPlugin({ alwaysNotify: true }),
     //new webpack.optimize.CommonsChunkPlugin('common', 'common-bundle.js'),
-    new ExtractTextPlugin("[name].css"),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
-    })
-  ].concat(config.plugins)
-});
+  ]),
+})
 
 config.module.rules.forEach(function(rule) {
   if (rule.use && 'babel-loader' === rule.use.loader) {
-    rule.use.options.plugins.push("react-hot-loader/babel")
+    rule.use.query.plugins.push('react-hot-loader/babel')
   }
-});
+})
 
-
-module.exports = config;
+module.exports = config

@@ -1,48 +1,9 @@
-const API_URL = process.env.NODE_ENV === 'production' ? '//my.babypoom.com/api/v2' : '//localhost:3001/api/v2';
+import config from '../../config/application'
 
-const defaultOptions = {
-  headers: {}
-};
+import sendRequest from '../../lib/send-request'
 
-export default function(dispatch, url, options={}) {
-  options = { ...defaultOptions, ...options }; // clone
+const API_URL = config.SERVER_URL + '/api/v2'
 
-  if (options.data) {
-    if (!options.method || 'get' === options.method.toLowerCase()) {
-      url += (url.indexOf('?') >= 0 ? '&' : '?') + queryParams(options.data);
-    } else {
-      options.body = queryParams(options.data);
-    }
-    delete options.data;
-  }
-  if (options.json !== false) {
-    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    delete options.json;
-  }
-  if (options.cors !== false) {
-    options.mode = 'cors';
-    delete options.cors;
-  }
-
-  return new Promise(function(resolve, reject) {
-    fetch(API_URL + url, options)
-      .then(response => { return Promise.all([response, response.json()]) })
-      .then(([response, json]) => {
-        if (response.status < 200 || response.status >= 300) {
-          return reject(json); // TODO: error
-        }
-        resolve(json, response.headers);
-      })
-      .catch(error => {
-        reject(error); // TODO: error
-      });
-  });
+export default function(url, options) {
+  return sendRequest(API_URL + url, options)
 }
-
-function queryParams(params) {
-  return Object.keys(params).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k])).join('&');
-}
-
-
-
-

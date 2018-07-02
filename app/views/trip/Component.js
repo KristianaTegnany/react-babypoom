@@ -1,117 +1,128 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { injectIntl, defineMessages } from 'react-intl'
 
-import { PhotoSwipe } from 'react-photoswipe';
-import { gettingData, CACHE, PSWP_OPTIONS } from '../../../lib/photoswipe-helper';
+import { loadSlideshow, openSlideshow } from '../../components/slideshow/Actions'
 
-import Bubble from '../../components/bubble/Component';
-import BubblePic from '../../components/bubble-pic/Component';
-import BubbleSay from '../../components/bubble-say/Component';
-import BpoomImg from '../../components/bpoom-img/Component';
-
-import { nextStep } from '../../views/app/steps';
+import Bubble from '../../components/bubble/Component'
+import BubblePic from '../../components/bubble-pic/Component'
+import BubbleSay from '../../components/bubble-say/Component'
+import BpoomImg from '../../components/bpoom-img/Component'
+import Transition from '../../components/transition/Component'
 
 // i18n
-import t from '../../i18n/i18n';
-import stepMsg from '../../i18n/messages/steps';
+import t from '../../i18n/i18n'
 
 // CSS
-import CSSModules from 'react-css-modules';
-import styles from './styles.scss';
+import styles from './styles.scss'
 
+@connect(mapStateToProps, { loadSlideshow, openSlideshow })
+class Trip extends Component {
+  state = {}
 
-@connect(mapStateToProps)
-@CSSModules(styles, { allowMultiple: true })
-
-export default class extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      photoSwipeOpen: false,
-      imgIndex: 0
-    };
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let trip = nextProps.bpoom.bp_trip
+    if (trip && trip.bp_trip_events && trip.bp_trip_events.length) {
+      nextProps.loadSlideshow({
+        items: trip.bp_trip_events.map(event => {
+          return {
+            src: event.photo,
+            title: formatDate(nextProps.intl, event),
+            description: event.message || '',
+          }
+        }),
+      })
+    }
+    return null
   }
-
-  handleClick(index) {
-    this.setState({
-      photoSwipeOpen: true,
-      imgIndex: index
-    });
-  }
-
-  gettingData(gallery, index, item) {
-  if (!item.w || !item.h) { // unknown size
-    if (CACHE[item.src]) return;
-    CACHE[item.src] = {};
-
-    let img = new Image();
-    img.onload = function() {
-      CACHE[item.src] = { width: this.width, height: this.height };
-      item.w = this.width; // set image width
-      item.h = this.height; // set image height
-      gallery.invalidateCurrItems(); // reinit Items
-      gallery.updateSize(true); // reinit Items
-    };
-    img.src = item.src; // let's download image
-  }
-}
 
   render() {
-    let state = this.state;
+    let props = this.props
 
-    let bpoom = this.props.bpoom;
-    let trip = bpoom.bp_trip || {};
-    let transition = t(stepMsg[nextStep(this.props).transition]);
-
-    let items = (trip.bp_trip_events || []).map(event => {
-      let info = CACHE[event.photo] || {};
-      return {
-        src: event.photo,
-        title: event.message || '',
-        period: event.period ||'',
-        w: info.width || 0,
-        h: info.height || 0
-      };
-    });
-
-    // TODO: i18n + addCaptionHTMLFn: http://photoswipe.com/documentation/options.html
-    let options = {
-      ...PSWP_OPTIONS,
-      addCaptionHTMLFn: function(item, captionEl, isFake) {
-        let caption = item.period ? `<strong>${item.period}</strong>` : '';
-        captionEl.children[0].innerHTML = caption + (caption && item.title ? `<br />${item.title}` : item.title);
-        return true;
-      }
-    };
+    let bpoom = props.bpoom
+    let trip = bpoom.bp_trip || {}
 
     return (
-      <div styleName="trip-container">
-        <div styleName="trip-view">
-          <BubbleSay imgSrc={bpoom.photo}>
+      <div>
+        <div>
+          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo_thumbnail}>
             {trip.message}
           </BubbleSay>
-          <div styleName="trip-events">
-            {
-              (trip.bp_trip_events || []).map((event, i) => {
-                return (
-                  <div key={i}>
-                    <BpoomImg imgSrc={event.photo} imgText={event.period} onClick={this.handleClick.bind(this, i)} />
-                    <Bubble>{event.message}</Bubble>
-                  </div>
-                );
-              })
-            }
-          </div>
-          <BubblePic imgSrc={bpoom.photo}>{transition}</BubblePic>
         </div>
-        <PhotoSwipe gettingData={gettingData} isOpen={state.photoSwipeOpen} options={options} items={items} />
+        <div styleName="trip-events">
+          {(trip.bp_trip_events || []).map((event, i) => {
+            return (
+              <div key={i} styleName={i % 2 ? 'odd' : 'even'}>
+                <div />
+                <div styleName="img">
+                  <BpoomImg
+                    imgSrc={event.thumbnail}
+                    imgText={formatDate(props.intl, event)}
+                    onClick={() => props.openSlideshow(i)}
+                  />
+                </div>
+                <div styleName="bubble">
+                  <Bubble speechDir={props.desktop ? (i % 2 ? 'right' : 'left') : null}>{event.message}</Bubble>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+        <div>
+          {props.noNav ? (
+            ''
+          ) : props.desktop ? (
+            <BubbleSay speechDir="left" imgSrc={bpoom.photo_thumbnail}>
+              <Transition />
+            </BubbleSay>
+          ) : (
+            <BubblePic imgSrc={bpoom.photo_thumbnail}>
+              <Transition />
+            </BubblePic>
+          )}
+        </div>
       </div>
     )
   }
 }
 
-function mapStateToProps(state) {
-  const { app: { bpoom, currentStep, availableSteps } } = state;
-  return { bpoom, currentStep, availableSteps };
+export default injectIntl(Trip)
+
+function formatDate(intl, tripEvent) {
+  if (!tripEvent.date_event) {
+    return tripEvent.period || ''
+  }
+  let date = new Date(tripEvent.date_event)
+  date = new Date(date.getTime() + new Date().getTimezoneOffset() * 60000)
+  if (null == tripEvent.period_type) {
+    return intl.formatDate(date, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    })
+  }
+  return intl.formatMessage(MSG[`type_period_${tripEvent.period_type}`], {
+    month: intl.formatDate(date, { month: 'short' }),
+    year: date.getFullYear(),
+  })
 }
+
+function mapStateToProps(state) {
+  const { app: { bpoom, noNav }, mediaQueries: { desktop } } = state
+  return { bpoom, noNav, desktop }
+}
+
+const MSG = defineMessages({
+  type_period_early: {
+    id: 'trip.type_period_early',
+    defaultMessage: 'Début {month} {year}',
+  },
+  type_period_mid: {
+    id: 'trip.type_period_mid',
+    defaultMessage: 'Mi-{month} {year}',
+  },
+  type_period_late: {
+    id: 'trip.type_period_late',
+    defaultMessage: 'Fin {month} {year}',
+  },
+})

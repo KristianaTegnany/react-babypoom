@@ -1,88 +1,144 @@
-@import '../../../config/bootstrap-pre-customizations';
-
-.trip-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-.trip-view {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: $main-padding;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  display: flex;
-  flex-direction: column;
-}
+@import '../../../config/bootstrap/bootstrap-var';
+@import '../../components/bpoom-img/vars';
 
 .trip-events {
-  &> div {
+  & > div {
     display: flex;
-    padding: $main-padding 0 0 15px;
-    position: relative;
+    padding: $main-padding 0 0 0;
 
-    &> div:first-child {
+    .img > :first-child {
       padding: 5px 13px 5px 5px;
     }
 
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 4px;
-      bottom: 0;
-      width: 0;
-      border-left: 3px solid white; // Color OK
-    }
+    & > div:first-child {
+      position: relative;
+      width: 14px;
+      margin-right: 5px;
 
-    &::after {
-      content: '';
-      position: absolute;
-      left: 5px - (14px / 2);
-      top: 80px + 15px;
-      width: 15px;
-      height: 15px;
-      background: var(--brand-primary-C);
-      border: 2px solid white; // Color OK
-      border-radius: 14px;
-    }
-
-    &:first-child {
       &::before {
-        top: 80px + 15px;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 4px;
+        bottom: -$main-padding;
+        width: 0;
+        border-left: 3px solid white; // Color OK
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 5px - (14px / 2);
+        top: $bpoom-img-height + 15px;
+        width: 15px;
+        height: 15px;
+        background: var(--brand-primary-C);
+        border: 2px solid white; // Color OK
+        border-radius: 14px;
       }
     }
 
-    &:last-child {
+    &:first-child > div:first-child {
+      &::before {
+        top: $bpoom-img-height + 15px;
+      }
+    }
+
+    &:last-child > div:first-child {
       &::before {
         bottom: auto;
-        height: 80px + 15px;
+        height: $bpoom-img-height + 15px;
       }
     }
-
   }
 
-  &+ div {
+  & + div {
     margin-top: $main-padding;
   }
 }
 
-:global {
-  $pswp__assets-path: '../../../node_modules/photoswipe/src/css/default-skin/' !default;
+.bubble {
+  display: flex;
+  flex: 1 0;
+  align-self: center;
+}
 
-  @import '../../../node_modules/photoswipe/src/css/main.scss';
-  @import '../../../node_modules/photoswipe/src/css/default-skin/default-skin.scss';
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .trip-events {
+    & > div {
+      padding-top: ($main-padding * 2);
 
-  // override some styles
-  .pswp {
-    margin: 0 !important;
-    top: auto !important;
-    position: absolute !important;
+      .img {
+        flex: 1 0;
+      }
+
+      .img > :first-child {
+        padding: 10px 26px;
+      }
+
+      & > div:first-child {
+        width: 30px;
+        margin: 0;
+        order: 1;
+
+        & + * + * {
+          order: 2;
+        }
+
+        &::before {
+          left: 12px;
+          border-left-width: 6px;
+          bottom: -$main-padding * 2;
+        }
+
+        &::after {
+          left: 0;
+          top: $bpoom-lg-img-height + 30px;
+          width: 30px;
+          height: 30px;
+          background: var(--brand-primary-C);
+          border-width: 4px;
+          border-radius: 28px;
+        }
+      }
+
+      &:first-child > div:first-child {
+        &::before {
+          top: $bpoom-lg-img-height + 30px;
+        }
+      }
+
+      &:last-child > div:first-child {
+        &::before {
+          height: $bpoom-lg-img-height + 30px;
+        }
+      }
+    }
+  }
+
+  .even {
+    .img {
+      text-align: right;
+    }
+    .bubble > :first-child {
+      margin-left: 30px;
+    }
+  }
+
+  .odd {
+    & > :first-child {
+      order: 0 !important;
+    }
+    .bubble {
+      order: -1 !important;
+
+      & > :first-child {
+        margin-right: 30px;
+      }
+    }
+  }
+
+  .bubble {
+    align-self: center;
   }
 }

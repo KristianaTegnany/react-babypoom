@@ -1,146 +1,192 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { defineMessages, injectIntl } from 'react-intl';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { defineMessages, injectIntl } from 'react-intl'
 
-import { PhotoSwipe } from 'react-photoswipe';
-import { gettingData, CACHE, PSWP_OPTIONS } from '../../../lib/photoswipe-helper';
+import { deleteMsg } from '../app/Actions'
+import { loadSlideshow, openSlideshow } from '../../components/slideshow/Actions'
+import { flash } from '../../components/flash/Actions'
 
-import VisitorBookForm from '../visitorbook-form/Component';
-import BubblePic from '../../components/bubble-pic/Component';
-import BubbleSay from '../../components/bubble-say/Component';
-import Message from '../../components/message/Component';
-
-import { nextStep } from '../../views/app/steps';
+import VisitorBookForm from '../visitorbook-form/Component'
+import BubblePic from '../../components/bubble-pic/Component'
+import BubbleSay from '../../components/bubble-say/Component'
+import Message from '../../components/message/Component'
+import Transition from '../../components/transition/Component'
 
 // Components
-import Button from 'reactstrap/lib/Button';
+import Button from 'reactstrap/lib/Button'
+
+// Lib
+import Ahoy from '../../../lib/ahoy-custom'
 
 // i18n
-import t from '../../i18n/i18n';
-import stepMsg from '../../i18n/messages/steps';
+import t from '../../i18n/i18n'
 
 // CSS
-import CSSModules from 'react-css-modules';
-import styles from './styles.scss';
+import styles from './styles.scss'
 
+// Icon
+import FaPencil from 'react-icons/lib/fa/pencil'
 
-@connect(mapStateToProps)
-@CSSModules(styles, { allowMultiple: true })
-
-class Klass extends Component {
-  static childContextTypes = {
-    intl: PropTypes.object.isRequired
-  };
+@connect(mapStateToProps, { loadSlideshow, openSlideshow, deleteMsg, flash })
+class VisitorBook extends Component {
+  // static childContextTypes = {
+  //   intl: PropTypes.object.isRequired,
+  // }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
-      photoSwipeOpen: false,
-      imgIndex: 0,
-      formVisible: false // TODO
-    };
+      formVisible: false, // TODO
+      scrollToBottom: false,
+    }
   }
 
-  handleClick(index) {
-    this.setState({
-      photoSwipeOpen: true,
-      imgIndex: index
-    });
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let visitorbook = nextProps.bpoom.bp_visitorbook
+    if (visitorbook && visitorbook.bp_visitorbook_msgs && visitorbook.bp_visitorbook_msgs.length) {
+      nextProps.loadSlideshow({
+        items: visitorbook.bp_visitorbook_msgs.map(event => {
+          return {
+            src: event.photo,
+            title: event.created_at
+              ? `${formatDate(nextProps.intl, event.created_at)} - ${event.name || ''}`
+              : `${event.name || ''}`,
+            description: event.message || '',
+          }
+        }),
+      })
+    }
+    return null
+  }
+
+  componentDidUpdate() {
+    if (this.state.scrollToBottom) {
+      this.setState({ scrollToBottom: false })
+      let scrollableElt = this.visitorbookContainer.parentNode
+      scrollableElt.scrollTop = scrollableElt.scrollHeight
+    }
   }
 
   displayForm() {
-    this.setState({ formVisible: true });
+    this.setState({ formVisible: true })
   }
 
   onSaveMsg() {
-    this.setState({ formVisible: false });
+    this.setState({ formVisible: false, scrollToBottom: true })
   }
 
   onCancelMsg() {
-    this.setState({ formVisible: false });
+    this.setState({ formVisible: false })
+  }
+
+  onDeleteMsg(event) {
+    if (window.confirm(this.props.intl.formatMessage(MSG.delete_message_confirm))) {
+      this.props.deleteMsg(event.id, event.uuid).then(dispatch => {
+        this.props.flash('info', MSG.message_deleted)
+        this.setState({ scrollToBottom: true })
+      })
+    }
   }
 
   render() {
-    let state = this.state;
+    let state = this.state
     if (state.formVisible) {
-      return (<VisitorBookForm onSave={::this.onSaveMsg} onCancel={::this.onCancelMsg} />);
+      return <VisitorBookForm onSave={::this.onSaveMsg} onCancel={::this.onCancelMsg} />
     }
 
-    let props = this.props;
-    let bpoom = props.bpoom;
-    let visitorbook = bpoom.bp_visitorbook || {};
-    let transition = t(stepMsg[nextStep(props).transition]);
-
-    let items = (visitorbook.bp_visitorbook_msgs || []).map(event => {
-      let info = CACHE[event.photo] || {};
-      return {
-        src: event.photo,
-        title: event.message || '',
-        name: event.name || '',
-        created_at: event.created_at || '',
-        w: info.width || 0,
-        h: info.height || 0
-      };
-    });
-
-    // TODO: i18n + addCaptionHTMLFn: http://photoswipe.com/documentation/options.html
-    let options = {
-      ...PSWP_OPTIONS,
-      addCaptionHTMLFn: (item, captionEl, isFake) => {
-        let caption = item.created_at
-          ? `<strong>${formatDate(props, item.created_at)} - ${item.name}</strong>`
-          : `<strong>${item.name}</strong>`;
-        captionEl.children[0].innerHTML = caption + (caption && item.title ? `<br />${item.title}` : item.title);
-        return true;
-      }
-    };
+    let props = this.props
+    let bpoom = props.bpoom
+    let visitorbook = bpoom.bp_visitorbook || {}
+    let visitorbookMsgs = visitorbook.bp_visitorbook_msgs || []
+    let visitorId = Ahoy.getVisitorId()
 
     return (
-      <div styleName="visitorbook-container">
-        <div styleName="visitorbook-view">
-          <BubbleSay imgSrc={bpoom.photo}>
-            {visitorbook.message}
-          </BubbleSay>
-          <Button block color="app" onClick={::this.displayForm}>{t(MSG.leave_message)}</Button>
-          <div styleName="visitorbook-msgs">
-            {
-              (visitorbook.bp_visitorbook_msgs || []).map((event, i) => {
-                return (
-                  <div key={i}>
-                    <Message imgSrc={event.photo} message={event.message} date={formatDate(props, event.created_at)} name={event.name}
-                      onClick={this.handleClick.bind(this, i)} />
-                  </div>
-                );
-              })
-            }
-          </div>
-          <Button block color="app" onClick={::this.displayForm}>{t(MSG.leave_message)}</Button>
-          <BubblePic imgSrc={bpoom.photo}>{transition}</BubblePic>
+      <div ref={elt => (this.visitorbookContainer = elt)} styleName="visitorbook-container">
+        <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo_thumbnail}>
+          {visitorbook.message}
+        </BubbleSay>
+        <div styleName="button-container">
+          <Button block color="app" onClick={::this.displayForm}>
+            <i styleName="icon">
+              <FaPencil />
+            </i>{' '}
+            {t(MSG.leave_message)}
+          </Button>
         </div>
-        <PhotoSwipe gettingData={gettingData} isOpen={state.photoSwipeOpen} options={options} items={items} />
+        <div styleName="visitorbook-msgs">
+          {visitorbookMsgs.map((event, i) => {
+            return (
+              <div key={i}>
+                <Message
+                  imgSrc={event.thumbnail}
+                  message={event.message}
+                  date={formatDate(props.intl, event.created_at)}
+                  name={event.name}
+                  onClick={() => props.openSlideshow(i)}
+                  onDelete={visitorId === event.uuid ? () => this.onDeleteMsg(event) : null}
+                />
+              </div>
+            )
+          })}
+        </div>
+        {visitorbookMsgs.length > 2 ? (
+          <Button block color="app" onClick={::this.displayForm}>
+            <i styleName="icon">
+              <FaPencil />
+            </i>{' '}
+            {t(MSG.leave_message)}
+          </Button>
+        ) : (
+          ''
+        )}
+        {props.noNav ? (
+          ''
+        ) : props.desktop ? (
+          <BubbleSay speechDir="left" imgSrc={bpoom.photo_thumbnail}>
+            <Transition />
+          </BubbleSay>
+        ) : (
+          <BubblePic imgSrc={bpoom.photo_thumbnail}>
+            <Transition />
+          </BubblePic>
+        )}
       </div>
     )
   }
 }
 
-export default injectIntl(Klass);
+export default injectIntl(VisitorBook)
 
-function formatDate(props, date) {
-  return date ? props.intl.formatDate(new Date(date), {
-    year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric"
-  }) : '';
+function formatDate(intl, date) {
+  return date
+    ? intl.formatDate(new Date(date), {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+      })
+    : ''
 }
 
 function mapStateToProps(state) {
-  const { app: { bpoom, currentStep, availableSteps } } = state;
-  return { bpoom, currentStep, availableSteps };
+  const { app: { bpoom, noNav }, mediaQueries: { desktop } } = state
+  return { bpoom, noNav, desktop }
 }
 
 const MSG = defineMessages({
   leave_message: {
     id: 'visitorbook.leave_message',
-    defaultMessage: "Laisser un message"
-  }
-});
+    defaultMessage: 'Laisser un message',
+  },
+  message_deleted: {
+    id: 'visitorbook.message_deleted',
+    defaultMessage: 'Votre message a bien été supprimé',
+  },
+  delete_message_confirm: {
+    id: 'visitorbook.delete_message_confirm',
+    defaultMessage: 'Êtes-vous sûr de vouloir supprimer ce message ?',
+  },
+})

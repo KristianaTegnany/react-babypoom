@@ -1,154 +1,214 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { injectIntl } from 'react-intl'
+import { connect } from 'react-redux'
+import { Route } from 'react-router'
 
-import Alert from '../../components/form/Alert';
+// Routes
+import { PATH_TO_STEP_MAP, stepComponent, stepPath } from './steps'
+import { loadBpoom, updateStep, updateNoNav } from './Actions'
 
+import Slideshow from '../../components/slideshow/Component'
+
+import { loadSlideshow, openSlideshow, changeSlideshowIndex, closeSlideshow } from '../../components/slideshow/Actions'
+
+import NotFound from '../not-found/Component'
+import Alert from '../../components/form/Alert'
 import Header from '../../components/header/Component'
 import Footer from '../../components/footer/Component'
 
-import { NAMES_TO_PATHS, PATHS_TO_NAMES, curStep } from '../../views/app/steps';
-import { loadBpoom, updateStep, updateStepIndex } from './Actions';
+import { deleteFlash } from '../../components/flash/Actions'
+
+// Tracking
+import config from '../../../config/application'
+import Ahoy from '../../../lib/ahoy-custom'
+import ReactGA from 'react-ga'
 
 // Lib
-import pixelate from '../../../lib/pixelate';
-import { lighten, darken } from '../../../lib/color';
+import pixelate from '../../../lib/pixelate'
+import computeThemeColors from '../../../lib/theme'
+import Cookie from '../../../lib/cookie'
+import { hasParam } from '../../../lib/url-params'
 
 // CSS
-import CSSVariableApplicator from '../../components/css-var/Component';
-import CSSModules from 'react-css-modules';
-import styles from './styles.scss';
+import CSSVariableApplicator from '../../components/css-var/Component'
+import MediaQueries from '../../components/media-queries/Component'
+import styles from './styles.scss'
 
-import i18n from '../../i18n/i18n';
+import i18n from '../../i18n/i18n'
 
+// Images
+import Cloud from 'svg-react-loader?name=Cloud!../../images/cloud.svg'
 
-let UNIQ = 0;
+let UNIQ = 0
 
-@connect(mapStateToProps, { loadBpoom, updateStep, updateStepIndex })
-@CSSModules(styles)
+const noNavParamName = 'nn'
 
-export default class extends Component {
-  static childContextTypes = {
-    location: PropTypes.object
-  };
-  static contextTypes = {
-    router: PropTypes.object.isRequired
-  };
+@connect(mapStateToProps, { loadBpoom, updateStep, updateNoNav, changeSlideshowIndex, closeSlideshow, deleteFlash })
+class App extends Component {
+  // static childContextTypes = {
+  //   location: PropTypes.object,
+  //   intl: PropTypes.object.isRequired,
+  // }
 
-  componentWillReceiveProps(props) {
-    this.init(props);
+  static fetchData(store, params) {
+    return store.dispatch(loadBpoom(params.uuid, { flash: false }))
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let bpoom = nextProps.bpoom
+    if (bpoom && bpoom.theme_color_1 && bpoom.theme_color_2) {
+      return { theme: computeThemeColors(bpoom.theme_color_1, bpoom.theme_color_2) }
+    }
+    return null
   }
 
   constructor(props) {
-    super(props);
-    this.init(props);
+    super(props)
+    this.state = { theme: computeThemeColors(config.theme.defaultColor1, config.theme.defaultColor2) }
 
-    // const theme = {};
-    // theme['--brand-primary']   = '#84C5C4';
-    // theme['--brand-secondary'] = '#bb6967';
-    // theme['--app-body-bg']     = '#FCAAA8';
-    // theme['--app-bg']          = '#FFF5F5';
-
-    const theme = {
-      '--brand-primary':   '#1b827f', // 1E
-      '--brand-secondary': '#dc706e' // 2D
-    };
-    theme['--brand-primary-A'] = lighten(theme['--brand-primary'], 15); // color 1 - 1F
-    theme['--brand-primary-B'] = lighten(theme['--brand-primary'], 10); // color 1A - 1D
-    theme['--brand-primary-C'] = lighten(theme['--brand-primary'], 20); // color 1C
-    theme['--brand-primary-D'] = darken( theme['--brand-primary'], 5); // color 1B
-    
-    theme['--brand-secondary-A'] = lighten(theme['--brand-secondary'], 15); // color 2 - 2C
-    theme['--brand-secondary-B'] = lighten(theme['--brand-secondary'], 30); // color 2A - 2E
-    theme['--brand-secondary-C'] = lighten(theme['--brand-secondary'], 10); // color 2B
-
-    theme['--neutral-primary']   = '#414141';
-    theme['--neutral-primary-A'] = lighten(theme['--neutral-primary'], 15); // color 0A
-    theme['--neutral-primary-B'] = lighten(theme['--neutral-primary'], 30); // color 0B
-    theme['--neutral-primary-C'] = lighten(theme['--neutral-primary'], 50); // color 0C
-    theme['--neutral-primary-D'] = lighten(theme['--neutral-primary'], 65); // color 0D
-    theme['--neutral-primary-E'] = lighten(theme['--neutral-primary'], 70); // color 0E
-    theme['--neutral-primary-F'] = lighten(theme['--neutral-primary'], 75); // color 0F
-
-    theme['--neutral-secondary']   = '#414141';
-    theme['--neutral-secondary-A'] = lighten(theme['--neutral-secondary'], 15); // color 0A
-    theme['--neutral-secondary-B'] = lighten(theme['--neutral-secondary'], 30); // color 0B
-    theme['--neutral-secondary-C'] = lighten(theme['--neutral-secondary'], 50); // color 0C
-    theme['--neutral-secondary-D'] = lighten(theme['--neutral-secondary'], 65); // color 0D
-    theme['--neutral-secondary-E'] = lighten(theme['--neutral-secondary'], 70); // color 0E
-    theme['--neutral-secondary-F'] = lighten(theme['--neutral-secondary'], 75); // color 0F
-
-    this.state = { theme: theme };
+    // No nav
+    let noNav = hasParam(this.props.location.search, noNavParamName)
+      ? PATH_TO_STEP_MAP[props.match.params.step || '']
+      : null
+    props.updateNoNav(noNav)
   }
+
+  // TODO: don't display anything if bpoom is not loaded (display final step text now...)
 
   // TODO: when receiving availableSteps, check if currentStep is included. if not, redirect to first available step
   componentDidMount() {
     // TODO check if bpoomId is numeric
-    this.props.loadBpoom({ uuid: this.props.params.uuid });
-  }
+    let uuid = this.props.match.params.uuid
 
-  componentDidUpdate() {
-    let props = this.props;
-    let { availableSteps } = props;
-    if (availableSteps.length) {
-      let step = curStep(props);
-      if (!step.found) {
-        return this.context.router.push({ pathname: NAMES_TO_PATHS.get(availableSteps[0]) });
+    // Tracking
+    let oldBpoomId = Cookie.get('bpoomId')
+    if (oldBpoomId != uuid) {
+      Cookie.set('bpoomId', uuid)
+      Ahoy.reset()
+    }
+    Ahoy.configure({ urlPrefix: config.SERVER_URL })
+    Ahoy.start()
+    Ahoy.trackClicks()
+
+    ReactGA.initialize('UA-75903062-2', 'auto')
+    ReactGA.ga('send', 'pageview')
+
+    // Load bpoom data
+    let callback = () => {
+      this.setSteps(this.props)
+
+      Ahoy.trackView()
+      Ahoy.updateVisit({ bpoom_id: uuid })
+
+      // Preload images
+      let bpoom = this.props.bpoom
+      if (bpoom.photo_thumbnail) {
+        pixelate({ src: bpoom.photo_thumbnail })
       }
-      this.props.updateStepIndex({ stepIndex: step.index });
+    }
+    if (this.props.bpoom.uuid) {
+      callback()
+    } else {
+      this.props
+        .loadBpoom(uuid)
+        .then(callback)
+        .catch(() => {})
     }
   }
 
-  init(props) {
-    // Set current step
-    let bpoom = props.bpoom;
-    let step = PATHS_TO_NAMES.get(props.location.pathname.replace('/' + (bpoom.uuid || props.params.uuid), '/:uuid'));
-    props.updateStep({ step }, () => {
-      if (props.availableSteps.length) {
-        let stepIndex = props.availableSteps.indexOf(step);
-        props.updateStepIndex({ stepIndex });
-      }
+  componentDidUpdate(prevProps) {
+    let props = this.props
 
-      // Preload images
-      if (bpoom.photo) {
-        pixelate({ src: bpoom.photo });
-      }
-    });
+    // On route update
+    if (props.location.pathname !== prevProps.location.pathname) {
+      props.deleteFlash()
+      props.closeSlideshow()
+      this.setSteps(props)
+
+      // Tracking
+      Ahoy.trackView()
+      ReactGA.ga('send', 'pageview')
+    }
+  }
+
+  setSteps(props) {
+    let bpoom = props.bpoom
+    let current = PATH_TO_STEP_MAP[props.match.params.step || '']
+
+    if (bpoom && null !== props.noNav && props.noNav !== current) {
+      return props.history.replace(stepPath(props.noNav, bpoom))
+    }
+
+    let availableSteps = bpoom.available_steps || []
+    let index = availableSteps.indexOf(current)
+
+    if (availableSteps.length && index < 0) {
+      return props.history.replace(stepPath(availableSteps[0], bpoom))
+    }
+
+    props.updateStep({
+      current,
+      index,
+      prev: index < 0 ? null : availableSteps[index - 1],
+      next: index < 0 ? null : availableSteps[index + 1],
+    })
   }
 
   renderFlash() {
-    let props = this.props;
-    let flash = props.flash;
+    let props = this.props
+    let flash = props.flash
     if (!flash || !flash.message) {
-      flash = (props.location.state || {}).flash;
+      flash = (props.location.state || {}).flash
     }
     if (!flash || !flash.message) {
-      return '';
+      return ''
       //flash = null;//{ message: { id: 'Error' } };
     }
-    return (<Alert key={++UNIQ} toggle={null} color={flash.color}>{i18n(flash.message)}</Alert>);
+    return (
+      <Alert key={++UNIQ} toggle={null} color={flash.color}>
+        {i18n(flash.message)}
+      </Alert>
+    )
   }
 
   render() {
-    // TODO: UNIQ to force the reloading => scroll will be on top
+    let props = this.props
+    let bpoom = props.bpoom
+
+    if (bpoom.not_found) {
+      return <NotFound />
+    }
+
+    let Step = stepComponent(props.steps.current, bpoom)
+
     return (
-      <CSSVariableApplicator variables={this.state.theme}>
-        <Header/>
+      <CSSVariableApplicator data-variables={this.state.theme}>
+        {props.noNav ? '' : <Header />}
         <div styleName="flash">{this.renderFlash()}</div>
-        <main>
-          <div>{this.props.children}</div>
+        <main styleName={props.steps.current || ''}>
+          <div key={props.steps.current}>
+            <Step />
+          </div>
+          <Cloud styleName="cloud" />
+          <Slideshow
+            open={props.slideshow.isOpen}
+            index={props.slideshow.index}
+            onChangeIndex={index => props.changeSlideshowIndex(index)}
+            onClose={props.closeSlideshow}
+            items={props.slideshow.items}
+          />
         </main>
-        <Footer />
+        {props.noNav ? '' : <Footer />}
+        <MediaQueries />
       </CSSVariableApplicator>
     )
   }
 }
 
+export default injectIntl(App)
+
 function mapStateToProps(state) {
-  const { app: { bpoom, currentStep, availableSteps }, flash } = state;
-  return { bpoom, currentStep, availableSteps, flash }
+  const { app: { bpoom, steps, noNav }, slideshow, flash } = state
+  return { bpoom, steps, noNav, slideshow, flash }
 }
-
-
-
-

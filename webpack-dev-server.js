@@ -1,6 +1,6 @@
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
-var config = require('./webpack.development.config');
+var webpack = require('webpack')
+var WebpackDevServer = require('webpack-dev-server')
+var config = require('./webpack.development.config')
 
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
@@ -19,11 +19,12 @@ new WebpackDevServer(webpack(config), {
     hash: false,
     timings: false,
     chunks: false,
-    chunkModules: false
-  }
-}).listen(8080, 'localhost', function (err) {
+    chunkModules: false,
+  },
+}).listen(8181, 'localhost', function(err) {
   if (err) {
-    console.log(err);
+    console.log(err)
   }
-  console.log('Listening at localhost:8080');
-});
+  console.warn("WARNING: PORT has been changed. It's now 8181")
+  console.log('Listening at localhost:8181')
+})

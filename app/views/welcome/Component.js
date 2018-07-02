@@ -1,52 +1,56 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { defineMessages } from 'react-intl';
+import { defineMessages } from 'react-intl'
 
-import Bubble from '../../components/bubble/Component';
-
-import { nextStep } from '../../views/app/steps';
+import Bubble from '../../components/bubble/Component'
+import Transition from '../../components/transition/Component'
 
 // i18n
-import t from '../../i18n/i18n';
-import stepMsg from '../../i18n/messages/steps';
+import t from '../../i18n/i18n'
 
 // CSS
-import CSSModules from 'react-css-modules';
-import styles from './styles.scss';
+import styles from './styles.scss'
+
+// Img
+import BABY_IMAGES from '../../../lib/baby-img'
 
 @connect(mapStateToProps)
-@CSSModules(styles, { allowMultiple: true })
-
-export default class extends Component {
+export default class Welcome extends Component {
   render() {
-    let bpoom = this.props.bpoom;
-    let transition = t(stepMsg[nextStep(this.props).transition]);
+    let props = this.props
+    let bpoom = props.bpoom
 
     return (
       <div styleName="welcome-container">
-        <Bubble speechDir="bottom" scrollable>
-          {
-            bpoom.bp_welcome
-              ? (<span>{ bpoom.bp_welcome.message }{ '\n\n' }{ transition }</span>)
-              : t(MSG.welcome)
-          }
-        </Bubble>
+        <div styleName="baby" style={{ backgroundImage: `url(${BABY_IMAGES[bpoom.baby_full_type]})` }}></div>
+        <div styleName="wrapper">
+          <Bubble speechDir={props.desktop ? 'left' : 'bottom'} scrollable>
+            {bpoom.bp_welcome ? (
+              <span>
+                {bpoom.bp_welcome.message}
+                {props.noNav ? '' : '\n\n'}
+                {props.noNav ? '' : <Transition />}
+              </span>
+            ) : (
+              t(MSG.welcome)
+            )}
+          </Bubble>
+        </div>
       </div>
     )
   }
 }
 
 function mapStateToProps(state) {
-  const { app: { bpoom, currentStep, availableSteps } } = state;
-  return { bpoom, currentStep, availableSteps };
+  const { app: { bpoom, noNav }, mediaQueries: { desktop } } = state
+  return { bpoom, noNav, desktop }
 }
 
 const MSG = defineMessages({
   welcome: {
     id: 'welcome',
-    defaultMessage:
-`Coucou toi !
+    defaultMessage: `Coucou toi !
 
-Patiente quelques instants, j'ai une grande nouvelle à t'annoncer...`
-  }
-});
+Patiente quelques instants, j'ai une grande nouvelle à t'annoncer...`,
+  },
+})

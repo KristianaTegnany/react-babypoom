@@ -1,8 +1,5 @@
-import id from '../../../lib/types';
-
-export const
-  BPOOM                 = id(),
-  CURRENT_STEP          = id(),
-  STEP_INDEX            = id(),
-  AVAILABLE_STEPS       = id(),
-  SAVE_VISITORBOOK_MSG  = id();
+export const BPOOM = 'BPOOM',
+  STEPS = 'STEPS',
+  NO_NAV = 'NO_NAV',
+  SAVE_VISITORBOOK_MSG = 'SAVE_VISITORBOOK_MSG',
+  DELETE_VISITORBOOK_MSG = 'DELETE_VISITORBOOK_MSG'

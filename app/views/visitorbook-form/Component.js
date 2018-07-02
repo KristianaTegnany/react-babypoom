@@ -1,127 +1,168 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { defineMessages } from 'react-intl';
-import { reduxForm, Field } from 'redux-form';
-import required from 'redux-form-validators/lib/presence';
-import email from 'redux-form-validators/lib/email';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { defineMessages } from 'react-intl'
+import { reduxForm, Field } from 'redux-form'
+import required from 'redux-form-validators/lib/presence'
+import email from 'redux-form-validators/lib/email'
 
-import CloudinaryUploader from '../../components/cloudinary-uploader/Component';
+import CloudinaryUploader from '../../components/cloudinary-uploader/Component'
 
-import BpoomImg from '../../components/bpoom-img/Component';
+import BpoomImg from '../../components/bpoom-img/Component'
 
-import { saveMsg } from '../app/Actions';
-import { flash } from '../../components/flash/Actions';
+import { saveMsg } from '../app/Actions'
+import { flash } from '../../components/flash/Actions'
 
 // Components
-import Form from 'reactstrap/lib/Form';
-import Button from 'reactstrap/lib/Button';
+import Form from 'reactstrap/lib/Form'
+import Button from 'reactstrap/lib/Button'
 
 // i18n
-import t from '../../i18n/i18n';
-import FORM_MSG from '../../i18n/messages/form';
+import t from '../../i18n/i18n'
+import FORM_MSG from '../../i18n/messages/form'
 
 // Lib
-import { InputField } from '../../../lib/redux-form-input';
-import { extractParams } from '../../../lib/params';
+import { InputField } from '../../../lib/redux-form-input'
+import { extractParams } from '../../../lib/params'
+import Ahoy from '../../../lib/ahoy-custom'
 
 // CSS
-import CSSModules from 'react-css-modules';
-import styles from './styles.scss';
+import styles from './styles.scss'
 
+let INPUTS
 
+function refInput(input) {
+  if (!input) return
+  INPUTS[input.name] = input
+}
 
 // TODO: deleteFlash when going back to view (cancel or message saved)
 @connect(mapStateToProps, { saveMsg, flash })
-@reduxForm({ form: 'visitorBookForm' })
-@CSSModules(styles, { allowMultiple: true })
-
-export default class extends Component {
+@reduxForm({
+  form: 'visitorBookForm',
+  touchOnBlur: false,
+  onSubmitFail: errors => {
+    let firstField = Object.keys(errors || {})[0]
+    INPUTS[firstField] && INPUTS[firstField].focus()
+  },
+})
+export default class VisitorBookForm extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
+    INPUTS = {}
     this.state = {
       imgSrc: '',
-      uploading: false
-    };
+      uploading: false,
+    }
   }
 
   componentDidMount() {
-    this.firstField.focus();
+    if (this.props.desktop) {
+      INPUTS.name.focus()
+    }
+    this.formContainer.parentNode.scrollTop = 0
   }
 
   onUploadStart() {
-    this.setState({ uploading: true });
+    this.setState({ uploading: true })
   }
 
   onUploadEnd(data) {
-    let url = data.secure_url;
+    let url = data.secure_url
     this.setState({
       uploading: false,
-      imgSrc: url.replace('/upload', '/upload/a_auto,w_263,h_300,c_fill,g_faces'),
-    });
-    this.props.change('photo', url.replace(/^.*?\/upload\/(.*?$)/, "$1"));
+      imgSrc: url.replace('/upload', '/upload/w_250,h_250,c_fill,g_auto'),
+    })
+    this.props.change('photo', url.replace(/^.*?\/upload\/(.*?$)/, '$1'))
   }
 
   onUploadError() {
-    this.setState({ uploading: false });
-    this.props.flash('danger', FORM_MSG.form_upload_error);
+    this.setState({ uploading: false })
+    this.props.flash('danger', FORM_MSG.form_upload_error)
   }
 
-  onCancel() {
-    this.props.onCancel && this.props.onCancel();
+  onCancel(e) {
+    this.props.onCancel && this.props.onCancel()
   }
 
   onSubmit(values) {
-    return this.props.saveMsg(this.props.bpoom, extractParams(values, { name: 'bp_visitorbook_msg' }))
-      .then(dispatch => {
-        this.props.onSave && this.props.onSave();
-        this.props.flash('info', MSG.form_thanks);
-      });
+    // Tracking
+    let visitorId = Ahoy.getVisitorId()
+    if (visitorId) {
+      values.uuid = visitorId
+    }
+
+    return this.props.saveMsg(this.props.bpoom.uuid, extractParams(values, { name: 'bp_visitorbook_msg' })).then(() => {
+      this.props.onSave && this.props.onSave()
+      this.props.flash('info', MSG.form_thanks)
+    })
   }
 
   render() {
-    let state = this.state;
-    let props = this.props;
+    let state = this.state
+    let props = this.props
 
     return (
-      <div styleName="visitorbook-form">
+      <div ref={elt => (this.formContainer = elt)} styleName="visitorbook-form">
         <Form onSubmit={props.handleSubmit(::this.onSubmit)} noValidate>
-
-          <Field name="name"
-            getRef={input => this.firstField = input}
+          <Field
+            name="name"
+            innerRef={refInput}
             label={t(FORM_MSG.form_name)}
             component={InputField}
-            validate={[required({ msg: t(FORM_MSG.form_name_required) })]} />
+            validate={[required({ msg: t(FORM_MSG.form_name_required) })]}
+          />
 
-          <Field name="email"
+          <Field
+            name="email"
+            innerRef={refInput}
             type="email"
-            label={(<span>{t(FORM_MSG.form_email)} <small>{t(FORM_MSG.form_email_desc)}</small></span>)}
+            label={
+              <span>
+                {t(FORM_MSG.form_email)} <small>{t(FORM_MSG.form_email_desc)}</small>
+              </span>
+            }
             component={InputField}
-            validate={[email({ allowBlank: true, msg: t(FORM_MSG.form_email_invalid) })]} />
+            validate={[email({ allowBlank: true, msg: t(FORM_MSG.form_email_invalid) })]}
+          />
 
-          <Field name="message"
+          <Field
+            name="message"
+            innerRef={refInput}
             type="textarea"
             label={t(FORM_MSG.form_message)}
             component={InputField}
             maxLength="500"
-            validate={[required({ msg: t(FORM_MSG.form_message_required) })]} />
+            validate={[required({ msg: t(FORM_MSG.form_message_required) })]}
+          />
 
           <div styleName="upload-img">
             <BpoomImg imgSrc={state.imgSrc} />
             <div styleName="upload-desc">
               <div>
                 {t(FORM_MSG.form_import)}
-                <br /><small>{t(FORM_MSG.form_import_formats)}</small>
+                <br />
+                <small>{t(FORM_MSG.form_import_formats)}</small>
               </div>
-              <CloudinaryUploader cloudName="babypoom" uploadPreset="tdjjz08e"
-                onUploadStart={::this.onUploadStart} onUploadEnd={::this.onUploadEnd} onUploadError={::this.onUploadError}
-                btnColor="neutral-app" btnText="Importer une image" />
+              <CloudinaryUploader
+                cloudName="babypoom"
+                uploadPreset="tdjjz08e"
+                onUploadStart={::this.onUploadStart}
+                onUploadEnd={::this.onUploadEnd}
+                onUploadError={::this.onUploadError}
+                btnColor="neutral-app"
+                btnText={t(FORM_MSG.form_image_import)}
+              />
               <Field name="photo" component="input" type="hidden" />
             </div>
           </div>
           <div styleName="actions">
-            <Button color="neutral-app" onClick={::this.onCancel}>{t(FORM_MSG.form_cancel)}</Button>
-            <Button disabled={props.submitting || state.uploading} color="app" type="submit">{t(FORM_MSG.form_submit)}</Button>
+            <Button color="neutral-app" onClick={::this.onCancel}>
+              {t(FORM_MSG.form_cancel)}
+            </Button>
+            <Button disabled={props.submitting || state.uploading} color="app" type="submit">
+              {t(FORM_MSG.form_submit)}
+            </Button>
           </div>
         </Form>
       </div>
@@ -130,16 +171,13 @@ export default class extends Component {
 }
 
 function mapStateToProps(state) {
-  const { app: { bpoom } } = state;
-  return { bpoom };
+  const { app: { bpoom }, mediaQueries: { desktop } } = state
+  return { bpoom, desktop }
 }
-
 
 const MSG = defineMessages({
   form_thanks: {
     id: 'visitorbook.form.thanks',
-    defaultMessage: "Merci pour ton petit message =)"
-  }
-});
-
-
+    defaultMessage: 'Merci pour ton petit message =)',
+  },
+})

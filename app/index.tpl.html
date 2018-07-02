@@ -1,20 +1,26 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>Babypoom</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="description" content="Babypoom - Annoncez la naissance de bébé de façon originale.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:type" content="Article" />
+  <meta property="og:title" />
+  <meta property="og:description" />
+  <meta property="og:image" />
+  <meta property="og:url" content="http://hello.babypoom.com/###UUID###" />
+  <meta property="og:site_name" content="Babypoom" />
 </head>
-<body class="view-login">
+<body>
   <div id="root"></div>
+  <script id="globalVars"></script>
+  <script src="//polyfill.io/v2/polyfill.min.js?features=<%=
+htmlWebpackPlugin.options.locales.map(function(loc) { return 'Intl.~locale.' + loc; }).join(',') %>"></script>
+  <% for (var j in htmlWebpackPlugin.files.js) { %><script src="<%= htmlWebpackPlugin.files.js[j] %>"></script><% } %>
+  <% for (var i in htmlWebpackPlugin.files.css) { %><link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[i] %>" /><% } %>
   <link href="//fonts.googleapis.com/css?family=Amatic+SC|Raleway" rel="stylesheet">
-  <script src="//polyfill.io/v2/polyfill.min.js?<%=
-    htmlWebpackPlugin.options.locales.map(function(loc) { return 'Intl.~locale.' + loc; }).join(',')
-  %>"></script>
-  <script async src="//widget.cloudinary.com/global/all.js"></script>
 </body>
 </html>

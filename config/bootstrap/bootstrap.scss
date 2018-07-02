@@ -1,0 +1,121 @@
+@import './bootstrap-var';
+
+// Boostrap without _functions
+@import '../../node_modules/bootstrap/scss/mixins';
+@import '../../node_modules/bootstrap/scss/root';
+@import '../../node_modules/bootstrap/scss/reboot';
+@import '../../node_modules/bootstrap/scss/type';
+@import '../../node_modules/bootstrap/scss/images';
+// @import '../../node_modules/bootstrap/scss/code';
+@import '../../node_modules/bootstrap/scss/grid';
+// @import '../../node_modules/bootstrap/scss/tables';
+@import '../../node_modules/bootstrap/scss/forms';
+@import '../../node_modules/bootstrap/scss/buttons';
+@import '../../node_modules/bootstrap/scss/transitions';
+@import '../../node_modules/bootstrap/scss/dropdown';
+@import '../../node_modules/bootstrap/scss/button-group';
+@import '../../node_modules/bootstrap/scss/input-group';
+// @import '../../node_modules/bootstrap/scss/custom-forms';
+@import '../../node_modules/bootstrap/scss/nav';
+@import '../../node_modules/bootstrap/scss/navbar';
+// @import '../../node_modules/bootstrap/scss/card';
+// @import '../../node_modules/bootstrap/scss/breadcrumb';
+// @import '../../node_modules/bootstrap/scss/pagination';
+// @import '../../node_modules/bootstrap/scss/badge';
+// @import '../../node_modules/bootstrap/scss/jumbotron';
+@import '../../node_modules/bootstrap/scss/alert';
+@import '../../node_modules/bootstrap/scss/progress';
+@import '../../node_modules/bootstrap/scss/media';
+// @import '../../node_modules/bootstrap/scss/list-group';
+@import '../../node_modules/bootstrap/scss/close';
+@import '../../node_modules/bootstrap/scss/modal';
+// @import '../../node_modules/bootstrap/scss/tooltip';
+// @import '../../node_modules/bootstrap/scss/popover';
+// @import '../../node_modules/bootstrap/scss/carousel';
+@import '../../node_modules/bootstrap/scss/utilities';
+// @import '../../node_modules/bootstrap/scss/print';
+
+:root {
+  content: '#{$css-var}';
+}
+
+.form-group {
+  position: relative;
+  padding-top: $main-padding;
+  margin-bottom: 4px;
+}
+
+.icon-spin {
+  animation: icon-spin 2s infinite linear;
+}
+
+.icon-pulse {
+  animation: icon-spin 1s infinite steps(8);
+}
+
+@keyframes icon-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.alert {
+  white-space: pre-line;
+}
+
+.modal-header {
+  &.modal-primary {
+    background-color: var(--brand-primary);
+
+    &,
+    .close {
+      color: var(--neutral-primary-E);
+    }
+  }
+  &.modal-secondary {
+    background-color: var(--brand-secondary);
+
+    &,
+    .close {
+      color: var(--neutral-secondary-E);
+    }
+  }
+}
+
+.modal-header,
+.modal-body {
+  padding: $main-padding !important;
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .modal-header {
+    padding-left: $main-padding * 2 !important;
+    padding-right: $main-padding * 2 !important;
+  }
+
+  .modal-body {
+    padding: $main-padding * 2 !important;
+  }
+}
+
+.btn-app {
+  @include button-variant(var(--brand-primary-A), var(--brand-primary-A));
+  color: var(--neutral-primary-F) !important;
+}
+
+.btn-neutral-app {
+  @include button-variant(var(--neutral-primary-A), var(--neutral-primary-A));
+  color: var(--neutral-primary-F) !important;
+}
+
+.btn-primary {
+  color: var(--neutral-primary-F) !important;
+}
+
+.btn-secondary {
+  color: var(--neutral-secondary-text) !important;
+}

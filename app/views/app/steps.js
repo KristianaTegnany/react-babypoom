@@ -1,39 +1,45 @@
+import Welcome from '../welcome/Component'
+import Game from '../game/Component'
+import Arrival from '../arrival/Component'
+import Trip from '../trip/Component'
+import VisitorBook from '../visitorbook/Component'
+import Gift from '../gift/Component'
+import Souvenir from '../souvenir/Component'
 
 let nameToPaths = [
-  ["welcome",     "/:uuid"           ],
-  ["game",        "/:uuid/game"      ],
-  ["arrival",     "/:uuid/my-info"   ],
-  ["trip",        "/:uuid/my-trip"   ],
-  ["visitorbook", "/:uuid/guest-book"],
-  ["gift",        "/:uuid/gifts"     ],
-  ["souvenir",    "/:uuid/memories"  ]
-];
+  ['welcome', { path: '/:uuid/', component: Welcome }],
+  ['game', { path: '/:uuid/game', component: Game }],
+  ['arrival', { path: '/:uuid/my-info', component: Arrival }],
+  ['trip', { path: '/:uuid/my-trip', component: Trip }],
+  ['visitorbook', { path: '/:uuid/guest-book', component: VisitorBook }],
+  ['gift', { path: '/:uuid/gifts', component: Gift }],
+  ['souvenir', { path: '/:uuid/souvenir', component: Souvenir }],
+]
 
-export const NAMES_TO_PATHS = new Map(nameToPaths);
-export const PATHS_TO_NAMES = new Map(nameToPaths.map(pair => pair.slice().reverse()));
+export const PATH_TO_STEP_MAP = nameToPaths.reduce((h, entry) => {
+  let [step, info] = entry
+  h[info.path.replace('/:uuid/', '')] = step
+  return h
+}, {})
 
-export function rootPath({ availableSteps, bpoom }) {
-  return (NAMES_TO_PATHS.get(availableSteps[0]) || '').replace(':uuid', bpoom.uuid);
+const DEFAULT = nameToPaths[0][1]
+
+const NAMES_TO_PATHS = new Map(nameToPaths)
+
+export function stepPath(name, bpoom) {
+  return _stepInfo(name, bpoom, true)
 }
 
-export function curStep({ currentStep, availableSteps, bpoom }) {
-  return _nextPrevStep(currentStep, availableSteps, bpoom, 0);
+export function stepComponent(name, bpoom) {
+  return _stepInfo(name, bpoom, false)
 }
 
-export function nextStep({ currentStep, availableSteps, bpoom }) {
-  return _nextPrevStep(currentStep, availableSteps, bpoom, +1);
+export function rootPath(bpoom) {
+  return stepPath(null, bpoom)
 }
 
-export function prevStep({ currentStep, availableSteps, bpoom }) {
-  return _nextPrevStep(currentStep, availableSteps, bpoom, -1);
-}
-
-// private
-function _nextPrevStep(currentStep, availableSteps, bpoom, dir) {
-  let index = availableSteps.indexOf(currentStep) + dir;
-  let found = index >= 0 && index < availableSteps.length;
-  let name = found ? availableSteps[index] : '';
-  let transition = `to_${found ? name : 'finish'}`;
-  let path = (NAMES_TO_PATHS.get(name) || '').replace(':uuid', bpoom.uuid);
-  return { found, index, name, transition, path };
+function _stepInfo(name, bpoom, path) {
+  let info =
+    (name != null && NAMES_TO_PATHS.get(name)) || NAMES_TO_PATHS.get((bpoom.available_steps || [])[0]) || DEFAULT
+  return path ? info.path.replace(':uuid', bpoom.uuid) : info.component
 }

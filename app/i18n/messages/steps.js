@@ -1,64 +1,63 @@
-import { defineMessages } from 'react-intl';
+import { defineMessages } from 'react-intl'
 
 export default defineMessages({
-  step_with_number: {
-    id: "step.step_with_number",
-    defaultMessage: "{index, number}. {name}" // used to manage other locales with no 0-9 numbers
-  },
   welcome: {
-    id: "step.welcome",
-    defaultMessage: "Bonjour !"
+    id: 'step.welcome',
+    defaultMessage: `Bonjour !`,
   },
   game: {
-    id: "step.game",
-    defaultMessage: "Mon prénom"
+    id: 'step.game',
+    defaultMessage: `Mon prénom`,
   },
   arrival: {
-    id: "step.arrival",
-    defaultMessage: "Mes infos"
+    id: 'step.arrival',
+    defaultMessage: `Mes infos`,
   },
   trip: {
-    id: "step.trip",
-    defaultMessage: "Mon voyage"
+    id: 'step.trip',
+    defaultMessage: `Mon voyage`,
   },
   visitorbook: {
     id: 'step.visitorbook',
-    defaultMessage: "Mon livre d'or"
+    defaultMessage: `Mon livre d'or`,
   },
   gift: {
-    id: "step.gift",
-    defaultMessage: "Les cadeaux"
+    id: 'step.gift',
+    defaultMessage: `Les cadeaux`,
   },
   souvenir: {
-    id: "step.souvenir",
-    defaultMessage: "Les souvenirs"
+    id: 'step.souvenir',
+    defaultMessage: `Fin`, // 'Les souvenirs', TODO: temporary
   },
   to_game: {
-    id: "step.to_game",
-    defaultMessage: "Je vous montre ma photo ? Pour ça il va falloir deviner mon joli prénom."
+    id: 'step.to_game',
+    defaultMessage: `Je vous montre ma photo ? Pour ça il va falloir deviner mon joli prénom.`,
   },
   to_arrival: {
-    id: "step.to_arrival",
-    defaultMessage: "Je te propose maintenant de voir les détails de mon arrivée..."
+    id: 'step.to_arrival',
+    defaultMessage: `Je te propose maintenant de voir les détails de mon arrivée...`,
   },
   to_trip: {
-    id: "step.to_trip",
-    defaultMessage: "Tu peux maintenant découvrir en images mon long voyage vers ton monde."
+    id: 'step.to_trip',
+    defaultMessage: `Tu peux maintenant découvrir en images mon long voyage vers ton monde.`,
   },
   to_visitorbook: {
-    id: "step.to_visitorbook",
-    defaultMessage: "Si tu souhaites me laisser un petit message sur mon livre d'or..."
+    id: 'step.to_visitorbook',
+    defaultMessage: `Si tu souhaites me laisser un petit message sur mon livre d'or...`,
   },
   to_gift: {
-    id: "step.to_gift",
-    defaultMessage: "Désormais tu peux accéder à l'étape suivante pour voir toutes les possibilités de cadeaux Babypoom."
+    id: 'step.to_gift',
+    defaultMessage: `Désormais tu peux accéder à l'étape suivante pour voir toutes les possibilités de cadeaux Babypoom.`,
   },
   to_souvenir: {
-    id: "step.to_souvenir",
-    defaultMessage: "Avant de nous quitter je voudrais t'offrir un petit souvenir de ma naissance..."
+    id: 'step.to_souvenir',
+    defaultMessage: `Cela m'a vraiment fait plaisir de faire connaissance avec toi ...J'espère te revoir très bientôt`, // "Avant de nous quitter je voudrais t'offrir un petit souvenir de ma naissance...", TODO: temporary
   },
   to_finish: {
-    id: "step.to_finish",
-    defaultMessage: "TODO"
-  }
-});
+    id: 'step.to_finish',
+    defaultMessage: `Le parcours que tu viens d'effectuer a été créé avec émotions sur {link}
+
+Si tu as aimé ce nouveau moyen d'annoncer la naissance, n'hésite pas à liker ou partager notre page
+{share}`,
+  },
+})

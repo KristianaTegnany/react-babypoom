@@ -1,10 +1,36 @@
-@import '../../../config/bootstrap-pre-customizations';
+@import '../../../config/bootstrap/bootstrap-var';
 
 .game-container {
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  :global {
+    // Sync it with bubble-pic's padding
+    .bp-bubble-pic {
+      padding-left: 114px;
+      min-height: 150px;
+
+      & > *:first-child {
+        width: 114px + 36px;
+        height: 114px + 36px;
+      }
+    }
+  }
+}
+
+.mob-fullscreen {
+  color: var(--neutral-secondary-F);
+  font-style: italic;
+  margin-top: 5px;
+  font-size: 95%;
+  font-weight: bold;
+  text-align: center;
+}
+
+.game a {
+  color: $body-color;
 }
 
 .babyname-container {
@@ -14,19 +40,22 @@
   justify-content: center;
   margin-top: $main-padding;
 
-  &> div {
-    font-family: 'Amatic SC', 'Arial narrow', Impact, Arial;
+  & > div {
+    font-family: $bpoom-font;
     text-align: center;
-    //margin-top: 15px;
     border: 1px solid var(--neutral-secondary-F);
     border-radius: 10px;
     padding: 0 10px;
 
-    &> div {
+    & > div {
       font-size: 30px;
       font-weight: bold;
       line-height: 70px;
     }
+  }
+
+  .char::after {
+    content: normal !important;
   }
 
   .name {
@@ -34,13 +63,13 @@
   }
 }
 
-
 .char {
-  font-family: 'Amatic SC', 'Arial narrow', Impact, Arial;
+  font-family: $bpoom-font;
   text-transform: uppercase;
 }
 
 .name {
+  flex: 1;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -56,20 +85,27 @@
     font-size: 30px;
     font-weight: bold;
     color: var(--neutral-secondary-F);
+    align-self: center;
+
+    &::after {
+      content: '';
+      visibility: hidden;
+      display: inline-block;
+      width: 94%;
+      max-width: 26px;
+      height: 4px;
+      border-radius: 4px;
+      background: var(--neutral-secondary-F);
+      margin-top: -14px;
+    }
 
     &.ko {
       span {
         visibility: hidden;
       }
+
       &::after {
-        content: '';
-        display: inline-block;
-        width: 94%;
-        max-width: 26px;
-        height: 4px;
-        border-radius: 4px;
-        background: var(--neutral-secondary-F);
-        margin-top: -14px;
+        visibility: visible;
       }
     }
   }
@@ -97,6 +133,7 @@
     font-size: 30px;
     font-weight: bold;
     position: relative;
+    cursor: pointer;
 
     &::before {
       content: '';
@@ -104,14 +141,24 @@
       float: left;
     }
 
-    &.ok, &.ko {
-      .content { color: white; } // Color OK
+    &.ok,
+    &.ko {
+      cursor: initial;
+      .content {
+        color: white;
+      } // Color OK
     }
     &.ok {
-      .content { background: #84c152; } // Color OK
+      .content,
+      &:hover .content {
+        background: #84c152;
+      } // Color OK
     }
     &.ko {
-      .content { background: #e83838; } // Color OK
+      .content,
+      &:hover .content {
+        background: #e83838;
+      } // Color OK
     }
 
     .content {
@@ -129,5 +176,69 @@
       background: var(--neutral-secondary-F);
       color: var(--neutral-secondary-B);
     }
+
+    &:hover .content {
+      background: var(--neutral-secondary-E);
+    }
+  }
+}
+
+.game,
+.panel {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.game,
+.panel {
+  justify-content: space-between;
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .game-container {
+    :global(.bp-bubble-say) {
+      & > *:first-child {
+        background-size: 130%;
+        background-position: right top;
+      }
+    }
+
+    &.M1,
+    &.F1 {
+      :global(.bp-bubble-say) {
+        & > div:first-child {
+          background-position: right -7px;
+        }
+      }
+    }
+  }
+
+  .game {
+    flex-direction: row;
+  }
+
+  .game > * {
+    margin: 0 50px;
+    align-self: flex-start;
+    justify-content: center;
+
+    &:first-child {
+      margin-top: 100px;
+      margin-right: 0;
+    }
+  }
+
+  .babyname-container {
+    margin-top: 150px;
+  }
+
+  .name {
+    margin: 20px 0 40px;
+  }
+
+  .charset {
+    width: 100%;
+    margin: 0;
   }
 }

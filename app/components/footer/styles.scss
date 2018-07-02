@@ -1,29 +1,88 @@
-@import '../../../config/bootstrap-pre-customizations';
+@import '../../../config/bootstrap/bootstrap-var';
 @import '../../../node_modules/bootstrap/scss/_variables';
 
-.footer {
-  background: var(--brand-secondary-B);
-  position: relative;
+footer {
+  // background: var(--brand-secondary-B);
+  background: var(--neutral-primary-E);
+  color: var(--neutral-primary-B);
+}
+
+.nav {
   display: flex;
+  justify-content: center;
+  user-drag: none;
+  user-select: none;
 
   a {
     text-decoration: none;
     flex: 1;
     margin: 5px;
-    padding: ($btn-padding-y - .2rem) 8px;
-    font-family: 'Amatic SC', 'Arial narrow', Impact, Arial;
+    padding: ($btn-padding-y - 0.2rem) 8px;
+    font-family: $bpoom-font;
     font-size: 27px;
     font-weight: bold;
-    color: var(--neutral-secondary-F) !important;
 
-    &+ a {
+    & + a {
       margin-top: 5px !important;
       margin-left: 0;
-      color: var(--neutral-primary-F) !important;
     }
 
     &:first-child:last-child {
       width: 100%;
     }
+  }
+}
+
+.btn-dir-prev {
+  float: left;
+}
+
+.btn-dir-next {
+  float: right;
+}
+
+.made-with {
+  text-align: center;
+  font-size: 12px;
+  margin-top: -6px;
+
+  .icon {
+    color: red;
+  }
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  footer {
+    background: var(--neutral-primary-E);
+    color: var(--neutral-primary-B);
+    text-align: center;
+    padding: 15px 15px 10px;
+    position: relative;
+  }
+
+  .nav {
+    a {
+      max-width: 300px;
+      border-radius: 23px;
+      box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+
+      & + a {
+        margin-left: 20px;
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 1000;
+      left: 0;
+      right: 0;
+      height: 5px;
+      top: -5px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+  }
+  .made-with {
+    margin-top: 5px;
   }
 }

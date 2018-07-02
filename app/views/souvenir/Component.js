@@ -1,37 +1,42 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-import Bubble from '../../components/bubble/Component';
-
-import { nextStep } from '../../views/app/steps';
-
-// i18n
-import t from '../../i18n/i18n';
-import stepMsg from '../../i18n/messages/steps';
+import Bubble from '../../components/bubble/Component'
+import BubbleSay from '../../components/bubble-say/Component'
+import Transition from '../../components/transition/Component'
 
 // CSS
-import CSSModules from 'react-css-modules';
-import styles from './styles.scss';
+import styles from './styles.scss'
 
+// Images
+import mascotSays from '../../images/mascot-says.png'
 
-@CSSModules(styles, { allowMultiple: true })
-class Klass extends Component {
+@connect(mapStateToProps)
+export default class Souvenir extends Component {
   render() {
-    let bpoom = this.props.bpoom;
-    let trip = bpoom.bp_trip || {};
-    let transition = t(stepMsg[nextStep(this.props).transition]);
+    let props = this.props
+    let bpoom = props.bpoom
+    let souvenir = bpoom.bp_souvenir || {}
 
     return (
-      <Bubble top imgSrc={bpoom.photo}>
-        {trip.message}
-      </Bubble>
+      <div>
+        {true ? (
+          ''
+        ) : (
+          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo_thumbnail}>
+            {souvenir.message}
+          </BubbleSay>
+        )}
+        <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={mascotSays}>
+          <Transition />
+        </BubbleSay>
+      </div>
     )
   }
 }
 
 function mapStateToProps(state) {
-  const { app: { bpoom, currentStep, availableSteps } } = state;
-  return { bpoom, currentStep, availableSteps };
+  const { app: { bpoom }, mediaQueries: { desktop } } = state
+  return { bpoom, desktop }
 }
-
-export default connect(mapStateToProps)(Klass);

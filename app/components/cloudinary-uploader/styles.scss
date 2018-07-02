@@ -1,5 +1,4 @@
-@import '../../../config/bootstrap-pre-customizations';
-
+@import '../../../config/bootstrap/bootstrap-var';
 
 .upload-input {
   position: relative;
@@ -22,11 +21,7 @@
   }
 }
 
-:global {
-  .uploader {
-    .progress {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-  }
+.progress {
+  margin-top: 10px;
+  font-weight: bold;
 }

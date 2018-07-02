@@ -1,0 +1,11 @@
+@import '../../node_modules/bootstrap/scss/functions';
+@import './css-var';
+
+$bpoom-font: 'Amatic SC', 'Arial narrow', Impact, Arial;
+$main-padding: 14px;
+
+//$brand-primary: #ffbd4b !default;
+$primary: var(--brand-primary) !default;
+$secondary: var(--brand-secondary) !default;
+
+@import '../../node_modules/bootstrap/scss/variables';

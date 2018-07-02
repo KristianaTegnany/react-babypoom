@@ -1,0 +1,275 @@
+@import '../../../config/bootstrap/bootstrap-var';
+
+.slideshow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 1000;
+  background: black;
+  color: white;
+  font-size: 13px;
+  -webkit-font-smoothing: auto;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+
+  &:hover:not(.touch) {
+    .previous,
+    .next {
+      display: block;
+    }
+  }
+}
+
+.zoom-mode {
+  .nav {
+    position: absolute;
+    opacity: 0.5;
+  }
+  .caption {
+    display: none;
+  }
+}
+
+.nav,
+.caption {
+  left: 0;
+  right: 0;
+  z-index: 1;
+  opacity: 0.75;
+  background: rgba(0, 0, 0, 0.5);
+  transition-duration: 300ms;
+  transition-property: opacity, z-index;
+  transition-delay: 0s, 300ms;
+}
+
+@media (max-width: map-get($grid-breakpoints, lg) - 1px) {
+  .nav,
+  .caption {
+    position: absolute;
+  }
+}
+
+.nav {
+  top: 0;
+  flex: 0 0 auto;
+  display: flex;
+}
+
+.caption {
+  flex: 0 0 auto;
+  bottom: 0;
+  padding: 10px;
+  text-align: center;
+
+  > * {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+}
+
+.title {
+  font-weight: bold;
+}
+
+.content {
+  flex: 1 0 auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper {
+  position: relative;
+  flex: 1 0 100%;
+  display: flex;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  transition-timing-function: ease-out;
+}
+
+.slide-transition,
+.zoom-transition {
+  transition-duration: 300ms;
+  transition-property: transform;
+}
+
+.slide {
+  flex: 1 0 100%;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  transition-timing-function: ease-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.counter {
+  flex: 0 0 auto;
+  padding: 10px;
+  line-height: 24px;
+}
+
+.loading {
+  flex: 1 0 auto;
+}
+
+.actions {
+  flex: 0 0 auto;
+  display: flex;
+
+  button {
+    background-size: 264px 88px;
+    background-color: transparent;
+    background-image: url(./skin.svg);
+    background-repeat: no-repeat;
+    width: 44px;
+    height: 44px;
+    border: 0 none;
+    padding: 0;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+  }
+}
+
+.share-menu-open {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 4;
+    background: rgba(0, 0, 0, 0.5);
+  }
+}
+
+.share-menu {
+  position: absolute;
+  top: 44px;
+  right: 44px;
+  z-index: 4;
+  border-radius: 2px;
+  background-color: white;
+
+  &::before {
+    content: '';
+    position: absolute;
+    right: 19px;
+    top: -6px;
+    border: 6px solid rgba(255, 255, 255, 0.001);
+    border-top: none;
+    border-bottom-color: white;
+  }
+
+  > * {
+    display: block;
+    padding: 8px 12px;
+    color: #212121;
+
+    &:hover {
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+}
+
+.facebook:hover {
+  background: #3e5c9a;
+  color: #fff;
+}
+
+.twitter:hover {
+  background: #55acee;
+  color: #fff;
+}
+
+.pinterest:hover {
+  background: #ccc;
+  color: #ce272d;
+}
+
+.download:hover {
+  background: #ddd;
+  color: #212121;
+}
+
+.zoom {
+  background-position: -88px 0;
+}
+
+.zoom-mode .zoom {
+  background-position: -132px 0;
+}
+
+.fullscreen {
+  background-position: 0 0;
+}
+
+.fullscreen-mode .fullscreen {
+  background-position: -44px 0;
+}
+
+.share {
+  background-position: -44px -44px;
+}
+
+.close {
+  background-position: 0 -44px;
+}
+
+.image {
+  flex: 1 1 100%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  max-width: 650px;
+  max-height: 650px;
+}
+
+.previous,
+.next {
+  position: absolute;
+  top: 50%;
+  margin-top: -50px;
+  width: 70px;
+  height: 100px;
+  cursor: pointer;
+  opacity: 0.75;
+  display: none;
+
+  &::before {
+    content: '';
+    background-size: 264px 88px;
+    background: url(./skin.svg) center no-repeat;
+    height: 30px;
+    width: 32px;
+    margin: 35px 6px;
+    display: block;
+  }
+}
+
+.previous {
+  left: 0;
+
+  &::before {
+    background-position: -138px -44px;
+    float: left;
+  }
+}
+
+.next {
+  right: 0;
+
+  &::before {
+    background-position: -94px -44px;
+    float: right;
+  }
+}

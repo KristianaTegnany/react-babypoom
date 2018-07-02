@@ -1,4 +1,4 @@
-@import '../../../config/bootstrap-pre-customizations';
+@import '../../../config/bootstrap/bootstrap-var';
 
 $bubble-padding: 5px;
 
@@ -17,35 +17,53 @@ $bubble-padding: 5px;
   text-align: left;
 }
 
-.scrollable {
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .bubble {
+    padding: ($main-padding * 2 - 5px) ($main-padding * 2 - 10px);
+  }
   .content {
-    position: absolute;
-    top: $bubble-padding;
-    left: $bubble-padding;
-    right: $bubble-padding;
-    bottom: $bubble-padding;
+    max-height: 350px;
     overflow: scroll;
     overflow-x: hidden;
     overflow-y: scroll;
     -webkit-overflow-scrolling: auto;
   }
+}
 
-  // white gradient
-  &::after {
-    content: '';
-    position: absolute;
-    left: $bubble-padding + 10px;
-    right: $bubble-padding + 10px;
-    bottom: 0;
-    z-index: 1;
-    height: $bubble-padding + 15px;
-    background: green;
-    background: linear-gradient(to top, white, white 6px, rgba(255,255,255, 0.001));
+@media (max-width: map-get($grid-breakpoints, md) - 1px) {
+  .scrollable {
+    .content {
+      position: absolute;
+      top: $bubble-padding;
+      left: $bubble-padding;
+      right: $bubble-padding;
+      bottom: $bubble-padding;
+      overflow: scroll;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: auto;
+    }
+
+    // white gradient
+    &::after {
+      content: '';
+      position: absolute;
+      left: $bubble-padding + 10px;
+      right: $bubble-padding + 10px;
+      bottom: 0;
+      z-index: 1;
+      height: $bubble-padding + 15px;
+      background: green;
+      background: linear-gradient(to top, white, white 6px, rgba(255, 255, 255, 0.001));
+    }
   }
 }
 
 // bubble arrow
-.top, .left, .right, .bottom {
+.top,
+.left,
+.right,
+.bottom {
   &::before {
     content: '';
     position: absolute;
@@ -79,7 +97,8 @@ $bubble-padding: 5px;
   }
 }
 
-.top, .bottom {
+.top,
+.bottom {
   &.bend-left::before {
     border-left-width: 20px;
     border-right-width: 0;
@@ -87,39 +106,39 @@ $bubble-padding: 5px;
 
   &::before {
     left: 50%;
-    margin-left: -10px;
+    margin-left: -30px;
     height: 30px;
     width: 0;
     border-right-width: 20px;
   }
 }
 
-
 .left {
   &.bend-bottom::before {
-    transform: rotate(25deg);
+    transform: rotate(10deg);
   }
 
   &::before {
     left: -24px;
     border-right-width: 30px;
-    transform: rotate(-25deg);
+    transform: rotate(-10deg);
   }
 }
 
 .right {
   &.bend-bottom::before {
-    transform: rotate(-25deg);
+    transform: rotate(-10deg);
   }
 
   &::before {
     right: -24px;
     border-left-width: 30px;
-    transform: rotate(25deg);
+    transform: rotate(10deg);
   }
 }
 
-.left, .right {
+.left,
+.right {
   &.bend-bottom::before {
     border-bottom-width: 20px;
     border-top-width: 0;
@@ -127,10 +146,9 @@ $bubble-padding: 5px;
 
   &::before {
     top: 50%;
-    margin-top: -10px;
+    margin-top: -20px;
     height: 0;
     width: 30px;
     border-top-width: 20px;
   }
 }
-

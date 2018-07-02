@@ -1,6 +1,11 @@
 # Logs
 logs
 *.log
+.history
+config/locales/extracted
+
+# Public
+public
 
 # Runtime data
 pids

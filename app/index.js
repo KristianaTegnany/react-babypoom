@@ -1,64 +1,50 @@
-import 'babel-polyfill';
+import 'babel-polyfill'
 
-import React from 'react';
-import { render } from 'react-dom';
-import { browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
-import { Provider } from 'react-redux';
+import React from 'react'
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
+import { Route } from 'react-router'
+import { renderRoutes } from 'react-router-config'
 
+import routes from './routes'
 
-import configureStore from './store/configureStore';
-import Root from './containers/Root';
+import configureStore from './store/configureStore'
 
-import HotIntlProvider from './i18n/hot-intl-provider/HotIntlProvider';
-import { updateLocale } from './i18n/hot-intl-provider/HotIntlProviderActions';
+// import { NAMES_TO_PATHS } from './views/app/steps'
 
-import 'isomorphic-fetch';
+import HotIntlProvider from './i18n/hot-intl-provider/HotIntlProvider'
+import { updateLocale } from './i18n/hot-intl-provider/HotIntlProviderActions'
 
-// Store
-const store = configureStore();
-const history = syncHistoryWithStore(browserHistory, store);
+import 'isomorphic-fetch'
+
+import config from '../config/application'
 
 // i18n
-import { messages } from './i18n/messages';
+import { messages } from './i18n/messages'
+import './i18n/messages/metas' // Just to be extracted by babel-plugin-react-intl
 
-// TODO: detect browser locale
-updateLocale('fr')(store.dispatch);
+// Bootstrap
+import Bootstrap from '../config/bootstrap/bootstrap.scss'
+import { setGlobalCssModule } from 'reactstrap/lib/utils'
+setGlobalCssModule(Bootstrap)
 
+// Store
+const initialState = window[config.requestCacheVar]
+let store
+
+if (initialState) {
+  store = configureStore(initialState)
+} else {
+  store = configureStore()
+  updateLocale('fr')(store.dispatch) // TODO: detect browser locale
+}
 
 render(
   <Provider store={store}>
-    <HotIntlProvider allMessages={{ ...messages }}>
-      <Root history={history} />
+    <HotIntlProvider>
+      <BrowserRouter>{renderRoutes(routes)}</BrowserRouter>
     </HotIntlProvider>
   </Provider>,
   document.getElementById('root')
-);
-
-
-if (module.hot) {
-  module.hot.accept('./containers/Root', () => {
-    const NewRoot = require('./containers/Root').default;
-    const AppContainer = require('react-hot-loader').AppContainer;
-    let m = { ...messages };
-
-    render(
-      <Provider store={store}>
-        <HotIntlProvider allMessages={m}>
-          <AppContainer>
-            <NewRoot history={history}/>
-          </AppContainer>
-        </HotIntlProvider>
-      </Provider>,
-      document.getElementById('root')
-    );
-  });
-
-  module.hot.addStatusHandler(function(status) {
-    if ('ready' === status) {
-      document.querySelectorAll('link[href][rel=stylesheet]').forEach((link) => {
-        link.href = link.href.replace(/(\?\d+)?$/, `?${Date.now()}`);
-      });
-    }
-  })
-}
+)
