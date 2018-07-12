@@ -2,9 +2,10 @@
   "main": "index.js",
   "scripts": {
     "test": "",
-    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "postinstall": "rimraf public && npm run build",
+    "start": "if-env NODE_ENV=production && node server.bundle.js || npm run start:dev",
     "start:dev": "node webpack-dev-server.js",
-    "start:prod": "rimraf public && npm run build && node server.bundle.js",
+    "start:prod": "npm run postinstall && node server.bundle.js",
     "build:client": "webpack --config webpack.production.config.js --progress --profile --colors",
     "build:server": "webpack --config webpack.server.config.js",
     "build": "npm run build:client && npm run build:server",
