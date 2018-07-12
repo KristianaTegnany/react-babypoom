@@ -51,7 +51,7 @@ export default defineMessages({
   },
   to_souvenir: {
     id: 'step.to_souvenir',
-    defaultMessage: `Cela m'a vraiment fait plaisir de faire connaissance avec toi ...J'espère te revoir très bientôt`, // "Avant de nous quitter je voudrais t'offrir un petit souvenir de ma naissance...", TODO: temporary
+    defaultMessage: `Cela m'a vraiment fait plaisir de faire connaissance avec toi ...J'espère te revoir très bientôt`,
   },
   to_finish: {
     id: 'step.to_finish',

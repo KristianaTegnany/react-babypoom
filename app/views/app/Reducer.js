@@ -15,6 +15,11 @@ export default function(state = defaultState, action) {
   let bpoom
   switch (action.type) {
     case BPOOM:
+      action.bpoom.babyNameFormatted = (action.bpoom.babyname || '')
+        .toUpperCase()
+        .replace(/\s+/g, ' ')
+        .replace(/_+/g, '-')
+        .trim()
       return { ...state, bpoom: action.bpoom }
     case SAVE_VISITORBOOK_MSG:
       bpoom = { ...state.bpoom }

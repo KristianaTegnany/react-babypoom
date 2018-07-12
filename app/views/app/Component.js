@@ -44,7 +44,10 @@ let UNIQ = 0
 
 const noNavParamName = 'nn'
 
-@connect(mapStateToProps, { loadBpoom, updateStep, updateNoNav, changeSlideshowIndex, closeSlideshow, deleteFlash })
+@connect(
+  mapStateToProps,
+  { loadBpoom, updateStep, updateNoNav, changeSlideshowIndex, closeSlideshow, deleteFlash }
+)
 class App extends Component {
   // static childContextTypes = {
   //   location: PropTypes.object,
@@ -99,7 +102,7 @@ class App extends Component {
       this.setSteps(this.props)
 
       Ahoy.trackView()
-      Ahoy.updateVisit({ bpoom_id: uuid })
+      Ahoy.updateVisit({ bpoom_id: this.props.bpoom.id })
 
       // Preload images
       let bpoom = this.props.bpoom
@@ -209,6 +212,10 @@ class App extends Component {
 export default injectIntl(App)
 
 function mapStateToProps(state) {
-  const { app: { bpoom, steps, noNav }, slideshow, flash } = state
+  const {
+    app: { bpoom, steps, noNav },
+    slideshow,
+    flash,
+  } = state
   return { bpoom, steps, noNav, slideshow, flash }
 }

@@ -20,49 +20,6 @@
   }
 }
 
-.mob-fullscreen {
-  color: var(--neutral-secondary-F);
-  font-style: italic;
-  margin-top: 5px;
-  font-size: 95%;
-  font-weight: bold;
-  text-align: center;
-}
-
-.game a {
-  color: $body-color;
-}
-
-.babyname-container {
-  flex: 1 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-top: $main-padding;
-
-  & > div {
-    font-family: $bpoom-font;
-    text-align: center;
-    border: 1px solid var(--neutral-secondary-F);
-    border-radius: 10px;
-    padding: 0 10px;
-
-    & > div {
-      font-size: 30px;
-      font-weight: bold;
-      line-height: 70px;
-    }
-  }
-
-  .char::after {
-    content: normal !important;
-  }
-
-  .name {
-    margin: 0;
-  }
-}
-
 .char {
   font-family: $bpoom-font;
   text-transform: uppercase;
@@ -188,10 +145,6 @@
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-}
-
-.game,
-.panel {
   justify-content: space-between;
 }
 
@@ -227,10 +180,6 @@
       margin-top: 100px;
       margin-right: 0;
     }
-  }
-
-  .babyname-container {
-    margin-top: 150px;
   }
 
   .name {

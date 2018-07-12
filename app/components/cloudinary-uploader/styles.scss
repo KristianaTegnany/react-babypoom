@@ -21,7 +21,30 @@
   }
 }
 
+.camera-input {
+  margin-top: $main-padding;
+  display: block;
+  width: 100%;
+}
+
 .progress {
   margin-top: 10px;
   font-weight: bold;
+}
+
+.modal {
+  background: url(./gears.svg) center no-repeat;
+  min-height: 200px;
+}
+
+.modal-footer {
+  button + button {
+    margin-left: 15px;
+  }
+}
+
+.video,
+.img {
+  max-width: 100%;
+  display: block;
 }

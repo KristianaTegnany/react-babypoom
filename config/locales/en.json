@@ -39,6 +39,7 @@
   "form.email_required": "J'ai besoin de ton adresse email",
   "form.errors.visa_mc_len": "must contain 16 digits",
   "form.first_name": "Prénom",
+  "form.image_capture": "Webcam",
   "form.image_import": "Importer une image",
   "form.import": "Importe ta photo",
   "form.import_formats": "(Formats : JPG, PNG)",
@@ -58,12 +59,10 @@
   "game.win": "Bravo ! Tu connais maintenant mon prénom.",
   "gender.F": "Une petite fille",
   "gender.M": "Un petit garçon",
-  "gift.baby.block":
-    "Cette cagnotte permet de faire 2 heureux avec un seul don !\n\nÉvidemment ce don servira, avant tout, à gâter bébé. En plus, {fees}% sera reversé à une association caritative (choisie par les parents) :\n{link}",
+  "gift.baby.block": "Cette cagnotte permet de faire 2 heureux avec un seul don !\n\nÉvidemment ce don servira, avant tout, à gâter bébé. En plus, {fees}% sera reversé à une association caritative (choisie par les parents) :\n{link}",
   "gift.baby.participate": "Participer à la cagnotte",
   "gift.baby.title": "Faire un cadeau à Bébé avec la cagnotte solidaire",
-  "gift.find.block":
-    "Dans cette boutique tu pourras choisir un cadeau personnalisé à l'image de bébé (T-shirt, mug…) à conserver ou à offrir.\n\nCe cadeau te permettra de marquer ce jour exceptionnel d'une façon originale et amusante.",
+  "gift.find.block": "Dans cette boutique tu pourras choisir un cadeau personnalisé à l'image de bébé (T-shirt, mug…) à conserver ou à offrir.\n\nCe cadeau te permettra de marquer ce jour exceptionnel d'une façon originale et amusante.",
   "gift.find.btn": "Accéder à la boutique",
   "gift.find.title": "Trouver un cadeau pour toi et tes proches",
   "hair.auburn": "Auburn",
@@ -76,15 +75,11 @@
   "header.legals": "Informations légales",
   "header.share": "Partager votre avis",
   "header.what_is_babypoom": "Babypoom, c'est quoi ?",
-  "header.what_is_babypoom_desc":
-    "Babypoom est le premier faire-part interactif du genre.\n\nC'est une application innovante conçue pour permettre aux parents de transmettre l'émotion du jour de la naissance, et de présenter toutes les infos conçernant l'arrivée de bébé.",
-  "mangopay.error_105202":
-    "Erreur sur le numéro de carte. Seules les cartes mastercard, visa et maestro sont acceptées.",
+  "header.what_is_babypoom_desc": "Babypoom est le premier faire-part interactif du genre.\n\nC'est une application innovante conçue pour permettre aux parents de transmettre l'émotion du jour de la naissance, et de présenter toutes les infos conçernant l'arrivée de bébé.",
+  "mangopay.error_105202": "Erreur sur le numéro de carte. Seules les cartes mastercard, visa et maestro sont acceptées.",
   "mangopay.error_105203": "Erreur sur la date d'expiration. Format accepté MM/AA (ex: 09/17 pour septembre 2017).",
-  "mangopay.error_105204":
-    "Erreur sur le champs CVV. Vérifiez le numéro au dos de la carte (3 derniers caractères ex: 523).",
-  "mangopay.error_default":
-    "Erreur avec cette carte, merci d'essayer avec une autre carte ou de contacter l'equipe Babypoom.",
+  "mangopay.error_105204": "Erreur sur le champs CVV. Vérifiez le numéro au dos de la carte (3 derniers caractères ex: 523).",
+  "mangopay.error_default": "Erreur avec cette carte, merci d'essayer avec une autre carte ou de contacter l'equipe Babypoom.",
   "metas.description": "Hello, il y a un petit bébé qui a très envie de faire ta connaissance, retrouve-le ici !",
   "metas.title": "{name_mum} et {name_dad} souhaitent te présenter bébé !",
   "slideshow.close": "Fermer",
@@ -102,12 +97,10 @@
   "step.gift": "Les cadeaux",
   "step.souvenir": "Fin",
   "step.to_arrival": "Je te propose maintenant de voir les détails de mon arrivée...",
-  "step.to_finish":
-    "Le parcours que tu viens d'effectuer a été créé avec émotions sur {link}\n\nSi tu as aimé ce nouveau moyen d'annoncer la naissance, n'hésite pas à liker ou partager notre page\n{share}",
+  "step.to_finish": "Le parcours que tu viens d'effectuer a été créé avec émotions sur {link}\n\nSi tu as aimé ce nouveau moyen d'annoncer la naissance, n'hésite pas à liker ou partager notre page\n{share}",
   "step.to_game": "Je vous montre ma photo ? Pour ça il va falloir deviner mon joli prénom.",
   "step.to_gift": "Désormais tu peux accéder à l'étape suivante pour voir toutes les possibilités de cadeaux Babypoom.",
-  "step.to_souvenir":
-    "Cela m'a vraiment fait plaisir de faire connaissance avec toi ...J'espère te revoir très bientôt",
+  "step.to_souvenir": "Cela m'a vraiment fait plaisir de faire connaissance avec toi ...J'espère te revoir très bientôt",
   "step.to_trip": "Tu peux maintenant découvrir en images mon long voyage vers ton monde.",
   "step.to_visitorbook": "Si tu souhaites me laisser un petit message sur mon livre d'or...",
   "step.trip": "Mon voyage",
@@ -121,6 +114,10 @@
   "visitorbook.form.thanks": "Merci pour ton petit message =)",
   "visitorbook.leave_message": "Laisser un message",
   "visitorbook.message_deleted": "Votre message a bien été supprimé",
+  "webcam.import_pic_from_camera": "Importer une photo depuis la camera",
+  "webcam.take_another_pic": "Prendre une autre photo",
+  "webcam.take_pic": "Prendre une photo",
+  "webcam.use_pic": "Utiliser cette photo",
   "welcome": "Coucou toi !\n\nPatiente quelques instants, j'ai une grande nouvelle à t'annoncer...",
   "zodiac.aquarius": "Verseau",
   "zodiac.aries": "Bélier",

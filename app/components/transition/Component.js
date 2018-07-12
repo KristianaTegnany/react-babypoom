@@ -26,11 +26,20 @@ export default class extends Component {
   render() {
     let props = this.props
     let steps = props.steps
-    let transitionId = `to_${steps.next || 'finish'}`
+    if (!steps.ok) return ''
 
-    return steps.ok && stepMsg[transitionId]
+    let transitionId = `to_${steps.next || 'finish'}`
+    let msg = stepMsg[transitionId]
+
+    // Hack
+    let hackMsg = HACK_MSG[`${transitionId}_${props.bpoom.uuid}`]
+    if (hackMsg) {
+      return <span dangerouslySetInnerHTML={{ __html: hackMsg }} />
+    }
+
+    return msg
       ? t({
-          ...stepMsg[transitionId],
+          ...msg,
           values: {
             link: (
               <Link to={config.babypoomWebsiteLink} target="_blank">
@@ -63,8 +72,10 @@ export default class extends Component {
 }
 
 function mapStateToProps(state) {
-  const { app: { steps } } = state
-  return { steps }
+  const {
+    app: { steps, bpoom },
+  } = state
+  return { steps, bpoom }
 }
 
 const MSG = defineMessages({
@@ -73,3 +84,7 @@ const MSG = defineMessages({
     defaultMessage: `Je donne mon avis`,
   },
 })
+
+const HACK_MSG = {
+  to_souvenir_c562: `Cela m'a vraiment fait plaisir de faire connaissance avec toi... Et si vous souhaitez me gâter, papa et maman <a href="https://www.mesenvies.fr/liste-naissance/4535157">on fait une petite liste</a> pour vous aider. J'espère te revoir très bientôt`,
+}

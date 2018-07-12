@@ -36,7 +36,10 @@ function refInput(input) {
 }
 
 // TODO: deleteFlash when going back to view (cancel or message saved)
-@connect(mapStateToProps, { saveMsg, flash })
+@connect(
+  mapStateToProps,
+  { saveMsg, flash }
+)
 @reduxForm({
   form: 'visitorBookForm',
   touchOnBlur: false,
@@ -151,7 +154,6 @@ export default class VisitorBookForm extends Component {
                 onUploadEnd={::this.onUploadEnd}
                 onUploadError={::this.onUploadError}
                 btnColor="neutral-app"
-                btnText={t(FORM_MSG.form_image_import)}
               />
               <Field name="photo" component="input" type="hidden" />
             </div>
@@ -171,7 +173,10 @@ export default class VisitorBookForm extends Component {
 }
 
 function mapStateToProps(state) {
-  const { app: { bpoom }, mediaQueries: { desktop } } = state
+  const {
+    app: { bpoom },
+    mediaQueries: { desktop },
+  } = state
   return { bpoom, desktop }
 }
 

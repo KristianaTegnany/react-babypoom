@@ -63,10 +63,15 @@
   bottom: 0;
   padding: 10px;
   text-align: center;
+  min-height: 44px;
 
   > * {
     max-width: 768px;
     margin: 0 auto;
+  }
+
+  &:empty {
+    opacity: 0;
   }
 }
 

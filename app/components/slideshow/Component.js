@@ -7,6 +7,9 @@ import { defineMessages } from 'react-intl'
 // i18n
 import t from '../../i18n/i18n'
 
+// Lib
+import { transformProp } from '../../../lib/css-props'
+
 // CSS
 import styles from './styles.scss'
 
@@ -34,11 +37,6 @@ export default class extends Component {
       !!EXIT_FULLSCREEN_PREFIXES.find(p => document[`${p}FullScreen`] || document[`${p}Fullscreen`])
     )
   })()
-  static transformProp = 'undefined' !== typeof document &&
-    (elt =>
-      ['transform', 'WebkitTransform', 'MozTransform', 'OTransform', 'msTransform'].find(
-        prop => null != elt.style[prop]
-      ))(document.createElement('div'))
 
   static defaultProps = {
     items: [],
@@ -143,7 +141,7 @@ export default class extends Component {
 
   zoom(force) {
     let elt = this.images[this.listIndex]
-    let zoomMode = 'boolean' === typeof force ? force : !elt.style[this.constructor.transformProp]
+    let zoomMode = 'boolean' === typeof force ? force : !elt.style[transformProp]
     this.setState({ zoomMode })
     if (!zoomMode) {
       this.afterZoomSetup(elt)
@@ -175,7 +173,7 @@ export default class extends Component {
         scale,
       }
       addClass(elt, styles['zoom-transition'])
-      elt.style[this.constructor.transformProp] = `scale(${scale})`
+      elt.style[transformProp] = `scale(${scale})`
       elt.offsetHeight
     })
   }
@@ -185,7 +183,7 @@ export default class extends Component {
     this.zoomInfo = null
     this.zoomMoveEnabled = false
     addClass(elt, styles['zoom-transition'])
-    elt.style[this.constructor.transformProp] = ''
+    elt.style[transformProp] = ''
     elt.offsetHeight
   }
 
@@ -238,7 +236,7 @@ export default class extends Component {
       info.posY = changes.y
 
       addClass(info.elt, styles['zoom-transition'])
-      info.style[this.constructor.transformProp] = `translate(${changes.x}px, ${changes.y}px) scale(${info.scale})`
+      info.style[transformProp] = `translate(${changes.x}px, ${changes.y}px) scale(${info.scale})`
       info.elt.offsetHeight
     }
     return true
@@ -260,7 +258,7 @@ export default class extends Component {
         this.changeIndex(this.listIndex + (diff < 0 ? -1 : 1)) // Will re-render and call translateX
       } else if (diff) {
         addClass(info.elt, styles['slide-transition'])
-        info.style[this.constructor.transformProp] = `translateX(${-this.state.index * 100}%)` // TODO: transform (fallback)
+        info.style[transformProp] = `translateX(${-this.state.index * 100}%)` // TODO: transform (fallback)
       }
       info.elt.offsetHeight // Force browser to apply className rules
 
@@ -301,7 +299,7 @@ export default class extends Component {
         this.state.loop ||
         ((diffX < 0 && this.state.index > 0) || (diffX > 0 && this.state.index < this.state.list.length - 1))
       ) {
-        info.style[this.constructor.transformProp] = `translateX(${newPosX}px)`
+        info.style[transformProp] = `translateX(${newPosX}px)`
         info.posX = newPosX
         // deactivate double tap
         this.lastTap = null
@@ -328,7 +326,7 @@ export default class extends Component {
       if ((newPosY < -info.limitPosY && lastPos.y > clientY) || (newPosY > info.limitPosY && lastPos.y < clientY)) {
         newPosY = info.posY - Math.round(diffY / 4) // Math.floor(0.75 * diffY)
       }
-      info.style[this.constructor.transformProp] = `translate(${newPosX}px, ${newPosY}px) scale(${info.scale})`
+      info.style[transformProp] = `translate(${newPosX}px, ${newPosY}px) scale(${info.scale})`
       info.posX = newPosX
       info.posY = newPosY
     }
@@ -491,7 +489,7 @@ export default class extends Component {
             styleName="wrapper"
             onTransitionEnd={::this.checkIndex}
             ref={elt => (this.wrapperElt = elt)}
-            style={{ [this.constructor.transformProp]: transform }}
+            style={{ [transformProp]: transform }}
           >
             {state.list.map((item, index) => {
               let load = this.inRange(index, this.listIndex, state.items.length)
@@ -522,12 +520,10 @@ export default class extends Component {
                       style={style}
                     />
                   )}
-                  {(item.title || item.description) && (
-                    <div styleName="caption">
-                      {item.title && <div styleName="title">{item.title}</div>}
-                      {item.description && <div styleName="description">{item.description}</div>}
-                    </div>
-                  )}
+                  <div styleName="caption">
+                    {item.title && <div styleName="title">{item.title}</div>}
+                    {item.description && <div styleName="description">{item.description}</div>}
+                  </div>
                 </div>
               )
             })}

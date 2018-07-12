@@ -2,16 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { defineMessages } from 'react-intl'
 
-import { loadSlideshow, openSlideshow } from '../../components/slideshow/Actions'
-import { updateGuessed } from './Actions'
+import { updateGuessed, gameOver } from './Actions'
 
 import Button from 'reactstrap/lib/Button'
 
 import BubbleSay from '../../components/bubble-say/Component'
 import BubblePic from '../../components/bubble-pic/Component'
-import Bubble from '../../components/bubble/Component'
 import BpoomImg from '../../components/bpoom-img/Component'
-import Transition from '../../components/transition/Component'
+import GameWin from '../game-win/Component'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -32,8 +30,11 @@ const SPACE_REPLACEMENT = { ' ': '_' } // insecable space
 
 let timeTracker = new TimeTracker()
 
-@connect(mapStateToProps, { updateGuessed, loadSlideshow, openSlideshow })
-export default class Game extends Component {
+@connect(
+  mapStateToProps,
+  { updateGuessed, gameOver }
+)
+export default class Game1 extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -45,9 +46,6 @@ export default class Game extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.bpoom.photo) {
-      nextProps.loadSlideshow({ items: [{ src: nextProps.bpoom.photo }] })
-    }
     return {
       bpoom: nextProps.bpoom,
       updateProps: prevState.bpoom !== nextProps.bpoom || nextProps.guessed !== prevState.guessed,
@@ -75,7 +73,7 @@ export default class Game extends Component {
 
   pixelatePicture(props) {
     let { uniqueChars, okCount } = this.stats(props)
-    let resolution = 24 - (uniqueChars ? Math.round(okCount * 24 / uniqueChars) : 0)
+    let resolution = 24 - (uniqueChars ? Math.round((okCount * 24) / uniqueChars) : 0)
     pixelate(
       {
         src: props.bpoom.photo_thumbnail,
@@ -91,7 +89,7 @@ export default class Game extends Component {
 
   stats(props) {
     let uniqueChars = Object.keys(
-      Array.from(ascii(this.babyName(props))).reduce((h, c) => {
+      Array.from(ascii(props.bpoom.babyNameFormatted || '')).reduce((h, c) => {
         h[c] = 1
         return h
       }, {})
@@ -99,14 +97,6 @@ export default class Game extends Component {
     let okCount = props.guessedOkCount
     let koCount = props.guessedKoCount
     return { uniqueChars, okCount, koCount }
-  }
-
-  babyName(props) {
-    return (props.bpoom.babyname || '')
-      .toUpperCase()
-      .replace(/\s+/g, ' ')
-      .replace(/_+/g, '-')
-      .trim()
   }
 
   handleClick(char, present) {
@@ -124,71 +114,22 @@ export default class Game extends Component {
 
   win() {
     let { uniqueChars, okCount, koCount } = this.stats(this.props)
-    let over = uniqueChars && uniqueChars === okCount
+    if (!(uniqueChars && uniqueChars === okCount)) return false
 
     // Send statistics about game
-    if (over && !timeTracker.elapsed) {
+    if (!timeTracker.elapsed) {
       timeTracker.stop()
       Ahoy.updateVisit({
         game_time: timeTracker.elapsed,
         game_count: koCount,
       })
     }
-    return over
+    return true
   }
 
   render() {
-    return this.win() ? this.renderWin() : this.renderGame()
-  }
-
-  renderWin() {
-    let props = this.props
-    let babyType = props.bpoom.baby_full_type
-
-    return (
-      <div styleName={['game-container', babyType].join(' ')}>
-        {props.desktop ? (
-          <BubbleSay speechDir="left" imgSrc={BABY_IMAGES[babyType]}>
-            {t(MSG.win)} {props.noNav ? '' : <Transition />}
-          </BubbleSay>
-        ) : (
-          [
-            <BubblePic key="bubble" onClick={() => this.props.openSlideshow()} imgSrc={props.bpoom.photo_thumbnail}>
-              {t(MSG.win)} {props.noNav ? '' : <Transition />}
-            </BubblePic>,
-            <div key="text" styleName="mob-fullscreen">
-              {t(MSG.mobile_fullscreen)}
-            </div>,
-          ]
-        )}
-        <div styleName="game">
-          {props.desktop ? (
-            <BpoomImg
-              imgText={<a href="javascript:void(0)">{t(MSG.desktop_fullscreen)}</a>}
-              onClick={() => this.props.openSlideshow()}
-              imgSrc={this.state.picture}
-            />
-          ) : (
-            ''
-          )}
-          <div styleName="panel">
-            <div styleName="babyname-container">
-              <div>
-                <div styleName="name">
-                  {Array.from(this.babyName(props)).map((c, i) => {
-                    return (
-                      <div key={i} styleName="char">
-                        <span>{c}</span>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
+    if (this.win()) setTimeout(() => this.props.gameOver(), 1000)
+    return this.props.win ? <GameWin /> : this.renderGame()
   }
 
   renderGame() {
@@ -197,7 +138,7 @@ export default class Game extends Component {
     let bpoom = props.bpoom
     let bp_game = bpoom.bp_game || {}
     let charset = (bp_game.charset || []).map(c => c.toUpperCase())
-    let name = this.babyName(props)
+    let name = props.bpoom.babyNameFormatted
     let nameChars = Array.from(name)
     let asciiName = ascii(name)
     let asciiNameChars = Array.from(asciiName)
@@ -212,7 +153,7 @@ export default class Game extends Component {
           ...MSG['guessed_' + (asciiName.indexOf(lastChar) < 0 ? 'ko' : 'ok')],
           values: { char: lastChar },
         })
-      : bp_game.message
+      : t(MSG.message)
     let babyType = bpoom.baby_full_type
 
     return (
@@ -261,18 +202,27 @@ export default class Game extends Component {
 }
 
 function mapStateToProps(state) {
-  const { app: { bpoom, noNav }, game: { guessed, guessedOkCount, guessedKoCount }, mediaQueries: { desktop } } = state
+  const {
+    app: { bpoom, noNav },
+    game1: { guessed, guessedOkCount, guessedKoCount, win },
+    mediaQueries: { desktop },
+  } = state
   return {
     bpoom,
     noNav,
     guessed,
     guessedOkCount,
     guessedKoCount,
+    win,
     desktop,
   }
 }
 
 const MSG = defineMessages({
+  message: {
+    id: 'game.message',
+    defaultMessage: 'Devine mon prénom et tu verras apparaître progressivement ma première photo...',
+  },
   guessed_ok: {
     id: 'game.guessed.ok',
     defaultMessage: 'Bravo, mon prénom contient bien la lettre "{char}" !',
@@ -280,17 +230,5 @@ const MSG = defineMessages({
   guessed_ko: {
     id: 'game.guessed.ko',
     defaultMessage: 'Hé non, mon prénom ne contient pas la lettre "{char}" !',
-  },
-  win: {
-    id: 'game.win',
-    defaultMessage: 'Bravo ! Tu connais maintenant mon prénom. ',
-  },
-  desktop_fullscreen: {
-    id: 'game.desktop_fullscreen',
-    defaultMessage: 'Afficher en plein écran',
-  },
-  mobile_fullscreen: {
-    id: 'game.mobile_fullscreen',
-    defaultMessage: "Clique sur ma photo pour l'afficher en plein écran",
   },
 })

@@ -58,7 +58,10 @@ function refInput(input) {
   INPUTS[input.name] = input
 }
 
-@connect(mapStateToProps, { saveMangopayAccount, saveMangopayPayment, flash })
+@connect(
+  mapStateToProps,
+  { saveMangopayAccount, saveMangopayPayment, flash }
+)
 @reduxForm({
   form: 'giftCharityForm',
   touchOnBlur: false,
@@ -169,14 +172,14 @@ export default class GiftCharityForm extends Component {
             innerRef={refInput}
             label={t(FORM_MSG.form_last_sumcent)}
             component={SelectField}
-            options={[10, 20, 30, 50, 100].map(x => [{ ...MSG.charity_form_amount, values: { amount: x } }, x])}
+            options={[10, 20, 30, 50, 100].map(x => [{ ...MSG.charity_form_amount, values: { amount: x } }, x * 100])}
             i18n="true"
             includeBlank="--"
             validate={[required({ msg: t(FORM_MSG.form_last_sumcent_required) })]}
           />
 
-          <Row>
-            <Col className="pr-0">
+          <div styleName="col-2">
+            <div>
               <Field
                 name="first_name"
                 innerRef={refInput}
@@ -184,8 +187,8 @@ export default class GiftCharityForm extends Component {
                 component={InputField}
                 validate={[required()]}
               />
-            </Col>
-            <Col>
+            </div>
+            <div>
               <Field
                 name="last_name"
                 innerRef={refInput}
@@ -193,8 +196,8 @@ export default class GiftCharityForm extends Component {
                 component={InputField}
                 validate={[required()]}
               />
-            </Col>
-          </Row>
+            </div>
+          </div>
 
           <Field
             name="email"
@@ -225,14 +228,14 @@ export default class GiftCharityForm extends Component {
             validate={[required(), visaMC()]}
           />
 
-          <Row>
+          <div styleName="col-2">
             <FormattedMessage {...FORM_MSG.form_card_expiration_date_format}>
               {format => {
                 return (
                   <FormattedMessage {...FORM_MSG.form_card_expiration_date_ymd}>
                     {ymd => {
                       return (
-                        <Col className="pr-0">
+                        <div>
                           <input name="dateFormat" type="hidden" ref={refInput} value={format} />
                           <input name="dateYmd" type="hidden" ref={refInput} value={ymd} />
                           <Field
@@ -244,14 +247,14 @@ export default class GiftCharityForm extends Component {
                             normalize={cardDate}
                             validate={[required(), date({ format: format, ymd: ymd })]}
                           />
-                        </Col>
+                        </div>
                       )
                     }}
                   </FormattedMessage>
                 )
               }}
             </FormattedMessage>
-            <Col>
+            <div>
               <Field
                 name="card_cvx"
                 innerRef={refInput}
@@ -262,8 +265,8 @@ export default class GiftCharityForm extends Component {
                 maxLength="3"
                 validate={[required(), length({ is: 3 }), numericality({ int: true })]}
               />
-            </Col>
-          </Row>
+            </div>
+          </div>
 
           <img styleName="powered-by" src={poweredBy} alt="Powered by Mangopay" />
 
@@ -283,7 +286,9 @@ export default class GiftCharityForm extends Component {
 }
 
 function mapStateToProps(state) {
-  const { app: { bpoom } } = state
+  const {
+    app: { bpoom },
+  } = state
   return { bpoom }
 }
 

@@ -61,6 +61,10 @@ export default defineMessages({
     id: 'form.import_formats',
     defaultMessage: '(Formats : JPG, PNG)',
   },
+  form_image_capture: {
+    id: 'form.image_capture',
+    defaultMessage: 'Webcam',
+  },
   form_cancel: {
     id: 'form.cancel',
     defaultMessage: 'Annuler',

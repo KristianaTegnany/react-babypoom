@@ -36,6 +36,20 @@
   }
 }
 
+.col-2 {
+  display: flex;
+
+  & > * {
+    flex: 1 0 50%;
+    padding-right: 7.5px;
+
+    & + * {
+      padding-right: 0;
+      padding-left: 7.5px;
+    }
+  }
+}
+
 .powered-by {
   margin-top: $main-padding;
   width: 100%;

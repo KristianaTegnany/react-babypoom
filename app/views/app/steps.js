@@ -1,5 +1,7 @@
 import Welcome from '../welcome/Component'
-import Game from '../game/Component'
+import Game1 from '../game1/Component'
+import Game2 from '../game2/Component'
+import Game3 from '../game3/Component'
 import Arrival from '../arrival/Component'
 import Trip from '../trip/Component'
 import VisitorBook from '../visitorbook/Component'
@@ -8,7 +10,7 @@ import Souvenir from '../souvenir/Component'
 
 let nameToPaths = [
   ['welcome', { path: '/:uuid/', component: Welcome }],
-  ['game', { path: '/:uuid/game', component: Game }],
+  ['game', { path: '/:uuid/game', component: [Game1, Game2, Game3] }],
   ['arrival', { path: '/:uuid/my-info', component: Arrival }],
   ['trip', { path: '/:uuid/my-trip', component: Trip }],
   ['visitorbook', { path: '/:uuid/guest-book', component: VisitorBook }],
@@ -41,5 +43,9 @@ export function rootPath(bpoom) {
 function _stepInfo(name, bpoom, path) {
   let info =
     (name != null && NAMES_TO_PATHS.get(name)) || NAMES_TO_PATHS.get((bpoom.available_steps || [])[0]) || DEFAULT
-  return path ? info.path.replace(':uuid', bpoom.uuid) : info.component
+  return path
+    ? info.path.replace(':uuid', bpoom.uuid)
+    : 'game' === name
+      ? info.component[(bpoom.game_type || (+(window.top.location.hash || '').substr(1) || 1)) - 1]
+      : info.component
 }
