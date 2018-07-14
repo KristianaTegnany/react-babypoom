@@ -67,13 +67,23 @@ export default class Game2 extends Component {
     return !!nextProps.puzzle.length
   }
 
+  preventDefault(e) {
+    if (e.touches) e.preventDefault()
+  }
+
   componentDidMount() {
     // Will only resume if it's already started
     timeTracker.resume()
+
+    // #root - Prevent pull down refresh on mobile
+    document.getElementById('root').addEventListener('touchmove', this.preventDefault, { passive: false })
   }
 
   componentWillUnmount() {
     timeTracker.pause()
+
+    // #root - Prevent pull down refresh on mobile
+    document.getElementById('root').removeEventListener('touchmove', this.preventDefault)
   }
 
   randomPuzzle() {

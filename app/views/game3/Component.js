@@ -52,6 +52,10 @@ export default class Game3 extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps) {
+    return !!nextProps.pieces.length
+  }
+
   preventDefault(e) {
     if (e.touches) e.preventDefault()
   }
