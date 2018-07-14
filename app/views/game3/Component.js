@@ -52,13 +52,23 @@ export default class Game3 extends Component {
     }
   }
 
+  preventDefault(e) {
+    if (e.touches) e.preventDefault()
+  }
+
   componentDidMount() {
     // Will only resume if it's already started
     timeTracker.resume()
+
+    // #root - Prevent pull down refresh on mobile
+    document.getElementById('root').addEventListener('touchmove', this.preventDefault, { passive: false })
   }
 
   componentWillUnmount() {
     timeTracker.pause()
+
+    // #root - Prevent pull down refresh on mobile
+    document.getElementById('root').removeEventListener('touchmove', this.preventDefault)
   }
 
   win() {
@@ -104,6 +114,7 @@ export default class Game3 extends Component {
     let elt = (e.targetTouches ? e.targetTouches[0] : e).target
     if (!elt.matches('path')) return
     e.stopPropagation()
+    e.preventDefault()
     elt = elt.parentNode
     let [x, y] = [+elt.getAttribute('data-x'), +elt.getAttribute('data-y')]
     let [xp, yp] = this.props.pieces[x][y].slice(0, 2).map(x => +x.slice(0, -1))
@@ -121,6 +132,7 @@ export default class Game3 extends Component {
   pieceMove(e) {
     // console.log(0)
     if (!this.selectedPiece) return
+    e.preventDefault()
 
     // Will only start if it's not already started
     timeTracker.start()
@@ -147,8 +159,9 @@ export default class Game3 extends Component {
     return x < 0 ? Math.floor((x + step / 2) / step) * step : Math.ceil((x - step / 2) / step) * step
   }
 
-  pieceUp() {
+  pieceUp(e) {
     if (this.selectedPiece) {
+      e.preventDefault()
       let selectedPiece = this.selectedPiece
       this.selectedPiece = null
       let newPosX = this.round((selectedPiece.posX * 100) / selectedPiece.w)
@@ -184,6 +197,7 @@ export default class Game3 extends Component {
           <BubblePic imgSrc={BABY_IMAGES[babyType]}>{t(MSG.message)}</BubblePic>
         )}
         <div
+          ref={elt => (this.pc = elt)}
           styleName={`puzzle-container ${win ? 'win' : ''}`}
           onMouseDown={::this.pieceDown}
           onMouseMove={::this.pieceMove}

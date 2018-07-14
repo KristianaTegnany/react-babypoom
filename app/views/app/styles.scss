@@ -6,6 +6,7 @@
   body,
   #root {
     height: 100%;
+    overscroll-behavior: contain;
   }
 
   #root > div {
@@ -74,7 +75,7 @@ main > div:first-child {
   z-index: 2;
   padding: $main-padding;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  // -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
 
@@ -131,14 +132,14 @@ body {
 }
 
 // Scrollbars
-@media (max-width: map-get($grid-breakpoints, md) - 1px) {
-  ::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 5px;
-  }
-  ::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.5);
-    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
-  }
-}
+// @media (max-width: map-get($grid-breakpoints, md) - 1px) {
+//   ::-webkit-scrollbar {
+//     -webkit-appearance: none;
+//     width: 5px;
+//   }
+//   ::-webkit-scrollbar-thumb {
+//     border-radius: 4px;
+//     background-color: rgba(0, 0, 0, 0.5);
+//     -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+//   }
+// }
