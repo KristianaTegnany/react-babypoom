@@ -50,7 +50,7 @@
   width: 100%;
   padding-bottom: 100%;
   outline: 8px solid var(--neutral-secondary-B);
-  background: var(--neutral-secondary-B);
+  background: var(--neutral-secondary);
 
   &::before {
     content: '';
@@ -68,6 +68,8 @@
     top: 0;
     left: 0;
     cursor: pointer;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
     transition: opacity 1000ms, transform 100ms;
   }
 }

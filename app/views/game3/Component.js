@@ -101,7 +101,10 @@ export default class Game3 extends Component {
 
   pieceDown(e) {
     if (this.selectedPiece) this.pieceUp()
-    let elt = e.currentTarget
+    let elt = (e.targetTouches ? e.targetTouches[0] : e).target
+    if (!elt.matches('path')) return
+    e.stopPropagation()
+    elt = elt.parentNode
     let [x, y] = [+elt.getAttribute('data-x'), +elt.getAttribute('data-y')]
     let [xp, yp] = this.props.pieces[x][y].slice(0, 2).map(x => +x.slice(0, -1))
     let transform = elt.style[transformProp]
@@ -117,7 +120,7 @@ export default class Game3 extends Component {
 
   pieceMove(e) {
     // console.log(0)
-    if (!this.selectedPiece || this.win()) return
+    if (!this.selectedPiece) return
 
     // Will only start if it's not already started
     timeTracker.start()
@@ -180,7 +183,16 @@ export default class Game3 extends Component {
         ) : (
           <BubblePic imgSrc={BABY_IMAGES[babyType]}>{t(MSG.message)}</BubblePic>
         )}
-        <div styleName={`puzzle-container ${win ? 'win' : ''}`} onMouseLeave={::this.pieceUp}>
+        <div
+          styleName={`puzzle-container ${win ? 'win' : ''}`}
+          onMouseDown={::this.pieceDown}
+          onMouseMove={::this.pieceMove}
+          onMouseUp={::this.pieceUp}
+          onTouchStart={::this.pieceDown}
+          onTouchMove={::this.pieceMove}
+          onTouchEnd={::this.pieceUp}
+          onMouseLeave={::this.pieceUp}
+        >
           {props.pieces.length && (
             <div styleName="puzzle" style={{ backgroundImage: win ? `url(${img})` : 'none' }}>
               {[
@@ -214,13 +226,6 @@ export default class Game3 extends Component {
                     y={xy[y]}
                     style={this.puzzleStyle(x, y)}
                     styleName={`piece c${x + 1} r${y + 1}`}
-                    onMouseDown={::this.pieceDown}
-                    onMouseMove={::this.pieceMove}
-                    onMouseUp={::this.pieceUp}
-                    onTouchStart={::this.pieceDown}
-                    onTouchMove={::this.pieceMove}
-                    onTouchEnd={::this.pieceUp}
-                    onMouseLeave={::this.pieceUp}
                   />
                 )
               })}

@@ -7,7 +7,7 @@ const Puzzle1 = props => {
   let { img, rotate, x, y, ...iconProps } = props
   let id = `puzzle-1-${ID++}`
   return (
-    <Icon viewBox="0 0 100 100" {...iconProps}>
+    <Icon viewBox="0 0 100 100" {...iconProps} pointerEvents="none">
       <defs>
         <pattern id={id} patternUnits="userSpaceOnUse" width="100%" height="100%">
           <image
@@ -21,6 +21,7 @@ const Puzzle1 = props => {
         </pattern>
       </defs>
       <path
+        pointerEvents="fill"
         transform={`rotate(${rotate || 0}, 50, 50)`}
         d="M19,19h22.8c2.2,0,3.8-1.2,3.4-2.9c-0.3-1.3-3.9-3.2-3.6-7.9C41.8,3.5,46.4,1,50,1s8.1,2.5,8.4,7.3
         c0.3,4.7-3.2,6.6-3.6,7.9c-0.4,1.5,1.1,2.9,3.4,2.9c0-0.1,22.8,0,22.8,0s0,22.8,0,22.8c0,2.2-1.2,3.8-2.9,3.4

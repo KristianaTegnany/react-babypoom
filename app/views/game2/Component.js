@@ -16,6 +16,7 @@ import t from '../../i18n/i18n'
 // Lib
 import TimeTracker from '../../../lib/time-tracker'
 import Ahoy from '../../../lib/ahoy-custom'
+import { transformProp } from '../../../lib/css-props'
 
 // CSS
 import styles from './styles.scss'
@@ -252,7 +253,7 @@ export default class Game2 extends Component {
             backgroundPosition: `${Math.floor((len - i - 1) / SIZE) * positionRatio}% ${((len - i - 1) % SIZE) *
               positionRatio}%`,
             opacity: i || win ? '1' : '0',
-            transform: `translate(${x * 100}%, ${y * 100}%)`,
+            [transformProp]: `translate(${x * 100}%, ${y * 100}%)`,
           }}
           key={i}
         />
