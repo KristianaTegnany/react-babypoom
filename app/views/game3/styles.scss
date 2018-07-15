@@ -40,7 +40,7 @@ $margin: ($size - 25%) / 2;
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: normal;
 
   :global(.bp-bubble-say),
   :global(.bp-bubble-pic) {
@@ -63,18 +63,21 @@ $margin: ($size - 25%) / 2;
 
 .puzzle-container {
   flex: 1 0 auto;
-  max-width: 460px;
-  padding: 4px 4px 4px 30%;
+  max-height: 460px;
   width: 100%;
   margin: $main-padding auto 0;
-  will-change: max-width, padding;
-  transform: translate3d(0, 0, 0);
-  transition: max-width 1s, padding 1s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   &.win {
-    padding-left: 4px !important;
-    max-width: 85%;
-    overflow: hidden;
+    .puzzle-wrapper {
+      padding-left: 0;
+      width: 80%;
+      max-width: 380px;
+      transform: translateX(0);
+    }
 
     .piece {
       display: none;
@@ -82,9 +85,22 @@ $margin: ($size - 25%) / 2;
   }
 }
 
+.puzzle-wrapper {
+  width: 100%;
+  max-width: 460px;
+  margin: auto;
+  padding: 0.25rem 0.25rem 0.25rem 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translate3d(0, 0, 0);
+  will-change: max-width, width, padding, transform;
+  transition: max-width 1s, width 1s, padding 1s, transform 1s;
+}
+
 .puzzle {
   position: relative;
-  float: right;
   width: 100%;
   padding-bottom: 100%;
   background-color: var(--neutral-secondary-B);
@@ -103,8 +119,9 @@ $margin: ($size - 25%) / 2;
 }
 
 @media (min-width: map-get($grid-breakpoints, sm)) {
-  .puzzle-container {
+  .puzzle-wrapper {
     padding-left: 120px;
+    transform: translateX(20px);
   }
 }
 
@@ -119,8 +136,7 @@ $margin: ($size - 25%) / 2;
       }
     }
   }
-  .puzzle-container.win {
-    padding-left: 4px !important;
-    max-width: 380px;
+  .puzzle-container.win .puzzle-wrapper {
+    transform: translateX(50px);
   }
 }

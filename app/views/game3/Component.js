@@ -48,6 +48,15 @@ export default class Game3 extends Component {
     super(props)
 
     if (!props.pieces.length) {
+      // let pieces = INIT_POS.slice(0)
+      // pieces.forEach((row, i) =>
+      //   row.forEach((c, j) => {
+      //     if (i || j) {
+      //       c[0] = '0%'
+      //       c[1] = '0%'
+      //     }
+      //   })
+      // )
       this.props.move({ pieces: INIT_POS })
     }
   }
@@ -211,44 +220,46 @@ export default class Game3 extends Component {
           onTouchEnd={::this.pieceUp}
           onMouseLeave={::this.pieceUp}
         >
-          {props.pieces.length && (
-            <div styleName="puzzle" style={{ backgroundImage: win ? `url(${img})` : 'none' }}>
-              {[
-                { component: Puzzle1, rotate: 90 },
-                { component: Puzzle3, rotate: 180 },
-                { component: Puzzle4, rotate: 180 },
-                { component: Puzzle1, rotate: 180 },
-                { component: Puzzle4, rotate: 90 },
-                { component: Puzzle2, rotate: 0 },
-                { component: Puzzle2, rotate: 90 },
-                { component: Puzzle3, rotate: 270 },
-                { component: Puzzle3, rotate: 90 },
-                { component: Puzzle2, rotate: 90 },
-                { component: Puzzle2, rotate: 0 },
-                { component: Puzzle4, rotate: 270 },
-                { component: Puzzle1, rotate: 0 },
-                { component: Puzzle4, rotate: 0 },
-                { component: Puzzle3, rotate: 0 },
-                { component: Puzzle1, rotate: 270 },
-              ].map((info, i) => {
-                let x = i % 4
-                let y = Math.floor(i / 4)
-                return (
-                  <info.component
-                    key={`${++UNIQ_KEY}-${i}`}
-                    rotate={info.rotate}
-                    img={img}
-                    data-x={x}
-                    data-y={y}
-                    x={xy[x]}
-                    y={xy[y]}
-                    style={this.puzzleStyle(x, y)}
-                    styleName={`piece c${x + 1} r${y + 1}`}
-                  />
-                )
-              })}
-            </div>
-          )}
+          <div styleName="puzzle-wrapper">
+            {props.pieces.length && (
+              <div styleName="puzzle" style={{ backgroundImage: win ? `url(${img})` : 'none' }}>
+                {[
+                  { component: Puzzle1, rotate: 90 },
+                  { component: Puzzle3, rotate: 180 },
+                  { component: Puzzle4, rotate: 180 },
+                  { component: Puzzle1, rotate: 180 },
+                  { component: Puzzle4, rotate: 90 },
+                  { component: Puzzle2, rotate: 0 },
+                  { component: Puzzle2, rotate: 90 },
+                  { component: Puzzle3, rotate: 270 },
+                  { component: Puzzle3, rotate: 90 },
+                  { component: Puzzle2, rotate: 90 },
+                  { component: Puzzle2, rotate: 0 },
+                  { component: Puzzle4, rotate: 270 },
+                  { component: Puzzle1, rotate: 0 },
+                  { component: Puzzle4, rotate: 0 },
+                  { component: Puzzle3, rotate: 0 },
+                  { component: Puzzle1, rotate: 270 },
+                ].map((info, i) => {
+                  let x = i % 4
+                  let y = Math.floor(i / 4)
+                  return (
+                    <info.component
+                      key={`${++UNIQ_KEY}-${i}`}
+                      rotate={info.rotate}
+                      img={img}
+                      data-x={x}
+                      data-y={y}
+                      x={xy[x]}
+                      y={xy[y]}
+                      style={this.puzzleStyle(x, y)}
+                      styleName={`piece c${x + 1} r${y + 1}`}
+                    />
+                  )
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     )

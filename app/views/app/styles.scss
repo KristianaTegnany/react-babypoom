@@ -98,6 +98,10 @@ main::after {
   display: none;
 }
 
+.game > div:first-child {
+  overflow: hidden;
+}
+
 .welcome {
   .cloud {
     display: block;
