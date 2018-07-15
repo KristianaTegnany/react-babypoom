@@ -66,7 +66,13 @@ export default class Game3 extends Component {
   }
 
   preventDefault(e) {
-    if (e.touches) e.preventDefault()
+    let event = e.touches[0]
+    if (
+      document.elementFromPoint
+        ? document.elementFromPoint(event.clientX, event.clientY).closest('.' + styles['puzzle-wrapper'])
+        : event.clientY > 170
+    )
+      e.preventDefault()
   }
 
   componentDidMount() {
@@ -220,7 +226,7 @@ export default class Game3 extends Component {
           onTouchEnd={::this.pieceUp}
           onMouseLeave={::this.pieceUp}
         >
-          <div styleName="puzzle-wrapper">
+          <div ref={elt => (this.puzzleWrapper = elt)} styleName="puzzle-wrapper">
             {props.pieces.length && (
               <div styleName="puzzle" style={{ backgroundImage: win ? `url(${img})` : 'none' }}>
                 {[
@@ -285,6 +291,6 @@ function mapStateToProps(state) {
 const MSG = defineMessages({
   message: {
     id: 'game.message',
-    defaultMessage: 'Bouge les pièces afin de résoudre ce puzzle et je te dirai mon prénom...',
+    defaultMessage: `Bouge les pièces afin d'assembler ce puzzle et je te dirai mon prénom...`,
   },
 })

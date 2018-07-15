@@ -184,12 +184,13 @@ class App extends Component {
     }
 
     let Step = stepComponent(props.steps.current, bpoom)
+    let stepName = props.steps.current || ''
 
     return (
       <CSSVariableApplicator data-variables={this.state.theme}>
         {props.noNav ? '' : <Header />}
         <div styleName="flash">{this.renderFlash()}</div>
-        <main styleName={props.steps.current || ''}>
+        <main styleName={`${stepName}${'game' === stepName ? ` ${stepName}${bpoom.game_type}` : ''}`}>
           <div key={props.steps.current}>
             <Step />
           </div>

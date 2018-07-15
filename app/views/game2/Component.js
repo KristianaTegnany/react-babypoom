@@ -67,23 +67,13 @@ export default class Game2 extends Component {
     return !!nextProps.puzzle.length
   }
 
-  preventDefault(e) {
-    if (e.touches) e.preventDefault()
-  }
-
   componentDidMount() {
     // Will only resume if it's already started
     timeTracker.resume()
-
-    // #root - Prevent pull down refresh on mobile
-    document.getElementById('root').addEventListener('touchmove', this.preventDefault, { passive: false })
   }
 
   componentWillUnmount() {
     timeTracker.pause()
-
-    // #root - Prevent pull down refresh on mobile
-    document.getElementById('root').removeEventListener('touchmove', this.preventDefault)
   }
 
   randomPuzzle() {
@@ -253,7 +243,11 @@ export default class Game2 extends Component {
       let [x, y] = this.detectPosition(puzzle, i)
       cases.push(
         <div
-          onTouchStart={() => this.move(x, y)}
+          onTouchStart={() => {
+            this.touching = true
+            this.move(x, y)
+          }}
+          onTouchEnd={() => (this.touching = false)}
           onMouseDown={() => this.move(x, y)}
           style={{
             width: `${100 / SIZE}%`,
@@ -322,7 +316,7 @@ function mapStateToProps(state) {
 const MSG = defineMessages({
   message: {
     id: 'game.message',
-    defaultMessage: 'Bouge les cases afin de résoudre ce puzzle et je te dirai mon prénom...',
+    defaultMessage: 'Clique sur les cases afin de résoudre ce puzzle et je te dirai mon prénom...',
   },
   help: {
     id: 'game.help',
