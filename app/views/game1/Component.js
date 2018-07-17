@@ -39,7 +39,7 @@ function uniqChars(str) {
   ).length
 }
 
-let EXPERIMENTAL = 'experimental' === (window.top.location.hash || '').substr(1)
+let EXPERIMENTAL = 'undefined' !== typeof window && 'experimental' === (window.top.location.hash || '').substr(1)
 
 @connect(
   mapStateToProps,
