@@ -6,7 +6,9 @@ import styles from './styles.scss'
 export default class extends Component {
   render() {
     let props = this.props
-    let styles = props.imgSrc ? { ...(props.style || {}), backgroundImage: `url(${props.imgSrc})` } : {}
+    let styles = props.style || {}
+    if (props.imgSrc) styles.backgroundImage = `url(${props.imgSrc})`
+
     return (
       <div
         className="bp-image"

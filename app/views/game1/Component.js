@@ -30,6 +30,17 @@ const SPACE_REPLACEMENT = { ' ': '_' } // insecable space
 
 let timeTracker = new TimeTracker()
 
+function uniqChars(str) {
+  return Object.keys(
+    Array.from(ascii(str || '')).reduce((h, c) => {
+      h[c] = 1
+      return h
+    }, {})
+  ).length
+}
+
+let EXPERIMENTAL = 'experimental' === (window.top.location.hash || '').substr(1)
+
 @connect(
   mapStateToProps,
   { updateGuessed, gameOver }
@@ -42,6 +53,7 @@ export default class Game1 extends Component {
       updateProps: false,
       bpoom: props.bpoom,
       guessed: props.guessed,
+      letters: uniqChars(props.bpoom.babyNameFormatted),
     }
   }
 
@@ -50,6 +62,7 @@ export default class Game1 extends Component {
       bpoom: nextProps.bpoom,
       updateProps: prevState.bpoom !== nextProps.bpoom || nextProps.guessed !== prevState.guessed,
       guessed: nextProps.guessed,
+      letters: uniqChars(nextProps.bpoom.babyNameFormatted),
     }
   }
 
@@ -88,28 +101,15 @@ export default class Game1 extends Component {
   }
 
   stats(props) {
-    let uniqueChars = Object.keys(
-      Array.from(ascii(props.bpoom.babyNameFormatted || '')).reduce((h, c) => {
-        h[c] = 1
-        return h
-      }, {})
-    ).length
-    let okCount = props.guessedOkCount
-    let koCount = props.guessedKoCount
-    return { uniqueChars, okCount, koCount }
+    return { uniqueChars: this.state.letters, okCount: props.guessedOkCount, koCount: props.guessedKoCount }
   }
 
   handleClick(char, present) {
-    if ([true, false].indexOf(this.props.guessed[char]) >= 0 || this.win()) {
-      return
-    }
-
     // Will only start if it's not already started
     timeTracker.start()
 
-    this.setState({ lastChar: char }, () => {
-      this.props.updateGuessed({ char, present })
-    })
+    this.setState({ lastChar: char })
+    this.props.updateGuessed({ letters: this.state.letters, char, present })
   }
 
   win() {
@@ -128,8 +128,36 @@ export default class Game1 extends Component {
   }
 
   render() {
-    if (this.win()) setTimeout(() => this.props.gameOver(), 1000)
+    if (this.win()) setTimeout(() => this.props.gameOver(), 1500)
     return this.props.win ? <GameWin /> : this.renderGame()
+  }
+
+  imageStyles() {
+    let gridSize = this.props.pixelGridSize
+    let pr = 100 / (gridSize - 1)
+    let pixels = this.props.pixels
+
+    return {
+      backgroundRepeat: 'no-repeat',
+      backgroundImage:
+        new Array(gridSize * gridSize)
+          .fill(0)
+          .map((_, i) => {
+            let color = pixels.includes(i) ? 'var(--neutral-secondary)' : 'transparent'
+            return `linear-gradient(to right,${color},${color})`
+          })
+          .join(',') + `,url(${this.props.bpoom.photo_thumbnail})`,
+      backgroundSize:
+        new Array(gridSize * gridSize)
+          .fill(0)
+          .map(() => `${103 / gridSize}% ${103 / gridSize}%`)
+          .join(',') + ', 100% 100%',
+      backgroundPosition:
+        new Array(gridSize * gridSize)
+          .fill(0)
+          .map((_, index) => `${Math.floor(index / gridSize) * pr}% ${(index % gridSize) * pr}%`)
+          .join(',') + ', 0 0',
+    }
   }
 
   renderGame() {
@@ -156,6 +184,9 @@ export default class Game1 extends Component {
       : t(MSG.message)
     let babyType = bpoom.baby_full_type
 
+    let picture = EXPERIMENTAL ? null : this.state.picture
+    let style = EXPERIMENTAL ? this.imageStyles() : {}
+
     return (
       <div styleName={['game-container', babyType].join(' ')}>
         {props.desktop ? (
@@ -163,10 +194,12 @@ export default class Game1 extends Component {
             {bubbleText}
           </BubbleSay>
         ) : (
-          <BubblePic imgSrc={this.state.picture}>{bubbleText}</BubblePic>
+          <BubblePic style={style} imgSrc={picture}>
+            {bubbleText}
+          </BubblePic>
         )}
         <div styleName="game">
-          {props.desktop ? <BpoomImg imgSrc={this.state.picture} /> : ''}
+          {props.desktop ? <BpoomImg style={style} imgSrc={picture} /> : ''}
           <div styleName="panel">
             <div styleName="name">
               {asciiNameChars.map((c, index) => {
@@ -179,16 +212,13 @@ export default class Game1 extends Component {
             </div>
             <div styleName="charset">
               {charset.map(c => {
-                let klass = ['char']
-                if (true === guessed[c]) {
-                  klass.push('ok')
-                }
-                if (false === guessed[c]) {
-                  klass.push('ko')
-                }
-                let present = asciiName.indexOf(c) >= 0
+                let played = Boolean(guessed[c]) === guessed[c]
                 return (
-                  <div key={c} onClick={this.handleClick.bind(this, c, present)} styleName={klass.join(' ')}>
+                  <div
+                    key={c}
+                    onClick={played ? null : this.handleClick.bind(this, c, asciiName.indexOf(c) >= 0)}
+                    styleName={`char ${played ? (guessed[c] ? 'ok' : 'ko') : ''}`}
+                  >
                     <div styleName="content">{SPACE_REPLACEMENT[c] || c}</div>
                   </div>
                 )
@@ -204,12 +234,14 @@ export default class Game1 extends Component {
 function mapStateToProps(state) {
   const {
     app: { bpoom, noNav },
-    game1: { guessed, guessedOkCount, guessedKoCount, win },
+    game1: { pixelGridSize, pixels, guessed, guessedOkCount, guessedKoCount, win },
     mediaQueries: { desktop },
   } = state
   return {
     bpoom,
     noNav,
+    pixelGridSize,
+    pixels,
     guessed,
     guessedOkCount,
     guessedKoCount,
