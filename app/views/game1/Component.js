@@ -151,12 +151,12 @@ export default class Game1 extends Component {
         new Array(gridSize * gridSize)
           .fill(0)
           .map(() => `${103 / gridSize}% ${103 / gridSize}%`)
-          .join(',') + ', 100% 100%',
+          .join(',') + ', cover',
       backgroundPosition:
         new Array(gridSize * gridSize)
           .fill(0)
           .map((_, index) => `${Math.floor(index / gridSize) * pr}% ${(index % gridSize) * pr}%`)
-          .join(',') + ', 0 0',
+          .join(',') + ', 50% 50%',
     }
   }
 
