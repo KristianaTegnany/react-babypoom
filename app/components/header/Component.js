@@ -202,7 +202,7 @@ export default class extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link} target="_blank" to={config.shareLink}>
+                <NavLink target="_blank" href={config.shareLink}>
                   {t(MSG.share)}
                 </NavLink>
               </NavItem>

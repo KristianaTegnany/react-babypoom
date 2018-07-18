@@ -22,7 +22,7 @@ export default class Welcome extends Component {
 
     return (
       <div styleName="welcome-container">
-        <div styleName="baby" style={{ backgroundImage: `url(${BABY_IMAGES[bpoom.baby_full_type]})` }}></div>
+        <div styleName="baby" style={{ backgroundImage: `url(${BABY_IMAGES[bpoom.baby_full_type]})` }} />
         <div styleName="wrapper">
           <Bubble speechDir={props.desktop ? 'left' : 'bottom'} scrollable>
             {bpoom.bp_welcome ? (
@@ -42,7 +42,10 @@ export default class Welcome extends Component {
 }
 
 function mapStateToProps(state) {
-  const { app: { bpoom, noNav }, mediaQueries: { desktop } } = state
+  const {
+    app: { bpoom, noNav },
+    mediaQueries: { desktop },
+  } = state
   return { bpoom, noNav, desktop }
 }
 
