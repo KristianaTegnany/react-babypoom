@@ -74,10 +74,6 @@ $bubble-padding: 5px;
 }
 
 .top {
-  &.bend-left::before {
-    transform: rotate(-25deg);
-  }
-
   &::before {
     top: -24px;
     border-top-width: 30px;
@@ -86,10 +82,6 @@ $bubble-padding: 5px;
 }
 
 .bottom {
-  &.bend-left::before {
-    transform: rotate(25deg);
-  }
-
   &::before {
     bottom: -24px;
     border-bottom-width: 30px;
@@ -99,11 +91,6 @@ $bubble-padding: 5px;
 
 .top,
 .bottom {
-  &.bend-left::before {
-    border-left-width: 20px;
-    border-right-width: 0;
-  }
-
   &::before {
     left: 50%;
     margin-left: -30px;
@@ -114,10 +101,6 @@ $bubble-padding: 5px;
 }
 
 .left {
-  &.bend-bottom::before {
-    transform: rotate(10deg);
-  }
-
   &::before {
     left: -24px;
     border-right-width: 30px;
@@ -126,10 +109,6 @@ $bubble-padding: 5px;
 }
 
 .right {
-  &.bend-bottom::before {
-    transform: rotate(-10deg);
-  }
-
   &::before {
     right: -24px;
     border-left-width: 30px;
@@ -139,11 +118,6 @@ $bubble-padding: 5px;
 
 .left,
 .right {
-  &.bend-bottom::before {
-    border-bottom-width: 20px;
-    border-top-width: 0;
-  }
-
   &::before {
     top: 50%;
     margin-top: -20px;

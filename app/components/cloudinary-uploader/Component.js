@@ -23,7 +23,7 @@ import styles from './styles.scss'
 
 function FN() {}
 
-const IMG_DIM = 650
+let IMG_DIM = 650
 
 export default class Klass extends Component {
   static WEBCAM_SUPPORT =
@@ -47,6 +47,40 @@ export default class Klass extends Component {
       loadingCam: true,
       snap: false,
     }
+
+    this.uploadFile = ::this.uploadFile
+    this.videoPlay = ::this.videoPlay
+    this.uploadCameraPicture = ::this.uploadCameraPicture
+    this.takePicture = ::this.takePicture
+    this.showCameraModal = ::this.showCameraModal
+    this.closeCameraModal = ::this.closeCameraModal
+
+    this.uploader = new UploadManager({
+      uploadUrl: `https://api.cloudinary.com/v1_1/${props.cloudName}/${props.resourceType}/upload`,
+      maxSimultaneousUploads: 1,
+      data: { upload_preset: props.uploadPreset },
+      onFileAdded: upload => {
+        this.setState({ error: false })
+
+        upload
+          .on('start', () => {
+            props.onUploadStart()
+            this.setState({ progress: 0 })
+          })
+          .on('progress', (progress, fileSize, uploadedBytes) => {
+            this.setState({ progress: Math.floor(progress) })
+          })
+          .on('end', data => {
+            this.setState({ progress: null })
+            props.onUploadEnd(data)
+          })
+          .on('error', error => {
+            this.setState({ error: true })
+            props.onUploadError()
+          })
+      },
+    })
+
     this.initCamera()
   }
 
@@ -63,36 +97,8 @@ export default class Klass extends Component {
     }
   }
 
-  componentDidMount() {
-    if (this.inputFile) {
-      let props = this.props
-      this.uploader = new UploadManager({
-        uploadUrl: `https://api.cloudinary.com/v1_1/${props.cloudName}/${props.resourceType}/upload`,
-        input: this.inputFile,
-        maxSimultaneousUploads: 1,
-        data: { upload_preset: props.uploadPreset },
-        onFileAdded: upload => {
-          this.setState({ error: false })
-
-          upload
-            .on('start', () => {
-              props.onUploadStart()
-              this.setState({ progress: 0 })
-            })
-            .on('progress', (progress, fileSize, uploadedBytes) => {
-              this.setState({ progress: Math.floor(progress) })
-            })
-            .on('end', data => {
-              this.setState({ progress: null })
-              props.onUploadEnd(data)
-            })
-            .on('error', error => {
-              this.setState({ error: true })
-              props.onUploadError()
-            })
-        },
-      })
-    }
+  uploadFile(e) {
+    this.uploader.processFiles(e.target.files)
   }
 
   closeCameraModal() {
@@ -156,23 +162,21 @@ export default class Klass extends Component {
       <div>
         <div styleName="upload-input">
           <Button color={this.props.btnColor || 'secondary'}>{t(FORM_MSG.form_image_import)}</Button>
-          <input ref={input => (this.inputFile = input)} type="file" accept="image/*" />
+          <input onChange={this.uploadFile} type="file" accept="image/*" />
         </div>
-        {this.constructor.WEBCAM_SUPPORT && (
-          <Button styleName="camera-input" color={this.props.btnColor || 'secondary'} onClick={::this.showCameraModal}>
-            {t(FORM_MSG.form_image_capture)}
-          </Button>
-        )}
-        {null != state.progress ? (
+        {null != state.progress && (
           <Progress styleName="progress" value={state.progress}>
             {state.progress}%
           </Progress>
-        ) : (
-          ''
+        )}
+        {this.constructor.WEBCAM_SUPPORT && (
+          <Button styleName="camera-input" color={this.props.btnColor || 'secondary'} onClick={this.showCameraModal}>
+            {t(FORM_MSG.form_image_capture)}
+          </Button>
         )}
         {state.error ? this.props.errorMsg : ''}
-        <Modal size="md" isOpen={this.state.cameraModal} toggle={::this.closeCameraModal}>
-          <ModalHeader className="modal-primary" toggle={::this.closeCameraModal}>
+        <Modal size="md" isOpen={this.state.cameraModal} toggle={this.closeCameraModal}>
+          <ModalHeader className="modal-primary" toggle={this.closeCameraModal}>
             {t(FORM_MSG.form_image_capture)}
           </ModalHeader>
           <ModalBody styleName="modal">
@@ -182,7 +186,7 @@ export default class Klass extends Component {
                 styleName="video"
                 ref={elt => (this.videoElt = elt)}
                 style={{ display: state.snap ? 'none' : '' }}
-                onLoadedMetadata={::this.videoPlay}
+                onLoadedMetadata={this.videoPlay}
               />
             </div>
           </ModalBody>
@@ -192,12 +196,12 @@ export default class Klass extends Component {
                 <Button color={'app'} onClick={() => this.setState({ snap: false })}>
                   {t(MSG.take_another_pic)}
                 </Button>
-                <Button color={'primary'} onClick={::this.uploadCameraPicture}>
+                <Button color={'primary'} onClick={this.uploadCameraPicture}>
                   {t(MSG.use_pic)}
                 </Button>
               </div>
             ) : (
-              <Button color={'primary'} onClick={::this.takePicture}>
+              <Button color={'primary'} onClick={this.takePicture}>
                 {t(MSG.take_pic)}
               </Button>
             )}

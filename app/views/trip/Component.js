@@ -16,7 +16,10 @@ import t from '../../i18n/i18n'
 // CSS
 import styles from './styles.scss'
 
-@connect(mapStateToProps, { loadSlideshow, openSlideshow })
+@connect(
+  mapStateToProps,
+  { loadSlideshow, openSlideshow }
+)
 class Trip extends Component {
   state = {}
 
@@ -108,7 +111,10 @@ function formatDate(intl, tripEvent) {
 }
 
 function mapStateToProps(state) {
-  const { app: { bpoom, noNav }, mediaQueries: { desktop } } = state
+  const {
+    app: { bpoom, noNav },
+    mediaQueries: { desktop },
+  } = state
   return { bpoom, noNav, desktop }
 }
 

@@ -53,13 +53,19 @@ const ICONS = {
   souvenir: FaImage,
 }
 
-@connect(mapStateToProps, {})
+@connect(
+  mapStateToProps,
+  {}
+)
 export default class extends Component {
   constructor(props) {
     super(props)
 
-    this.toggle = this.toggle.bind(this)
-    this.toggleMenu = this.toggleMenu.bind(this)
+    this.toggle = ::this.toggle
+    this.toggleMenu = ::this.toggleMenu
+    this.closeMenu = ::this.closeMenu
+    this.openBpoomModal = ::this.openBpoomModal
+    this.closeBpoomModal = ::this.closeBpoomModal
 
     this.state = {
       isOpen: false,
@@ -86,12 +92,16 @@ export default class extends Component {
     )
   }
 
-  openModal(name) {
-    this.setState({ [`${name}Modal`]: true })
+  closeMenu() {
+    setTimeout(() => this.toggleMenu(true), 150)
   }
 
-  closeModal(name) {
-    this.setState({ [`${name}Modal`]: false })
+  openBpoomModal() {
+    this.setState({ bpoomModal: true })
+  }
+
+  closeBpoomModal() {
+    this.setState({ bpoomModal: false })
   }
 
   renderMenu(stepIndex) {
@@ -169,7 +179,7 @@ export default class extends Component {
             color="primary"
             styleName="bs.navbar-toggler styles.toggler styles.navbar-toggler"
             onClick={this.toggleMenu}
-            onBlur={() => setTimeout(this.toggleMenu.bind(this, true), 150)}
+            onBlur={this.closeMenu}
           >
             <span styleName="styles.icon" />
           </Button>
@@ -184,7 +194,7 @@ export default class extends Component {
                   </NavLink>
                 </NavItem> */}
               <NavItem>
-                <NavLink onClick={this.openModal.bind(this, 'bpoom')}>{t(MSG.what_is_babypoom)}</NavLink>
+                <NavLink onClick={this.openBpoomModal}>{t(MSG.what_is_babypoom)}</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} target="_blank" to={CGU}>
@@ -199,8 +209,8 @@ export default class extends Component {
             </Nav>
           </Collapse>
         </div>
-        <Modal isOpen={this.state.bpoomModal} toggle={this.closeModal.bind(this, 'bpoom')}>
-          <ModalHeader styleName="bs.modal-primary" toggle={this.closeModal.bind(this, 'bpoom')}>
+        <Modal isOpen={this.state.bpoomModal} toggle={this.closeBpoomModal}>
+          <ModalHeader styleName="bs.modal-primary" toggle={this.closeBpoomModal}>
             {t(MSG.what_is_babypoom)}
           </ModalHeader>
           <ModalBody styleName="styles.pre-wrap">
@@ -216,7 +226,10 @@ export default class extends Component {
 }
 
 function mapStateToProps(state) {
-  const { app: { bpoom, steps }, mediaQueries: { desktop } } = state
+  const {
+    app: { bpoom, steps },
+    mediaQueries: { desktop },
+  } = state
   return { bpoom, steps, desktop }
 }
 

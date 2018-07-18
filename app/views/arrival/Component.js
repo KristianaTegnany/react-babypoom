@@ -15,7 +15,10 @@ import t from '../../i18n/i18n'
 // CSS
 import styles from './styles.scss'
 
-@connect(mapStateToProps, { loadSlideshow, openSlideshow })
+@connect(
+  mapStateToProps,
+  { loadSlideshow, openSlideshow }
+)
 export default class Arrival extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     let bpoom = nextProps.bpoom
@@ -31,8 +34,10 @@ export default class Arrival extends Component {
 
   constructor(props) {
     super(props)
-    this.picIndex = -1
     this.state = {}
+
+    this.openSlideshow0 = this.openSlideshow.bind(this, 0)
+    this.openSlideshow1 = this.openSlideshow.bind(this, 1)
   }
 
   birthday(date) {
@@ -94,23 +99,25 @@ export default class Arrival extends Component {
           ''
         )}
         {bpoom.reaction_mum && bpoom.reaction_dad ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
-        {this.renderBubbleMsg(bpoom.photo_mum_thumbnail, bpoom.reaction_mum, 'left', true)}
-        {this.renderBubbleMsg(bpoom.photo_dad_thumbnail, bpoom.reaction_dad, 'right', true)}
+        {this.renderBubbleMsg(bpoom.photo_mum_thumbnail, bpoom.reaction_mum, 'left', 0)}
+        {this.renderBubbleMsg(bpoom.photo_dad_thumbnail, bpoom.reaction_dad, 'right', 1)}
         {props.noNav ? '' : this.renderBubbleMsg(bpoom.photo_thumbnail, <Transition />, 'left')}
       </div>
     )
   }
 
-  renderBubbleMsg(pic, msg, side, click) {
+  openSlideshow(index) {
+    this.props.openSlideshow(index)
+  }
+
+  renderBubbleMsg(pic, msg, side, index) {
     if (!msg) return ''
-    if (click) ++this.picIndex
-    let index = this.picIndex // important
     return this.props.desktop ? (
-      <BubbleSay onClick={click ? () => this.props.openSlideshow(index) : null} speechDir={side} imgSrc={pic}>
+      <BubbleSay onClick={index != null ? this[`openSlideshow${index}`] : null} speechDir={side} imgSrc={pic}>
         {msg}
       </BubbleSay>
     ) : (
-      <BubblePic onClick={click ? () => this.props.openSlideshow(index) : null} side={side} imgSrc={pic}>
+      <BubblePic onClick={index != null ? this[`openSlideshow${index}`] : null} side={side} imgSrc={pic}>
         {msg}
       </BubblePic>
     )
@@ -118,7 +125,10 @@ export default class Arrival extends Component {
 }
 
 function mapStateToProps(state) {
-  const { app: { bpoom, noNav }, mediaQueries: { desktop } } = state
+  const {
+    app: { bpoom, noNav },
+    mediaQueries: { desktop },
+  } = state
   return { bpoom, noNav, desktop }
 }
 

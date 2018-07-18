@@ -72,9 +72,9 @@ export default class extends Component {
                 </i>
               ),
               link: props.desktop ? (
-                <Link to={config.babypoomWebsiteLink} target="_blank">
+                <a href={config.babypoomWebsiteLink} target="_blank">
                   {config.babypoomWebsiteShortLink}
-                </Link>
+                </a>
               ) : (
                 config.babypoomWebsiteShortLink
               ),

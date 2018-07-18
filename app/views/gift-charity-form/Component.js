@@ -78,6 +78,9 @@ export default class GiftCharityForm extends Component {
     this.state = {
       submitting: false,
     }
+
+    this.onSubmit = ::this.onSubmit
+    this.onCancel = ::this.onCancel
   }
 
   componentDidMount() {
@@ -166,7 +169,7 @@ export default class GiftCharityForm extends Component {
 
     return (
       <div ref={elt => (this.formContainer = elt)} styleName="visitorbook-form">
-        <Form onSubmit={props.handleSubmit(::this.onSubmit)} noValidate>
+        <Form onSubmit={props.handleSubmit(this.onSubmit)} noValidate>
           <Field
             name="last_sumcent"
             innerRef={refInput}
@@ -271,7 +274,7 @@ export default class GiftCharityForm extends Component {
           <img styleName="powered-by" src={poweredBy} alt="Powered by Mangopay" />
 
           <div styleName="actions">
-            <Button disabled={submitting} color="neutral-app" onClick={::this.onCancel}>
+            <Button disabled={submitting} color="neutral-app" onClick={this.onCancel}>
               {t(FORM_MSG.form_cancel)}
             </Button>
             <Button disabled={submitting} color="app" type="submit">

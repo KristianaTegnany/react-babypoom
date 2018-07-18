@@ -61,6 +61,8 @@ export default class Game2 extends Component {
       let d = new Date()
       this.props.move(this.randomPuzzle())
     }
+
+    this.move = ::this.move
   }
 
   shouldComponentUpdate(nextProps) {
@@ -163,11 +165,15 @@ export default class Game2 extends Component {
     return steps
   }
 
-  move(x, y) {
+  move(e) {
     if (this.win()) return
 
     // Will only start if it's not already started
     timeTracker.start()
+
+    let elt = e.currentTarget
+    let x = +elt.getAttribute('data-x')
+    let y = +elt.getAttribute('data-y')
 
     let { currentX, currentY, puzzle, moves, steps } = this.props
     if (!(currentX === x && currentY === y) && (currentX === x || currentY === y)) {
@@ -243,12 +249,10 @@ export default class Game2 extends Component {
       let [x, y] = this.detectPosition(puzzle, i)
       cases.push(
         <div
-          onTouchStart={() => {
-            this.touching = true
-            this.move(x, y)
-          }}
-          onTouchEnd={() => (this.touching = false)}
-          onMouseDown={() => this.move(x, y)}
+          data-x={x}
+          data-y={y}
+          onTouchStart={this.move}
+          onMouseDown={this.move}
           style={{
             width: `${100 / SIZE}%`,
             paddingTop: `${100 / SIZE}%`,

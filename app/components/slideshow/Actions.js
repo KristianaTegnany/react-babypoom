@@ -8,7 +8,7 @@ export function loadSlideshow(obj, callback) {
 }
 
 export function openSlideshow(index) {
-  return toggleSlideshow(true, index)
+  return toggleSlideshow(true, isNaN(index) ? 0 : index)
 }
 
 export function changeSlideshowIndex(index) {

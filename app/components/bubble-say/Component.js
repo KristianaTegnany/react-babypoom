@@ -1,21 +1,15 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-import Bubble from '../bubble/Component'
+import Bubble, { addImgSrc } from '../bubble/Component'
 
 // CSS
 import styles from './styles.scss'
 
-export default class extends Component {
-  render() {
-    let props = this.props
-    let styles = { ...(props.style || {}), backgroundImage: `url(${props.imgSrc})` }
-    let dir = props.speechDir || 'top'
+let BubbleSay = ({ style, imgSrc, speechDir = 'top', onClick, children }) => (
+  <div styleName={speechDir} className="bp-bubble-say">
+    <div onClick={onClick} styleName={`img ${onClick ? 'clickable' : ''}`} style={addImgSrc(style || {}, imgSrc)} />
+    <Bubble speechDir={speechDir}>{children}</Bubble>
+  </div>
+)
 
-    return (
-      <div styleName={dir} className="bp-bubble-say">
-        <div onClick={props.onClick} styleName={['img', props.onClick ? 'clickable' : ''].join(' ')} style={styles} />
-        <Bubble speechDir={dir}>{props.children}</Bubble>
-      </div>
-    )
-  }
-}
+export default BubbleSay

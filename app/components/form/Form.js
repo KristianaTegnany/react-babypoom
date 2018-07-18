@@ -1,10 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
 
+let Form = props => <form {...props}>{props.children}</form>
 
-export default class Form extends Component {
-  render() {
-    return (
-      <form {...this.props}>{this.props.children}</form>
-    );
-  }
-}
+export default Form

@@ -198,7 +198,7 @@ class App extends Component {
           <Slideshow
             open={props.slideshow.isOpen}
             index={props.slideshow.index}
-            onChangeIndex={index => props.changeSlideshowIndex(index)}
+            onChangeIndex={props.changeSlideshowIndex}
             onClose={props.closeSlideshow}
             items={props.slideshow.items}
           />

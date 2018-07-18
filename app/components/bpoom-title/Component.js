@@ -1,14 +1,12 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 // CSS
 import styles from './styles.scss'
 
-export default class extends Component {
-  render() {
-    return (
-      <div styleName="bpoom-title">
-        <div>{this.props.children}</div>
-      </div>
-    )
-  }
-}
+let BpoomTitle = ({ children }) => (
+  <div styleName="bpoom-title">
+    <div>{children}</div>
+  </div>
+)
+
+export default BpoomTitle

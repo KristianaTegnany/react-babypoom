@@ -1,17 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 // CSS
 import styles from './styles.scss'
 
-export default class extends Component {
-  render() {
-    let props = this.props
+let Panel = ({ imgType, title, children }) => (
+  <div styleName="panel" data-img={imgType}>
+    <div styleName="header">{title}</div>
+    <div styleName="block">{children}</div>
+  </div>
+)
 
-    return (
-      <div styleName="panel" data-img={props.imgType}>
-        <div styleName="header">{props.title}</div>
-        <div styleName="block">{props.children}</div>
-      </div>
-    )
-  }
-}
+export default Panel

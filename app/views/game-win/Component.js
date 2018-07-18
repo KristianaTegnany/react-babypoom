@@ -53,7 +53,7 @@ export default class GameWin extends Component {
           </BubbleSay>
         ) : (
           [
-            <BubblePic key="bubble" onClick={() => this.props.openSlideshow()} imgSrc={bpoom.photo_thumbnail}>
+            <BubblePic key="bubble" onClick={this.props.openSlideshow} imgSrc={bpoom.photo_thumbnail}>
               {t(MSG.win)} {props.noNav ? '' : <Transition />}
             </BubblePic>,
             <div key="text" styleName="mob-fullscreen">
@@ -65,7 +65,7 @@ export default class GameWin extends Component {
           {props.desktop ? (
             <BpoomImg
               imgText={<a href="javascript:void(0)">{t(MSG.desktop_fullscreen)}</a>}
-              onClick={() => this.props.openSlideshow()}
+              onClick={this.props.openSlideshow}
               imgSrc={bpoom.photo_thumbnail}
             />
           ) : (

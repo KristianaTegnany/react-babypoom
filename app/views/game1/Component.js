@@ -55,6 +55,8 @@ export default class Game1 extends Component {
       guessed: props.guessed,
       letters: uniqChars(props.bpoom.babyNameFormatted),
     }
+
+    this.handleClick = ::this.handleClick
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -104,9 +106,13 @@ export default class Game1 extends Component {
     return { uniqueChars: this.state.letters, okCount: props.guessedOkCount, koCount: props.guessedKoCount }
   }
 
-  handleClick(char, present) {
+  handleClick(e) {
     // Will only start if it's not already started
     timeTracker.start()
+
+    let elt = e.currentTarget
+    let char = elt.getAttribute('data-char')
+    let present = 'true' === elt.getAttribute('data-present')
 
     this.setState({ lastChar: char })
     this.props.updateGuessed({ letters: this.state.letters, char, present })
@@ -216,7 +222,9 @@ export default class Game1 extends Component {
                 return (
                   <div
                     key={c}
-                    onClick={played ? null : this.handleClick.bind(this, c, asciiName.indexOf(c) >= 0)}
+                    data-char={c}
+                    data-present={asciiName.indexOf(c) >= 0}
+                    onClick={played ? null : this.handleClick}
                     styleName={`char ${played ? (guessed[c] ? 'ok' : 'ko') : ''}`}
                   >
                     <div styleName="content">{SPACE_REPLACEMENT[c] || c}</div>

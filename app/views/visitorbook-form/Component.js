@@ -57,6 +57,12 @@ export default class VisitorBookForm extends Component {
       imgSrc: '',
       uploading: false,
     }
+
+    this.onSubmit = ::this.onSubmit
+    this.onCancel = ::this.onCancel
+    this.onUploadStart = ::this.onUploadStart
+    this.onUploadEnd = ::this.onUploadEnd
+    this.onUploadError = ::this.onUploadError
   }
 
   componentDidMount() {
@@ -107,7 +113,7 @@ export default class VisitorBookForm extends Component {
 
     return (
       <div ref={elt => (this.formContainer = elt)} styleName="visitorbook-form">
-        <Form onSubmit={props.handleSubmit(::this.onSubmit)} noValidate>
+        <Form onSubmit={props.handleSubmit(this.onSubmit)} noValidate>
           <Field
             name="name"
             innerRef={refInput}
@@ -150,16 +156,16 @@ export default class VisitorBookForm extends Component {
               <CloudinaryUploader
                 cloudName="babypoom"
                 uploadPreset="tdjjz08e"
-                onUploadStart={::this.onUploadStart}
-                onUploadEnd={::this.onUploadEnd}
-                onUploadError={::this.onUploadError}
+                onUploadStart={this.onUploadStart}
+                onUploadEnd={this.onUploadEnd}
+                onUploadError={this.onUploadError}
                 btnColor="neutral-app"
               />
               <Field name="photo" component="input" type="hidden" />
             </div>
           </div>
           <div styleName="actions">
-            <Button color="neutral-app" onClick={::this.onCancel}>
+            <Button color="neutral-app" onClick={this.onCancel}>
               {t(FORM_MSG.form_cancel)}
             </Button>
             <Button disabled={props.submitting || state.uploading} color="app" type="submit">

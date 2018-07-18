@@ -28,7 +28,10 @@ import styles from './styles.scss'
 // Icon
 import FaPencil from 'react-icons/lib/fa/pencil'
 
-@connect(mapStateToProps, { loadSlideshow, openSlideshow, deleteMsg, flash })
+@connect(
+  mapStateToProps,
+  { loadSlideshow, openSlideshow, deleteMsg, flash }
+)
 class VisitorBook extends Component {
   // static childContextTypes = {
   //   intl: PropTypes.object.isRequired,
@@ -41,6 +44,10 @@ class VisitorBook extends Component {
       formVisible: false, // TODO
       scrollToBottom: false,
     }
+
+    this.displayForm = ::this.displayForm
+    this.onCancelMsg = ::this.onCancelMsg
+    this.onSaveMsg = ::this.onSaveMsg
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -93,7 +100,7 @@ class VisitorBook extends Component {
   render() {
     let state = this.state
     if (state.formVisible) {
-      return <VisitorBookForm onSave={::this.onSaveMsg} onCancel={::this.onCancelMsg} />
+      return <VisitorBookForm onSave={this.onSaveMsg} onCancel={this.onCancelMsg} />
     }
 
     let props = this.props
@@ -108,7 +115,7 @@ class VisitorBook extends Component {
           {visitorbook.message}
         </BubbleSay>
         <div styleName="button-container">
-          <Button block color="app" onClick={::this.displayForm}>
+          <Button block color="app" onClick={this.displayForm}>
             <i styleName="icon">
               <FaPencil />
             </i>{' '}
@@ -132,7 +139,7 @@ class VisitorBook extends Component {
           })}
         </div>
         {visitorbookMsgs.length > 2 ? (
-          <Button block color="app" onClick={::this.displayForm}>
+          <Button block color="app" onClick={this.displayForm}>
             <i styleName="icon">
               <FaPencil />
             </i>{' '}
@@ -172,7 +179,10 @@ function formatDate(intl, date) {
 }
 
 function mapStateToProps(state) {
-  const { app: { bpoom, noNav }, mediaQueries: { desktop } } = state
+  const {
+    app: { bpoom, noNav },
+    mediaQueries: { desktop },
+  } = state
   return { bpoom, noNav, desktop }
 }
 

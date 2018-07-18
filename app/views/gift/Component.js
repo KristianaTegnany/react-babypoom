@@ -30,6 +30,11 @@ export default class Gift extends Component {
       charityModal: false,
       charityForm: false,
     }
+
+    this.openCharityModal = ::this.openCharityModal
+    this.closeCharityModal = ::this.closeCharityModal
+    this.showCharityForm = ::this.showCharityForm
+    this.hideCharityForm = ::this.hideCharityForm
   }
 
   openCharityModal() {
@@ -53,7 +58,7 @@ export default class Gift extends Component {
     let props = this.props
 
     if (state.charityForm) {
-      return <GiftCharityForm onSave={::this.hideCharityForm} onCancel={::this.hideCharityForm} />
+      return <GiftCharityForm onSave={this.hideCharityForm} onCancel={this.hideCharityForm} />
     }
 
     let bpoom = props.bpoom
@@ -61,7 +66,7 @@ export default class Gift extends Component {
     let charity = gift.caritative || {}
 
     let link = (
-      <Button styleName="btn-link" color="link" onClick={::this.openCharityModal}>
+      <Button styleName="btn-link" color="link" onClick={this.openCharityModal}>
         {charity.name}
       </Button>
     )
@@ -75,7 +80,7 @@ export default class Gift extends Component {
           <Panel title={t(MSG.baby_gift_title)} imgType="piggy-bank">
             {t({ ...MSG.baby_gift_block, values: { fees: gift.caritative_fees, link } })}
             <div styleName="action">
-              <Button styleName="btn" color="app" onClick={::this.showCharityForm}>
+              <Button styleName="btn" color="app" onClick={this.showCharityForm}>
                 {t(MSG.baby_gift_participate)}
               </Button>
             </div>
@@ -99,8 +104,8 @@ export default class Gift extends Component {
           </BubblePic>
         )}
 
-        <Modal size="lg" isOpen={this.state.charityModal} toggle={::this.closeCharityModal}>
-          <ModalHeader className="modal-primary" toggle={::this.closeCharityModal}>
+        <Modal size="lg" isOpen={this.state.charityModal} toggle={this.closeCharityModal}>
+          <ModalHeader className="modal-primary" toggle={this.closeCharityModal}>
             {charity.name}
           </ModalHeader>
           <ModalBody>
@@ -114,7 +119,10 @@ export default class Gift extends Component {
 }
 
 function mapStateToProps(state) {
-  const { app: { bpoom, noNav }, mediaQueries: { desktop } } = state
+  const {
+    app: { bpoom, noNav },
+    mediaQueries: { desktop },
+  } = state
   return { bpoom, noNav, desktop }
 }
 

@@ -49,7 +49,6 @@ export default class extends Component {
   constructor(props) {
     super(props)
 
-    this.reinitZoom = ::this._reinitZoom
     this.images = []
     let loop = props.items.length > 1 && props.loop
     this.state = {
@@ -64,6 +63,25 @@ export default class extends Component {
       shareMenuOpen: false,
       rangeLoad: true,
     }
+
+    this.reinitZoom = ::this.reinitZoom
+    this.zoom = ::this.zoom
+    this.fullScreen = ::this.fullScreen
+    this.toggleShareMenu = ::this.toggleShareMenu
+    this.close = ::this.close
+    this.closeShareMenu = ::this.closeShareMenu
+    this.imageMove = ::this.imageMove
+    this.imageDown = ::this.imageDown
+    this.imageClick = ::this.imageClick
+    this.handleTouchEnd = ::this.handleTouchEnd
+    this.zoomDown = ::this.zoomDown
+    this.zoomUp = ::this.zoomUp
+    this.zoomMove = ::this.zoomMove
+    this.effectEnd = ::this.effectEnd
+    this.checkIndex = ::this.checkIndex
+    this.prev = ::this.prev
+    this.next = ::this.next
+    this.openWindowPopup = ::this.openWindowPopup
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -121,6 +139,14 @@ export default class extends Component {
     this.afterZoomSetup(currentImg)
   }
 
+  prev() {
+    this.prevNext(-1)
+  }
+
+  next() {
+    this.prevNext(1)
+  }
+
   fullScreen() {
     let elt = this.isFullScreen ? document : this.containerElt
     if (!elt) return
@@ -133,7 +159,7 @@ export default class extends Component {
     }
   }
 
-  _reinitZoom() {
+  reinitZoom() {
     if (this.state.zoomMode) {
       this.zoom(false)
     }
@@ -287,6 +313,10 @@ export default class extends Component {
     this.zoomMoveEnabled ? this.zoomMove(e) : this.slide(e)
   }
 
+  imageClick() {
+    if (!this.zoomUp()) this.next()
+  }
+
   slide(e) {
     if (!this.slideInfo) return
     let clientX = e.touches[0].clientX
@@ -435,7 +465,7 @@ export default class extends Component {
           state.zoomMode ? styles['zoom-mode'] : '',
           state.shareMenuOpen ? styles['share-menu-open'] : '',
         ].join(' ')}
-        onClick={::this.closeShareMenu}
+        onClick={this.closeShareMenu}
       >
         <div styleName="nav" ref={elt => (this.navElt = elt)}>
           <div styleName="counter">
@@ -443,18 +473,18 @@ export default class extends Component {
           </div>
           <div styleName="loading" />
           <div styleName="actions">
-            {!state.fullScreenMode && <button styleName="zoom" title={t(MSG.zoom)} onClick={::this.zoom} />}
+            {!state.fullScreenMode && <button styleName="zoom" title={t(MSG.zoom)} onClick={this.zoom} />}
             {this.constructor.fullScreenSupport && (
-              <button styleName="fullscreen" title={t(MSG.fullscreen)} onClick={::this.fullScreen} />
+              <button styleName="fullscreen" title={t(MSG.fullscreen)} onClick={this.fullScreen} />
             )}
-            <button styleName="share" title={t(MSG.share)} onClick={::this.toggleShareMenu} />
-            <button styleName="close" title={t(MSG.close)} onClick={::this.close} />
+            <button styleName="share" title={t(MSG.share)} onClick={this.toggleShareMenu} />
+            <button styleName="close" title={t(MSG.close)} onClick={this.close} />
           </div>
         </div>
         {state.shareMenuOpen && (
           <div styleName="share-menu">
             <a
-              onClick={::this.openWindowPopup}
+              onClick={this.openWindowPopup}
               href={`https://www.facebook.com/sharer/sharer.php?u=${currentURL}`}
               target="_blank"
               styleName="facebook"
@@ -462,7 +492,7 @@ export default class extends Component {
               {t(MSG.facebook)}
             </a>
             <a
-              onClick={::this.openWindowPopup}
+              onClick={this.openWindowPopup}
               href={`https://twitter.com/intent/tweet?text=${text}&url=${currentURL}`}
               target="_blank"
               styleName="twitter"
@@ -470,7 +500,7 @@ export default class extends Component {
               {t(MSG.twitter)}
             </a>
             <a
-              onClick={::this.openWindowPopup}
+              onClick={this.openWindowPopup}
               href={`http://www.pinterest.com/pin/create/button/?url=${currentURL}&media=${media}&description=${text}`}
               target="_blank"
               styleName="pinterest"
@@ -487,7 +517,7 @@ export default class extends Component {
         <div styleName="content">
           <div
             styleName="wrapper"
-            onTransitionEnd={::this.checkIndex}
+            onTransitionEnd={this.checkIndex}
             ref={elt => (this.wrapperElt = elt)}
             style={{ [transformProp]: transform }}
           >
@@ -500,23 +530,23 @@ export default class extends Component {
                   key={state.listKey + '_' + index}
                   ref={elt => this.setImageElement(elt, index, item.src, load)}
                   styleName="slide"
-                  onTransitionEnd={::this.effectEnd}
+                  onTransitionEnd={this.effectEnd}
                 >
                   {this.constructor.isTouch ? (
                     <div
                       styleName="image"
-                      onTouchMove={::this.imageMove}
-                      onTouchStart={::this.imageDown}
-                      onTouchEnd={::this.handleTouchEnd}
+                      onTouchMove={this.imageMove}
+                      onTouchStart={this.imageDown}
+                      onTouchEnd={this.handleTouchEnd}
                       style={style}
                     />
                   ) : (
                     <div
                       styleName="image"
-                      onMouseDown={::this.zoomDown}
-                      onClick={() => !this.zoomUp() && this.prevNext(1)}
-                      onMouseLeave={::this.zoomUp}
-                      onMouseMove={::this.zoomMove}
+                      onMouseDown={this.zoomDown}
+                      onClick={this.imageClick}
+                      onMouseLeave={this.zoomUp}
+                      onMouseMove={this.zoomMove}
                       style={style}
                     />
                   )}
@@ -529,13 +559,9 @@ export default class extends Component {
             })}
           </div>
 
-          {state.loop || state.index ? (
-            <div styleName="previous" title={t(MSG.previous)} onClick={() => this.prevNext(-1)} />
-          ) : (
-            ''
-          )}
+          {state.loop || state.index ? <div styleName="previous" title={t(MSG.previous)} onClick={this.prev} /> : ''}
           {state.loop || state.index < state.items.length - 1 ? (
-            <div styleName="next" title={t(MSG.next)} onClick={() => this.prevNext(1)} />
+            <div styleName="next" title={t(MSG.next)} onClick={this.next} />
           ) : (
             ''
           )}

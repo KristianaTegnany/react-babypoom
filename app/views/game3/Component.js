@@ -59,6 +59,10 @@ export default class Game3 extends Component {
       // )
       this.props.move({ pieces: INIT_POS })
     }
+
+    this.pieceDown = ::this.pieceDown
+    this.pieceMove = ::this.pieceMove
+    this.pieceUp = ::this.pieceUp
   }
 
   shouldComponentUpdate(nextProps) {
@@ -218,13 +222,13 @@ export default class Game3 extends Component {
         <div
           ref={elt => (this.pc = elt)}
           styleName={`puzzle-container ${win ? 'win' : ''}`}
-          onMouseDown={::this.pieceDown}
-          onMouseMove={::this.pieceMove}
-          onMouseUp={::this.pieceUp}
-          onTouchStart={::this.pieceDown}
-          onTouchMove={::this.pieceMove}
-          onTouchEnd={::this.pieceUp}
-          onMouseLeave={::this.pieceUp}
+          onMouseDown={this.pieceDown}
+          onMouseMove={this.pieceMove}
+          onMouseUp={this.pieceUp}
+          onTouchStart={this.pieceDown}
+          onTouchMove={this.pieceMove}
+          onTouchEnd={this.pieceUp}
+          onMouseLeave={this.pieceUp}
         >
           <div ref={elt => (this.puzzleWrapper = elt)} styleName="puzzle-wrapper">
             {props.pieces.length && (
