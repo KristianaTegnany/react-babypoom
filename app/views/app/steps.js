@@ -46,6 +46,6 @@ function _stepInfo(name, bpoom, path) {
   return path
     ? info.path.replace(':uuid', bpoom.uuid)
     : 'game' === name
-      ? info.component[(bpoom.game_type || (+(window.top.location.hash || '').substr(1) || 1)) - 1]
+      ? info.component[(bpoom.game_type || (+(window.location.hash || '').substr(1) || 1)) - 1]
       : info.component
 }
