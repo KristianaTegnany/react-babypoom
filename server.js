@@ -27,6 +27,8 @@ import config from './config/application'
 
 var PORT = process.env.PORT || 8080
 
+var ALL_LOCALES = [availableLocales.defaultLocale].concat(availableLocales)
+
 var app = express()
 app.use(compression()) // must be first!
 app.use(createLocaleMiddleware()) // detect locale
@@ -49,7 +51,7 @@ app.get('*', (req, res) => {
     let { route, match } = branch[0]
 
     let lang = req.locale.language
-    if (!lang || !availableLocales.includes(lang)) lang = availableLocales[0]
+    if (!lang || !ALL_LOCALES.includes(lang)) lang = ALL_LOCALES[0]
 
     // SERVER SIDE RENDERING
     let store = configureStore()
