@@ -20,7 +20,11 @@ import 'isomorphic-fetch'
 
 import config from '../config/application'
 
+// Lib
+import loadIntl from '../lib/intl-detection'
+
 // i18n
+import availableLocales from '../available-locales'
 import { messages } from './i18n/messages'
 import './i18n/messages/metas' // Just to be extracted by babel-plugin-react-intl
 
@@ -29,22 +33,24 @@ import Bootstrap from '../config/bootstrap/bootstrap.scss'
 import { setGlobalCssModule } from 'reactstrap/lib/utils'
 setGlobalCssModule(Bootstrap)
 
-// Store
-const initialState = window[config.requestCacheVar]
-let store
+loadIntl([availableLocales.defaultLocale].concat(availableLocales), () => {
+  // Store
+  const initialState = window[config.requestCacheVar]
+  let store
 
-if (initialState) {
-  store = configureStore(initialState)
-} else {
-  store = configureStore()
-  updateLocale('fr')(store.dispatch) // TODO: detect browser locale
-}
+  if (initialState) {
+    store = configureStore(initialState)
+  } else {
+    store = configureStore()
+    updateLocale('fr')(store.dispatch) // TODO: detect browser locale
+  }
 
-render(
-  <Provider store={store}>
-    <HotIntlProvider>
-      <BrowserRouter>{renderRoutes(routes)}</BrowserRouter>
-    </HotIntlProvider>
-  </Provider>,
-  document.getElementById('root')
-)
+  render(
+    <Provider store={store}>
+      <HotIntlProvider>
+        <BrowserRouter>{renderRoutes(routes)}</BrowserRouter>
+      </HotIntlProvider>
+    </Provider>,
+    document.getElementById('root')
+  )
+})

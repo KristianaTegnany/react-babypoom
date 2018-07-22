@@ -17,8 +17,6 @@
 <body>
   <div id="root"></div>
   <script id="globalVars"></script>
-  <script src="//polyfill.io/v2/polyfill.min.js?features=<%=
-htmlWebpackPlugin.options.locales.map(function(loc) { return 'Intl.~locale.' + loc; }).join(',') %>"></script>
   <% for (var j in htmlWebpackPlugin.files.js) { %><script src="<%= htmlWebpackPlugin.files.js[j] %>"></script><% } %>
   <% for (var i in htmlWebpackPlugin.files.css) { %><link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[i] %>" /><% } %>
   <script>

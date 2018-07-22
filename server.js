@@ -30,6 +30,7 @@ var PORT = process.env.PORT || 8080
 var ALL_LOCALES = [availableLocales.defaultLocale].concat(availableLocales)
 
 var app = express()
+app.disable('x-powered-by')
 app.use(compression()) // must be first!
 app.use(createLocaleMiddleware()) // detect locale
 
