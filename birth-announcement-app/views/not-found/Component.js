@@ -54,7 +54,9 @@ export default class NotFound extends Component {
 }
 
 function mapStateToProps(state) {
-  const { mediaQueries: { desktop } } = state
+  const {
+    mediaQueries: { desktop },
+  } = state
   return { desktop }
 }
 

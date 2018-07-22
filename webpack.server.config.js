@@ -30,7 +30,21 @@ module.exports = {
     __dirname: true,
   },
 
-  plugins: config.plugins,
+  // plugins: config.plugins,
 
-  module: config.module,
+  plugins: [
+    new webpack.NormalModuleReplacementPlugin(/.*?-loader/, function(resource) {
+      resource.request = resource.request.replace(/.*?-loader/, 'null-loader')
+    }),
+  ],
+
+  module: {
+    rules: config.module.rules.map(function(rule) {
+      if (rule.test.toString().indexOf('js') < 0) {
+        delete rule.loader
+        rule.use = 'null-loader'
+      }
+      return rule
+    }),
+  },
 }

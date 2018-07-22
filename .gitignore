@@ -7,6 +7,9 @@ config/locales/extracted
 # Public
 public
 
+# Server
+server.bundle.js
+
 # Runtime data
 pids
 *.pid

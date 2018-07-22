@@ -11,16 +11,16 @@ import { matchRoutes, renderRoutes } from 'react-router-config'
 import { RouterContext } from 'react-router'
 import { Provider } from 'react-redux'
 
-import HotIntlProvider from './app/i18n/hot-intl-provider/HotIntlProvider'
-import { updateLocale } from './app/i18n/hot-intl-provider/HotIntlProviderActions'
-import configureStore from './app/store/configureStore'
-import routes from './app/routes'
+import HotIntlProvider from './birth-announcement-app/i18n/hot-intl-provider/HotIntlProvider'
+import { updateLocale } from './birth-announcement-app/i18n/hot-intl-provider/HotIntlProviderActions'
+import configureStore from './birth-announcement-app/store/configureStore'
+import routes from './birth-announcement-app/routes'
 
-import { messages } from './app/i18n/messages'
+import { messages } from './birth-announcement-app/i18n/messages'
 import availableLocales from './available-locales'
 
 import 'isomorphic-fetch'
-import { loadBpoom } from './app/views/app/Actions'
+import { loadBpoom } from './birth-announcement-app/views/app/Actions'
 import config from './config/application'
 
 // var stats = JSON.parse(fs.readFileSync("./public/webpack.stats.json"));

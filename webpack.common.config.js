@@ -39,7 +39,7 @@ var appCss = new ExtractTextPlugin('app-[hash].min.css')
 
 module.exports = _.merge(config, {
   devtool: 'source-map',
-  entry: [path.join(__dirname, 'app/index.js')],
+  entry: [path.join(__dirname, 'birth-announcement-app/index.js')],
   output: {
     filename: '[name]-[hash].js',
     path: path.join(__dirname, '/public/'),
@@ -50,10 +50,9 @@ module.exports = _.merge(config, {
   plugins: [
     bootstrapCss,
     appCss,
-    new StringReplacePlugin(),
     new HtmlWebpackPlugin({
       inject: false,
-      template: 'app/index.tpl.html',
+      template: 'birth-announcement-app/index.tpl.html',
       filename: 'index.html',
       locales: availableLocales,
     }),
@@ -114,16 +113,16 @@ module.exports = _.merge(config, {
       // Fonts
       {
         test: /\.woff(2)?(\?v=\d+\.\d+\.\d+)?$/,
-        use: 'url-loader?limit=10000&mimetype=application/font-woff',
+        loader: 'url-loader?limit=10000&mimetype=application/font-woff',
       },
       {
         test: /\.[ot]tf(\?v=\d+\.\d+\.\d+)?$/,
-        use: 'url-loader?limit=10000&mimetype=application/octet-stream',
+        loader: 'url-loader?limit=10000&mimetype=application/octet-stream',
       },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, use: 'file-loader' },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        use: 'file-loader',
+        loader: 'file-loader',
         exclude: /\/images\//,
       },
       {
@@ -146,7 +145,7 @@ module.exports = _.merge(config, {
       // Images
       {
         test: /\.(jpe?g|png|gif)$/i,
-        loader: ['url-loader?limit=10000', 'img-loader?progressive=true'],
+        use: ['url-loader?limit=10000', 'img-loader?progressive=true'],
       },
       // Pdf
       {

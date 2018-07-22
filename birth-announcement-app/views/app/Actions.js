@@ -2,7 +2,7 @@ import { defineMessages } from 'react-intl'
 
 import { BPOOM, STEPS, NO_NAV, SAVE_VISITORBOOK_MSG, DELETE_VISITORBOOK_MSG } from './types'
 
-import apiCall from '../../api/call'
+import apiCall from '../../../api/call'
 import { flash } from '../../components/flash/Actions'
 
 function _exec(url, urlOptions, options, okCallback, koCallback) {

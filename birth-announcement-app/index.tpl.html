@@ -21,6 +21,11 @@
 htmlWebpackPlugin.options.locales.map(function(loc) { return 'Intl.~locale.' + loc; }).join(',') %>"></script>
   <% for (var j in htmlWebpackPlugin.files.js) { %><script src="<%= htmlWebpackPlugin.files.js[j] %>"></script><% } %>
   <% for (var i in htmlWebpackPlugin.files.css) { %><link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[i] %>" /><% } %>
-  <link href="//fonts.googleapis.com/css?family=Amatic+SC|Raleway" rel="stylesheet">
+  <script>
+    var link = document.createElement('link');
+    link.href = "//fonts.googleapis.com/css?family=Amatic+SC|Raleway";
+    link.rel = "stylesheet";
+    setTimeout(function() { document.body.appendChild(link) }, 0);
+  </script>
 </body>
 </html>
