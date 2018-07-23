@@ -1,12 +1,14 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+
 import express from 'express'
 import createLocaleMiddleware from 'express-locale'
 import path from 'path'
+
 import compression from 'compression'
 import fs from 'fs'
-
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import StaticRouter from 'react-router-dom/StaticRouter'
+import { StaticRouter } from 'react-router-dom'
 import { matchRoutes, renderRoutes } from 'react-router-config'
 import { RouterContext } from 'react-router'
 import { Provider } from 'react-redux'
@@ -15,6 +17,7 @@ import HotIntlProvider from './birth-announcement-app/i18n/hot-intl-provider/Hot
 import { updateLocale } from './birth-announcement-app/i18n/hot-intl-provider/HotIntlProviderActions'
 import configureStore from './birth-announcement-app/store/configureStore'
 import routes from './birth-announcement-app/routes'
+import App from './birth-announcement-app/views/app/Component'
 
 import { messages } from './birth-announcement-app/i18n/messages'
 import availableLocales from './available-locales'
@@ -22,6 +25,11 @@ import availableLocales from './available-locales'
 import 'isomorphic-fetch'
 import { loadBpoom } from './birth-announcement-app/views/app/Actions'
 import config from './config/application'
+
+// Bootstrap
+import Bootstrap from './config/bootstrap/bootstrap.scss'
+import { setGlobalCssModule } from 'reactstrap/lib/utils'
+setGlobalCssModule(Bootstrap)
 
 // var stats = JSON.parse(fs.readFileSync("./public/webpack.stats.json"));
 
@@ -66,24 +74,25 @@ app.get('*', (req, res) => {
       .then(bpoom => {
         let metas = {
           title: interpolateMetaTitle(messages[lang]['metas.title'], bpoom),
-          description: interpolateMetaDescription(messages[lang]['metas.description'], bpoom),
+          description: interpolateMetaDescription(messages[lang]['welcome'], bpoom),
           image: bpoom.photo_mum,
         }
 
-        // let context = {}
-        // const content = renderToString(
-        //   <Provider store={store}>
-        //     <HotIntlProvider>
-        //       <StaticRouter location={req.url} context={context}>
-        //         {renderRoutes(routes)}
-        //       </StaticRouter>
-        //     </HotIntlProvider>
-        //   </Provider>
-        // )
+        let context = {}
+
+        const content = renderToString(
+          <Provider store={store}>
+            <HotIntlProvider>
+              <StaticRouter location={req.url} context={context}>
+                {renderRoutes(routes)}
+              </StaticRouter>
+            </HotIntlProvider>
+          </Provider>
+        )
 
         res.send(
           renderPage(
-            '',
+            content,
             match.params.uuid,
             metas,
             `var ${config.requestCacheVar} = ${JSON.stringify(store.getState())}`
@@ -91,6 +100,7 @@ app.get('*', (req, res) => {
         )
       })
       .catch(err => {
+        console.log('ERROR:', err)
         res.send(renderPage('', match.params.uuid, {}))
       })
   }

@@ -1,4 +1,5 @@
 {
+  "app.loading": "Patiente quelques secondes j'ai une grande annonce à te faire...",
   "app.not_found": "Désolé, cette page n'existe pas.",
   "app.request.error": "Une erreur est survenue. \nVeuillez réessayer plus tard.",
   "arrival.parent_reaction": "La réaction des parents",
@@ -55,6 +56,8 @@
   "game.desktop_fullscreen": "Afficher en plein écran",
   "game.guessed.ko": "Hé non, mon prénom ne contient pas la lettre \"{char}\" !",
   "game.guessed.ok": "Bravo, mon prénom contient bien la lettre \"{char}\" !",
+  "game.help": "Aide-moi un peu, je n'y arrive pas...",
+  "game.message": "Bouge les pièces afin d'assembler ce puzzle et je te dirai mon prénom...",
   "game.mobile_fullscreen": "Clique sur ma photo pour l'afficher en plein écran",
   "game.win": "Bravo ! Tu connais maintenant mon prénom.",
   "gender.F": "Une petite fille",

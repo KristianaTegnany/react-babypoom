@@ -106,7 +106,10 @@ export default class extends Component {
   }
 
   get isFullScreen() {
-    return document.fullscreen || document.webkitIsFullScreen || (this.state && this.state.fullScreenMode)
+    return (
+      'undefined' !== typeof document &&
+      (document.fullscreen || document.webkitIsFullScreen || (this.state && this.state.fullScreenMode))
+    )
   }
 
   componentDidMount() {

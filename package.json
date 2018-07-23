@@ -2,7 +2,7 @@
   "main": "index.js",
   "scripts": {
     "test": "",
-    "postinstall": "rimraf public && npm run build",
+    "postinstall": "if-env NODE_ENV=production && rimraf public && npm run build || echo ''",
     "start": "if-env NODE_ENV=production && node server.bundle.js || npm run start:dev",
     "start:dev": "node webpack-dev-server.js",
     "start:prod": "npm run postinstall && node server.bundle.js",

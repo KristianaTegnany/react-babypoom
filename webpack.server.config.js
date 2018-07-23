@@ -1,11 +1,14 @@
 var fs = require('fs')
 var path = require('path')
+var _ = require('lodash')
 var webpack = require('webpack')
 
 var config = require('./webpack.common.config.js')
 
-module.exports = {
+module.exports = _.merge(config, {
+  devtool: false,
   mode: 'production',
+  // optimization: { minimize: false },
 
   entry: path.resolve(__dirname, 'server.js'),
 
@@ -29,22 +32,4 @@ module.exports = {
     __filename: true,
     __dirname: true,
   },
-
-  // plugins: config.plugins,
-
-  plugins: [
-    new webpack.NormalModuleReplacementPlugin(/.*?-loader/, function(resource) {
-      resource.request = resource.request.replace(/.*?-loader/, 'null-loader')
-    }),
-  ],
-
-  module: {
-    rules: config.module.rules.map(function(rule) {
-      if (rule.test.toString().indexOf('js') < 0) {
-        delete rule.loader
-        rule.use = 'null-loader'
-      }
-      return rule
-    }),
-  },
-}
+})

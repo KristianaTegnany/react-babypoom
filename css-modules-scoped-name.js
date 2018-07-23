@@ -1,4 +1,7 @@
 var path = require('path')
+var fs = require('fs')
+
+var CACHE_FILENAME = 'css-modules-scoped-names.cache.json'
 
 var HAS_PROP = {}.hasOwnProperty
 var DICTIONNARY = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789-'
@@ -12,8 +15,20 @@ function ShortClassNameGenerator(config) {
   this.config = config
 }
 
+ShortClassNameGenerator.prototype.exportData = function(dir) {
+  var filepath = path.join(dir, CACHE_FILENAME)
+  if (fs.existsSync(filepath)) return
+  fs.writeFileSync(filepath, JSON.stringify(this.hash), 'utf8')
+}
+
+ShortClassNameGenerator.prototype.importData = function(dir) {
+  var filepath = path.join(dir, CACHE_FILENAME)
+  if (!fs.existsSync(filepath)) return
+  this.hash = JSON.parse(fs.readFileSync(filepath, 'utf8').toString())
+}
+
 ShortClassNameGenerator.prototype.next = function(filepath, name) {
-  var key = JSON.stringify(arguments)
+  var key = JSON.stringify([filepath, name])
   if (HAS_PROP.call(this.hash, key)) return this.hash[key]
 
   // PRODUCTION

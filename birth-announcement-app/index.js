@@ -1,10 +1,10 @@
 import 'babel-polyfill'
 
 import React from 'react'
-import { render } from 'react-dom'
+import { hydrate } from 'react-dom'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import { Route } from 'react-router'
+
 import { renderRoutes } from 'react-router-config'
 
 import routes from './routes'
@@ -45,7 +45,7 @@ loadIntl([availableLocales.defaultLocale].concat(availableLocales), () => {
     updateLocale('fr')(store.dispatch) // TODO: detect browser locale
   }
 
-  render(
+  hydrate(
     <Provider store={store}>
       <HotIntlProvider>
         <BrowserRouter>{renderRoutes(routes)}</BrowserRouter>

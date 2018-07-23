@@ -11,6 +11,8 @@ var config = require('./webpack.common.config.js')
 
 config.mode = 'production'
 
+// config.optimization = { minimize: false }
+
 config.plugins = config.plugins.concat([
   new UglifyJsPlugin({
     sourceMap: true,

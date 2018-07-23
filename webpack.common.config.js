@@ -48,6 +48,17 @@ module.exports = _.merge(config, {
     devtoolFallbackModuleFilenameTemplate: '[resourcePath]?[hash]',
   },
   plugins: [
+    {
+      apply: function(compiler) {
+        // We generate classNames for the client & server build and need to ensure they're synced
+        compiler.hooks.afterEnvironment.tap('ShortClassNameGenerator', function(compilation) {
+          if (config.mode.startsWith('prod')) shortClassName.importData(path.join(__dirname, '/public/'))
+        })
+        compiler.hooks.afterEmit.tap('ShortClassNameGenerator', function(compilation) {
+          if (config.mode.startsWith('prod')) shortClassName.exportData(path.join(__dirname, '/public/'))
+        })
+      },
+    },
     bootstrapCss,
     appCss,
     new HtmlWebpackPlugin({
