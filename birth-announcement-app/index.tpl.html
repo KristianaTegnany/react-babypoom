@@ -8,15 +8,15 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta property="og:type" content="Article" />
-  <meta property="og:title" />
-  <meta property="og:description" />
-  <meta property="og:image" />
-  <meta property="og:url" content="http://hello.babypoom.com/###UUID###" />
+  <meta property="og:title" content="{{ogTitle}}" />
+  <meta property="og:description" content="{{ogDescription}}" />
+  <meta property="og:image" content="{{ogImage}}" />
+  <meta property="og:url" content="http://hello.babypoom.com/{{uuid}}" />
   <meta property="og:site_name" content="Babypoom" />
 </head>
 <body>
-  <div id="root"></div>
-  <script id="globalVars"></script>
+  <div id="root">{{html}}</div>
+  <script id="globalVars">{{cachedJs}}</script>
   <% for (var j in htmlWebpackPlugin.files.js) { %><script defer src="<%= htmlWebpackPlugin.files.js[j] %>"></script><% } %>
   <% for (var i in htmlWebpackPlugin.files.css) { %><link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[i] %>" /><% } %>
   <script>

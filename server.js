@@ -45,16 +45,27 @@ app.use(createLocaleMiddleware()) // detect locale
 // serve our static stuff like index.css
 app.use(express.static(path.join(__dirname, 'public')))
 
+var compileString = (function() {
+  var REG_D_QUOTES = /"/g,
+    REG_EOL = /(\n)/gm,
+    REG_INTERPOLATE = /([^\{])\{\{([^\{\}]*)\}\}([^\}])/gm
+
+  return function(str) {
+    return new Function(
+      'd',
+      'return "' +
+        str
+          .replace(REG_EOL, '\\n')
+          .replace(REG_D_QUOTES, '\\"')
+          .replace(REG_INTERPOLATE, '$1"+(d.$2 || "")+"$3') +
+        '"'
+    )
+  }
+})()
+
+const PAGE_CACHE = compileString(fs.readFileSync(path.join(__dirname, 'public', 'index.html')).toString())
+
 app.get('*', (req, res) => {
-  // const branch = matchRoutes(routes, req.url)
-  // const promises = branch.map(({ route, match }) => {
-  //   let fetchData = route.component.fetchData
-  //   return fetchData instanceof Function ? fetchData(store, match.params) : Promise.resolve(null)
-  // })
-  // return Promise.all(promises).then(data => {
-
-  // })
-
   const branch = matchRoutes(routes, req.url)
   if (branch.length) {
     let { route, match } = branch[0]
@@ -72,18 +83,10 @@ app.get('*', (req, res) => {
     component
       .fetchData(store, match.params)
       .then(bpoom => {
-        let metas = {
-          title: interpolateMetaTitle(messages[lang]['metas.title'], bpoom),
-          description: interpolateMetaDescription(messages[lang]['welcome'], bpoom),
-          image: bpoom.photo_mum,
-        }
-
-        let context = {}
-
         const content = renderToString(
           <Provider store={store}>
             <HotIntlProvider>
-              <StaticRouter location={req.url} context={context}>
+              <StaticRouter location={req.url} context={{}}>
                 {renderRoutes(routes)}
               </StaticRouter>
             </HotIntlProvider>
@@ -91,71 +94,22 @@ app.get('*', (req, res) => {
         )
 
         res.send(
-          renderPage(
-            content,
-            match.params.uuid,
-            metas,
-            `var ${config.requestCacheVar} = ${JSON.stringify(store.getState())}`
-          )
+          PAGE_CACHE({
+            ogTitle: interpolateMetaTitle(messages[lang]['metas.title'], bpoom),
+            ogDescription: interpolateMetaDescription(messages[lang]['welcome'], bpoom),
+            ogImage: bpoom.photo_mum,
+            html: content,
+            uuid: match.params.uuid,
+            cachedJs: `var ${config.requestCacheVar} = ${JSON.stringify(store.getState())}`,
+          })
         )
       })
       .catch(err => {
         console.log('ERROR:', err)
-        res.send(renderPage('', match.params.uuid, {}))
+        res.send(PAGE_CACHE({ uuid: match.params.uuid }))
       })
   }
-
-  // match({ routes: '/:uuid/:step?', location: req.url }, (err, redirect, props) => {
-  //   // in here we can make some decisions all at once
-  //   if (err) {
-  //     // there was an error somewhere during route matching
-  //     res.status(500).send(err.message)
-  //   } else if (redirect) {
-  //     // we haven't talked about `onEnter` hooks on routes, but before a
-  //     // route is entered, it can redirect. Here we handle on the server.
-  //     res.redirect(redirect.pathname + redirect.search)
-  //   } else if (props) {
-  // if we got props then we matched a route and can render
-
-  // let apiCache = {}
-
-  // SERVER SIDE RENDERING
-  // let app = (
-  //   <Provider store={store}>
-  //     <HotIntlProvider>
-  //       <RouterContext {...props} />
-  //     </HotIntlProvider>
-  //   </Provider>
-  // )
-
-  // requestBpoom(props.params.uuid, store.dispatch, apiCache)
-  //   .then(bpoom => {
-  //     let metas = {
-  //       title: interpolateMetaTitle(messages[lang]['metas.title'], bpoom),
-  //       description: interpolateMetaDescription(messages[lang]['metas.description'], bpoom),
-  //       image: bpoom.photo_mum,
-  //     }
-
-  //     res.send(
-  //       renderPage(
-  //         renderToString(app),
-  //         props.params.uuid,
-  //         metas,
-  //         `var ${config.requestCacheVar} = ${JSON.stringify(apiCache)}`
-  //       )
-  //     )
-  //   })
-  //   .catch(err => {
-  //     res.send(renderPage('', props.params.uuid, {}))
-  //   })
-  // } else {
-  //   // no errors, no redirect, we just didn't match anything
-  //   res.status(404).send('Not Found')
-  // }
-  // })
 })
-
-const PAGE_CACHE = fs.readFileSync(path.join(__dirname, 'public', 'index.html')).toString()
 
 function interpolateMetaTitle(meta, bpoom) {
   return meta.replace('{name_mum}', bpoom.name_mum).replace('{name_dad}', bpoom.name_dad)
@@ -163,18 +117,6 @@ function interpolateMetaTitle(meta, bpoom) {
 
 function interpolateMetaDescription(meta, bpoom) {
   return meta
-}
-
-function renderPage(appHtml, uuid, metas, globalVars) {
-  return PAGE_CACHE.replace('###UUID###', uuid)
-    .replace('<meta property="og:title" />', `<meta property="og:title" content="${metas.title || ''}" />`)
-    .replace(
-      '<meta property="og:description" />',
-      `<meta property="og:description" content="${metas.description || ''}" />`
-    )
-    .replace('<meta property="og:image" />', `<meta property="og:image" content="${metas.image || ''}" />`)
-    .replace('<script id="globalVars"></script>', `<script id="globalVars">${globalVars || ''}</script>`)
-    .replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`)
 }
 
 app.listen(PORT, function() {
