@@ -17,7 +17,7 @@
 <body>
   <div id="root"></div>
   <script id="globalVars"></script>
-  <% for (var j in htmlWebpackPlugin.files.js) { %><script src="<%= htmlWebpackPlugin.files.js[j] %>"></script><% } %>
+  <% for (var j in htmlWebpackPlugin.files.js) { %><script defer src="<%= htmlWebpackPlugin.files.js[j] %>"></script><% } %>
   <% for (var i in htmlWebpackPlugin.files.css) { %><link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[i] %>" /><% } %>
   <script>
     var link = document.createElement('link');
