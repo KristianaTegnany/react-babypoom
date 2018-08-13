@@ -26,7 +26,7 @@ import page from '../../../config/styles/page.scss'
 let UNIQ = 0
 
 function getThemeName(bpoom) {
-  return bpoom.gender ? ('M' === bpoom.gender ? 'boy' : 'girl') : 'default'
+  return 'dark' //bpoom.gender ? ('M' === bpoom.gender ? 'boy' : 'girl') : 'default'
 }
 
 @connect(

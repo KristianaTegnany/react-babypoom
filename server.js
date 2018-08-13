@@ -26,6 +26,8 @@ import 'isomorphic-fetch'
 import { loadBpoom } from './album-photo-app/views/app/Actions'
 import config from './config/application'
 
+import puppeteer from 'puppeteer'
+
 var PORT = process.env.PORT || 8080
 
 var ALL_LOCALES = [availableLocales.defaultLocale].concat(availableLocales)
@@ -56,9 +58,17 @@ var compileString = (function() {
   }
 })()
 
-const PAGE_CACHE = compileString(
-  fs.readFileSync(path.join(__dirname, 'public', 'index.tpl')).toString(),
-)
+const PAGE_CACHE = compileString(fs.readFileSync(path.join(__dirname, 'public', 'index.tpl')).toString())
+
+// ;(async () => {
+//   console.log('START')
+//   const browser = await puppeteer.launch({ defaultViewport: { width: 1200, height: 800 } })
+//   const page = await browser.newPage()
+//   await page.goto('https://album-photo.babypoom.com/1', { waitUntil: 'networkidle2' })
+//   await page.pdf({ path: 'page.pdf', format: 'A4', landscape: true, printBackground: true })
+//   await browser.close()
+//   console.log('DONE')
+// })()
 
 app.get('*', (req, res) => {
   const branch = matchRoutes(routes, req.url)
@@ -76,18 +86,8 @@ app.get('*', (req, res) => {
     let component = route.component
     while (component.WrappedComponent) component = component.WrappedComponent
 
-    const content = renderToString(
-      <Provider store={store}>
-        <HotIntlProvider>
-          <StaticRouter location={req.url} context={{}}>
-            {renderRoutes(routes)}
-          </StaticRouter>
-        </HotIntlProvider>
-      </Provider>,
-    )
-
     if (!component.fetchData) {
-      return res.send(PAGE_CACHE({ html: content }))
+      return res.send(PAGE_CACHE({ html: render() }))
     }
 
     component
@@ -101,11 +101,9 @@ app.get('*', (req, res) => {
             //   bpoom,
             // ),
             // ogImage: bpoom.photo_mum,
-            html: content,
+            html: render(),
             uuid: match.params.uuid,
-            cachedJs: `var ${config.requestCacheVar} = ${JSON.stringify(
-              store.getState(),
-            )}`,
+            cachedJs: `var ${config.requestCacheVar} = ${JSON.stringify(store.getState())}`,
           }),
         )
       })
@@ -113,6 +111,18 @@ app.get('*', (req, res) => {
         console.log('ERROR:', err)
         res.send(PAGE_CACHE({ uuid: match.params.uuid }))
       })
+
+    function render() {
+      return renderToString(
+        <Provider store={store}>
+          <HotIntlProvider>
+            <StaticRouter location={req.url} context={{}}>
+              {renderRoutes(routes)}
+            </StaticRouter>
+          </HotIntlProvider>
+        </Provider>,
+      )
+    }
   }
 })
 

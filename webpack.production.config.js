@@ -10,15 +10,19 @@ config.mode = 'production'
 
 // config.optimization = { minimize: false }
 
-config.plugins = config.plugins.concat([
-  new UglifyJsPlugin({
-    sourceMap: true,
-    uglifyOptions: {
-      output: {
-        comments: false,
+config.optimization = {
+  minimizer: [
+    new UglifyJsPlugin({
+      cache: true,
+      parallel: true,
+      sourceMap: true, // set to true if you want JS source maps
+      uglifyOptions: {
+        output: {
+          comments: false,
+        },
       },
-    },
-  }),
-])
+    }),
+  ],
+}
 
 module.exports = config

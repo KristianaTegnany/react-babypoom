@@ -1,5 +1,3 @@
-
-
 // Don't use color names (e.g. white/black/gray...)
 
 const THEMES = {
@@ -17,7 +15,12 @@ const THEMES = {
     '--color-text': '#ff6b80',
     '--color-bg': '#ffedf0',
     '--color-border': '#ffadbf',
-  }
+  },
+  dark: {
+    '--color-text': '#ff6b80',
+    '--color-bg': '#000000',
+    '--color-border': '#000000',
+  },
 }
 
-export default THEMES;
+export default THEMES

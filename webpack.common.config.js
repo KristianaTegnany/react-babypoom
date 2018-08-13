@@ -3,7 +3,7 @@ var glob = require('glob')
 var _ = require('lodash')
 var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var MiniCssExtractPlugin = require('mini-css-extract-plugin')
 var StringReplacePlugin = require('string-replace-webpack-plugin')
 var availableLocales = require('./available-locales')
 
@@ -11,28 +11,6 @@ var config = {}
 
 var ShortClassNameGenerator = require('./css-modules-scoped-name')
 var shortClassName = new ShortClassNameGenerator(config)
-
-var scssOptions = {
-  fallback: 'style-loader',
-  use: [
-    {
-      loader: 'css-loader',
-      query: {
-        modules: true,
-        minimize: true,
-        importLoaders: 1,
-        //localIdentName: '[path]___[name]__[local]___[hash:base64:5]',
-        getLocalIdent: (loaderContext, localIdentName, name, options) => {
-          // return `${loaderContext.resourcePath}___${name}`
-          return shortClassName.next(loaderContext.resourcePath, name)
-        },
-      },
-    },
-    'postcss-loader?sourceMap',
-    'resolve-url-loader',
-    'sass-loader?sourceMap&sourceMapContents',
-  ],
-}
 
 module.exports = _.merge(config, {
   devtool: 'source-map',
@@ -56,7 +34,7 @@ module.exports = _.merge(config, {
         })
       },
     },
-    new ExtractTextPlugin('app-[hash].min.css'),
+    new MiniCssExtractPlugin('app-[hash].min.css'),
     new HtmlWebpackPlugin({
       inject: false,
       template: 'album-photo-app/index.tpl',
@@ -120,14 +98,34 @@ module.exports = _.merge(config, {
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader?modules&minimize&sourceMap', 'postcss-loader?sourceMap', 'resolve-url-loader'],
-        }),
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader?modules&minimize&sourceMap',
+          'postcss-loader?sourceMap',
+          'resolve-url-loader',
+        ],
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract(scssOptions),
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            query: {
+              modules: true,
+              minimize: true,
+              importLoaders: 1,
+              //localIdentName: '[path]___[name]__[local]___[hash:base64:5]',
+              getLocalIdent: (loaderContext, localIdentName, name, options) => {
+                // return `${loaderContext.resourcePath}___${name}`
+                return shortClassName.next(loaderContext.resourcePath, name)
+              },
+            },
+          },
+          'postcss-loader?sourceMap',
+          'resolve-url-loader',
+          'sass-loader?sourceMap&sourceMapContents',
+        ],
       },
       // Images
       {

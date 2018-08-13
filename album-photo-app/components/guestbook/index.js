@@ -22,7 +22,7 @@ class Guestbook extends Component {
 
   renderGuestbookMsg = (msg, index) => {
     return (
-      <div key={`guestbook-message-${index}`} styleName="styles.guestbook-message">
+      <div key={index} styleName="styles.guestbook-message">
         <div
           styleName="page.image-container styles.guestbook-message-image-container"
           style={{
@@ -67,7 +67,7 @@ class Guestbook extends Component {
         </div>
         {pages.map((messages, index) => {
           return index % 2 ? (
-            <div key={`guestbook-page-${index}`} styleName="page.page styles.guestbook-page styles.guestbook-page-left">
+            <div key={index} styleName="page.page styles.guestbook-page styles.guestbook-page-left">
               <div styleName="styles.guestbook-message-container">
                 <div styleName="styles.guestbook-message-container--left">
                   {messages.slice(0, 2).map(this.renderGuestbookMsg)}
@@ -78,10 +78,7 @@ class Guestbook extends Component {
               </div>
             </div>
           ) : (
-            <div
-              key={`guestbook-page-${index}`}
-              styleName="page.page styles.guestbook-page styles.guestbook-page-right"
-            >
+            <div key={index} styleName="page.page styles.guestbook-page styles.guestbook-page-right">
               <div styleName="styles.guestbook-message-container">{messages.map(this.renderGuestbookMsg)}</div>
             </div>
           )

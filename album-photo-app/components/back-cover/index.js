@@ -10,10 +10,8 @@ import { defineMessages } from 'react-intl'
 
 import logo from '../../images/logo-bp.png'
 
-@connect(mapStateToProps)
 class BackCover extends Component {
   render() {
-    let { bpoom } = this.props
     return (
       <section styleName="styles.section">
         <div styleName="page.page page.centered-page page.page-with-bg">
@@ -28,13 +26,6 @@ class BackCover extends Component {
 }
 
 export default BackCover
-
-function mapStateToProps(state) {
-  const {
-    app: { bpoom },
-  } = state
-  return { bpoom }
-}
 
 const MSG = defineMessages({
   made_with_love: {
