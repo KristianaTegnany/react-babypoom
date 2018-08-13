@@ -1,0 +1,34 @@
+/* Reset */
+@charset "UTF-8";
+
+* {
+  box-sizing: border-box;
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+}
+ul,
+ol {
+  list-style: none;
+}
+h1 {
+  font-size: 27px;
+}
+body {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 12px;
+  color: var(--page_color);
+  text-align: center;
+  background: gray;
+}
+img {
+  display: block;
+}
+section {
+  display: block;
+  margin: 0 auto;
+  width: var(--page-width);
+  text-align: left;
+  overflow: hidden;
+  background: white;
+}

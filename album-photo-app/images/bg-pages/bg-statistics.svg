@@ -1,0 +1,19 @@
+<svg version="1.1" id="Guestbook" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="292px" height="453.5px" viewBox="0 0 292 453.5" enable-background="new 0 0 292 453.5" xml:space="preserve">
+	<g>
+		<defs>
+			<rect id="SVGID_1_" x="92.5" y="230.8" width="111.8" height="178.1" />
+		</defs>
+		<clipPath id="SVGID_2_">
+			<use xlink:href="#SVGID_1_" overflow="visible" />
+		</clipPath>
+		<path clip-path="url(#SVGID_2_)" fill="none" stroke="#000000" stroke-width="2.287" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M172.3,266.7c0,0-4.1,2.4-7.3,0c-3.2-2.4-7.7-2.5-11,3.6c-3,5.6-8.9,3.7-10.2,2.7c-1.8-1.4-7.4-3.3-10.8,3.1
+		c-2.9,5.4-8,4.6-10.1,3.2c-2.1-1.5-8-2.8-11.9,3.3c-3.9,6.1-9.6,4.4-11.3,3.3" />
+		<line clip-path="url(#SVGID_2_)" fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="140.1" y1="400.2" x2="142.3" y2="407.9" />
+		<line clip-path="url(#SVGID_2_)" fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="137.4" y1="405.1" x2="145" y2="403" />
+		<line clip-path="url(#SVGID_2_)" fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="198.3" y1="231.8" x2="200.5" y2="239.4" />
+		<line clip-path="url(#SVGID_2_)" fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="195.6" y1="236.7" x2="203.3" y2="234.5" />
+		<circle clip-path="url(#SVGID_2_)" fill="none" stroke="#224257" stroke-width="2" stroke-miterlimit="10" cx="200.3" cy="365.4" r="2.9" />
+		<circle clip-path="url(#SVGID_2_)" fill="none" stroke="#224257" stroke-width="2" stroke-miterlimit="10" cx="96.4" cy="259.2" r="2.9" />
+	</g>
+</svg>

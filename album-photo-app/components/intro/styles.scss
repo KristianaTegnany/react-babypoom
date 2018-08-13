@@ -1,0 +1,58 @@
+section {
+  .summary-page {
+    text-align: center;
+    background: transparent url('../images/bg-pages/bg-summary.svg') left top/auto no-repeat;
+
+    & > * {
+      float: none;
+      width: auto;
+    }
+  }
+
+  .summary-page-presentation {
+    height: 79mm;
+    line-height: 119mm;
+  }
+
+  .summary-page-content {
+    display: block;
+    width: 80mm;
+    margin: 0 auto;
+  }
+
+  .summary-content {
+    padding: 0;
+    font-size: 2.5mm;
+  }
+
+  .baby-summary-desc {
+    padding: 5mm 9mm;
+    border-bottom: 0.7mm solid var(--page-border-color);
+  }
+
+  .baby-summary-list {
+    padding: 5mm 9mm;
+    text-align: left;
+    counter-reset: steps;
+
+    li {
+      padding: 0.2mm 0;
+      color: var(--page-color-gray);
+
+      &::before {
+        counter-increment: steps;
+        content: counter(steps) '. ';
+        display: inline;
+        margin-right: 6.5mm;
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--page-color);
+        vertical-align: middle;
+      }
+
+      span {
+        padding-bottom: 0.2mm;
+      }
+    }
+  }
+}

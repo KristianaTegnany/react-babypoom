@@ -1,0 +1,83 @@
+<svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="472.5px" height="557.5px" viewBox="0 0 472.5 557.5" enable-background="new 0 0 472.5 557.5" xml:space="preserve">
+	<g>
+		<defs>
+			<rect id="SVGID_1_" x="98.3" y="232.7" width="233.3" height="198" />
+		</defs>
+		<clipPath id="SVGID_2_">
+			<use xlink:href="#SVGID_1_" overflow="visible" />
+		</clipPath>
+		<path clip-path="url(#SVGID_2_)" fill="#224257" d="M269.9,269.5v6.5c0,0.5,0.4,0.9,0.9,0.9s0.9-0.4,0.9-0.9v-6.5
+		c0-0.5-0.4-0.9-0.9-0.9S269.9,269,269.9,269.5" />
+		<path clip-path="url(#SVGID_2_)" fill="#224257" d="M267.6,273.6h6.5c0.5,0,0.9-0.4,0.9-0.9s-0.4-0.9-0.9-0.9h-6.5
+		c-0.5,0-0.9,0.4-0.9,0.9S267.1,273.6,267.6,273.6" />
+		<circle clip-path="url(#SVGID_2_)" fill="none" stroke="#224257" stroke-width="2" stroke-miterlimit="10" cx="102.2" cy="280.8" r="2.9" />
+		<circle clip-path="url(#SVGID_2_)" fill="none" stroke="#224257" stroke-width="2" stroke-miterlimit="10" cx="327.7" cy="348.8" r="2.9" />
+		<line clip-path="url(#SVGID_2_)" fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="193.4" y1="421.8" x2="193.4" y2="429.7" />
+	</g>
+	<line fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="189.4" y1="425.7" x2="197.3" y2="425.7" />
+	<g>
+		<defs>
+			<rect id="SVGID_3_" x="98.3" y="232.7" width="233.3" height="198" />
+		</defs>
+		<clipPath id="SVGID_4_">
+			<use xlink:href="#SVGID_3_" overflow="visible" />
+		</clipPath>
+		<path clip-path="url(#SVGID_4_)" fill="none" stroke="#EB5D72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M202.3,239.8c0,0,7,9.8,4.7,28.1c0,0-3.2,16.6,15.5,34.1 M226.5,303.9c0,0,1.4,6.9,7.5,5.7l31.6-9.1 M220.2,305.7
+		c0,0,2.4,6.6-3.2,8.9l-31.6,9.1 M226.6,304.1c0.6,1.7-0.4,3.6-2.1,4.2c-1.7,0.6-3.6-0.4-4.2-2.1c-0.6-1.7,0.4-3.6,2.2-4.2
+		C224.2,301.4,226,302.3,226.6,304.1z M220.1,304.5c0,0-6.7,0-7.9-6.5c0,0,6-1.6,10.2,3.9c0,0-0.3-7.6,6.2-9.1c0,0,2.7,5.4-2.8,10" />
+		<path clip-path="url(#SVGID_4_)" fill="#FFFFFF" d="M140.2,248c-1.7,1.8-2.9,4.5-2.5,8.7l11.7,30.1c2.5,6.5-0.7,13.8-7.2,16.3
+		l-43,16.8c6.7,17.2,26.1,25.7,43.4,19c17.2-6.7,25.7-26.1,19-43.4l-4-11.1c-5.1-13.7-9-19.1-5.8-22.8" />
+		<path clip-path="url(#SVGID_4_)" fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M140.2,248c-1.7,1.8-2.9,4.5-2.5,8.7l11.7,30.1c2.5,6.5-0.7,13.8-7.2,16.3l-43,16.8c6.7,17.2,26.1,25.7,43.4,19
+		c17.2-6.7,25.7-26.1,19-43.4l-4-11.1c-5.1-13.7-9-19.1-5.8-22.8" />
+		<path clip-path="url(#SVGID_4_)" fill="#FFFFFF" d="M138.7,243.8c1.7,1.7,1,2.9,1,2.9c-0.2,0.1-0.8,0.5-1.5,1.2
+		c-1.7,1.7-4,5-3.2,9.4c1.1,6.2,8.3,9.6,13.7,6.9c1.4-0.7,2.5-1.5,3.3-2.3c2.3-2.3,2.5-4.6,2.6-4.8c0.1-0.3,0.6-1.6,0.6-1.6
+		l-2.6-6.6c-3.6-4.4-9.4-2.7-9.4-2.7 M142.8,246.2c0-2.8-4.2-2.4-4.2-2.4" />
+		<path clip-path="url(#SVGID_4_)" fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M138.7,243.8c1.7,1.7,1,2.9,1,2.9c-0.2,0.1-0.8,0.5-1.5,1.2c-1.7,1.7-4,5-3.2,9.4c1.1,6.2,8.3,9.6,13.7,6.9
+		c1.4-0.7,2.5-1.5,3.3-2.3c2.3-2.3,2.5-4.6,2.6-4.8c0.1-0.3,0.6-1.6,0.6-1.6l-2.6-6.6c-3.6-4.4-9.4-2.7-9.4-2.7 M142.8,246.2
+		c0-2.8-4.2-2.4-4.2-2.4" />
+		<path clip-path="url(#SVGID_4_)" fill="#EB5D72" d="M148.2,256.3c0.7,0.7,0.7,1.9,0,2.7c-0.7,0.7-1.9,0.7-2.7,0
+		c-0.7-0.7-0.7-1.9,0-2.7C146.3,255.6,147.5,255.6,148.2,256.3" />
+		<path clip-path="url(#SVGID_4_)" fill="#FAEB9A" d="M150.5,253.9c0,0,1.9-1.9,2.1-5l52.2-11.1l-50.5,18.3c0,0-2.1-2.2-3.7-2.4" />
+		<path clip-path="url(#SVGID_4_)" fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M150.5,253.9c0,0,1.9-1.9,2.1-5l52.2-11.1l-50.5,18.3c0,0-2.1-2.2-3.7-2.4" />
+		<path clip-path="url(#SVGID_4_)" fill="#FFFFFF" d="M141.6,253.4c0,0,0.1-1.8,2.4-1.5" />
+		<path clip-path="url(#SVGID_4_)" fill="none" stroke="#224257" stroke-width="2.424" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M141.6,253.4c0,0,0.1-1.8,2.4-1.5" />
+		<path clip-path="url(#SVGID_4_)" fill="#EB5D72" d="M141.4,243.7l-3.9-3.1c-1-1.2-1.6,0-1.6,0l-7.3,12c-0.7,1.4,0.4,1.8,0.4,1.8
+		l5.4,2.2C134.4,256.5,141.2,250.4,141.4,243.7l7.9-10.4" />
+		<path clip-path="url(#SVGID_4_)" fill="none" stroke="#224257" stroke-width="2" stroke-miterlimit="10" d="M141.4,243.7l-3.9-3.1
+		c-1-1.2-1.6,0-1.6,0l-7.3,12c-0.7,1.4,0.4,1.8,0.4,1.8l5.4,2.2C134.4,256.5,141.2,250.4,141.4,243.7l7.9-10.4" />
+		<path clip-path="url(#SVGID_4_)" fill="#FFFFFF" d="M147.6,319.9l-32.7-7.7c-2.4,10.3,3.9,20.6,14.2,23.1" />
+		<path clip-path="url(#SVGID_4_)" fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M147.6,319.9l-32.7-7.7c-2.4,10.3,3.9,20.6,14.2,23.1" />
+	</g>
+	<line fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="115" y1="319.8" x2="126.8" y2="322.6" />
+	<line fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="117.8" y1="326.7" x2="129.5" y2="329.5" />
+	<g>
+		<defs>
+			<rect id="SVGID_5_" x="98.3" y="232.7" width="233.3" height="198" />
+		</defs>
+		<clipPath id="SVGID_6_">
+			<use xlink:href="#SVGID_5_" overflow="visible" />
+		</clipPath>
+		<path clip-path="url(#SVGID_6_)" fill="#ACDDF0" d="M159.4,280.7c0,0,4.9-1.8,9.1,2.9c0,0-2.4,1.9-5.2,1.6" />
+		<path clip-path="url(#SVGID_6_)" fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M159.4,280.7c0,0,4.9-1.8,9.1,2.9c0,0-2.4,1.9-5.2,1.6" />
+		<path clip-path="url(#SVGID_6_)" fill="#ACDDF0" d="M156.7,283.5c0,0,0.6,6.9,9.1,8.4c0,0-1.6-8.9-6.8-10.6" />
+		<path clip-path="url(#SVGID_6_)" fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M156.7,283.5c0,0,0.6,6.9,9.1,8.4c0,0-1.6-8.9-6.8-10.6" />
+		<path clip-path="url(#SVGID_6_)" fill="#ACDDF0" d="M155.9,285.2l-6.7,1c-1.7,0.2-3.3-1-3.6-2.7c-0.2-1.7,1-3.3,2.7-3.6l6.7-1
+		c1.7-0.2,3.3,1,3.6,2.7C158.8,283.3,157.6,285,155.9,285.2" />
+		<path clip-path="url(#SVGID_6_)" fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="
+		M155.9,285.2l-6.7,1c-1.7,0.2-3.3-1-3.6-2.7c-0.2-1.7,1-3.3,2.7-3.6l6.7-1c1.7-0.2,3.3,1,3.6,2.7
+		C158.8,283.3,157.6,285,155.9,285.2z" />
+		<path clip-path="url(#SVGID_6_)" fill="#ACDDF0" d="M158.5,281c0.5,1.4-0.1,3-1.5,3.5c-1.4,0.5-3-0.1-3.5-1.5
+		c-0.5-1.4,0.1-3,1.5-3.5C156.4,278.9,158,279.6,158.5,281" />
+		<circle clip-path="url(#SVGID_6_)" fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" cx="156" cy="282" r="2.7" />
+	</g>
+	<path fill="none" stroke="#224257" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+	M141.3,341.1l15.3,14.8l-37.2,37.9l6.4,5.3 M131,342.4l12.9,22.7l2,45.2l6.8-0.5" />
+</svg>
