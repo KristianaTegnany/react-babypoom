@@ -63,8 +63,8 @@ module.exports = _.merge(config, {
     appCss,
     new HtmlWebpackPlugin({
       inject: false,
-      template: 'birth-announcement-app/index.tpl.html',
-      filename: 'index.html',
+      template: 'birth-announcement-app/index.tpl',
+      filename: 'index.tpl',
       locales: availableLocales,
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),

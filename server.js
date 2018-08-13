@@ -58,12 +58,14 @@ var compileString = (function() {
           .replace(REG_EOL, '\\n')
           .replace(REG_D_QUOTES, '\\"')
           .replace(REG_INTERPOLATE, '$1"+(d.$2 || "")+"$3') +
-        '"'
+        '"',
     )
   }
 })()
 
-const PAGE_CACHE = compileString(fs.readFileSync(path.join(__dirname, 'public', 'index.html')).toString())
+const PAGE_CACHE = compileString(
+  fs.readFileSync(path.join(__dirname, 'public', 'index.tpl')).toString(),
+)
 
 app.get('*', (req, res) => {
   const branch = matchRoutes(routes, req.url)
@@ -80,28 +82,37 @@ app.get('*', (req, res) => {
     let component = route.component
     while (component.WrappedComponent) component = component.WrappedComponent
 
+    const content = renderToString(
+      <Provider store={store}>
+        <HotIntlProvider>
+          <StaticRouter location={req.url} context={{}}>
+            {renderRoutes(routes)}
+          </StaticRouter>
+        </HotIntlProvider>
+      </Provider>,
+    )
+
+    if (!component.fetchData) {
+      return res.send(PAGE_CACHE({ html: content }))
+    }
+
     component
       .fetchData(store, match.params)
       .then(bpoom => {
-        const content = renderToString(
-          <Provider store={store}>
-            <HotIntlProvider>
-              <StaticRouter location={req.url} context={{}}>
-                {renderRoutes(routes)}
-              </StaticRouter>
-            </HotIntlProvider>
-          </Provider>
-        )
-
         res.send(
           PAGE_CACHE({
             ogTitle: interpolateMetaTitle(messages[lang]['metas.title'], bpoom),
-            ogDescription: interpolateMetaDescription(messages[lang]['welcome'], bpoom),
+            ogDescription: interpolateMetaDescription(
+              messages[lang]['welcome'],
+              bpoom,
+            ),
             ogImage: bpoom.photo_mum,
             html: content,
             uuid: match.params.uuid,
-            cachedJs: `var ${config.requestCacheVar} = ${JSON.stringify(store.getState())}`,
-          })
+            cachedJs: `var ${config.requestCacheVar} = ${JSON.stringify(
+              store.getState(),
+            )}`,
+          }),
         )
       })
       .catch(err => {
@@ -112,7 +123,9 @@ app.get('*', (req, res) => {
 })
 
 function interpolateMetaTitle(meta, bpoom) {
-  return meta.replace('{name_mum}', bpoom.name_mum).replace('{name_dad}', bpoom.name_dad)
+  return meta
+    .replace('{name_mum}', bpoom.name_mum)
+    .replace('{name_dad}', bpoom.name_dad)
 }
 
 function interpolateMetaDescription(meta, bpoom) {

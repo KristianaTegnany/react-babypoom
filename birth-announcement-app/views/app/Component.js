@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
 import { connect } from 'react-redux'
-import { Route } from 'react-router'
 
 // Routes
 import { PATH_TO_STEP_MAP, stepComponent, stepPath } from './steps'
@@ -46,7 +45,14 @@ const noNavParamName = 'nn'
 
 @connect(
   mapStateToProps,
-  { loadBpoom, updateStep, updateNoNav, changeSlideshowIndex, closeSlideshow, deleteFlash }
+  {
+    loadBpoom,
+    updateStep,
+    updateNoNav,
+    changeSlideshowIndex,
+    closeSlideshow,
+    deleteFlash,
+  },
 )
 class App extends Component {
   // static childContextTypes = {
@@ -61,14 +67,18 @@ class App extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     let bpoom = nextProps.bpoom
     if (bpoom && bpoom.theme_color_1 && bpoom.theme_color_2) {
-      return { theme: computeThemeColors(bpoom.theme_color_1, bpoom.theme_color_2) }
+      return {
+        theme: computeThemeColors(bpoom.theme_color_1, bpoom.theme_color_2),
+      }
     }
     return null
   }
 
   constructor(props) {
     super(props)
-    this.state = { theme: computeThemeColors(config.theme.defaultColor1, config.theme.defaultColor2) }
+    this.state = {
+      theme: computeThemeColors(config.theme.defaultColor1, config.theme.defaultColor2),
+    }
 
     // No nav
     let noNav = hasParam(this.props.location.search, noNavParamName)

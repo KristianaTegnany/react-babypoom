@@ -19,6 +19,7 @@ export default class extends Component {
     this.updateCSSVariables(this.props['data-variables'])
   }
 
+  // TODO: not here. static getDerivedStateFromProps(nextProps, prevState)
   componentDidUpdate(prevProps) {
     if (this.props['data-variables'] !== prevProps['data-variables']) {
       this.updateCSSVariables(this.props['data-variables'])
