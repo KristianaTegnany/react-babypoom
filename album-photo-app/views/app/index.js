@@ -16,7 +16,7 @@ import Arrival from '../../components/arrival'
 import Trip from '../../components/trip'
 import Guestbook from '../../components/guestbook'
 import ParentsAndStats from '../../components/parents-and-stats'
-// import BackCover from '../../components/back-cover'
+import BackCover from '../../components/back-cover'
 
 import i18n from '../../i18n/i18n'
 
@@ -97,7 +97,7 @@ class App extends Component {
         <Trip />
         <Guestbook />
         <ParentsAndStats />
-        {/* <BackCover /> */}
+        <BackCover />
       </CSSVariableApplicator>
     )
   }
