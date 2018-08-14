@@ -13,12 +13,12 @@
   <meta property="og:image" content="{{ogImage}}" />
   <meta property="og:url" content="http://hello.babypoom.com/{{uuid}}" />
   <meta property="og:site_name" content="Babypoom" />
+  <% for (var i in htmlWebpackPlugin.files.css) { %><link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[i] %>" /><% } %>
 </head>
 <body>
   <div id="root">{{html}}</div>
   <script>{{cachedJs}}</script>
   <% for (var j in htmlWebpackPlugin.files.js) { %><script src="<%= htmlWebpackPlugin.files.js[j] %>"></script><% } %>
-  <% for (var i in htmlWebpackPlugin.files.css) { %><link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[i] %>" /><% } %>
   <script>
     var link = document.createElement('link');
     link.href = "//fonts.googleapis.com/css?family=Varela+Round";
