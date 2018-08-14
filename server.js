@@ -60,17 +60,38 @@ var compileString = (function() {
 
 const PAGE_CACHE = compileString(fs.readFileSync(path.join(__dirname, 'public', 'index.tpl')).toString())
 
-// ;(async () => {
-//   console.log('START')
-//   const browser = await puppeteer.launch({ defaultViewport: { width: 1200, height: 800 } })
-//   const page = await browser.newPage()
-//   await page.goto('https://album-photo.babypoom.com/1', { waitUntil: 'networkidle2' })
-//   await page.pdf({ path: 'page.pdf', format: 'A4', landscape: true, printBackground: true })
-//   await browser.close()
-//   console.log('DONE')
-// })()
+let BROWSER
+;(async () => {
+  BROWSER = await puppeteer.launch({ defaultViewport: { width: 1200, height: 800 } })
+})()
+
+var generatePdf = async function(url, callback) {
+  const page = await BROWSER.newPage()
+  await page.goto(url, { waitUntil: 'networkidle2' })
+  await page.pdf({ format: 'A4', landscape: true, printBackground: true }).then(callback, function(error) {
+    console.log(error)
+  })
+  await page.close()
+}
+process.on('exit', async function() {
+  await BROWSER.close()
+})
+
+var REG_PDF = /\.pdf$/
 
 app.get('*', (req, res) => {
+  if (REG_PDF.test(req.url)) {
+    res.setHeader('Content-Type', 'application/pdf')
+    res.setHeader('Content-Disposition', 'inline;filename=album-photo.pdf')
+    generatePdf(
+      (req.connection && req.connection.encrypted ? 'https' : 'http') +
+        '://' +
+        (req.get('host') + req.originalUrl).replace(REG_PDF, ''),
+      pdf => res.send(pdf),
+    )
+    return
+  }
+
   const branch = matchRoutes(routes, req.url)
 
   if (branch.length) {
@@ -93,19 +114,18 @@ app.get('*', (req, res) => {
     component
       .fetchData(store, match.params)
       .then(bpoom => {
-        res.send(
-          PAGE_CACHE({
-            // ogTitle: interpolateMetaTitle(messages[lang]['metas.title'], bpoom),
-            // ogDescription: interpolateMetaDescription(
-            //   messages[lang]['welcome'],
-            //   bpoom,
-            // ),
-            // ogImage: bpoom.photo_mum,
-            html: render(),
-            uuid: match.params.uuid,
-            cachedJs: `var ${config.requestCacheVar} = ${JSON.stringify(store.getState())}`,
-          }),
-        )
+        var content = PAGE_CACHE({
+          // ogTitle: interpolateMetaTitle(messages[lang]['metas.title'], bpoom),
+          // ogDescription: interpolateMetaDescription(
+          //   messages[lang]['welcome'],
+          //   bpoom,
+          // ),
+          // ogImage: bpoom.photo_mum,
+          html: render(),
+          uuid: match.params.uuid,
+          cachedJs: `var ${config.requestCacheVar} = ${JSON.stringify(store.getState())}`,
+        })
+        res.send(content)
       })
       .catch(err => {
         console.log('ERROR:', err)
@@ -136,6 +156,6 @@ app.get('*', (req, res) => {
 //   return meta
 // }
 
-app.listen(PORT, function() {
+let listener = app.listen(PORT, function() {
   console.log('Production Express server running at localhost:' + PORT)
 })
