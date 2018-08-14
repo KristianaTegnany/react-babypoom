@@ -26,7 +26,8 @@ import page from '../../../config/styles/page.scss'
 let UNIQ = 0
 
 function getThemeName(bpoom) {
-  return 'dark' //bpoom.gender ? ('M' === bpoom.gender ? 'boy' : 'girl') : 'default'
+  let hack = (window.location.hash || '').substr(1)
+  return hack && hack in THEMES ? hack : bpoom.gender ? ('M' === bpoom.gender ? 'boy' : 'girl') : 'default'
 }
 
 @connect(

@@ -93,7 +93,7 @@ class Trip extends Component {
             </div>
           )
         })}
-        {lastPageEvents.length && (
+        {!!lastPageEvents.length && (
           <div
             styleName={`page.page styles.trip-page styles.trip-page-ending styles.with-${lastPageEvents.length}-events`}
           >
