@@ -64,7 +64,6 @@ let BROWSER
 ;(async () => {
   BROWSER = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    defaultViewport: { width: 1200, height: 800 },
   })
 })()
 
