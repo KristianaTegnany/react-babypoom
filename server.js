@@ -62,7 +62,10 @@ const PAGE_CACHE = compileString(fs.readFileSync(path.join(__dirname, 'public', 
 
 let BROWSER
 ;(async () => {
-  BROWSER = await puppeteer.launch({ defaultViewport: { width: 1200, height: 800 } })
+  BROWSER = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    defaultViewport: { width: 1200, height: 800 },
+  })
 })()
 
 var generatePdf = async function(url, callback) {
