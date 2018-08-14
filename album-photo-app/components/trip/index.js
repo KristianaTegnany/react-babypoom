@@ -63,6 +63,8 @@ class Trip extends Component {
     } = this.props
     if (!bp_trip_events.length) return ''
 
+    bp_trip_events = bp_trip_events.slice(0)
+
     let firstPageEvents = bp_trip_events.splice(0, 2)
     let pages = this.groupBy(bp_trip_events, 4)
     let lastPageEvents = pages.pop() || []
