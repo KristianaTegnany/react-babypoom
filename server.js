@@ -63,9 +63,7 @@ var compileString = (function() {
   }
 })()
 
-const PAGE_CACHE = compileString(
-  fs.readFileSync(path.join(__dirname, 'public', 'index.tpl')).toString(),
-)
+const PAGE_CACHE = compileString(fs.readFileSync(path.join(__dirname, 'public', 'index.tpl')).toString())
 
 app.get('*', (req, res) => {
   const branch = matchRoutes(routes, req.url)
@@ -82,18 +80,8 @@ app.get('*', (req, res) => {
     let component = route.component
     while (component.WrappedComponent) component = component.WrappedComponent
 
-    const content = renderToString(
-      <Provider store={store}>
-        <HotIntlProvider>
-          <StaticRouter location={req.url} context={{}}>
-            {renderRoutes(routes)}
-          </StaticRouter>
-        </HotIntlProvider>
-      </Provider>,
-    )
-
     if (!component.fetchData) {
-      return res.send(PAGE_CACHE({ html: content }))
+      return res.send(PAGE_CACHE({ html: render() }))
     }
 
     component
@@ -102,16 +90,11 @@ app.get('*', (req, res) => {
         res.send(
           PAGE_CACHE({
             ogTitle: interpolateMetaTitle(messages[lang]['metas.title'], bpoom),
-            ogDescription: interpolateMetaDescription(
-              messages[lang]['welcome'],
-              bpoom,
-            ),
+            ogDescription: interpolateMetaDescription(messages[lang]['welcome'], bpoom),
             ogImage: bpoom.photo_mum,
-            html: content,
+            html: render(),
             uuid: match.params.uuid,
-            cachedJs: `var ${config.requestCacheVar} = ${JSON.stringify(
-              store.getState(),
-            )}`,
+            cachedJs: `var ${config.requestCacheVar} = ${JSON.stringify(store.getState())}`,
           }),
         )
       })
@@ -119,13 +102,23 @@ app.get('*', (req, res) => {
         console.log('ERROR:', err)
         res.send(PAGE_CACHE({ uuid: match.params.uuid }))
       })
+
+    function render() {
+      return renderToString(
+        <Provider store={store}>
+          <HotIntlProvider>
+            <StaticRouter location={req.url} context={{}}>
+              {renderRoutes(routes)}
+            </StaticRouter>
+          </HotIntlProvider>
+        </Provider>,
+      )
+    }
   }
 })
 
 function interpolateMetaTitle(meta, bpoom) {
-  return meta
-    .replace('{name_mum}', bpoom.name_mum)
-    .replace('{name_dad}', bpoom.name_dad)
+  return meta.replace('{name_mum}', bpoom.name_mum).replace('{name_dad}', bpoom.name_dad)
 }
 
 function interpolateMetaDescription(meta, bpoom) {

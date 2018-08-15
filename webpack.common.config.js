@@ -64,7 +64,7 @@ module.exports = _.merge(config, {
     new HtmlWebpackPlugin({
       inject: false,
       template: 'birth-announcement-app/index.tpl',
-      filename: 'index.tpl',
+      filename: process.env.NODE_ENV === 'production' ? 'index.tpl' : 'index.html',
       locales: availableLocales,
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
