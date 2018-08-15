@@ -128,24 +128,39 @@ export default class Klass extends Component {
   }
 
   videoPlay(e) {
+    // Square format
+    if (this.videoElt.videoWidth > this.videoElt.videoHeight) {
+      this.videoElt.setAttribute('height', '100%')
+      this.videoElt.style.left = `${((100 - (this.videoElt.videoWidth * 100) / this.videoElt.videoHeight) / 2).toFixed(
+        4,
+      )}%`
+    } else {
+      this.videoElt.setAttribute('width', '100%')
+      this.videoElt.style.top = `${((100 - (this.videoElt.videoHeight * 100) / this.videoElt.videoWidth) / 2).toFixed(
+        4,
+      )}%`
+    }
+
     if (!this.streaming) {
-      this.videoElt.setAttribute('width', '')
-      let ratio = this.videoElt.videoWidth / this.videoElt.videoHeight
-      let height = this.videoElt.clientWidth / ratio
-      this.videoElt.setAttribute('height', height)
-      let imgDim = Math.min(IMG_DIM, this.videoElt.videoWidth, this.videoElt.videoHeight)
-      let canvasDim = [imgDim * ratio, imgDim]
-      if (ratio < 1) canvasDim.reverse()
-      this.canvas.setAttribute('width', canvasDim[0])
-      this.canvas.setAttribute('height', canvasDim[1])
+      let size = Math.min(IMG_DIM, this.videoElt.videoWidth, this.videoElt.videoHeight)
+      this.canvas.setAttribute('width', size)
+      this.canvas.setAttribute('height', size)
       this.streaming = true
     }
   }
 
   takePicture() {
-    this.canvas
-      .getContext('2d')
-      .drawImage(this.videoElt, 0, 0, this.canvas.getAttribute('width'), this.canvas.getAttribute('height'))
+    // Square format
+    let size = Math.min(IMG_DIM, this.videoElt.videoWidth, this.videoElt.videoHeight)
+    if (this.videoElt.videoWidth > this.videoElt.videoHeight) {
+      let offset = (100 - (this.videoElt.videoWidth * 100) / this.videoElt.videoHeight) / 2
+      offset = (offset / 100) * size
+      this.canvas.getContext('2d').drawImage(this.videoElt, offset, 0, size - offset * 2, size)
+    } else {
+      let offset = (100 - (this.videoElt.videoHeight * 100) / this.videoElt.videoWidth) / 2
+      offset = (offset / 100) * size
+      this.canvas.getContext('2d').drawImage(this.videoElt, 0, offset, size, size - offset * 2)
+    }
     this.setState({ snap: true })
     this.photoElt.setAttribute('src', this.canvas.toDataURL('image/jpeg'))
   }
@@ -180,14 +195,11 @@ export default class Klass extends Component {
             {t(FORM_MSG.form_image_capture)}
           </ModalHeader>
           <ModalBody styleName="modal">
-            <div style={{ display: state.loadingCam ? 'none' : '' }}>
-              <img styleName="img" ref={elt => (this.photoElt = elt)} style={{ display: state.snap ? '' : 'none' }} />
-              <video
-                styleName="video"
-                ref={elt => (this.videoElt = elt)}
-                style={{ display: state.snap ? 'none' : '' }}
-                onLoadedMetadata={this.videoPlay}
-              />
+            <div hidden={state.loadingCam}>
+              <img styleName="img" ref={elt => (this.photoElt = elt)} hidden={!state.snap} />
+              <div styleName="video-container" ref={elt => (this.videoCtn = elt)} hidden={state.snap}>
+                <video styleName="video" ref={elt => (this.videoElt = elt)} onLoadedMetadata={this.videoPlay} />
+              </div>
             </div>
           </ModalBody>
           <ModalFooter styleName="modal-footer">

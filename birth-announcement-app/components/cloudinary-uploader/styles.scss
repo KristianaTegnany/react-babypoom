@@ -35,6 +35,14 @@
 .modal {
   background: url(./gears.svg) center no-repeat;
   min-height: 200px;
+
+  video {
+    display: block;
+  }
+  img {
+    max-width: 100%;
+    display: block;
+  }
 }
 
 .modal-footer {
@@ -43,8 +51,14 @@
   }
 }
 
-.video,
-.img {
-  max-width: 100%;
-  display: block;
+.video-container {
+  position: relative;
+  padding-top: 100%;
+  overflow: hidden;
+
+  video {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 }
