@@ -7,6 +7,8 @@ import PresentationPanel from '../presentation-panel'
 import ContentPanel from '../content-panel'
 import BorderBgBox from '../border-bg-box'
 
+import getPhoto from '../../../lib/get-photo'
+
 import styles from './styles.scss'
 
 // i18n
@@ -105,7 +107,7 @@ class Arrival extends Component {
               <div
                 styleName="baby-img"
                 style={{
-                  backgroundImage: bpoom.photo ? `url(${bpoom.photo})` : '',
+                  backgroundImage: getPhoto(bpoom.photo) ? `url(${getPhoto(bpoom.photo)})` : '',
                 }}
               />
             </div>

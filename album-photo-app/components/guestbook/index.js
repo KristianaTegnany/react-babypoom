@@ -6,6 +6,8 @@ import Title from '../title'
 import PresentationPanel from '../presentation-panel'
 import ContentPanel from '../content-panel'
 
+import getPhoto from '../../../lib/get-photo'
+
 import styles from './styles.scss'
 
 // i18n
@@ -28,9 +30,9 @@ class Guestbook extends Component {
     return (
       <div key={index} styleName="message">
         <div
-          styleName="page.image-container image-container"
+          styleName="image-container"
           style={{
-            backgroundImage: msg.photo ? `url(${msg.photo})` : '',
+            backgroundImage: getPhoto(msg.photo) ? `url(${getPhoto(msg.photo)})` : '',
           }}
         />
         <div styleName="quote-container">

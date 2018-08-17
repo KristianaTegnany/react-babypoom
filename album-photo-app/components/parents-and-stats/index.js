@@ -6,6 +6,8 @@ import Title from '../title'
 import PresentationPanel from '../presentation-panel'
 import ContentPanel from '../content-panel'
 
+import getPhoto from '../../../lib/get-photo'
+
 // i18n
 import t from '../../i18n/i18n'
 import { defineMessages, FormattedDate } from 'react-intl'
@@ -29,7 +31,9 @@ class ParentsAndStats extends Component {
                 <div>
                   <div
                     style={{
-                      backgroundImage: bpoom[`photo_${parent}`] ? `url(${bpoom[`photo_${parent}`]})` : '',
+                      backgroundImage: getPhoto(bpoom[`photo_${parent}`])
+                        ? `url(${getPhoto(bpoom[`photo_${parent}`])})`
+                        : '',
                     }}
                     styleName="image-container"
                   />

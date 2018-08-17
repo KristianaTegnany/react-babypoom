@@ -7,6 +7,8 @@ import PresentationPanel from '../presentation-panel'
 import ContentPanel from '../content-panel'
 import BorderBgBox from '../border-bg-box'
 
+import getPhoto from '../../../lib/get-photo'
+
 import styles from './styles.scss'
 
 // i18n
@@ -50,7 +52,7 @@ class Trip extends Component {
       <div
         styleName="image-container"
         style={{
-          backgroundImage: tripEvent.photo ? `url(${tripEvent.photo})` : '',
+          backgroundImage: getPhoto(tripEvent.photo) ? `url(${getPhoto(tripEvent.photo)})` : '',
         }}
       />
       <div styleName="quote">{tripEvent.message}</div>
