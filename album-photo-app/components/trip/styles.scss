@@ -257,4 +257,11 @@
   text-align: center;
   background: #f3ed8e;
   border-radius: 50%;
+
+  time {
+    display: inline-block;
+    line-height: normal;
+    font-size: 11px;
+    max-width: 90%;
+  }
 }
