@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import styles from './styles.scss'
-import page from '../../../config/styles/page.scss'
+
+import Page from '../page'
+import Title from '../title'
+import ContentPanel from '../content-panel'
+import BorderBgBox from '../border-bg-box'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -10,7 +14,7 @@ import { FormattedDate } from 'react-intl'
 
 @connect(mapStateToProps)
 class Cover extends Component {
-  birthday(date) {
+  birthday = date => {
     if (!date) return ''
     let attrs = {
       year: 'numeric',
@@ -24,23 +28,23 @@ class Cover extends Component {
   render() {
     let { bpoom } = this.props
     return (
-      <section styleName="styles.section">
-        <div styleName="page.page page.page-with-bg styles.baby-resume-page">
-          <div styleName="page.page-content page.centered-page styles.baby-resume-page-content">
-            <div styleName="styles.baby-resume-container">
-              <div styleName="page.border-with-bg styles.baby-resume-content-border">
-                <div styleName="styles.baby-resume-content">
-                  <p styleName="styles.baby-resume-first-name">{bpoom.babyname}</p>
-                  <p styleName="styles.baby-resume-last-name">{bpoom.lastname}</p>
-                  <hr />
-                  <p styleName="styles.baby-resume-birthdate">
-                    <time>{this.birthday(bpoom.birthday)}</time>
-                  </p>
-                </div>
+      <section styleName="section">
+        <Page>
+          <ContentPanel background centered styleName="panel">
+            <div styleName="panel-content">
+              <div styleName="decoration-box">
+                <BorderBgBox styleName="border-box">
+                  <div styleName="box-content">
+                    <span styleName="first-name">{bpoom.babyname}</span>
+                    <span styleName="last-name">{bpoom.lastname}</span>
+                    <hr />
+                    <time styleName="birthdate">{this.birthday(bpoom.birthday)}</time>
+                  </div>
+                </BorderBgBox>
               </div>
             </div>
-          </div>
-        </div>
+          </ContentPanel>
+        </Page>
       </section>
     )
   }

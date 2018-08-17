@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import Page from '../page'
+import Title from '../title'
+import PresentationPanel from '../presentation-panel'
+import ContentPanel from '../content-panel'
+
 import styles from './styles.scss'
-import page from '../../../config/styles/page.scss'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -22,14 +26,14 @@ class Guestbook extends Component {
 
   renderGuestbookMsg = (msg, index) => {
     return (
-      <div key={index} styleName="styles.guestbook-message">
+      <div key={index} styleName="message">
         <div
-          styleName="page.image-container styles.guestbook-message-image-container"
+          styleName="page.image-container image-container"
           style={{
             backgroundImage: msg.photo ? `url(${msg.photo})` : '',
           }}
         />
-        <div styleName="styles.guestbook-message-quote-container">
+        <div styleName="quote-container">
           <p>
             {msg.message}
             <br />-<br />
@@ -47,40 +51,36 @@ class Guestbook extends Component {
     if (!bp_visitorbook_msgs.length) return ''
 
     bp_visitorbook_msgs = bp_visitorbook_msgs.slice(0)
+
     let firstPageMsgs = bp_visitorbook_msgs.splice(0, 2)
     let pages = this.group(bp_visitorbook_msgs)
 
     return (
-      <section styleName="styles.section">
-        <div styleName="page.page styles.guestbook-page styles.guestbook-page-intro">
-          <main styleName="page.page-content styles.guestbook-page-content">
-            <div styleName="styles.guestbook-message-container">{firstPageMsgs.map(this.renderGuestbookMsg)}</div>
-          </main>
-          <aside styleName="page.page-presentation styles.guestbook-page-presentation">
-            <div styleName="page.page-title-container">
-              <h1 styleName="page.page-title">{t(MSG.title)}</h1>
-              <div styleName="page.page-desc page.border-with-bg">
-                <p styleName="page.page-desc-content">{t(MSG.description)}</p>
-              </div>
-            </div>
-          </aside>
-        </div>
+      <section>
+        <Page styleName="page">
+          <PresentationPanel styleName="presentation-panel">
+            <Title label={t(MSG.title)} description={t(MSG.description)} />
+          </PresentationPanel>
+          <ContentPanel background centered styleName="content-panel">
+            <div styleName="message-container">{firstPageMsgs.map(this.renderGuestbookMsg)}</div>
+          </ContentPanel>
+        </Page>
         {pages.map((messages, index) => {
           return index % 2 ? (
-            <div key={index} styleName="page.page styles.guestbook-page styles.guestbook-page-left">
-              <div styleName="styles.guestbook-message-container">
-                <div styleName="styles.guestbook-message-container--left">
-                  {messages.slice(0, 2).map(this.renderGuestbookMsg)}
+            <Page key={index} styleName="page">
+              <ContentPanel background centered styleName="content-panel left-panel">
+                <div styleName="message-container">
+                  <div styleName="left-container">{messages.slice(0, 2).map(this.renderGuestbookMsg)}</div>
+                  <div styleName="right-container">{messages.slice(2).map(this.renderGuestbookMsg)}</div>
                 </div>
-                <div styleName="styles.guestbook-message-container--right">
-                  {messages.slice(2).map(this.renderGuestbookMsg)}
-                </div>
-              </div>
-            </div>
+              </ContentPanel>
+            </Page>
           ) : (
-            <div key={index} styleName="page.page styles.guestbook-page styles.guestbook-page-right">
-              <div styleName="styles.guestbook-message-container">{messages.map(this.renderGuestbookMsg)}</div>
-            </div>
+            <Page key={index} styleName="page">
+              <ContentPanel styleName="content-panel right-panel">
+                <div styleName="message-container">{messages.map(this.renderGuestbookMsg)}</div>
+              </ContentPanel>
+            </Page>
           )
         })}
       </section>

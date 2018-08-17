@@ -63,17 +63,26 @@ const PAGE_CACHE = compileString(fs.readFileSync(path.join(__dirname, 'public', 
 let BROWSER
 ;(async () => {
   BROWSER = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-extensions',
+      '--disable-sync',
+      '--disable-default-apps',
+      '--mute-audio',
+      '--no-first-run',
+    ],
   })
 })()
 
 var generatePdf = async function(url, callback) {
+  var d = new Date()
   const page = await BROWSER.newPage()
   await page.goto(url, { waitUntil: 'networkidle2' })
-  await page.pdf({ format: 'A4', landscape: true, printBackground: true }).then(callback, function(error) {
+  await page.pdf({ format: 'A4', landscape: true, printBackground: true }).then(callback, error => {
     console.log(error)
   })
-  await page.close()
+  page.close()
 }
 process.on('exit', async function() {
   await BROWSER.close()

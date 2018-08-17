@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import Page from '../page'
+import Title from '../title'
+import PresentationPanel from '../presentation-panel'
+import ContentPanel from '../content-panel'
+import BorderBgBox from '../border-bg-box'
+
 import styles from './styles.scss'
-import page from '../../../config/styles/page.scss'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -40,22 +45,20 @@ class Trip extends Component {
     })
   }
 
-  renderTripEvent = (tripEvent, index) => {
-    return (
-      <div key={`trip-event-${index}`} styleName="styles.trip-event">
-        <div
-          styleName="page.image-container styles.trip-event-image-container"
-          style={{
-            backgroundImage: tripEvent.photo ? `url(${tripEvent.photo})` : '',
-          }}
-        />
-        <div styleName="styles.trip-event-quote">{tripEvent.message}</div>
-        <div styleName="styles.trip-event-date">
-          <time>{this.formatDate(tripEvent)}</time>
-        </div>
+  renderTripEvent = (tripEvent, index) => (
+    <div key={index} styleName="trip-event">
+      <div
+        styleName="image-container"
+        style={{
+          backgroundImage: tripEvent.photo ? `url(${tripEvent.photo})` : '',
+        }}
+      />
+      <div styleName="quote">{tripEvent.message}</div>
+      <div styleName="date">
+        <time>{this.formatDate(tripEvent)}</time>
       </div>
-    )
-  }
+    </div>
+  )
 
   render() {
     let {
@@ -64,47 +67,30 @@ class Trip extends Component {
     if (!bp_trip_events.length) return ''
 
     bp_trip_events = bp_trip_events.slice(0)
-
-    let firstPageEvents = bp_trip_events.splice(0, 2)
-    let pages = this.groupBy(bp_trip_events, 4)
-    let lastPageEvents = pages.pop() || []
+    let pages = [bp_trip_events.splice(0, 2)].concat(this.groupBy(bp_trip_events, 4))
 
     return (
-      <section styleName="styles.section">
-        <div
-          styleName={`page.page styles.trip-page styles.trip-page-intro ${
-            bp_trip_events.length < 1 ? 'styles.only-1-page' : ''
-          } styles.with-${firstPageEvents.length}-events`}
-        >
-          <main styleName="page.page-content styles.trip-page-content">
-            <div styleName="styles.trip-events-container">{firstPageEvents.map(this.renderTripEvent)}</div>
-          </main>
-          <aside styleName="page.page-presentation styles.trip-page-presentation">
-            <div styleName="page.page-title-container">
-              <h1 styleName="page.page-title">{t(MSG.title)}</h1>
-              <div styleName="page.page-desc page.border-with-bg">
-                <p styleName="page.page-desc-content">{t(MSG.description)}</p>
-              </div>
-            </div>
-          </aside>
-        </div>
+      <section styleName="section">
         {pages.map((pageEvents, index) => {
+          let firstPage = 0 === index
+          let lastPage = index === pages.length - 1
           return (
-            <div key={index} styleName={`page.page styles.trip-page styles.trip-page-${index % 2 ? 'left' : 'right'}`}>
-              <div styleName="styles.trip-events-container">{pageEvents.map(this.renderTripEvent)}</div>
-            </div>
+            <Page
+              key={index}
+              reverse={pages.length > 1 && lastPage}
+              styleName={`page with-${pageEvents.length}-events`}
+            >
+              {pageEvents.length < 3 && (
+                <PresentationPanel styleName="presentation-panel">
+                  {firstPage && <Title label={t(MSG.title)} description={t(MSG.description)} />}
+                </PresentationPanel>
+              )}
+              <ContentPanel styleName="content-panel">
+                <div styleName="trip-events-container">{pageEvents.map(this.renderTripEvent)}</div>
+              </ContentPanel>
+            </Page>
           )
         })}
-        {!!lastPageEvents.length && (
-          <div
-            styleName={`page.page styles.trip-page styles.trip-page-ending styles.with-${lastPageEvents.length}-events`}
-          >
-            <main styleName={lastPageEvents.length < 3 ? 'page.page-content styles.trip-page-content' : ''}>
-              <div styleName="styles.trip-events-container">{lastPageEvents.map(this.renderTripEvent)}</div>
-            </main>
-            {lastPageEvents.length < 3 && <aside styleName="page.page-presentation styles.trip-page-presentation" />}
-          </div>
-        )}
       </section>
     )
   }

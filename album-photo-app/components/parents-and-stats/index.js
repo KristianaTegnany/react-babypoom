@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import Page from '../page'
+import Title from '../title'
+import PresentationPanel from '../presentation-panel'
+import ContentPanel from '../content-panel'
+
 // i18n
 import t from '../../i18n/i18n'
 import { defineMessages, FormattedDate } from 'react-intl'
 
 import styles from './styles.scss'
-import page from '../../../config/styles/page.scss'
 
 @connect(mapStateToProps)
 class ParentsAndStats extends Component {
@@ -14,92 +18,56 @@ class ParentsAndStats extends Component {
     let { bpoom } = this.props
 
     return (
-      <section styleName="styles.section">
-        {(bpoom.reaction_mum || bpoom.reaction_dad) && (
-          <div styleName="page.page">
-            <aside styleName="page.page-presentation styles.parents-reaction-page-presentation">
-              <div styleName="page.page-title-container">
-                <h1 styleName="page.page-title">{t(MSG.parent_reactions)}</h1>
+      <section>
+        <Page>
+          <PresentationPanel styleName="parents-presentation-panel">
+            <Title label={t(MSG.parent_reactions)} />
+          </PresentationPanel>
+          <ContentPanel centered>
+            {['mum', 'dad'].map(parent => (
+              <div key={parent} styleName={`parents-reaction ${parent}`}>
+                <div>
+                  <div
+                    style={{
+                      backgroundImage: bpoom[`photo_${parent}`] ? `url(${bpoom[`photo_${parent}`]})` : '',
+                    }}
+                    styleName="image-container"
+                  />
+                  {bpoom[`reaction_${parent}`] && (
+                    <div styleName="quote-container">
+                      <p styleName="quote">
+                        {bpoom[`reaction_${parent}`]}
+                        <br />-<br />
+                        {bpoom[`name_${parent}`]}
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
-            </aside>
-
-            <main styleName="page.page-content styles.parents-reaction-page-content">
-              <div styleName="styles.parents-reaction styles.parents-reaction-mum">
-                <div
-                  style={{
-                    backgroundImage: bpoom.photo_mum ? `url(${bpoom.photo_mum})` : '',
-                  }}
-                  styleName="page.image-container styles.parents-reaction-img styles.mum-img"
-                />
-                {bpoom.reaction_mum && (
-                  <div styleName="styles.parents-reaction-quote-container styles.parents-reaction-mum-quote">
-                    <p styleName="styles.parents-reaction-quote styles.mum-quote">
-                      {bpoom.reaction_mum}
-                      <br />-<br />
-                      {bpoom.name_mum}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              <div styleName="styles.parents-reaction styles.parents-reaction-dad">
-                {bpoom.reaction_dad && (
-                  <div styleName="styles.parents-reaction-quote-container styles.parents-reaction-dad-quote">
-                    <p styleName="styles.parents-reaction-quote styles.dad-quote">
-                      {bpoom.reaction_dad}
-                      <br />-<br />
-                      {bpoom.name_dad}
-                    </p>
-                  </div>
-                )}
-                <div
-                  style={{
-                    backgroundImage: bpoom.photo_dad ? `url(${bpoom.photo_dad})` : '',
-                  }}
-                  styleName="page.image-container styles.parents-reaction-img styles.dad-img"
-                />
-              </div>
-            </main>
-          </div>
-        )}
-
-        <div styleName="styles.page">
-          <aside styleName="page.page-presentation styles.statistics-page-presentation">
-            <div styleName="page.page-title-container">
-              <h1 styleName="page.page-title">{t(MSG.babypoom_results)}</h1>
-            </div>
-          </aside>
-
-          <main styleName="page.page-content page.centered-page page.page-with-bg styles.statistics-page-content">
-            <ul styleName="styles.statistics-page-list">
-              <li>
-                <i styleName="styles.middle-game-trials-icon" />
-                <span styleName="styles.statistic-result styles.middle-game-trials">{bpoom.game_tries_avg}</span>
-                <span styleName="styles.statistic-desc">{t(MSG.stat_tries)}</span>
-              </li>
-              <li>
-                <i styleName="styles.middle-win-time-icon" />
-                <span styleName="styles.statistic-result styles.middle-win-time">
-                  {t({
-                    ...MSG.time_in_sec,
-                    values: { seconds: bpoom.game_time_avg },
-                  })}
-                </span>
-                <span styleName="styles.statistic-desc">{t(MSG.stat_time)}</span>
-              </li>
-              <li>
-                <i styleName="styles.middle-visits-number-icon" />
-                <span styleName="styles.statistic-result styles.middle-visits-number">{bpoom.visit_count}</span>
-                <span styleName="styles.statistic-desc">{t(MSG.stat_visits)}</span>
-              </li>
-              <li>
-                <i styleName="styles.messages-total-icon" />
-                <span styleName="styles.statistic-result styles.messages-total">{bpoom.message_count}</span>
-                <span styleName="styles.statistic-desc">{t(MSG.stat_messages)}</span>
-              </li>
+            ))}
+          </ContentPanel>
+        </Page>
+        <Page>
+          <PresentationPanel styleName="stat-presentation-panel">
+            <Title label={t(MSG.babypoom_results)} />
+          </PresentationPanel>
+          <ContentPanel background centered>
+            <ul styleName="list">
+              {[
+                ['tries', bpoom.game_tries_avg, t(MSG.stat_tries)],
+                ['time', bpoom.game_time_avg, t(MSG.stat_time)],
+                ['visits', bpoom.visit_count, t(MSG.stat_visits)],
+                ['messages', bpoom.message_count, t(MSG.stat_messages)],
+              ].map(([type, metric, text]) => (
+                <li key={type}>
+                  <i styleName={`${type}-icon`} />
+                  <span styleName="result">{metric}</span>
+                  <span styleName="desc">{text}</span>
+                </li>
+              ))}
             </ul>
-          </main>
-        </div>
+          </ContentPanel>
+        </Page>
       </section>
     )
   }

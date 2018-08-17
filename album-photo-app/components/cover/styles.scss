@@ -1,115 +1,116 @@
-.section {
-  .baby-resume-page {
-    padding: 0 8mm;
-    background-position: center;
-    background-size: 250mm auto;
-  }
+.panel {
+  padding: 0 8mm;
+  background-position: center;
+  background-size: 250mm auto;
+}
 
-  .baby-resume-page-content {
-    position: relative;
-    z-index: 0;
-    text-align: center;
-    width: 100%;
-    height: 100%;
-    background: white;
-  }
+.panel-content {
+  background: white;
+  height: 100%;
+}
 
-  .baby-resume-container {
-    padding: 34mm 15mm 0;
-    background: transparent url('../../images/bg-pages/bg-resume-back.svg') top center/auto no-repeat;
-  }
+.decoration-box {
+  display: inline-block;
+  line-height: normal;
+  padding-top: 34mm;
+  width: 100%;
+  background: transparent url('../../images/bg-pages/bg-resume-back.svg') top center/auto no-repeat;
+}
 
-  .baby-resume-content-border,
-  .baby-resume-content {
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-    }
+.border-box,
+.box-content {
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
   }
+}
 
-  .baby-resume-content-border {
-    position: relative;
+body .border-box {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  padding: 8mm 10.5mm 16mm;
+  background-position: 161mm 180mm;
+  background-size: 145.5mm auto;
+
+  &::before,
+  &::after {
+    top: 0;
     z-index: 1;
-    text-align: center;
-    padding: 8mm 10.5mm 16mm;
-    background-position: 161mm 180mm;
-    background-size: 145.5mm auto;
-
-    &::before,
-    &::after {
-      top: 0;
-      z-index: 1;
-      width: 30mm;
-      height: 80mm;
-      background: transparent none no-repeat;
-      background-size: auto;
-    }
-
-    &::before {
-      left: -30mm;
-      background-position: top right;
-      background-image: url('../../images/bg-pages/bg-resume-back-left.svg');
-    }
-    &::after {
-      right: -30mm;
-      background-position: top left;
-      background-image: url('../../images/bg-pages/bg-resume-back-right.svg');
-    }
+    width: 30mm;
+    height: 80mm;
+    background: transparent none no-repeat;
+    background-size: auto;
   }
 
-  .baby-resume-content {
-    position: relative;
-    z-index: 2;
-    min-width: 54.5mm;
-    max-width: 200mm;
-    padding: 10.5mm 12mm 8mm;
-    background: white;
-    border-radius: 2.5mm;
-    word-wrap: break-word;
+  &::before {
+    left: -30mm;
+    background-position: top right;
+    background-image: url('../../images/bg-pages/bg-resume-back-left.svg');
+  }
+  &::after {
+    right: -30mm;
+    background-position: top left;
+    background-image: url('../../images/bg-pages/bg-resume-back-right.svg');
+  }
+}
 
-    &::before,
-    &::after {
-      z-index: 5;
-    }
-    &::before {
-      top: -1mm;
-      right: -36mm;
-      width: 41mm;
-      height: 41mm;
-      background: transparent url('../../images/bg-pages/bg-resume-front-right.svg') left top/auto no-repeat;
-    }
-    &::after {
-      left: -11mm;
-      bottom: -55mm;
-      width: 100%;
-      height: 65mm;
-      box-sizing: content-box;
-      padding: 0 15mm;
-      background: transparent url('../../images/bg-pages/bg-resume-front.svg') center/auto no-repeat;
-    }
+.box-content {
+  position: relative;
+  z-index: 2;
+  min-width: 54.5mm;
+  max-width: 200mm;
+  padding: 10.5mm 12mm 8mm;
+  border-radius: 2.5mm;
+  word-wrap: break-word;
 
-    hr {
-      margin: 5mm auto;
-      width: 26.5mm;
-      height: 0.6mm;
-      color: transparent;
-      background-color: var(--page-color);
-      border-radius: 0.6mm;
-    }
+  &::before,
+  &::after {
+    z-index: 5;
+  }
+  &::before {
+    top: -1mm;
+    right: -36mm;
+    width: 41mm;
+    height: 41mm;
+    background: transparent url('../../images/bg-pages/bg-resume-front-right.svg') left top/auto no-repeat;
+  }
+  &::after {
+    left: -11mm;
+    bottom: -55mm;
+    width: 100%;
+    height: 65mm;
+    box-sizing: content-box;
+    padding: 0 15mm;
+    background: transparent url('../../images/bg-pages/bg-resume-front.svg') center/auto no-repeat;
   }
 
-  .baby-resume-first-name {
-    font-size: 23px;
+  hr {
+    margin: 5mm auto;
+    width: 26.5mm;
+    height: 0.6mm;
+    color: transparent;
+    background-color: var(--page-color);
+    border-radius: 0.6mm;
   }
 
-  .baby-resume-last-name {
-    font-size: 8mm;
-    color: var(--color-text);
+  span,
+  time {
+    display: block;
   }
+}
 
-  .baby-resume-birthdate {
-    font-size: 4mm;
-    color: var(--page-color-gray);
-  }
+.first-name {
+  font-size: 23px;
+}
+
+.last-name {
+  font-size: 8mm;
+  color: var(--color-text);
+}
+
+.birthdate {
+  font-size: 4mm;
+  color: var(--page-color-gray);
 }

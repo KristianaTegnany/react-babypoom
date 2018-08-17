@@ -1,137 +1,167 @@
-.section {
-  .arrival-page > * {
-    width: 50%;
-  }
-  .arrival-page-presentation {
-    float: right;
-    background-image: url('../images/bg-pages/bg-arrival.svg');
-  }
-  .arrival-page-content {
-    float: left;
-  }
+.page > * {
+  width: 50% !important;
+}
 
-  .baby-info-page {
-    background: transparent url('../images/bg-pages/bg-info.svg') left top/100% auto no-repeat;
-  }
-  .baby-info-page-presentation {
-    width: 50%;
-  }
-  .baby-info-page-content {
-    width: 50%;
-  }
-  .baby-info-figure {
-    line-height: normal;
+.arrival-presentation-panel {
+  background-image: url('../images/bg-pages/bg-arrival.svg');
+}
+
+.baby-info-page {
+  background: transparent url('../images/bg-pages/bg-info.svg') left top/100% auto no-repeat;
+}
+
+.baby-info-content-panel {
+  text-align: left;
+}
+
+.figure {
+  text-align: center;
+  line-height: normal;
+  display: inline-block;
+  width: 66mm;
+}
+
+.baby-img {
+  width: 58mm;
+  height: 58mm;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #f5f5f5 url('') center/cover no-repeat;
+}
+
+.fullname {
+  font-size: 7mm;
+  margin-bottom: 2.5mm;
+}
+
+.lastname {
+  vertical-align: bottom;
+  color: var(--color-text);
+}
+
+body .border-box {
+  display: inline-block;
+  line-height: normal;
+  margin-top: 5mm;
+  padding: 6.5mm;
+  background-position: 174.5mm center;
+  background-size: 190.5mm auto;
+
+  & > * {
     display: inline-block;
-    width: 66mm;
-  }
-  .baby-img {
-    width: 58mm;
-    height: 58mm;
-    margin: 0 auto;
-    border-radius: 50%;
-  }
-  .baby-info-fullname {
-    font-size: 7mm;
-    text-align: center;
-    margin-bottom: 2.5mm;
-  }
-  .baby-lastname {
-    vertical-align: bottom;
-    color: var(--color-text);
-  }
-  .baby-info-page-content {
-    height: var(--page-height);
-    line-height: var(--page-height);
-  }
-  .baby-info-content {
-    display: inline-block;
-    line-height: normal;
-    padding: 6.5mm;
     min-width: 65mm;
-    margin-top: 5mm;
-    background-position: 174.5mm center;
-    background-size: 190.5mm auto;
-  }
-  .baby-info-line {
-    padding: 2.2mm 0;
-    word-wrap: break-word;
-    letter-spacing: -1.1mm;
+    padding: 2.5mm 0;
 
-    > i,
-    > span {
-      display: inline-block;
-      vertical-align: middle;
-      letter-spacing: 0;
-    }
-    > i {
-      width: 7mm;
-      height: 7mm;
-      margin-right: 2mm;
-      background: transparent url('../images/pictos-pages/sprite-info-pictos.svg') left top/100% auto no-repeat;
-
-      &.birth-hour-icon {
-        background-position: left -7mm;
-      }
-      &.birthplace-icon {
-        background-position: left -15mm;
-      }
-      &.baby-gender-icon {
-        background-position: left -22mm;
-      }
-      &.baby-weight-icon {
-        background-position: left -36mm;
-      }
-      &.baby-length-icon {
-        background-position: left -49mm;
-      }
-      &.baby-sign-icon {
-        background-position: left -29mm;
-      }
-      &.baby-hairs-icon {
-        background-position: left -42mm;
-      }
-      &.baby-eyes-icon {
-        background-position: left -56mm;
-      }
+    &::after {
+      content: '';
+      display: table;
+      clear: both;
     }
   }
-  .baby-info-content > * {
-    padding: 0;
-    border-radius: 0;
-  }
-  .baby-info-content-top,
-  .baby-info-content-bottom > * {
-    padding: 2.5mm 5mm;
-  }
-  .baby-info-content-top {
-    border-top-left-radius: 1.3mm;
-    border-top-right-radius: 1.3mm;
+}
 
-    .baby-info-line > span {
-      width: 65mm;
-    }
-  }
-  .baby-info-content-bottom {
-    border-top: 1mm solid var(--page-border-color);
-    border-bottom-left-radius: 1.3mm;
-    border-bottom-right-radius: 1.3mm;
+.baby-info-line {
+  padding: 2.2mm 5mm;
+  word-wrap: break-word;
+  letter-spacing: -1.1mm;
+  display: block;
+  min-width: 84mm;
+
+  > i,
+  > span {
     display: inline-block;
-    vertical-align: top;
-    width: 100%;
+    vertical-align: middle;
+    letter-spacing: 0;
+  }
+  > i {
+    width: 7mm;
+    height: 7mm;
+    margin-right: 2mm;
+    background: transparent url('../images/pictos-pages/sprite-info-pictos.svg') left top/100% auto no-repeat;
+  }
+}
 
-    .baby-info-line > span {
-      width: 22mm;
-      text-transform: capitalize;
-    }
+.sm:nth-child(even) {
+  clear: both;
+}
+
+.sm {
+  float: left;
+  width: 50%;
+  min-width: 42mm;
+  margin-top: 6mm;
+  position: relative;
+
+  span {
+    text-transform: capitalize;
   }
-  .baby-info-content-bottom > * {
-    width: 50%;
+
+  &::before {
+    content: '';
+    position: absolute;
+    display: block;
+    left: 0;
+    right: -100%;
+    top: -3.5mm;
+    border-top: 1mm solid var(--page-border-color);
   }
-  .baby-info-content-bottom--left {
-    float: left;
+}
+
+.sm,
+.sm + .sm + .sm,
+.sm + .sm + .sm + .sm + .sm {
+  &::after {
+    content: '';
+    position: absolute;
+    display: block;
+    top: -2.5mm;
+    bottom: -5mm;
+    right: -0.5mm;
     border-right: 1mm solid var(--page-border-color);
   }
-  .baby-info-content-bottom--right {
-    float: right;
+}
+
+.sm:first-child:last-child,
+.sm + .sm,
+.sm + .sm + .sm + .sm,
+.sm + .sm + .sm + .sm + .sm + .sm {
+  &::after {
+    content: normal;
   }
+}
+
+.sm + .sm + .sm {
+  margin-top: 0;
+}
+
+.sm:first-child:last-child,
+.sm + .sm {
+  &::before {
+    content: normal;
+  }
+}
+
+.hour i {
+  background-position: left -7mm;
+}
+.location i {
+  background-position: left -15mm;
+}
+.gender i {
+  background-position: left -22mm;
+}
+.weight i {
+  background-position: left -36mm;
+}
+.size i {
+  background-position: left -49mm;
+}
+.zodiac i {
+  background-position: left -29mm;
+}
+.hair i {
+  background-position: left -42mm;
+}
+.eyes i {
+  background-position: left -55.6mm;
 }

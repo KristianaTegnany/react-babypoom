@@ -1,16 +1,22 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import Page from '../page'
+import Title from '../title'
+import PresentationPanel from '../presentation-panel'
+import ContentPanel from '../content-panel'
+import BorderBgBox from '../border-bg-box'
+
 import styles from './styles.scss'
-import page from '../../../config/styles/page.scss'
 
 // i18n
 import t from '../../i18n/i18n'
 import { injectIntl, defineMessages } from 'react-intl'
+import Trademark from '../trademark'
 
 @connect(mapStateToProps)
 class Arrival extends Component {
-  birthday(intl, date) {
+  birthday = (intl, date) => {
     if (!date) return ''
     return intl.formatDate(date, {
       year: 'numeric',
@@ -20,8 +26,8 @@ class Arrival extends Component {
     })
   }
 
-  birthhour(intl, date) {
-    if (!date) return ''
+  birthhour = (intl, date) => {
+    if (!date || !date.includes('T')) return ''
     let hour = intl.formatDate(date, {
       hour: 'numeric',
       timeZone: 'UTC',
@@ -29,18 +35,27 @@ class Arrival extends Component {
     return t({ ...MSG.hour, values: { hour } })
   }
 
-  getText(info, attrName, msgName) {
+  getText = (info, attrName, msgName) => {
     let attr = info[attrName]
     if (!attr) return ''
     let msg = MSG[`${msgName || attrName}_${attr}`]
     return msg ? t(msg) : attr
   }
 
-  getDim(info, attrName) {
+  getDim = (info, attrName) => {
     let attr = info[attrName]
     let unit = info[`${attrName}_unit`]
     return attr && unit ? `${attr} ${unit}` : ''
   }
+
+  nonEmptyAttr = ([name, value]) => value
+
+  renderAttribute = ([name, value]) => (
+    <p key={name} styleName={`baby-info-line ${name}`}>
+      <i key="" />
+      <span>{value}</span>
+    </p>
+  )
 
   render() {
     let {
@@ -60,104 +75,47 @@ class Arrival extends Component {
     location_state = location_state ? ` - ${location_state}` : ''
     let location = location_hospital ? `${location_hospital}${location_state}${location_country}` : ''
 
-    return (
-      <section styleName="styles.section">
-        <div styleName="page.page styles.arrival-page">
-          <aside styleName="page.page-presentation styles.arrival-page-presentation">
-            <div styleName="page.page-title-container">
-              <h1 styleName="page.page-title">{t(MSG.title)}</h1>
-            </div>
-          </aside>
-          <main styleName="page.page-content page.page-with-bg styles.arrival-page-content" />
-        </div>
+    let attributes = [
+      ['lg date', this.birthday(intl, bpoom.birthday)],
+      ['lg hour', this.birthhour(intl, bpoom.birthday)],
+      ['lg location', location],
+      ['sm gender', gender],
+      ['sm zodiac', zodiac],
+      ['sm weight', weight],
+      ['sm hair', hair],
+      ['sm size', size],
+      ['sm eyes', eyes],
+    ].filter(this.nonEmptyAttr)
 
-        <div styleName="page.page styles.baby-info-page">
-          <aside styleName="page.page-presentation styles.baby-info-page-presentation">
-            <div styleName="styles.baby-info-figure">
-              <p styleName="styles.baby-info-fullname">
-                <span>{bpoom.babyname}</span> <span styleName="styles.baby-lastname">{bpoom.lastname}</span>
+    return (
+      <section>
+        <Page reverse styleName="page">
+          <PresentationPanel styleName="arrival-presentation-panel">
+            <Title label={t(MSG.title)} />
+          </PresentationPanel>
+          <ContentPanel background />
+        </Page>
+
+        <Page styleName="page baby-info-page">
+          <PresentationPanel>
+            <div styleName="figure">
+              <p styleName="fullname">
+                <span>{bpoom.babyname}</span> <span styleName="lastname">{bpoom.lastname}</span>
               </p>
               <div
+                styleName="baby-img"
                 style={{
                   backgroundImage: bpoom.photo ? `url(${bpoom.photo})` : '',
                 }}
-                styleName="page.image-container styles.baby-img"
               />
             </div>
-          </aside>
-
-          <main styleName="page.page-content styles.baby-info-page-content">
-            <div styleName="page.border-with-bg styles.baby-info-content">
-              {bpoom.birthday &&
-                location && (
-                  <div styleName="styles.baby-info-content-top">
-                    {bpoom.birthday && (
-                      <p styleName="styles.baby-info-line">
-                        <i styleName="styles.birth-date-icon" />
-                        <span styleName="styles.baby-info-birth-date">
-                          <time styleName="styles.baby-birthdate">{this.birthday(intl, bpoom.birthday)}</time>
-                        </span>
-                      </p>
-                    )}
-                    {(bpoom.birthday || '').includes('T') && (
-                      <p styleName="styles.baby-info-line">
-                        <i styleName="styles.birth-hour-icon" />
-                        <span styleName="styles.baby-info-birth-hour">
-                          <time styleName="styles.baby-birthhour">{this.birthhour(intl, bpoom.birthday)}</time>
-                        </span>
-                      </p>
-                    )}
-                    <p styleName="styles.baby-info-line">
-                      <i styleName="styles.birthplace-icon" />
-                      <span styleName="styles.baby-info-birth-place styles.baby-birthplace">{location}</span>
-                    </p>
-                  </div>
-                )}
-              <div styleName="styles.baby-info-content-bottom">
-                <div styleName="styles.baby-info-content-bottom--left">
-                  {gender && (
-                    <p styleName="styles.baby-info-line">
-                      <i styleName="styles.baby-gender-icon" />
-                      <span styleName="styles.baby-info-gender styles.baby-gender">{gender}</span>
-                    </p>
-                  )}
-                  {weight && (
-                    <p styleName="styles.baby-info-line">
-                      <i styleName="styles.baby-weight-icon" />
-                      <span styleName="styles.baby-info-weight styles.baby-weight">{weight}</span>
-                    </p>
-                  )}
-                  {size && (
-                    <p styleName="styles.baby-info-line">
-                      <i styleName="styles.baby-length-icon" />
-                      <span styleName="styles.baby-info-length styles.baby-length">{size}</span>
-                    </p>
-                  )}
-                </div>
-                <div styleName="styles.baby-info-content-bottom--right">
-                  {zodiac && (
-                    <p styleName="styles.baby-info-line">
-                      <i styleName="styles.baby-sign-icon" />
-                      <span styleName="styles.baby-info-zodiac-sign styles.baby-sign">{zodiac}</span>
-                    </p>
-                  )}
-                  {hair && (
-                    <p styleName="styles.baby-info-line">
-                      <i styleName="styles.baby-hairs-icon" />
-                      <span styleName="styles.baby-info-hairs-color styles.baby-hairs-color">{hair}</span>
-                    </p>
-                  )}
-                  {eyes && (
-                    <p styleName="styles.baby-info-line">
-                      <i styleName="styles.baby-eyes-icon" />
-                      <span styleName="styles.baby-info-eyes-color styles.baby-eyes-color">{eyes}</span>
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          </main>
-        </div>
+          </PresentationPanel>
+          <ContentPanel centered styleName="baby-info-content-panel">
+            {!!attributes.length && (
+              <BorderBgBox styleName="border-box">{attributes.map(this.renderAttribute)}</BorderBgBox>
+            )}
+          </ContentPanel>
+        </Page>
       </section>
     )
   }

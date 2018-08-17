@@ -1,6 +1,32 @@
 /* Reset */
 @charset "UTF-8";
 
+@page {
+  size: A4 landscape;
+  margin: 0;
+}
+@media print {
+  html,
+  body {
+    width: var(--page-width);
+    height: var(--page-height);
+  }
+}
+@media screen {
+  body {
+    padding: 10px 0;
+  }
+  .page {
+    border-top: 5px solid gray;
+    border-bottom: 5px solid gray;
+    position: relative;
+  }
+}
+
+[hidden] {
+  display: none !important;
+}
+
 * {
   box-sizing: border-box;
   vertical-align: middle;
@@ -8,13 +34,16 @@
   padding: 0;
   -webkit-print-color-adjust: exact;
 }
+
 ul,
 ol {
   list-style: none;
 }
+
 h1 {
   font-size: 27px;
 }
+
 body {
   font-family: 'Varela Round', sans-serif;
   font-size: 12px;
@@ -22,9 +51,11 @@ body {
   text-align: center;
   background: gray;
 }
+
 img {
   display: block;
 }
+
 section {
   display: block;
   margin: 0 auto;

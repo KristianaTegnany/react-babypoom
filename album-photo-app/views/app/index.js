@@ -21,7 +21,6 @@ import BackCover from '../../components/back-cover'
 import i18n from '../../i18n/i18n'
 
 import './styles.scss'
-import page from '../../../config/styles/page.scss'
 
 let UNIQ = 0
 
@@ -77,7 +76,7 @@ class App extends Component {
       return ''
     }
     return (
-      <div styleName={`page.alert page.alert-${flash.color}`} key={`alert-${++UNIQ}`}>
+      <div styleName={`alert alert-${flash.color}`} key={`alert-${++UNIQ}`}>
         {i18n(flash.message)}
       </div>
     )

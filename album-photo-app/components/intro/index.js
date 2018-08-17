@@ -1,27 +1,29 @@
 import React from 'react'
 
+import Page from '../page'
+import Title from '../title'
+import PresentationPanel from '../presentation-panel'
+import ContentPanel from '../content-panel'
+import BorderBgBox from '../border-bg-box'
+
 // i18n
 import t from '../../i18n/i18n'
 import { defineMessages } from 'react-intl'
 
 import styles from './styles.scss'
-import page from '../../../config/styles/page.scss'
 
 let Intro = () => (
-  <section styleName="styles.section">
-    <div styleName="page.page" />
-    {/* Blank page */}
-
-    <div styleName="page.page styles.summary-page">
-      <aside styleName="page.page-presentation styles.summary-page-presentation">
-        <h1 styleName="page.page-title">{t(MSG.my_photo_album)}</h1>
-      </aside>
-
-      <main styleName="page.page-content styles.summary-page-content">
-        <div styleName="page.border-with-bg">
-          <div styleName="styles.summary-content">
-            <p styleName="styles.baby-summary-desc">{t(MSG.my_photo_album_desc)}</p>
-            <ol styleName="styles.baby-summary-list">
+  <section styleName="section">
+    <Page /> {/* Blank page */}
+    <Page styleName="page">
+      <PresentationPanel styleName="presentation-panel">
+        <Title general label={t(MSG.my_photo_album)} />
+      </PresentationPanel>
+      <ContentPanel styleName="content-panel">
+        <BorderBgBox>
+          <div styleName="content">
+            <p styleName="description">{t(MSG.my_photo_album_desc)}</p>
+            <ol styleName="list">
               <li>{t(MSG.arrival)}</li>
               <li>{t(MSG.trip)}</li>
               <li>{t(MSG.guestbook)}</li>
@@ -29,9 +31,9 @@ let Intro = () => (
               <li>{t(MSG.results)}</li>
             </ol>
           </div>
-        </div>
-      </main>
-    </div>
+        </BorderBgBox>
+      </ContentPanel>
+    </Page>
   </section>
 )
 

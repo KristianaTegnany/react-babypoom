@@ -1,0 +1,15 @@
+body {
+  counter-reset: page-numbers;
+}
+
+.panel {
+  background: transparent none left top/100% auto no-repeat;
+  text-align: center;
+  line-height: var(--page-height);
+
+  & > * {
+    display: inline-block;
+    line-height: normal;
+    text-align: left;
+  }
+}
