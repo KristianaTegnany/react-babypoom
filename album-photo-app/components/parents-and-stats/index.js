@@ -18,7 +18,7 @@ class ParentsAndStats extends Component {
     let { bpoom } = this.props
 
     return (
-      <section>
+      <div>
         <Page>
           <PresentationPanel styleName="parents-presentation-panel">
             <Title label={t(MSG.parent_reactions)} />
@@ -68,7 +68,7 @@ class ParentsAndStats extends Component {
             </ul>
           </ContentPanel>
         </Page>
-      </section>
+      </div>
     )
   }
 }

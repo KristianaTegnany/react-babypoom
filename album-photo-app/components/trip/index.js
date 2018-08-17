@@ -70,7 +70,7 @@ class Trip extends Component {
     let pages = [bp_trip_events.splice(0, 2)].concat(this.groupBy(bp_trip_events, 4))
 
     return (
-      <section styleName="section">
+      <div>
         {pages.map((pageEvents, index) => {
           let firstPage = 0 === index
           let lastPage = index === pages.length - 1
@@ -91,7 +91,7 @@ class Trip extends Component {
             </Page>
           )
         })}
-      </section>
+      </div>
     )
   }
 }

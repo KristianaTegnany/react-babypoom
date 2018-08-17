@@ -1,3 +1,36 @@
+@media screen {
+  .page {
+    margin: 10px auto !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    &::before {
+      content: normal !important;
+    }
+  }
+}
+
+.page::before {
+  content: '© Babypoom';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  text-align: center;
+  line-height: var(--page-height);
+  color: white;
+  font-size: 80px;
+  text-shadow: -1px 0 red, 0 1px red, 1px 0 red, 0 -1px red;
+  transform: rotate(-20deg);
+  letter-spacing: 20px;
+  z-index: 10000000;
+
+  @supports (-webkit-text-stroke: 1px red) {
+    color: transparent;
+    -webkit-text-stroke: 2px red;
+    text-shadow: none;
+  }
+}
+
 .page {
   position: relative;
   z-index: 0;
@@ -5,7 +38,9 @@
   width: var(--page-width);
   height: var(--page-height);
   display: block;
+  margin: 0 auto;
   page-break-inside: avoid;
+  background-color: white;
 
   & > * {
     float: left;

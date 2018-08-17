@@ -15,16 +15,14 @@ import logo from '../../images/logo-bp.png'
 class BackCover extends Component {
   render() {
     return (
-      <section>
-        <Page>
-          <ContentPanel background centered>
-            <div styleName="box">
-              <img styleName="logo" src={logo} alt="Logo Babypoom" />
-              <p styleName="text">{t(MSG.made_with_love)}</p>
-            </div>
-          </ContentPanel>
-        </Page>
-      </section>
+      <Page>
+        <ContentPanel background centered>
+          <div styleName="box">
+            <img styleName="logo" src={logo} alt="Logo Babypoom" />
+            <p styleName="text">{t(MSG.made_with_love)}</p>
+          </div>
+        </ContentPanel>
+      </Page>
     )
   }
 }

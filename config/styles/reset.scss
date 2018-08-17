@@ -12,16 +12,6 @@
     height: var(--page-height);
   }
 }
-@media screen {
-  body {
-    padding: 10px 0;
-  }
-  .page {
-    border-top: 5px solid gray;
-    border-bottom: 5px solid gray;
-    position: relative;
-  }
-}
 
 [hidden] {
   display: none !important;
@@ -54,13 +44,4 @@ body {
 
 img {
   display: block;
-}
-
-section {
-  display: block;
-  margin: 0 auto;
-  width: var(--page-width);
-  text-align: left;
-  overflow: hidden;
-  background: white;
 }

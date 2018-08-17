@@ -88,7 +88,7 @@ class Arrival extends Component {
     ].filter(this.nonEmptyAttr)
 
     return (
-      <section>
+      <div>
         <Page reverse styleName="page">
           <PresentationPanel styleName="arrival-presentation-panel">
             <Title label={t(MSG.title)} />
@@ -96,7 +96,7 @@ class Arrival extends Component {
           <ContentPanel background />
         </Page>
 
-        <Page styleName="page baby-info-page">
+        <Page styleName="page info-page">
           <PresentationPanel>
             <div styleName="figure">
               <p styleName="fullname">
@@ -110,13 +110,13 @@ class Arrival extends Component {
               />
             </div>
           </PresentationPanel>
-          <ContentPanel centered styleName="baby-info-content-panel">
+          <ContentPanel centered styleName="info-content-panel">
             {!!attributes.length && (
               <BorderBgBox styleName="border-box">{attributes.map(this.renderAttribute)}</BorderBgBox>
             )}
           </ContentPanel>
         </Page>
-      </section>
+      </div>
     )
   }
 }

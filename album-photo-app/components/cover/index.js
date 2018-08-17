@@ -28,24 +28,22 @@ class Cover extends Component {
   render() {
     let { bpoom } = this.props
     return (
-      <section styleName="section">
-        <Page>
-          <ContentPanel background centered styleName="panel">
-            <div styleName="panel-content">
-              <div styleName="decoration-box">
-                <BorderBgBox styleName="border-box">
-                  <div styleName="box-content">
-                    <span styleName="first-name">{bpoom.babyname}</span>
-                    <span styleName="last-name">{bpoom.lastname}</span>
-                    <hr />
-                    <time styleName="birthdate">{this.birthday(bpoom.birthday)}</time>
-                  </div>
-                </BorderBgBox>
-              </div>
+      <Page>
+        <ContentPanel background centered styleName="panel">
+          <div styleName="panel-content">
+            <div styleName="decoration-box">
+              <BorderBgBox styleName="border-box">
+                <div styleName="box-content">
+                  <span styleName="first-name">{bpoom.babyname}</span>
+                  <span styleName="last-name">{bpoom.lastname}</span>
+                  <hr />
+                  <time styleName="birthdate">{this.birthday(bpoom.birthday)}</time>
+                </div>
+              </BorderBgBox>
             </div>
-          </ContentPanel>
-        </Page>
-      </section>
+          </div>
+        </ContentPanel>
+      </Page>
     )
   }
 }

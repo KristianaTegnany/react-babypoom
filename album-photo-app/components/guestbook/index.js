@@ -56,7 +56,7 @@ class Guestbook extends Component {
     let pages = this.group(bp_visitorbook_msgs)
 
     return (
-      <section>
+      <div>
         <Page styleName="page">
           <PresentationPanel styleName="presentation-panel">
             <Title label={t(MSG.title)} description={t(MSG.description)} />
@@ -83,7 +83,7 @@ class Guestbook extends Component {
             </Page>
           )
         })}
-      </section>
+      </div>
     )
   }
 }

@@ -13,7 +13,7 @@ import { defineMessages } from 'react-intl'
 import styles from './styles.scss'
 
 let Intro = () => (
-  <section styleName="section">
+  <div>
     <Page /> {/* Blank page */}
     <Page styleName="page">
       <PresentationPanel styleName="presentation-panel">
@@ -34,7 +34,7 @@ let Intro = () => (
         </BorderBgBox>
       </ContentPanel>
     </Page>
-  </section>
+  </div>
 )
 
 export default Intro
