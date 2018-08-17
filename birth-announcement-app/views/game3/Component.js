@@ -41,7 +41,7 @@ let UNIQ_KEY = 0
 
 @connect(
   mapStateToProps,
-  { move, gameOver }
+  { move, gameOver },
 )
 export default class Game3 extends Component {
   constructor(props) {
@@ -120,7 +120,7 @@ export default class Game3 extends Component {
         row.forEach(c => {
           c[0] = '0%'
           c[1] = '0%'
-        })
+        }),
       )
       setTimeout(() => this.props.move({ pieces }), 0)
     }
@@ -207,7 +207,7 @@ export default class Game3 extends Component {
     let props = this.props
     let bpoom = props.bpoom
     let babyType = bpoom.baby_full_type
-    let img = bpoom.photo
+    let img = bpoom.photo.normal
     let xy = [19, -43, -105, -167]
     let win = this.win()
     return (

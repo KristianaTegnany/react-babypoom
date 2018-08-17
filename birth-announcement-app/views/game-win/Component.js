@@ -20,7 +20,7 @@ import BABY_IMAGES from '../../../lib/baby-img'
 
 @connect(
   mapStateToProps,
-  { loadSlideshow, openSlideshow }
+  { loadSlideshow, openSlideshow },
 )
 export default class GameWin extends Component {
   constructor(props) {
@@ -28,14 +28,14 @@ export default class GameWin extends Component {
     this.state = {
       bpoom: props.bpoom,
     }
-    if (props.bpoom.photo) {
-      props.loadSlideshow({ items: [{ src: props.bpoom.photo }] })
+    if (props.bpoom.photo.normal) {
+      props.loadSlideshow({ items: [{ src: props.bpoom.photo.normal }] })
     }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.bpoom.photo !== prevState.bpoom.photo) {
-      nextProps.loadSlideshow({ items: [{ src: nextProps.bpoom.photo }] })
+    if (nextProps.bpoom.photo.normal !== prevState.bpoom.photo.normal) {
+      nextProps.loadSlideshow({ items: [{ src: nextProps.bpoom.photo.normal }] })
     }
     return { bpoom: nextProps.bpoom }
   }
@@ -53,7 +53,7 @@ export default class GameWin extends Component {
           </BubbleSay>
         ) : (
           [
-            <BubblePic key="bubble" onClick={this.props.openSlideshow} imgSrc={bpoom.photo_thumbnail}>
+            <BubblePic key="bubble" onClick={this.props.openSlideshow} imgSrc={bpoom.photo.thumbnail}>
               {t(MSG.win)} {props.noNav ? '' : <Transition />}
             </BubblePic>,
             <div key="text" styleName="mob-fullscreen">
@@ -66,7 +66,7 @@ export default class GameWin extends Component {
             <BpoomImg
               imgText={<a href="javascript:void(0)">{t(MSG.desktop_fullscreen)}</a>}
               onClick={this.props.openSlideshow}
-              imgSrc={bpoom.photo_thumbnail}
+              imgSrc={bpoom.photo.thumbnail}
             />
           ) : (
             ''

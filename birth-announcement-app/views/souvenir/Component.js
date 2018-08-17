@@ -24,7 +24,7 @@ export default class Souvenir extends Component {
         {true ? (
           ''
         ) : (
-          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo_thumbnail}>
+          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo.thumbnail}>
             {souvenir.message}
           </BubbleSay>
         )}
@@ -37,6 +37,9 @@ export default class Souvenir extends Component {
 }
 
 function mapStateToProps(state) {
-  const { app: { bpoom }, mediaQueries: { desktop } } = state
+  const {
+    app: { bpoom },
+    mediaQueries: { desktop },
+  } = state
   return { bpoom, desktop }
 }

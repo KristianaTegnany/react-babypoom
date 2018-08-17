@@ -2,7 +2,11 @@ import { BPOOM, STEPS, NO_NAV, SAVE_VISITORBOOK_MSG, DELETE_VISITORBOOK_MSG } fr
 
 // TODO: store it in the session or localstorage or cookie, with bpoomId /!\ important
 let defaultState = {
-  bpoom: {},
+  bpoom: {
+    photo: {},
+    photo_mum: {},
+    photo_dad: {},
+  },
   steps: {
     index: -1,
     maxIndex: 0,
@@ -29,7 +33,7 @@ export default function(state = defaultState, action) {
     case DELETE_VISITORBOOK_MSG:
       bpoom = { ...state.bpoom }
       bpoom.bp_visitorbook.bp_visitorbook_msgs = bpoom.bp_visitorbook.bp_visitorbook_msgs.filter(
-        msg => !action.id.includes(msg.id)
+        msg => !action.id.includes(msg.id),
       )
       return { ...state, bpoom }
     case STEPS:

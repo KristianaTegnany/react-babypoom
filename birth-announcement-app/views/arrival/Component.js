@@ -17,14 +17,14 @@ import styles from './styles.scss'
 
 @connect(
   mapStateToProps,
-  { loadSlideshow, openSlideshow }
+  { loadSlideshow, openSlideshow },
 )
 export default class Arrival extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     let bpoom = nextProps.bpoom
     let items = [
-      { src: bpoom.photo_mum, description: bpoom.reaction_mum },
-      { src: bpoom.photo_dad, description: bpoom.reaction_dad },
+      { src: bpoom.photo_mum.normal, description: bpoom.reaction_mum },
+      { src: bpoom.photo_dad.normal, description: bpoom.reaction_dad },
     ].filter(x => x.src)
     if (items.length) {
       nextProps.loadSlideshow({ items })
@@ -79,7 +79,7 @@ export default class Arrival extends Component {
 
     return (
       <div styleName="arrival-container">
-        {this.renderBubbleMsg(bpoom.photo_thumbnail, arrival.message, 'left')}
+        {this.renderBubbleMsg(bpoom.photo.thumbnail, arrival.message, 'left')}
         {info.length ? (
           <div styleName="info">
             <table>
@@ -99,9 +99,9 @@ export default class Arrival extends Component {
           ''
         )}
         {bpoom.reaction_mum && bpoom.reaction_dad ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
-        {this.renderBubbleMsg(bpoom.photo_mum_thumbnail, bpoom.reaction_mum, 'left', 0)}
-        {this.renderBubbleMsg(bpoom.photo_dad_thumbnail, bpoom.reaction_dad, 'right', 1)}
-        {props.noNav ? '' : this.renderBubbleMsg(bpoom.photo_thumbnail, <Transition />, 'left')}
+        {this.renderBubbleMsg(bpoom.photo_mum.thumbnail, bpoom.reaction_mum, 'left', 0)}
+        {this.renderBubbleMsg(bpoom.photo_dad.thumbnail, bpoom.reaction_dad, 'right', 1)}
+        {props.noNav ? '' : this.renderBubbleMsg(bpoom.photo.thumbnail, <Transition />, 'left')}
       </div>
     )
   }

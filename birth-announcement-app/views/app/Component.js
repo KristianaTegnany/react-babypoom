@@ -116,8 +116,8 @@ class App extends Component {
 
       // Preload images
       let bpoom = this.props.bpoom
-      if (bpoom.photo_thumbnail) {
-        pixelate({ src: bpoom.photo_thumbnail })
+      if (bpoom.photo.thumbnail) {
+        pixelate({ src: bpoom.photo.thumbnail })
       }
     }
     if (this.props.bpoom.uuid) {

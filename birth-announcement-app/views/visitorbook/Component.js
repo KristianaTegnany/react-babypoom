@@ -30,7 +30,7 @@ import FaPencil from 'react-icons/lib/fa/pencil'
 
 @connect(
   mapStateToProps,
-  { loadSlideshow, openSlideshow, deleteMsg, flash }
+  { loadSlideshow, openSlideshow, deleteMsg, flash },
 )
 class VisitorBook extends Component {
   // static childContextTypes = {
@@ -54,13 +54,13 @@ class VisitorBook extends Component {
     let visitorbook = nextProps.bpoom.bp_visitorbook
     if (visitorbook && visitorbook.bp_visitorbook_msgs && visitorbook.bp_visitorbook_msgs.length) {
       nextProps.loadSlideshow({
-        items: visitorbook.bp_visitorbook_msgs.map(event => {
+        items: visitorbook.bp_visitorbook_msgs.map(msg => {
           return {
-            src: event.photo,
-            title: event.created_at
-              ? `${formatDate(nextProps.intl, event.created_at)} - ${event.name || ''}`
-              : `${event.name || ''}`,
-            description: event.message || '',
+            src: msg.photo.normal,
+            title: msg.created_at
+              ? `${formatDate(nextProps.intl, msg.created_at)} - ${msg.name || ''}`
+              : `${msg.name || ''}`,
+            description: msg.message || '',
           }
         }),
       })
@@ -111,7 +111,7 @@ class VisitorBook extends Component {
 
     return (
       <div ref={elt => (this.visitorbookContainer = elt)} styleName="visitorbook-container">
-        <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo_thumbnail}>
+        <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo.thumbnail}>
           {visitorbook.message}
         </BubbleSay>
         <div styleName="button-container">
@@ -127,7 +127,7 @@ class VisitorBook extends Component {
             return (
               <div key={i}>
                 <Message
-                  imgSrc={event.thumbnail}
+                  imgSrc={event.photo.thumbnail}
                   message={event.message}
                   date={formatDate(props.intl, event.created_at)}
                   name={event.name}
@@ -151,11 +151,11 @@ class VisitorBook extends Component {
         {props.noNav ? (
           ''
         ) : props.desktop ? (
-          <BubbleSay speechDir="left" imgSrc={bpoom.photo_thumbnail}>
+          <BubbleSay speechDir="left" imgSrc={bpoom.photo.thumbnail}>
             <Transition />
           </BubbleSay>
         ) : (
-          <BubblePic imgSrc={bpoom.photo_thumbnail}>
+          <BubblePic imgSrc={bpoom.photo.thumbnail}>
             <Transition />
           </BubblePic>
         )}

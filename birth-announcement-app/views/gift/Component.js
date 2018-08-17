@@ -95,11 +95,11 @@ export default class Gift extends Component {
         {props.noNav ? (
           ''
         ) : props.desktop ? (
-          <BubbleSay speechDir="left" imgSrc={bpoom.photo_thumbnail}>
+          <BubbleSay speechDir="left" imgSrc={bpoom.photo.thumbnail}>
             <Transition />
           </BubbleSay>
         ) : (
-          <BubblePic imgSrc={bpoom.photo_thumbnail}>
+          <BubblePic imgSrc={bpoom.photo.thumbnail}>
             <Transition />
           </BubblePic>
         )}

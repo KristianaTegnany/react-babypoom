@@ -52,7 +52,7 @@ let tries = 0
 
 @connect(
   mapStateToProps,
-  { move, gameOver }
+  { move, gameOver },
 )
 export default class Game2 extends Component {
   constructor(props) {
@@ -237,7 +237,7 @@ export default class Game2 extends Component {
   renderCases() {
     let len = SIZE * SIZE
     let cases = []
-    let photo = this.props.bpoom.photo
+    let photo = this.props.bpoom.photo.normal
     let puzzle = this.props.puzzle
     let positionRatio = 100 / (SIZE - 1)
 
@@ -264,7 +264,7 @@ export default class Game2 extends Component {
             [transformProp]: `translate(${x * 100}%, ${y * 100}%)`,
           }}
           key={i}
-        />
+        />,
       )
     }
     return cases

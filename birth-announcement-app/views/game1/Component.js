@@ -35,7 +35,7 @@ function uniqChars(str) {
     Array.from(ascii(str || '')).reduce((h, c) => {
       h[c] = 1
       return h
-    }, {})
+    }, {}),
   ).length
 }
 
@@ -43,7 +43,7 @@ let EXPERIMENTAL = 'undefined' !== typeof window && 'experimental' === (window.l
 
 @connect(
   mapStateToProps,
-  { updateGuessed, gameOver }
+  { updateGuessed, gameOver },
 )
 export default class Game1 extends Component {
   constructor(props) {
@@ -91,14 +91,14 @@ export default class Game1 extends Component {
     let resolution = 24 - (uniqueChars ? Math.round((okCount * 24) / uniqueChars) : 0)
     pixelate(
       {
-        src: props.bpoom.photo_thumbnail,
+        src: props.bpoom.photo.thumbnail,
         resolution: resolution * 2,
         width: 100,
         height: 100,
       },
       picture => {
         this.setState({ picture })
-      }
+      },
     )
   }
 
@@ -152,7 +152,7 @@ export default class Game1 extends Component {
             let color = pixels.includes(i) ? 'var(--neutral-secondary)' : 'transparent'
             return `linear-gradient(to right,${color},${color})`
           })
-          .join(',') + `,url(${this.props.bpoom.photo_thumbnail})`,
+          .join(',') + `,url(${this.props.bpoom.photo.thumbnail})`,
       backgroundSize:
         new Array(gridSize * gridSize)
           .fill(0)

@@ -18,7 +18,7 @@ import styles from './styles.scss'
 
 @connect(
   mapStateToProps,
-  { loadSlideshow, openSlideshow }
+  { loadSlideshow, openSlideshow },
 )
 class Trip extends Component {
   state = {}
@@ -29,7 +29,7 @@ class Trip extends Component {
       nextProps.loadSlideshow({
         items: trip.bp_trip_events.map(event => {
           return {
-            src: event.photo,
+            src: event.photo.normal,
             title: formatDate(nextProps.intl, event),
             description: event.message || '',
           }
@@ -48,7 +48,7 @@ class Trip extends Component {
     return (
       <div>
         <div>
-          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo_thumbnail}>
+          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo.thumbnail}>
             {trip.message}
           </BubbleSay>
         </div>
@@ -59,7 +59,7 @@ class Trip extends Component {
                 <div />
                 <div styleName="img">
                   <BpoomImg
-                    imgSrc={event.thumbnail}
+                    imgSrc={event.photo.thumbnail}
                     imgText={formatDate(props.intl, event)}
                     onClick={() => props.openSlideshow(i)}
                   />
@@ -75,11 +75,11 @@ class Trip extends Component {
           {props.noNav ? (
             ''
           ) : props.desktop ? (
-            <BubbleSay speechDir="left" imgSrc={bpoom.photo_thumbnail}>
+            <BubbleSay speechDir="left" imgSrc={bpoom.photo.thumbnail}>
               <Transition />
             </BubbleSay>
           ) : (
-            <BubblePic imgSrc={bpoom.photo_thumbnail}>
+            <BubblePic imgSrc={bpoom.photo.thumbnail}>
               <Transition />
             </BubblePic>
           )}
