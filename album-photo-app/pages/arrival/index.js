@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Page from '../page'
-import Title from '../title'
-import PresentationPanel from '../presentation-panel'
-import ContentPanel from '../content-panel'
-import BorderBgBox from '../border-bg-box'
+import Page from '../../components/page'
+import Title from '../../components/title'
+import PresentationPanel from '../../components/presentation-panel'
+import ContentPanel from '../../components/content-panel'
+import BorderBgBox from '../../components/border-bg-box'
 
 import getPhoto from '../../../lib/get-photo'
 
@@ -14,7 +14,6 @@ import styles from './styles.scss'
 // i18n
 import t from '../../i18n/i18n'
 import { injectIntl, defineMessages } from 'react-intl'
-import Trademark from '../trademark'
 
 @connect(mapStateToProps)
 class Arrival extends Component {

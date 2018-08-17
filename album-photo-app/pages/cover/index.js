@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 
 import styles from './styles.scss'
 
-import Page from '../page'
-import Title from '../title'
-import ContentPanel from '../content-panel'
-import BorderBgBox from '../border-bg-box'
+import Page from '../../components/page'
+import Title from '../../components/title'
+import ContentPanel from '../../components/content-panel'
+import BorderBgBox from '../../components/border-bg-box'
 
 // i18n
 import t from '../../i18n/i18n'

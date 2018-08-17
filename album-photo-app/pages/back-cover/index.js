@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Page from '../page'
-import ContentPanel from '../content-panel'
+import Page from '../../components/page'
+import ContentPanel from '../../components/content-panel'
 
 import styles from './styles.scss'
 

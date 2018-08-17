@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Page from '../page'
-import Title from '../title'
-import PresentationPanel from '../presentation-panel'
-import ContentPanel from '../content-panel'
+import Page from '../../components/page'
+import Title from '../../components/title'
+import PresentationPanel from '../../components/presentation-panel'
+import ContentPanel from '../../components/content-panel'
 
 import getPhoto from '../../../lib/get-photo'
 

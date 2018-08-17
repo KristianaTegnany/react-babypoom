@@ -1,7 +1,5 @@
 import React from 'react'
 
-import Trademark from '../trademark'
-
 import cx from '../../../lib/cx'
 
 import styles from './styles.scss'
