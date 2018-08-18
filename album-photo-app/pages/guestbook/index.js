@@ -32,7 +32,7 @@ class Guestbook extends Component {
       <div
         styleName="image-container"
         style={{
-          backgroundImage: `url(${getPhoto(msg.photo, this.props.media) || defaultPhoto})`,
+          backgroundImage: `url(${getPhoto(msg, 'photo', this.props.media) || defaultPhoto})`,
         }}
       />
       <div styleName="quote-container">

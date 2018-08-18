@@ -32,7 +32,7 @@ class ParentsAndStats extends Component {
                 <div>
                   <div
                     style={{
-                      backgroundImage: `url(${getPhoto(bpoom[`photo_${parent}`], media) || defaultPhoto})`,
+                      backgroundImage: `url(${getPhoto(bpoom, `photo_${parent}`, media) || defaultPhoto})`,
                     }}
                     styleName="image-container"
                   />

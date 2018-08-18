@@ -53,7 +53,7 @@ class Trip extends Component {
       <div
         styleName="image-container"
         style={{
-          backgroundImage: `url(${getPhoto(tripEvent.photo, this.props.media) || defaultPhoto})`,
+          backgroundImage: `url(${getPhoto(tripEvent, 'photo', this.props.media) || defaultPhoto})`,
         }}
       />
       <div styleName="quote">{tripEvent.message}</div>

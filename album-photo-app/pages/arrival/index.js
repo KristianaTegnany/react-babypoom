@@ -108,7 +108,7 @@ class Arrival extends Component {
               <div
                 styleName="baby-img"
                 style={{
-                  backgroundImage: `url(${getPhoto(bpoom.photo, media) || defaultPhoto})`,
+                  backgroundImage: `url(${getPhoto(bpoom, 'photo', media) || defaultPhoto})`,
                 }}
               />
             </div>
