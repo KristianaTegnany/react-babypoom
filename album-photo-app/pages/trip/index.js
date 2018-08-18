@@ -10,6 +10,7 @@ import BorderBgBox from '../../components/border-bg-box'
 import getPhoto from '../../../lib/get-photo'
 
 import styles from './styles.scss'
+import defaultPhoto from '../../images/default.jpeg'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -52,9 +53,7 @@ class Trip extends Component {
       <div
         styleName="image-container"
         style={{
-          backgroundImage: getPhoto(tripEvent.photo, this.props.media)
-            ? `url(${getPhoto(tripEvent.photo, this.props.media)})`
-            : '',
+          backgroundImage: `url(${getPhoto(tripEvent.photo, this.props.media) || defaultPhoto})`,
         }}
       />
       <div styleName="quote">{tripEvent.message}</div>

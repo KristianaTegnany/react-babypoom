@@ -9,6 +9,7 @@ import ContentPanel from '../../components/content-panel'
 import getPhoto from '../../../lib/get-photo'
 
 import styles from './styles.scss'
+import defaultPhoto from '../../images/default.jpeg'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -31,7 +32,7 @@ class Guestbook extends Component {
       <div
         styleName="image-container"
         style={{
-          backgroundImage: getPhoto(msg.photo, this.props.media) ? `url(${getPhoto(msg.photo, this.props.media)})` : '',
+          backgroundImage: `url(${getPhoto(msg.photo, this.props.media) || defaultPhoto})`,
         }}
       />
       <div styleName="quote-container">

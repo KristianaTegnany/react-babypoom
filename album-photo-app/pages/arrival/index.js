@@ -10,6 +10,7 @@ import BorderBgBox from '../../components/border-bg-box'
 import getPhoto from '../../../lib/get-photo'
 
 import styles from './styles.scss'
+import defaultPhoto from '../../images/default.jpeg'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -107,7 +108,7 @@ class Arrival extends Component {
               <div
                 styleName="baby-img"
                 style={{
-                  backgroundImage: getPhoto(bpoom.photo, media) ? `url(${getPhoto(bpoom.photo, media)})` : '',
+                  backgroundImage: `url(${getPhoto(bpoom.photo, media) || defaultPhoto})`,
                 }}
               />
             </div>

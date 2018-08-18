@@ -7,6 +7,7 @@ import PresentationPanel from '../../components/presentation-panel'
 import ContentPanel from '../../components/content-panel'
 
 import getPhoto from '../../../lib/get-photo'
+import defaultPhoto from '../../images/default.jpeg'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -31,9 +32,7 @@ class ParentsAndStats extends Component {
                 <div>
                   <div
                     style={{
-                      backgroundImage: getPhoto(bpoom[`photo_${parent}`], media)
-                        ? `url(${getPhoto(bpoom[`photo_${parent}`], media)})`
-                        : '',
+                      backgroundImage: `url(${getPhoto(bpoom[`photo_${parent}`], media) || defaultPhoto})`,
                     }}
                     styleName="image-container"
                   />
