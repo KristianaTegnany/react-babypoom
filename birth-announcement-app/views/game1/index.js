@@ -91,7 +91,7 @@ export default class Game1 extends Component {
     let resolution = 24 - (uniqueChars ? Math.round((okCount * 24) / uniqueChars) : 0)
     pixelate(
       {
-        src: props.bpoom.photo.thumbnail,
+        src: props.bpoom.photo_thumbnail,
         resolution: resolution * 2,
         width: 100,
         height: 100,
@@ -152,7 +152,7 @@ export default class Game1 extends Component {
             let color = pixels.includes(i) ? 'var(--neutral-secondary)' : 'transparent'
             return `linear-gradient(to right,${color},${color})`
           })
-          .join(',') + `,url(${this.props.bpoom.photo.thumbnail})`,
+          .join(',') + `,url(${this.props.bpoom.photo_thumbnail})`,
       backgroundSize:
         new Array(gridSize * gridSize)
           .fill(0)

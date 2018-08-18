@@ -29,7 +29,7 @@ class Trip extends Component {
       nextProps.loadSlideshow({
         items: trip.bp_trip_events.map(event => {
           return {
-            src: event.photo.normal || defaultPhoto,
+            src: event.photo || defaultPhoto,
             title: formatDate(nextProps.intl, event),
             description: event.message || '',
           }
@@ -48,7 +48,7 @@ class Trip extends Component {
     return (
       <div>
         <div>
-          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo.thumbnail}>
+          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo_thumbnail}>
             {trip.message}
           </BubbleSay>
         </div>
@@ -59,7 +59,7 @@ class Trip extends Component {
                 <div />
                 <div styleName="img">
                   <BpoomImg
-                    imgSrc={event.photo.thumbnail || defaultPhoto}
+                    imgSrc={event.photo_thumbnail || defaultPhoto}
                     imgText={formatDate(props.intl, event)}
                     onClick={() => props.openSlideshow(i)}
                   />
@@ -75,11 +75,11 @@ class Trip extends Component {
           {props.noNav ? (
             ''
           ) : props.desktop ? (
-            <BubbleSay speechDir="left" imgSrc={bpoom.photo.thumbnail}>
+            <BubbleSay speechDir="left" imgSrc={bpoom.photo_thumbnail}>
               <Transition />
             </BubbleSay>
           ) : (
-            <BubblePic imgSrc={bpoom.photo.thumbnail}>
+            <BubblePic imgSrc={bpoom.photo_thumbnail}>
               <Transition />
             </BubblePic>
           )}

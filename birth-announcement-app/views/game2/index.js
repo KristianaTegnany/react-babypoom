@@ -237,7 +237,7 @@ export default class Game2 extends Component {
   renderCases() {
     let len = SIZE * SIZE
     let cases = []
-    let photo = this.props.bpoom.photo.normal
+    let photo = this.props.bpoom.photo
     let puzzle = this.props.puzzle
     let positionRatio = 100 / (SIZE - 1)
 

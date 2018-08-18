@@ -53,7 +53,7 @@ class VisitorBook extends Component {
       nextProps.loadSlideshow({
         items: visitorbook.bp_visitorbook_msgs.map(msg => {
           return {
-            src: msg.photo.normal || defaultPhoto,
+            src: msg.photo || defaultPhoto,
             title: msg.created_at
               ? `${formatDate(nextProps.intl, msg.created_at)} - ${msg.name || ''}`
               : `${msg.name || ''}`,
@@ -108,7 +108,7 @@ class VisitorBook extends Component {
 
     return (
       <div ref={elt => (this.visitorbookContainer = elt)} styleName="visitorbook-container">
-        <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo.thumbnail}>
+        <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo_thumbnail}>
           {visitorbook.message}
         </BubbleSay>
         <div styleName="button-container">
@@ -124,7 +124,7 @@ class VisitorBook extends Component {
             return (
               <div key={i}>
                 <Message
-                  imgSrc={event.photo.thumbnail || defaultPhoto}
+                  imgSrc={event.photo_thumbnail || defaultPhoto}
                   message={event.message}
                   date={formatDate(props.intl, event.created_at)}
                   name={event.name}
@@ -148,11 +148,11 @@ class VisitorBook extends Component {
         {props.noNav ? (
           ''
         ) : props.desktop ? (
-          <BubbleSay speechDir="left" imgSrc={bpoom.photo.thumbnail}>
+          <BubbleSay speechDir="left" imgSrc={bpoom.photo_thumbnail}>
             <Transition />
           </BubbleSay>
         ) : (
-          <BubblePic imgSrc={bpoom.photo.thumbnail}>
+          <BubblePic imgSrc={bpoom.photo_thumbnail}>
             <Transition />
           </BubblePic>
         )}

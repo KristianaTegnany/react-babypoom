@@ -2,11 +2,7 @@ import { BPOOM, STEPS, NO_NAV, SAVE_VISITORBOOK_MSG, DELETE_VISITORBOOK_MSG } fr
 
 // TODO: store it in the session or localstorage or cookie, with bpoomId /!\ important
 let defaultState = {
-  bpoom: {
-    photo: {},
-    photo_mum: {},
-    photo_dad: {},
-  },
+  bpoom: {},
   steps: {
     index: -1,
     maxIndex: 0,

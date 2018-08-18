@@ -63,7 +63,7 @@ export default class Gift extends Component {
 
     let bpoom = props.bpoom
     let gift = bpoom.bp_gift || {}
-    let charity = gift.caritative || { image: {} }
+    let charity = gift.caritative || {}
 
     let link = (
       <Button styleName="btn-link" color="link" onClick={this.openCharityModal}>
@@ -95,11 +95,11 @@ export default class Gift extends Component {
         {props.noNav ? (
           ''
         ) : props.desktop ? (
-          <BubbleSay speechDir="left" imgSrc={bpoom.photo.thumbnail}>
+          <BubbleSay speechDir="left" imgSrc={bpoom.photo_thumbnail}>
             <Transition />
           </BubbleSay>
         ) : (
-          <BubblePic imgSrc={bpoom.photo.thumbnail}>
+          <BubblePic imgSrc={bpoom.photo_thumbnail}>
             <Transition />
           </BubblePic>
         )}
@@ -109,7 +109,7 @@ export default class Gift extends Component {
             {charity.name}
           </ModalHeader>
           <ModalBody>
-            {charity.image.normal ? <img src={charity.image.normal} styleName="charity-modal-img" alt="" /> : ''}
+            {charity.image ? <img src={charity.image} styleName="charity-modal-img" alt="" /> : ''}
             {charity.description}
           </ModalBody>
         </Modal>

@@ -24,7 +24,7 @@ export default class Souvenir extends Component {
         {true ? (
           ''
         ) : (
-          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo.thumbnail}>
+          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo_thumbnail}>
             {souvenir.message}
           </BubbleSay>
         )}
