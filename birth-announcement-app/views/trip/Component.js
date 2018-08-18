@@ -15,7 +15,7 @@ import t from '../../i18n/i18n'
 
 // CSS
 import styles from './styles.scss'
-
+import defaultPhoto from '../../images/default.jpeg'
 @connect(
   mapStateToProps,
   { loadSlideshow, openSlideshow },
@@ -29,7 +29,7 @@ class Trip extends Component {
       nextProps.loadSlideshow({
         items: trip.bp_trip_events.map(event => {
           return {
-            src: event.photo.normal,
+            src: event.photo.normal || defaultPhoto,
             title: formatDate(nextProps.intl, event),
             description: event.message || '',
           }
@@ -59,7 +59,7 @@ class Trip extends Component {
                 <div />
                 <div styleName="img">
                   <BpoomImg
-                    imgSrc={event.photo.thumbnail}
+                    imgSrc={event.photo.thumbnail || defaultPhoto}
                     imgText={formatDate(props.intl, event)}
                     onClick={() => props.openSlideshow(i)}
                   />

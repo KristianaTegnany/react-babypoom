@@ -24,6 +24,7 @@ import t from '../../i18n/i18n'
 
 // CSS
 import styles from './styles.scss'
+import defaultPhoto from '../../images/default.jpeg'
 
 // Icon
 import FaPencil from 'react-icons/lib/fa/pencil'
@@ -33,10 +34,6 @@ import FaPencil from 'react-icons/lib/fa/pencil'
   { loadSlideshow, openSlideshow, deleteMsg, flash },
 )
 class VisitorBook extends Component {
-  // static childContextTypes = {
-  //   intl: PropTypes.object.isRequired,
-  // }
-
   constructor(props) {
     super(props)
 
@@ -56,7 +53,7 @@ class VisitorBook extends Component {
       nextProps.loadSlideshow({
         items: visitorbook.bp_visitorbook_msgs.map(msg => {
           return {
-            src: msg.photo.normal,
+            src: msg.photo.normal || defaultPhoto,
             title: msg.created_at
               ? `${formatDate(nextProps.intl, msg.created_at)} - ${msg.name || ''}`
               : `${msg.name || ''}`,
@@ -127,7 +124,7 @@ class VisitorBook extends Component {
             return (
               <div key={i}>
                 <Message
-                  imgSrc={event.photo.thumbnail}
+                  imgSrc={event.photo.thumbnail || defaultPhoto}
                   message={event.message}
                   date={formatDate(props.intl, event.created_at)}
                   name={event.name}

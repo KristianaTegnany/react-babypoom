@@ -14,6 +14,7 @@ import t from '../../i18n/i18n'
 
 // CSS
 import styles from './styles.scss'
+import defaultPhoto from '../../images/default.jpeg'
 
 @connect(
   mapStateToProps,
@@ -99,8 +100,8 @@ export default class Arrival extends Component {
           ''
         )}
         {bpoom.reaction_mum && bpoom.reaction_dad ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
-        {this.renderBubbleMsg(bpoom.photo_mum.thumbnail, bpoom.reaction_mum, 'left', 0)}
-        {this.renderBubbleMsg(bpoom.photo_dad.thumbnail, bpoom.reaction_dad, 'right', 1)}
+        {this.renderBubbleMsg(bpoom.photo_mum.thumbnail || defaultPhoto, bpoom.reaction_mum, 'left', 0)}
+        {this.renderBubbleMsg(bpoom.photo_dad.thumbnail || defaultPhoto, bpoom.reaction_dad, 'right', 1)}
         {props.noNav ? '' : this.renderBubbleMsg(bpoom.photo.thumbnail, <Transition />, 'left')}
       </div>
     )
