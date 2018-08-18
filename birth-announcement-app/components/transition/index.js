@@ -42,9 +42,9 @@ export default class extends Component {
           ...msg,
           values: {
             link: (
-              <Link to={config.babypoomWebsiteLink} target="_blank">
+              <a href={config.babypoomWebsiteLink} target="_blank">
                 {config.babypoomWebsiteShortLink}
-              </Link>
+              </a>
             ),
             share: (
               <div styleName="share-container">
@@ -59,7 +59,7 @@ export default class extends Component {
                   version="v2.8"
                 />
                 <span styleName="share">
-                  <Button size="sm" color="app" tag={Link} to={config.shareLink} target="_blank">
+                  <Button size="sm" tag="a" color="app" href={config.shareLink} target="_blank">
                     {t(MSG.share)}
                   </Button>
                 </span>
