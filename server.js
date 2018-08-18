@@ -17,13 +17,13 @@ import HotIntlProvider from './album-photo-app/i18n/hot-intl-provider/HotIntlPro
 import { updateLocale } from './album-photo-app/i18n/hot-intl-provider/HotIntlProviderActions'
 import configureStore from './album-photo-app/store/configureStore'
 import routes from './album-photo-app/routes'
-import App from './album-photo-app/views/app'
+import App, { REG_PRINT } from './album-photo-app/views/app'
 
 import { messages } from './album-photo-app/i18n/messages'
 import availableLocales from './available-locales'
 
 import 'isomorphic-fetch'
-import { loadBpoom } from './album-photo-app/views/app/Actions'
+import { loadBpoom, updateMedia } from './album-photo-app/views/app/Actions'
 import config from './config/application'
 
 import puppeteer from 'puppeteer'
@@ -94,12 +94,11 @@ app.get('*', (req, res) => {
   if (REG_PDF.test(req.url)) {
     res.setHeader('Content-Type', 'application/pdf')
     res.setHeader('Content-Disposition', 'inline;filename=album-photo.pdf')
-    generatePdf(
+    var originalURL =
       (req.connection && req.connection.encrypted ? 'https' : 'http') +
-        '://' +
-        (req.get('host') + req.originalUrl).replace(REG_PDF, ''),
-      pdf => res.send(pdf),
-    )
+      '://' +
+      (req.get('host') + req.originalUrl).replace(REG_PDF, '')
+    generatePdf(originalURL + (originalURL.indexOf('?') >= 0 ? '&hd' : '?hd'), pdf => res.send(pdf))
     return
   }
 
@@ -114,6 +113,9 @@ app.get('*', (req, res) => {
     // SERVER SIDE RENDERING
     let store = configureStore()
     updateLocale(lang)(store.dispatch)
+    if (REG_PRINT.test(req.url)) {
+      updateMedia('print')(store.dispatch)
+    }
 
     let component = route.component
     while (component.WrappedComponent) component = component.WrappedComponent

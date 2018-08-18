@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-import { BPOOM } from './types'
+import { BPOOM, MEDIA } from './types'
 
 import apiCall from '../../../api/call'
 import { flash } from '../../components/flash/Actions'
@@ -14,8 +14,7 @@ function _exec(url, urlOptions, options, okCallback, koCallback) {
           resolve(json)
         })
         .catch(function([error, response]) {
-          if (!options || false !== options.flash)
-            flash('danger', MSG.error)(dispatch)
+          if (!options || false !== options.flash) flash('danger', MSG.error)(dispatch)
           if (koCallback) koCallback(dispatch, error, response)
           reject(error)
         })
@@ -37,6 +36,12 @@ export function loadBpoom(uuid, options) {
       }
     },
   )
+}
+
+export function updateMedia(media) {
+  return function(dispatch) {
+    dispatch({ type: MEDIA, media })
+  }
 }
 
 const MSG = defineMessages({

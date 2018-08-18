@@ -52,7 +52,9 @@ class Trip extends Component {
       <div
         styleName="image-container"
         style={{
-          backgroundImage: getPhoto(tripEvent.photo) ? `url(${getPhoto(tripEvent.photo)})` : '',
+          backgroundImage: getPhoto(tripEvent.photo, this.props.media)
+            ? `url(${getPhoto(tripEvent.photo, this.props.media)})`
+            : '',
         }}
       />
       <div styleName="quote">{tripEvent.message}</div>
@@ -102,9 +104,9 @@ export default injectIntl(Trip)
 
 function mapStateToProps(state) {
   const {
-    app: { bpoom },
+    app: { bpoom, media },
   } = state
-  return { bpoom }
+  return { bpoom, media }
 }
 
 const MSG = defineMessages({

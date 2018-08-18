@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
 import { connect } from 'react-redux'
 
-import { loadBpoom } from './Actions'
+import { loadBpoom, updateMedia } from './Actions'
 import { deleteFlash } from '../../components/flash/Actions'
 
 import CSSVariableApplicator from '../../components/css-var'
@@ -23,6 +23,7 @@ import i18n from '../../i18n/i18n'
 import './styles.scss'
 
 let UNIQ = 0
+export let REG_PRINT = /(?:\?|&)hd(?:=|&|$)/
 
 function getThemeName(bpoom) {
   let hack = (('undefined' !== typeof window && window.location.hash) || '').substr(1)
@@ -31,7 +32,7 @@ function getThemeName(bpoom) {
 
 @connect(
   mapStateToProps,
-  { loadBpoom, deleteFlash },
+  { loadBpoom, updateMedia, deleteFlash },
 )
 class App extends Component {
   constructor(props) {
@@ -55,6 +56,10 @@ class App extends Component {
     let uuid = this.props.match.params.uuid
     if (!this.props.bpoom.uuid) {
       this.props.loadBpoom(uuid).catch(() => {})
+    }
+    // Check if param hd exists
+    if ('print' !== this.props.media && REG_PRINT.test(window.location.search)) {
+      this.props.updateMedia('print')
     }
   }
 
@@ -107,8 +112,8 @@ export default injectIntl(App)
 
 function mapStateToProps(state) {
   const {
-    app: { bpoom },
+    app: { bpoom, media },
     flash,
   } = state
-  return { bpoom, flash }
+  return { bpoom, flash, media }
 }

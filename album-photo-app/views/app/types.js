@@ -1,1 +1,2 @@
-export const BPOOM = 'BPOOM'
+export const BPOOM = 'BPOOM',
+  MEDIA = 'MEDIA'

@@ -26,25 +26,23 @@ class Guestbook extends Component {
     return group
   }
 
-  renderGuestbookMsg = (msg, index) => {
-    return (
-      <div key={index} styleName="message">
-        <div
-          styleName="image-container"
-          style={{
-            backgroundImage: getPhoto(msg.photo) ? `url(${getPhoto(msg.photo)})` : '',
-          }}
-        />
-        <div styleName="quote-container">
-          <p>
-            {msg.message}
-            <br />-<br />
-            {msg.name}
-          </p>
-        </div>
+  renderGuestbookMsg = (msg, index) => (
+    <div key={index} styleName="message">
+      <div
+        styleName="image-container"
+        style={{
+          backgroundImage: getPhoto(msg.photo, this.props.media) ? `url(${getPhoto(msg.photo, this.props.media)})` : '',
+        }}
+      />
+      <div styleName="quote-container">
+        <p>
+          {msg.message}
+          <br />-<br />
+          {msg.name}
+        </p>
       </div>
-    )
-  }
+    </div>
+  )
 
   render() {
     let {
@@ -94,9 +92,9 @@ export default injectIntl(Guestbook)
 
 function mapStateToProps(state) {
   const {
-    app: { bpoom },
+    app: { bpoom, media },
   } = state
-  return { bpoom }
+  return { bpoom, media }
 }
 
 const MSG = defineMessages({

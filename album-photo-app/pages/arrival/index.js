@@ -61,6 +61,7 @@ class Arrival extends Component {
   render() {
     let {
       intl,
+      media,
       bpoom,
       bpoom: { location_hospital, location_country, location_state },
     } = this.props
@@ -106,7 +107,7 @@ class Arrival extends Component {
               <div
                 styleName="baby-img"
                 style={{
-                  backgroundImage: getPhoto(bpoom.photo) ? `url(${getPhoto(bpoom.photo)})` : '',
+                  backgroundImage: getPhoto(bpoom.photo, media) ? `url(${getPhoto(bpoom.photo, media)})` : '',
                 }}
               />
             </div>
@@ -126,9 +127,9 @@ export default injectIntl(Arrival)
 
 function mapStateToProps(state) {
   const {
-    app: { bpoom },
+    app: { bpoom, media },
   } = state
-  return { bpoom }
+  return { bpoom, media }
 }
 
 const MSG = defineMessages({
