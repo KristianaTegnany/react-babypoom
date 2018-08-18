@@ -6,10 +6,10 @@ import { updateGuessed, gameOver } from './Actions'
 
 import Button from 'reactstrap/lib/Button'
 
-import BubbleSay from '../../components/bubble-say/Component'
-import BubblePic from '../../components/bubble-pic/Component'
-import BpoomImg from '../../components/bpoom-img/Component'
-import GameWin from '../game-win/Component'
+import BubbleSay from '../../components/bubble-say'
+import BubblePic from '../../components/bubble-pic'
+import BpoomImg from '../../components/bpoom-img'
+import GameWin from '../game-win'
 
 // i18n
 import t from '../../i18n/i18n'

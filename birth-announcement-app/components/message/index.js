@@ -2,7 +2,7 @@ import React from 'react'
 
 import Button from 'reactstrap/lib/Button'
 
-import BpoomImg from '../bpoom-img/Component'
+import BpoomImg from '../bpoom-img'
 
 // I18n
 import t from '../../i18n/i18n'

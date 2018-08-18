@@ -7,9 +7,9 @@ import config from '../../../config/application'
 
 import computeThemeColors from '../../../lib/theme'
 
-import CSSVariableApplicator from '../../components/css-var/Component'
-import BubbleSay from '../../components/bubble-say/Component'
-import MediaQueries from '../../components/media-queries/Component'
+import CSSVariableApplicator from '../../components/css-var'
+import BubbleSay from '../../components/bubble-say'
+import MediaQueries from '../../components/media-queries'
 
 // i18n
 import t from '../../i18n/i18n'

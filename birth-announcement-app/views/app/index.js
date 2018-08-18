@@ -7,14 +7,14 @@ import { connect } from 'react-redux'
 import { PATH_TO_STEP_MAP, stepComponent, stepPath } from './steps'
 import { loadBpoom, updateStep, updateNoNav } from './Actions'
 
-import Slideshow from '../../components/slideshow/Component'
+import Slideshow from '../../components/slideshow'
 
 import { loadSlideshow, openSlideshow, changeSlideshowIndex, closeSlideshow } from '../../components/slideshow/Actions'
 
-import NotFound from '../not-found/Component'
+import NotFound from '../not-found'
 import Alert from '../../components/form/Alert'
-import Header from '../../components/header/Component'
-import Footer from '../../components/footer/Component'
+import Header from '../../components/header'
+import Footer from '../../components/footer'
 
 import { deleteFlash } from '../../components/flash/Actions'
 
@@ -30,8 +30,8 @@ import Cookie from '../../../lib/cookie'
 import { hasParam } from '../../../lib/url-params'
 
 // CSS
-import CSSVariableApplicator from '../../components/css-var/Component'
-import MediaQueries from '../../components/media-queries/Component'
+import CSSVariableApplicator from '../../components/css-var'
+import MediaQueries from '../../components/media-queries'
 import styles from './styles.scss'
 
 import i18n from '../../i18n/i18n'

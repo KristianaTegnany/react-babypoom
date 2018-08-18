@@ -1,6 +1,6 @@
 import React from 'react'
-import App from './views/app/Component'
-import NotFound from './views/not-found/Component'
+import App from './views/app/'
+import NotFound from './views/not-found/'
 
 const routes = [
   {

@@ -5,9 +5,9 @@ import { reduxForm, Field } from 'redux-form'
 import required from 'redux-form-validators/lib/presence'
 import email from 'redux-form-validators/lib/email'
 
-import CloudinaryUploader from '../../components/cloudinary-uploader/Component'
+import CloudinaryUploader from '../../components/cloudinary-uploader'
 
-import BpoomImg from '../../components/bpoom-img/Component'
+import BpoomImg from '../../components/bpoom-img'
 
 import { saveMsg } from '../app/Actions'
 import { flash } from '../../components/flash/Actions'
@@ -38,7 +38,7 @@ function refInput(input) {
 // TODO: deleteFlash when going back to view (cancel or message saved)
 @connect(
   mapStateToProps,
-  { saveMsg, flash }
+  { saveMsg, flash },
 )
 @reduxForm({
   form: 'visitorBookForm',

@@ -8,12 +8,12 @@ import Modal from 'reactstrap/lib/Modal'
 import ModalHeader from 'reactstrap/lib/ModalHeader'
 import ModalBody from 'reactstrap/lib/ModalBody'
 
-import GiftCharityForm from '../gift-charity-form/Component'
-import Bubble from '../../components/bubble/Component'
-import BubblePic from '../../components/bubble-pic/Component'
-import BubbleSay from '../../components/bubble-say/Component'
-import Panel from '../../components/panel/Component'
-import Transition from '../../components/transition/Component'
+import GiftCharityForm from '../gift-charity-form'
+import Bubble from '../../components/bubble'
+import BubblePic from '../../components/bubble-pic'
+import BubbleSay from '../../components/bubble-say'
+import Panel from '../../components/panel'
+import Transition from '../../components/transition'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -63,7 +63,7 @@ export default class Gift extends Component {
 
     let bpoom = props.bpoom
     let gift = bpoom.bp_gift || {}
-    let charity = gift.caritative || {}
+    let charity = gift.caritative || { image: {} }
 
     let link = (
       <Button styleName="btn-link" color="link" onClick={this.openCharityModal}>
@@ -109,7 +109,7 @@ export default class Gift extends Component {
             {charity.name}
           </ModalHeader>
           <ModalBody>
-            {charity.image ? <img src={charity.image} styleName="charity-modal-img" alt="" /> : ''}
+            {charity.image.normal ? <img src={charity.image.normal} styleName="charity-modal-img" alt="" /> : ''}
             {charity.description}
           </ModalBody>
         </Modal>

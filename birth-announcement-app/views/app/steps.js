@@ -1,12 +1,12 @@
-import Welcome from '../welcome/Component'
-import Game1 from '../game1/Component'
-import Game2 from '../game2/Component'
-import Game3 from '../game3/Component'
-import Arrival from '../arrival/Component'
-import Trip from '../trip/Component'
-import VisitorBook from '../visitorbook/Component'
-import Gift from '../gift/Component'
-import Souvenir from '../souvenir/Component'
+import Welcome from '../welcome'
+import Game1 from '../game1'
+import Game2 from '../game2'
+import Game3 from '../game3'
+import Arrival from '../arrival'
+import Trip from '../trip'
+import VisitorBook from '../visitorbook'
+import Gift from '../gift'
+import Souvenir from '../souvenir'
 
 let nameToPaths = [
   ['welcome', { path: '/:uuid/', component: Welcome }],

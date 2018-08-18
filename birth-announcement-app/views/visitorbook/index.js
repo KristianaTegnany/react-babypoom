@@ -7,11 +7,11 @@ import { deleteMsg } from '../app/Actions'
 import { loadSlideshow, openSlideshow } from '../../components/slideshow/Actions'
 import { flash } from '../../components/flash/Actions'
 
-import VisitorBookForm from '../visitorbook-form/Component'
-import BubblePic from '../../components/bubble-pic/Component'
-import BubbleSay from '../../components/bubble-say/Component'
-import Message from '../../components/message/Component'
-import Transition from '../../components/transition/Component'
+import VisitorBookForm from '../visitorbook-form'
+import BubblePic from '../../components/bubble-pic'
+import BubbleSay from '../../components/bubble-say'
+import Message from '../../components/message'
+import Transition from '../../components/transition'
 
 // Components
 import Button from 'reactstrap/lib/Button'

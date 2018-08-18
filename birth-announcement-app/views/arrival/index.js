@@ -4,10 +4,10 @@ import { defineMessages, FormattedDate } from 'react-intl'
 
 import { loadSlideshow, openSlideshow } from '../../components/slideshow/Actions'
 
-import BubblePic from '../../components/bubble-pic/Component'
-import BubbleSay from '../../components/bubble-say/Component'
-import BpoomTitle from '../../components/bpoom-title/Component'
-import Transition from '../../components/transition/Component'
+import BubblePic from '../../components/bubble-pic'
+import BubbleSay from '../../components/bubble-say'
+import BpoomTitle from '../../components/bpoom-title'
+import Transition from '../../components/transition'
 
 // i18n
 import t from '../../i18n/i18n'

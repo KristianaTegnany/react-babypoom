@@ -4,10 +4,10 @@ import { defineMessages } from 'react-intl'
 
 import { loadSlideshow, openSlideshow } from '../../components/slideshow/Actions'
 
-import BubbleSay from '../../components/bubble-say/Component'
-import BubblePic from '../../components/bubble-pic/Component'
-import BpoomImg from '../../components/bpoom-img/Component'
-import Transition from '../../components/transition/Component'
+import BubbleSay from '../../components/bubble-say'
+import BubblePic from '../../components/bubble-pic'
+import BpoomImg from '../../components/bpoom-img'
+import Transition from '../../components/transition'
 
 // i18n
 import t from '../../i18n/i18n'

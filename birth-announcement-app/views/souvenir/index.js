@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import Bubble from '../../components/bubble/Component'
-import BubbleSay from '../../components/bubble-say/Component'
-import Transition from '../../components/transition/Component'
+import Bubble from '../../components/bubble'
+import BubbleSay from '../../components/bubble-say'
+import Transition from '../../components/transition'
 
 // CSS
 import styles from './styles.scss'

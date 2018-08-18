@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { addImgSrc } from '../bubble/Component'
+import { addImgSrc } from '../bubble'
 
 // CSS
 import styles from './styles.scss'

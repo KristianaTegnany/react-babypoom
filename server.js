@@ -17,7 +17,7 @@ import HotIntlProvider from './birth-announcement-app/i18n/hot-intl-provider/Hot
 import { updateLocale } from './birth-announcement-app/i18n/hot-intl-provider/HotIntlProviderActions'
 import configureStore from './birth-announcement-app/store/configureStore'
 import routes from './birth-announcement-app/routes'
-import App from './birth-announcement-app/views/app/Component'
+import App from './birth-announcement-app/views/app'
 
 import { messages } from './birth-announcement-app/i18n/messages'
 import availableLocales from './available-locales'

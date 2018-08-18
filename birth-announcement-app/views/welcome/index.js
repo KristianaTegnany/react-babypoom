@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { defineMessages } from 'react-intl'
 
-import Bubble from '../../components/bubble/Component'
-import Transition from '../../components/transition/Component'
+import Bubble from '../../components/bubble'
+import Transition from '../../components/transition'
 
 // i18n
 import t from '../../i18n/i18n'
