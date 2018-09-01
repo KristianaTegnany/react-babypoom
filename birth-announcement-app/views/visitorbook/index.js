@@ -121,6 +121,7 @@ class VisitorBook extends Component {
         </div>
         <div styleName="visitorbook-msgs">
           {visitorbookMsgs.map((event, i) => {
+            if (event.private && visitorId !== event.uuid) return ''
             return (
               <div key={i}>
                 <Message

@@ -22,7 +22,7 @@
 
 .upload-img {
   display: flex;
-  margin-top: $main-padding;
+  margin-top: $main-padding + 4px;
   padding: $main-padding;
   background: var(--neutral-primary-C);
 
@@ -50,5 +50,11 @@
     &:first-child {
       margin-left: 0;
     }
+  }
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .upload-img {
+    margin-top: $main-padding * 2;
   }
 }

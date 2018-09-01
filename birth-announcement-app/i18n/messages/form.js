@@ -3,7 +3,7 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   form_name_required: {
     id: 'form.name_required',
-    defaultMessage: "C'est quoi ton petit nom ?",
+    defaultMessage: "C'est quoi ton petit nom ?",
   },
   form_email_invalid: {
     id: 'form.email_invalid',
@@ -19,7 +19,7 @@ export default defineMessages({
   },
   form_last_sumcent_required: {
     id: 'form.last_sumcent_required',
-    defaultMessage: 'Quel montant veux-tu offrir ?',
+    defaultMessage: 'Quel montant veux-tu offrir ?',
   },
   form_name: {
     id: 'form.name',
@@ -44,6 +44,10 @@ export default defineMessages({
   form_message: {
     id: 'form.message',
     defaultMessage: 'Message',
+  },
+  form_private: {
+    id: 'form.private',
+    defaultMessage: 'Message privé',
   },
   form_last_sumcent: {
     id: 'form.last_sumcent',
@@ -75,7 +79,7 @@ export default defineMessages({
   },
   form_upload_error: {
     id: 'form.upload_error',
-    defaultMessage: "Erreur : l'import a echoué. \nVeuillez reéssayer plus tard.",
+    defaultMessage: "Erreur : l'import a echoué. \nVeuillez reéssayer plus tard.",
   },
   form_card_number: {
     id: 'form.card_number',

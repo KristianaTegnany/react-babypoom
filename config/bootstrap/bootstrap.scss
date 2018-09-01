@@ -45,6 +45,12 @@
   margin-bottom: 4px;
 }
 
+.form-check-input {
+  position: relative;
+  margin: 0 5px 0 -6px;
+  top: -1px;
+}
+
 .icon-spin {
   animation: icon-spin 2s infinite linear;
 }

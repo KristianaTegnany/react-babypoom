@@ -51,6 +51,7 @@
   "form.message_required": "Tu n'as rien à me dire ?",
   "form.name": "Nom",
   "form.name_required": "C'est quoi ton petit nom ?",
+  "form.private": "Message privé",
   "form.submit": "Valider",
   "form.upload_error": "Erreur : l'import a echoué. \nVeuillez reéssayer plus tard.",
   "game.desktop_fullscreen": "Afficher en plein écran",

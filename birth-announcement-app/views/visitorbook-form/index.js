@@ -21,7 +21,7 @@ import t from '../../i18n/i18n'
 import FORM_MSG from '../../i18n/messages/form'
 
 // Lib
-import { InputField } from '../../../lib/redux-form-input'
+import { InputField, CheckField } from '../../../lib/redux-form-input'
 import { extractParams } from '../../../lib/params'
 import Ahoy from '../../../lib/ahoy-custom'
 
@@ -143,6 +143,14 @@ export default class VisitorBookForm extends Component {
             component={InputField}
             maxLength="500"
             validate={[required({ msg: t(FORM_MSG.form_message_required) })]}
+          />
+
+          <Field
+            name="private"
+            innerRef={refInput}
+            type="checkbox"
+            label={t(FORM_MSG.form_private)}
+            component={CheckField}
           />
 
           <div styleName="upload-img">
