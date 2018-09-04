@@ -22,6 +22,7 @@ import defaultPhoto from '../../images/default.jpeg'
 )
 export default class Arrival extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.bpoom === nextProps.bpoom) return null
     let bpoom = nextProps.bpoom
     let items = [
       { src: bpoom.photo_mum, description: bpoom.reaction_mum },
@@ -30,12 +31,14 @@ export default class Arrival extends Component {
     if (items.length) {
       nextProps.loadSlideshow({ items })
     }
-    return null
+    return { bpoom: nextProps.bpoom }
   }
 
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      bpoom: props.bpoom,
+    }
 
     this.openSlideshow0 = this.openSlideshow.bind(this, 0)
     this.openSlideshow1 = this.openSlideshow.bind(this, 1)

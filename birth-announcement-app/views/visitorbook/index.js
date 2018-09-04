@@ -14,7 +14,7 @@ import Message from '../../components/message'
 import Transition from '../../components/transition'
 
 // Components
-import Button from 'reactstrap/lib/Button'
+import { Button } from 'reactstrap'
 
 // Lib
 import Ahoy from '../../../lib/ahoy-custom'
@@ -34,20 +34,8 @@ import FaPencil from 'react-icons/lib/fa/pencil'
   { loadSlideshow, openSlideshow, deleteMsg, flash },
 )
 class VisitorBook extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      formVisible: false, // TODO
-      scrollToBottom: false,
-    }
-
-    this.displayForm = ::this.displayForm
-    this.onCancelMsg = ::this.onCancelMsg
-    this.onSaveMsg = ::this.onSaveMsg
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.bpoom === nextProps.bpoom) return null
     let visitorbook = nextProps.bpoom.bp_visitorbook
     if (visitorbook && visitorbook.bp_visitorbook_msgs && visitorbook.bp_visitorbook_msgs.length) {
       nextProps.loadSlideshow({
@@ -62,7 +50,21 @@ class VisitorBook extends Component {
         }),
       })
     }
-    return null
+    return { bpoom: nextProps.bpoom }
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      bpoom: props.bpoom,
+      formVisible: false, // TODO
+      scrollToBottom: false,
+    }
+
+    this.displayForm = ::this.displayForm
+    this.onCancelMsg = ::this.onCancelMsg
+    this.onSaveMsg = ::this.onSaveMsg
   }
 
   componentDidUpdate() {
