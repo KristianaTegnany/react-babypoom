@@ -4,7 +4,7 @@ import { defineMessages } from 'react-intl'
 
 import { move, gameOver } from './Actions'
 
-import Button from 'reactstrap/lib/Button'
+import { Button } from 'reactstrap'
 
 import BubbleSay from '../../components/bubble-say'
 import BubblePic from '../../components/bubble-pic'
@@ -319,11 +319,11 @@ function mapStateToProps(state) {
 
 const MSG = defineMessages({
   message: {
-    id: 'game.message',
+    id: 'game2.message',
     defaultMessage: 'Clique sur les cases afin de résoudre ce puzzle et je te dirai mon prénom...',
   },
   help: {
-    id: 'game.help',
+    id: 'game2.help',
     defaultMessage: `Aide-moi un peu, je n'y arrive pas...`,
   },
 })

@@ -4,7 +4,7 @@ import { defineMessages } from 'react-intl'
 
 import { updateGuessed, gameOver } from './Actions'
 
-import Button from 'reactstrap/lib/Button'
+import { Button } from 'reactstrap'
 
 import BubbleSay from '../../components/bubble-say'
 import BubblePic from '../../components/bubble-pic'
@@ -260,15 +260,15 @@ function mapStateToProps(state) {
 
 const MSG = defineMessages({
   message: {
-    id: 'game.message',
+    id: 'game1.message',
     defaultMessage: 'Devine mon prénom et tu verras apparaître progressivement ma première photo...',
   },
   guessed_ok: {
-    id: 'game.guessed.ok',
+    id: 'game1.guessed.ok',
     defaultMessage: 'Bravo, mon prénom contient bien la lettre "{char}" !',
   },
   guessed_ko: {
-    id: 'game.guessed.ko',
+    id: 'game1.guessed.ko',
     defaultMessage: 'Hé non, mon prénom ne contient pas la lettre "{char}" !',
   },
 })
