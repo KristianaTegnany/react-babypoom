@@ -14,7 +14,7 @@ import Message from '../../components/message'
 import Transition from '../../components/transition'
 
 // Components
-import { Button } from 'reactstrap'
+import Button from 'reactstrap/lib/Button'
 
 // Lib
 import Ahoy from '../../../lib/ahoy-custom'

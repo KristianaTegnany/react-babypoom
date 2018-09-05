@@ -4,7 +4,7 @@ import { defineMessages } from 'react-intl'
 
 import { updateGuessed, gameOver } from './Actions'
 
-import { Button } from 'reactstrap'
+import Button from 'reactstrap/lib/Button'
 
 import BubbleSay from '../../components/bubble-say'
 import BubblePic from '../../components/bubble-pic'
@@ -188,8 +188,8 @@ export default class Game1 extends Component {
           values: { char: lastChar },
         })
       : t(MSG.message)
-    let babyType = bpoom.baby_full_type
 
+    let babyType = bpoom.baby_full_type
     let picture = EXPERIMENTAL ? null : this.state.picture
     let style = EXPERIMENTAL ? this.imageStyles() : {}
 

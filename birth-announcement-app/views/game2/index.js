@@ -4,7 +4,7 @@ import { defineMessages } from 'react-intl'
 
 import { move, gameOver } from './Actions'
 
-import { Button } from 'reactstrap'
+import Button from 'reactstrap/lib/Button'
 
 import BubbleSay from '../../components/bubble-say'
 import BubblePic from '../../components/bubble-pic'
