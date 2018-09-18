@@ -25,7 +25,6 @@ import availableLocales from '../available-locales'
 import { messages } from './i18n/messages'
 
 let locale = availableLocales.defaultLocale
-
 loadIntl([locale].concat(availableLocales), () => {
   // Store
   const initialState = window[config.requestCacheVar]
