@@ -76,7 +76,6 @@ let BROWSER
 })()
 
 var generatePdf = async function(url, callback) {
-  var d = new Date()
   const page = await BROWSER.newPage()
   await page.goto(url, { waitUntil: 'networkidle2' })
   await page.pdf({ format: 'A4', landscape: true, printBackground: true }).then(callback, error => {
@@ -91,7 +90,7 @@ process.on('exit', async function() {
 var REG_PDF = /\.pdf$/
 
 app.get('*', (req, res) => {
-  if (REG_PDF.test(req.url)) {
+  if (REG_PDF.test(req.url.split('?')[0])) {
     res.setHeader('Content-Type', 'application/pdf')
     res.setHeader('Content-Disposition', 'inline;filename=album-photo.pdf')
     var originalURL =

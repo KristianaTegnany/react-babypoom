@@ -32,8 +32,10 @@ class Arrival extends Component {
     if (!date || !date.includes('T')) return ''
     let hour = intl.formatDate(date, {
       hour: 'numeric',
+      minute: 'numeric',
       timeZone: 'UTC',
     })
+
     return t({ ...MSG.hour, values: { hour } })
   }
 
