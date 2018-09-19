@@ -23,21 +23,18 @@ import BABY_IMAGES from '../../../lib/baby-img'
   { loadSlideshow, openSlideshow },
 )
 export default class GameWin extends Component {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.bpoom === nextProps.bpoom && prevState.slideShowInit) return null
+    nextProps.loadSlideshow({ items: [{ src: nextProps.bpoom.photo }] })
+    return { bpoom: nextProps.bpoom, slideShowInit: true }
+  }
+
   constructor(props) {
     super(props)
     this.state = {
       bpoom: props.bpoom,
+      slideShowInit: false,
     }
-    if (props.bpoom.photo) {
-      props.loadSlideshow({ items: [{ src: props.bpoom.photo }] })
-    }
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.bpoom.photo !== prevState.bpoom.photo) {
-      nextProps.loadSlideshow({ items: [{ src: nextProps.bpoom.photo }] })
-    }
-    return { bpoom: nextProps.bpoom }
   }
 
   render() {

@@ -22,7 +22,7 @@ import defaultPhoto from '../../images/default.jpeg'
 )
 class Trip extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.bpoom === nextProps.bpoom) return null
+    if (prevState.bpoom === nextProps.bpoom && prevState.slideShowInit) return null
     let trip = nextProps.bpoom.bp_trip
     if (trip && trip.bp_trip_events && trip.bp_trip_events.length) {
       nextProps.loadSlideshow({
@@ -35,13 +35,14 @@ class Trip extends Component {
         }),
       })
     }
-    return { bpoom: nextProps.bpoom }
+    return { bpoom: nextProps.bpoom, slideShowInit: true }
   }
 
   constructor(props) {
     super(props)
     this.state = {
       bpoom: props.bpoom,
+      slideShowInit: false,
     }
   }
 

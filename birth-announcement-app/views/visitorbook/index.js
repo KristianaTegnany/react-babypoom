@@ -35,7 +35,7 @@ import FaPencil from 'react-icons/lib/fa/pencil'
 )
 class VisitorBook extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.bpoom === nextProps.bpoom) return null
+    if (prevState.bpoom === nextProps.bpoom && prevState.slideShowInit) return null
     let visitorbook = nextProps.bpoom.bp_visitorbook
     if (visitorbook && visitorbook.bp_visitorbook_msgs && visitorbook.bp_visitorbook_msgs.length) {
       nextProps.loadSlideshow({
@@ -50,7 +50,7 @@ class VisitorBook extends Component {
         }),
       })
     }
-    return { bpoom: nextProps.bpoom }
+    return { bpoom: nextProps.bpoom, slideShowInit: true }
   }
 
   constructor(props) {
@@ -60,6 +60,7 @@ class VisitorBook extends Component {
       bpoom: props.bpoom,
       formVisible: false, // TODO
       scrollToBottom: false,
+      slideShowInit: false,
     }
 
     this.displayForm = ::this.displayForm
