@@ -49,6 +49,7 @@ export default class Arrival extends Component {
     let attrs = { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' }
     if (date.indexOf('T') >= 0) {
       attrs.hour = 'numeric'
+      attrs.minute = 'numeric'
     }
     return <FormattedDate value={new Date(date)} {...attrs} />
   }
