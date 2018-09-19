@@ -274,15 +274,17 @@ export default class Game2 extends Component {
     let props = this.props
     let bpoom = props.bpoom
     let babyType = bpoom.baby_full_type
+    let bp_game = bpoom.bp_game || {}
+    let bubbleText = bp_game.message || t(MSG.message)
 
     return (
       <div styleName={['game-container', babyType].join(' ')}>
         {props.desktop ? (
           <BubbleSay speechDir="left" imgSrc={BABY_IMAGES[babyType]}>
-            {t(MSG.message)}
+            {bubbleText}
           </BubbleSay>
         ) : (
-          <BubblePic imgSrc={BABY_IMAGES[babyType]}>{t(MSG.message)}</BubblePic>
+          <BubblePic imgSrc={BABY_IMAGES[babyType]}>{bubbleText}</BubblePic>
         )}
         <div styleName="puzzle-container">
           <div styleName="puzzle">{this.renderCases()}</div>

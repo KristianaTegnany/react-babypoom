@@ -187,7 +187,7 @@ export default class Game1 extends Component {
           ...MSG['guessed_' + (asciiName.indexOf(lastChar) < 0 ? 'ko' : 'ok')],
           values: { char: lastChar },
         })
-      : t(MSG.message)
+      : bp_game.message || t(MSG.message)
 
     let babyType = bpoom.baby_full_type
     let picture = EXPERIMENTAL ? null : this.state.picture
