@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { defineMessages } from 'react-intl'
 import { reduxForm, Field } from 'redux-form'
+import ReactGA from 'react-ga'
 import required from 'redux-form-validators/lib/presence'
 import email from 'redux-form-validators/lib/email'
 
@@ -104,6 +105,7 @@ export default class VisitorBookForm extends Component {
     return this.props.saveMsg(this.props.bpoom.uuid, extractParams(values, { name: 'bp_visitorbook_msg' })).then(() => {
       this.props.onSave && this.props.onSave()
       this.props.flash('info', MSG.form_thanks)
+      ReactGA.ga('send', 'guestbook-message')
     })
   }
 

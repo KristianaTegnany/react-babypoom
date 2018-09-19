@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import { reduxForm, Field } from 'redux-form'
+import ReactGA from 'react-ga'
 import required from 'redux-form-validators/lib/presence'
 import email from 'redux-form-validators/lib/email'
 import length from 'redux-form-validators/lib/length'
@@ -60,7 +61,7 @@ function refInput(input) {
 
 @connect(
   mapStateToProps,
-  { saveMangopayAccount, saveMangopayPayment, flash }
+  { saveMangopayAccount, saveMangopayPayment, flash },
 )
 @reduxForm({
   form: 'giftCharityForm',
@@ -112,7 +113,7 @@ export default class GiftCharityForm extends Component {
             cardNumber: int(values.card_number),
             cardExpirationDate: date.formatDate(
               date.parseDate(values.card_expiration_date, dateFormat, dateYmd),
-              MANGOPAY_DATE_FORMAT
+              MANGOPAY_DATE_FORMAT,
             ),
             cardCvx: int(values.card_cvx),
             cardType: 'CB_VISA_MASTERCARD',
@@ -127,12 +128,13 @@ export default class GiftCharityForm extends Component {
                     mangopay_account_id: json.mpaid,
                     sumcent: json.sumcent,
                   },
-                  { name: 'mangopay_payment' }
-                )
+                  { name: 'mangopay_payment' },
+                ),
               )
               .then(() => {
                 props.onSave && props.onSave()
                 props.flash('info', MSG.thanks)
+                ReactGA.ga('send', 'charity-gift')
               })
               .catch(() => {
                 this.setState({ submitting: false })
@@ -154,7 +156,7 @@ export default class GiftCharityForm extends Component {
             //  "error_code": res.ResultCode,
             //  "error_msg": t(MP_MSG[errorKey] || MP_MSG.error_default)
             // });
-          }
+          },
         )
       })
       .catch(() => {

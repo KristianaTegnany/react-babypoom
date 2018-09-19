@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { defineMessages } from 'react-intl'
+import ReactGA from 'react-ga'
 
 // Components
 import Button from 'reactstrap/lib/Button'
@@ -72,9 +73,9 @@ export default class extends Component {
                 </i>
               ),
               link: props.desktop ? (
-                <a href={config.babypoomWebsiteLink} target="_blank">
+                <ReactGA.OutboundLink eventLabel="babypoom-website" to={config.babypoomWebsiteLink} target="_blank">
                   {config.babypoomWebsiteShortLink}
-                </a>
+                </ReactGA.OutboundLink>
               ) : (
                 config.babypoomWebsiteShortLink
               ),

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { defineMessages } from 'react-intl'
+import ReactGA from 'react-ga'
 
 import ReactFBLike from 'react-fb-like'
 import Button from 'reactstrap/lib/Button'
@@ -20,7 +21,12 @@ import styles from './styles.scss'
 export default class extends Component {
   componentDidMount() {
     // FB like button is rendered only once otherwise
-    if ('undefined' !== typeof FB) FB.XFBML.parse()
+    if ('undefined' !== typeof FB) {
+      FB.XFBML.parse()
+      FB.Event.subscribe('edge.create', function(trackUrl) {
+        ReactGA.ga('send', 'fb-like', trackUrl)
+      })
+    }
   }
 
   render() {
@@ -42,9 +48,9 @@ export default class extends Component {
           ...msg,
           values: {
             link: (
-              <a href={config.babypoomWebsiteLink} target="_blank">
+              <ReactGA.OutboundLink eventLabel="babypoom-website" to={config.babypoomWebsiteLink} target="_blank">
                 {config.babypoomWebsiteShortLink}
-              </a>
+              </ReactGA.OutboundLink>
             ),
             share: (
               <div styleName="share-container">
@@ -59,7 +65,14 @@ export default class extends Component {
                   version="v2.8"
                 />
                 <span styleName="share">
-                  <Button size="sm" tag="a" color="app" href={config.shareLink} target="_blank">
+                  <Button
+                    size="sm"
+                    tag={ReactGA.OutboundLink}
+                    eventLabel="share-website"
+                    color="app"
+                    to={config.shareLink}
+                    target="_blank"
+                  >
                     {t(MSG.share)}
                   </Button>
                 </span>

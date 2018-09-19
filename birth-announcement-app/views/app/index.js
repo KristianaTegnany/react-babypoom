@@ -104,8 +104,8 @@ class App extends Component {
     Ahoy.start()
     Ahoy.trackClicks()
 
-    ReactGA.initialize('UA-75903062-2', 'auto')
-    ReactGA.ga('send', 'pageview')
+    ReactGA.initialize('UA-75903062-4', 'auto')
+    ReactGA.pageview(this.props.location.pathname)
 
     // Load bpoom data
     let callback = () => {
@@ -141,7 +141,7 @@ class App extends Component {
 
       // Tracking
       Ahoy.trackView()
-      ReactGA.ga('send', 'pageview')
+      ReactGA.pageview(props.location.pathname)
     }
   }
 

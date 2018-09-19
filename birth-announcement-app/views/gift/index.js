@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { defineMessages } from 'react-intl'
+import ReactGA from 'react-ga'
 
 // Components
 import Button from 'reactstrap/lib/Button'
@@ -39,6 +40,7 @@ export default class Gift extends Component {
 
   openCharityModal() {
     this.setState({ charityModal: true })
+    ReactGA.ga('send', 'popup-charity-description')
   }
 
   closeCharityModal() {
@@ -47,6 +49,7 @@ export default class Gift extends Component {
 
   showCharityForm() {
     this.setState({ charityForm: true })
+    ReactGA.ga('send', 'popup-charity-form')
   }
 
   hideCharityForm() {
