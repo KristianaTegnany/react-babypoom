@@ -68,7 +68,7 @@ export default class extends Component {
                   <Button
                     size="sm"
                     tag={ReactGA.OutboundLink}
-                    eventLabel="share-website"
+                    eventLabel={config.shareLink}
                     color="app"
                     to={config.shareLink}
                     target="_blank"

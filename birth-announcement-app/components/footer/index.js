@@ -73,7 +73,11 @@ export default class extends Component {
                 </i>
               ),
               link: props.desktop ? (
-                <ReactGA.OutboundLink eventLabel="babypoom-website" to={config.babypoomWebsiteLink} target="_blank">
+                <ReactGA.OutboundLink
+                  eventLabel={config.babypoomWebsiteLink}
+                  to={config.babypoomWebsiteLink}
+                  target="_blank"
+                >
                   {config.babypoomWebsiteShortLink}
                 </ReactGA.OutboundLink>
               ) : (
