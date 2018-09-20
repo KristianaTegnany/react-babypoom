@@ -91,7 +91,7 @@ app.get('*', (req, res) => {
           PAGE_CACHE({
             ogTitle: interpolateMetaTitle(messages[lang]['metas.title'], bpoom),
             ogDescription: interpolateMetaDescription(messages[lang]['welcome'], bpoom),
-            ogImage: bpoom.photo_mum.normal,
+            ogImage: bpoom.photo_mum_thumbnail,
             html: render(),
             uuid: match.params.uuid,
             cachedJs: `var ${config.requestCacheVar} = ${JSON.stringify(store.getState())}`,
