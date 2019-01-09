@@ -17,6 +17,7 @@ config.plugins = config.plugins.concat([
   new UglifyJsPlugin({
     sourceMap: true,
     parallel: true,
+    cache: true,
     uglifyOptions: {
       output: {
         comments: false,
