@@ -16,6 +16,7 @@ config.mode = 'production'
 config.plugins = config.plugins.concat([
   new UglifyJsPlugin({
     sourceMap: true,
+    parallel: true,
     uglifyOptions: {
       output: {
         comments: false,
