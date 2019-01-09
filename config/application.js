@@ -8,5 +8,4 @@ export default {
   babypoomWebsiteLink: 'http://babypoom.com',
   babypoomWebsiteShortLink: 'babypoom.com',
   shareLink: 'https://babypoom.typeform.com/to/CYlRUM',
-  fbAppId: '1392663717428389',
 }

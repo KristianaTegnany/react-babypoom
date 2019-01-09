@@ -10,16 +10,16 @@ import BubbleSay from '../../components/bubble-say'
 import BpoomImg from '../../components/bpoom-img'
 import Transition from '../../components/transition'
 
+// Lib
+import getPhoto from '../../../lib/get-photo'
+
 // i18n
 import t from '../../i18n/i18n'
 
 // CSS
 import styles from './styles.scss'
 import defaultPhoto from '../../images/default.jpeg'
-@connect(
-  mapStateToProps,
-  { loadSlideshow, openSlideshow },
-)
+
 class Trip extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.bpoom === nextProps.bpoom && prevState.slideShowInit) return null
@@ -28,7 +28,7 @@ class Trip extends Component {
       nextProps.loadSlideshow({
         items: trip.bp_trip_events.map(event => {
           return {
-            src: event.photo || defaultPhoto,
+            src: getPhoto(event.photo, 'normal') || defaultPhoto,
             title: formatDate(nextProps.intl, event),
             description: event.message || '',
           }
@@ -51,11 +51,12 @@ class Trip extends Component {
 
     let bpoom = props.bpoom
     let trip = bpoom.bp_trip || {}
+    let photo = getPhoto(bpoom.photo, 'thumbnail')
 
     return (
       <div>
         <div>
-          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo_thumbnail}>
+          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={photo}>
             {trip.message}
           </BubbleSay>
         </div>
@@ -66,7 +67,7 @@ class Trip extends Component {
                 <div />
                 <div styleName="img">
                   <BpoomImg
-                    imgSrc={event.photo_thumbnail || defaultPhoto}
+                    imgSrc={getPhoto(event.photo, 'thumbnail') || defaultPhoto}
                     imgText={formatDate(props.intl, event)}
                     onClick={() => props.openSlideshow(i)}
                   />
@@ -82,11 +83,11 @@ class Trip extends Component {
           {props.noNav ? (
             ''
           ) : props.desktop ? (
-            <BubbleSay speechDir="left" imgSrc={bpoom.photo_thumbnail}>
+            <BubbleSay speechDir="left" imgSrc={photo}>
               <Transition />
             </BubbleSay>
           ) : (
-            <BubblePic imgSrc={bpoom.photo_thumbnail}>
+            <BubblePic imgSrc={photo}>
               <Transition />
             </BubblePic>
           )}
@@ -96,7 +97,12 @@ class Trip extends Component {
   }
 }
 
-export default injectIntl(Trip)
+export default injectIntl(
+  connect(
+    mapStateToProps,
+    { loadSlideshow, openSlideshow },
+  )(Trip),
+)
 
 function formatDate(intl, tripEvent) {
   if (!tripEvent.date_event) {

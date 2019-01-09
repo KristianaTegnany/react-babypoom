@@ -22,10 +22,8 @@ import styles from './styles.scss'
 // Icon
 import FaHeart from '../../icons/heart'
 
-@connect(mapStateToProps)
-
 // TODO: button disabled until bpoom loaded
-export default class extends Component {
+class Footer extends Component {
   render() {
     let props = this.props
     let bpoom = props.bpoom
@@ -90,6 +88,8 @@ export default class extends Component {
     )
   }
 }
+
+export default connect(mapStateToProps)(Footer)
 
 function mapStateToProps(state) {
   const {

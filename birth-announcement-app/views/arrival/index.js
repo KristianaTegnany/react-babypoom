@@ -9,6 +9,9 @@ import BubbleSay from '../../components/bubble-say'
 import BpoomTitle from '../../components/bpoom-title'
 import Transition from '../../components/transition'
 
+// Lib
+import getPhoto from '../../../lib/get-photo'
+
 // i18n
 import t from '../../i18n/i18n'
 
@@ -16,18 +19,14 @@ import t from '../../i18n/i18n'
 import styles from './styles.scss'
 import defaultPhoto from '../../images/default.jpeg'
 
-@connect(
-  mapStateToProps,
-  { loadSlideshow, openSlideshow },
-)
-export default class Arrival extends Component {
+class Arrival extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.bpoom === nextProps.bpoom && prevState.slideShowInit) return null
 
     let bpoom = nextProps.bpoom
     let items = [
-      { src: bpoom.photo_mum, description: bpoom.reaction_mum },
-      { src: bpoom.photo_dad, description: bpoom.reaction_dad },
+      { src: getPhoto(bpoom.photo_mum, 'normal'), description: bpoom.reaction_mum },
+      { src: getPhoto(bpoom.photo_dad, 'normal'), description: bpoom.reaction_dad },
     ].filter(x => x.src)
     if (items.length) {
       nextProps.loadSlideshow({ items })
@@ -67,6 +66,7 @@ export default class Arrival extends Component {
     let props = this.props
     let bpoom = props.bpoom
     let arrival = bpoom.bp_arrival || {}
+    let photo = getPhoto(bpoom.photo, 'thumbnail')
 
     let info = [
       ['gender', this.getText(bpoom, 'gender')],
@@ -86,7 +86,7 @@ export default class Arrival extends Component {
 
     return (
       <div styleName="arrival-container">
-        {this.renderBubbleMsg(bpoom.photo_thumbnail, arrival.message, 'left')}
+        {this.renderBubbleMsg(photo, arrival.message, 'left')}
         {info.length ? (
           <div styleName="info">
             <table>
@@ -106,9 +106,9 @@ export default class Arrival extends Component {
           ''
         )}
         {bpoom.reaction_mum && bpoom.reaction_dad ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
-        {this.renderBubbleMsg(bpoom.photo_mum_thumbnail || defaultPhoto, bpoom.reaction_mum, 'left', 0)}
-        {this.renderBubbleMsg(bpoom.photo_dad_thumbnail || defaultPhoto, bpoom.reaction_dad, 'right', 1)}
-        {props.noNav ? '' : this.renderBubbleMsg(bpoom.photo_thumbnail, <Transition />, 'left')}
+        {this.renderBubbleMsg(getPhoto(bpoom.photo_mum, 'thumbnail') || defaultPhoto, bpoom.reaction_mum, 'left', 0)}
+        {this.renderBubbleMsg(getPhoto(bpoom.photo_dad, 'thumbnail') || defaultPhoto, bpoom.reaction_dad, 'right', 1)}
+        {props.noNav ? '' : this.renderBubbleMsg(photo, <Transition />, 'left')}
       </div>
     )
   }
@@ -130,6 +130,11 @@ export default class Arrival extends Component {
     )
   }
 }
+
+export default connect(
+  mapStateToProps,
+  { loadSlideshow, openSlideshow },
+)(Arrival)
 
 function mapStateToProps(state) {
   const {

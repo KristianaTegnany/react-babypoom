@@ -19,6 +19,7 @@ import ascii from '../../../lib/ascii'
 import pixelate from '../../../lib/pixelate'
 import TimeTracker from '../../../lib/time-tracker'
 import Ahoy from '../../../lib/ahoy-custom'
+import getPhoto from '../../../lib/get-photo'
 
 // CSS
 import styles from './styles.scss'
@@ -41,11 +42,7 @@ function uniqChars(str) {
 
 let EXPERIMENTAL = 'undefined' !== typeof window && 'experimental' === (window.location.hash || '').substr(1)
 
-@connect(
-  mapStateToProps,
-  { updateGuessed, gameOver },
-)
-export default class Game1 extends Component {
+class Game1 extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -91,7 +88,7 @@ export default class Game1 extends Component {
     let resolution = 24 - (uniqueChars ? Math.round((okCount * 24) / uniqueChars) : 0)
     pixelate(
       {
-        src: props.bpoom.photo_thumbnail,
+        src: getPhoto(props.bpoom.photo, 'thumbnail'),
         resolution: resolution * 2,
         width: 100,
         height: 100,
@@ -152,7 +149,7 @@ export default class Game1 extends Component {
             let color = pixels.includes(i) ? 'var(--neutral-secondary)' : 'transparent'
             return `linear-gradient(to right,${color},${color})`
           })
-          .join(',') + `,url(${this.props.bpoom.photo_thumbnail})`,
+          .join(',') + `,url(${getPhoto(this.props.bpoom.photo, 'thumbnail')})`,
       backgroundSize:
         new Array(gridSize * gridSize)
           .fill(0)
@@ -238,6 +235,11 @@ export default class Game1 extends Component {
     )
   }
 }
+
+export default connect(
+  mapStateToProps,
+  { updateGuessed, gameOver },
+)(Game1)
 
 function mapStateToProps(state) {
   const {

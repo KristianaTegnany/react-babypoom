@@ -1,4 +1,5 @@
 var webpack = require('webpack')
+var path = require('path')
 var _ = require('lodash')
 var WebpackNotifierPlugin = require('webpack-notifier')
 
@@ -27,6 +28,7 @@ _.merge(config, {
   ]),
 })
 
+// Put it back when ms-uploader is imported through npm
 config.module.rules.forEach(function(rule) {
   if (rule.use && 'babel-loader' === rule.use.loader) {
     rule.use.query.plugins.push('react-hot-loader/babel')

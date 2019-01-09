@@ -59,19 +59,7 @@ function refInput(input) {
   INPUTS[input.name] = input
 }
 
-@connect(
-  mapStateToProps,
-  { saveMangopayAccount, saveMangopayPayment, flash },
-)
-@reduxForm({
-  form: 'giftCharityForm',
-  touchOnBlur: false,
-  onSubmitFail: errors => {
-    let firstField = Object.keys(errors || {})[0]
-    INPUTS[firstField] && INPUTS[firstField].focus()
-  },
-})
-export default class GiftCharityForm extends Component {
+class GiftCharityForm extends Component {
   constructor(props) {
     super(props)
 
@@ -289,6 +277,20 @@ export default class GiftCharityForm extends Component {
     )
   }
 }
+
+export default connect(
+  mapStateToProps,
+  { saveMangopayAccount, saveMangopayPayment, flash },
+)(
+  reduxForm({
+    form: 'giftCharityForm',
+    touchOnBlur: false,
+    onSubmitFail: errors => {
+      let firstField = Object.keys(errors || {})[0]
+      INPUTS[firstField] && INPUTS[firstField].focus()
+    },
+  })(GiftCharityForm),
+)
 
 function mapStateToProps(state) {
   const {

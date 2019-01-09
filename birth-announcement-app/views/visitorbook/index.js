@@ -18,6 +18,7 @@ import Button from 'reactstrap/lib/Button'
 
 // Lib
 import Ahoy from '../../../lib/ahoy-custom'
+import getPhoto from '../../../lib/get-photo'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -29,10 +30,6 @@ import defaultPhoto from '../../images/default.jpeg'
 // Icon
 import FaPencil from 'react-icons/lib/fa/pencil'
 
-@connect(
-  mapStateToProps,
-  { loadSlideshow, openSlideshow, deleteMsg, flash },
-)
 class VisitorBook extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.bpoom === nextProps.bpoom && prevState.slideShowInit) return null
@@ -41,7 +38,7 @@ class VisitorBook extends Component {
       nextProps.loadSlideshow({
         items: visitorbook.bp_visitorbook_msgs.map(msg => {
           return {
-            src: msg.photo || defaultPhoto,
+            src: getPhoto(msg.photo, 'normal') || defaultPhoto,
             title: msg.created_at
               ? `${formatDate(nextProps.intl, msg.created_at)} - ${msg.name || ''}`
               : `${msg.name || ''}`,
@@ -108,10 +105,11 @@ class VisitorBook extends Component {
     let visitorbook = bpoom.bp_visitorbook || {}
     let visitorbookMsgs = visitorbook.bp_visitorbook_msgs || []
     let visitorId = Ahoy.getVisitorId()
+    let photo = getPhoto(bpoom.photo, 'thumbnail')
 
     return (
       <div ref={elt => (this.visitorbookContainer = elt)} styleName="visitorbook-container">
-        <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo_thumbnail}>
+        <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={photo}>
           {visitorbook.message}
         </BubbleSay>
         <div styleName="button-container">
@@ -128,7 +126,7 @@ class VisitorBook extends Component {
             return (
               <div key={i}>
                 <Message
-                  imgSrc={event.photo_thumbnail || defaultPhoto}
+                  imgSrc={getPhoto(event.photo, 'thumbnail') || defaultPhoto}
                   message={event.message}
                   date={formatDate(props.intl, event.created_at)}
                   name={event.name}
@@ -152,11 +150,11 @@ class VisitorBook extends Component {
         {props.noNav ? (
           ''
         ) : props.desktop ? (
-          <BubbleSay speechDir="left" imgSrc={bpoom.photo_thumbnail}>
+          <BubbleSay speechDir="left" imgSrc={photo}>
             <Transition />
           </BubbleSay>
         ) : (
-          <BubblePic imgSrc={bpoom.photo_thumbnail}>
+          <BubblePic imgSrc={photo}>
             <Transition />
           </BubblePic>
         )}
@@ -165,7 +163,12 @@ class VisitorBook extends Component {
   }
 }
 
-export default injectIntl(VisitorBook)
+export default injectIntl(
+  connect(
+    mapStateToProps,
+    { loadSlideshow, openSlideshow, deleteMsg, flash },
+  )(VisitorBook),
+)
 
 function formatDate(intl, date) {
   return date

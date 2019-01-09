@@ -17,8 +17,7 @@ import stepMsg from '../../i18n/messages/steps'
 // CSS
 import styles from './styles.scss'
 
-@connect(mapStateToProps)
-export default class extends Component {
+class Transition extends Component {
   componentDidMount() {
     // FB like button is rendered only once otherwise
     if ('undefined' !== typeof FB) {
@@ -83,6 +82,8 @@ export default class extends Component {
       : ''
   }
 }
+
+export default connect(mapStateToProps)(Transition)
 
 function mapStateToProps(state) {
   const {

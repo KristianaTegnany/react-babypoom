@@ -28,6 +28,7 @@ import pixelate from '../../../lib/pixelate'
 import computeThemeColors from '../../../lib/theme'
 import Cookie from '../../../lib/cookie'
 import { hasParam } from '../../../lib/url-params'
+import getPhoto from '../../../lib/get-photo'
 
 // CSS
 import CSSVariableApplicator from '../../components/css-var'
@@ -39,27 +40,13 @@ import i18n from '../../i18n/i18n'
 // Images
 import Cloud from 'svg-react-loader?name=Cloud!../../images/cloud.svg'
 
+import MSUploader from '../../components/uploader'
+
 let UNIQ = 0
 
 const noNavParamName = 'nn'
 
-@connect(
-  mapStateToProps,
-  {
-    loadBpoom,
-    updateStep,
-    updateNoNav,
-    changeSlideshowIndex,
-    closeSlideshow,
-    deleteFlash,
-  },
-)
 class App extends Component {
-  // static childContextTypes = {
-  //   location: PropTypes.object,
-  //   intl: PropTypes.object.isRequired,
-  // }
-
   static fetchData(store, params) {
     return store.dispatch(loadBpoom(params.uuid, { flash: false }))
   }
@@ -116,9 +103,8 @@ class App extends Component {
 
       // Preload images
       let bpoom = this.props.bpoom
-      if (bpoom.photo_thumbnail) {
-        pixelate({ src: bpoom.photo_thumbnail })
-      }
+      let photo = getPhoto(bpoom.photo, 'thumbnail')
+      if (photo) pixelate({ src: photo })
     }
     if (this.props.bpoom.uuid) {
       callback()
@@ -220,7 +206,19 @@ class App extends Component {
   }
 }
 
-export default injectIntl(App)
+export default injectIntl(
+  connect(
+    mapStateToProps,
+    {
+      loadBpoom,
+      updateStep,
+      updateNoNav,
+      changeSlideshowIndex,
+      closeSlideshow,
+      deleteFlash,
+    },
+  )(App),
+)
 
 function mapStateToProps(state) {
   const {

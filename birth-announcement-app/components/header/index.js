@@ -53,11 +53,7 @@ const ICONS = {
   souvenir: FaImage,
 }
 
-@connect(
-  mapStateToProps,
-  {}
-)
-export default class extends Component {
+class Header extends Component {
   constructor(props) {
     super(props)
 
@@ -88,7 +84,7 @@ export default class extends Component {
         : {
             isMenuOpen: !this.state.isMenuOpen,
             isOpen: false,
-          }
+          },
     )
   }
 
@@ -224,6 +220,8 @@ export default class extends Component {
     )
   }
 }
+
+export default connect(mapStateToProps)(Header)
 
 function mapStateToProps(state) {
   const {

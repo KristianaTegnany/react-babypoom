@@ -6,14 +6,16 @@ import Bubble from '../../components/bubble'
 import BubbleSay from '../../components/bubble-say'
 import Transition from '../../components/transition'
 
+// Lib
+import getPhoto from '../../../lib/get-photo'
+
 // CSS
 import styles from './styles.scss'
 
 // Images
 import mascotSays from '../../images/mascot-says.png'
 
-@connect(mapStateToProps)
-export default class Souvenir extends Component {
+class Souvenir extends Component {
   render() {
     let props = this.props
     let bpoom = props.bpoom
@@ -24,7 +26,7 @@ export default class Souvenir extends Component {
         {true ? (
           ''
         ) : (
-          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={bpoom.photo_thumbnail}>
+          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={getPhoto(bpoom.photo, 'thumbnail')}>
             {souvenir.message}
           </BubbleSay>
         )}
@@ -35,6 +37,8 @@ export default class Souvenir extends Component {
     )
   }
 }
+
+export default connect(mapStateToProps)(Souvenir)
 
 function mapStateToProps(state) {
   const {

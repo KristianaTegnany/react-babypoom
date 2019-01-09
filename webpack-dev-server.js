@@ -1,8 +1,13 @@
 var webpack = require('webpack')
 var WebpackDevServer = require('webpack-dev-server')
 var config = require('./webpack.development.config')
+var fs = require('fs')
 
 new WebpackDevServer(webpack(config), {
+  // https: {
+  //   key: fs.readFileSync('./key.pem'),
+  //   cert: fs.readFileSync('./cert.pem'),
+  // },
   publicPath: config.output.publicPath,
   hot: true,
   historyApiFallback: true,

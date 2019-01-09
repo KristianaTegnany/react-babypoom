@@ -6,16 +6,19 @@ import ReactGA from 'react-ga'
 import required from 'redux-form-validators/lib/presence'
 import email from 'redux-form-validators/lib/email'
 
-import CloudinaryUploader from '../../components/cloudinary-uploader'
-
 import BpoomImg from '../../components/bpoom-img'
 
 import { saveMsg } from '../app/Actions'
 import { flash } from '../../components/flash/Actions'
+import apiCall from '../../../api/call'
+import config from '../../../config/application'
 
 // Components
 import Form from 'reactstrap/lib/Form'
 import Button from 'reactstrap/lib/Button'
+import Progress from 'reactstrap/lib/Progress'
+
+import MSUploader from '../../components/uploader'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -37,19 +40,8 @@ function refInput(input) {
 }
 
 // TODO: deleteFlash when going back to view (cancel or message saved)
-@connect(
-  mapStateToProps,
-  { saveMsg, flash },
-)
-@reduxForm({
-  form: 'visitorBookForm',
-  touchOnBlur: false,
-  onSubmitFail: errors => {
-    let firstField = Object.keys(errors || {})[0]
-    INPUTS[firstField] && INPUTS[firstField].focus()
-  },
-})
-export default class VisitorBookForm extends Component {
+
+class VisitorBookForm extends Component {
   constructor(props) {
     super(props)
 
@@ -57,13 +49,12 @@ export default class VisitorBookForm extends Component {
     this.state = {
       imgSrc: '',
       uploading: false,
+      progress: null,
     }
 
     this.onSubmit = ::this.onSubmit
     this.onCancel = ::this.onCancel
-    this.onUploadStart = ::this.onUploadStart
-    this.onUploadEnd = ::this.onUploadEnd
-    this.onUploadError = ::this.onUploadError
+    this.onUploadBtnClick = ::this.onUploadBtnClick
   }
 
   componentDidMount() {
@@ -73,22 +64,53 @@ export default class VisitorBookForm extends Component {
     this.formContainer.parentNode.scrollTop = 0
   }
 
-  onUploadStart() {
-    this.setState({ uploading: true })
-  }
+  onUploadBtnClick() {
+    let self = this
+    let uuid = this.props.bpoom.uuid
 
-  onUploadEnd(data) {
-    let url = data.secure_url
-    this.setState({
-      uploading: false,
-      imgSrc: url.replace('/upload', '/upload/w_250,h_250,c_fill,g_auto'),
+    new MSUploader({
+      uploader: {
+        url: config.s3UploadUrl,
+        getSignature: callback => {
+          apiCall('/s3_signature', { json: true, data: { uuid: uuid } }).then(([json, response]) => {
+            callback(json)
+          })
+        },
+        onStart: () => {
+          self.setState({ uploading: true })
+        },
+        onProgress: progress => {
+          self.setState({ progress: Math.floor(progress) })
+        },
+        onDone: xhr => {
+          const url = decodeURIComponent(xhr.responseXML.getElementsByTagName('Location')[0].innerHTML)
+          self.setState({
+            progress: null,
+            uploading: false,
+            imgSrc: `${url
+              .replace(`${config.s3UploadUrl}/uploads`, config.s3CloudFrontUrl)
+              .replace('/original/', '/thumbnail/')}.jpg`,
+          })
+          self.props.change('photo', url.replace(`${config.s3UploadUrl}/`, ''))
+        },
+        onError: () => {
+          self.setState({ uploading: false })
+          self.props.flash('danger', FORM_MSG.form_upload_error)
+        },
+      },
+      cropper: {
+        ratio: { v: 1, h: 1 },
+        minWidth: 480,
+        resizeToWidth: 1000,
+        webpIfSupported: true,
+      },
+      facebook: {
+        appId: config.fbAppId,
+        locale: 'fr_FR', // TODO
+      },
+      googlePhotos: null,
+      instagram: null,
     })
-    this.props.change('photo', url.replace(/^.*?\/upload\/(.*?$)/, '$1'))
-  }
-
-  onUploadError() {
-    this.setState({ uploading: false })
-    this.props.flash('danger', FORM_MSG.form_upload_error)
   }
 
   onCancel(e) {
@@ -163,14 +185,14 @@ export default class VisitorBookForm extends Component {
                 <br />
                 <small>{t(FORM_MSG.form_import_formats)}</small>
               </div>
-              <CloudinaryUploader
-                cloudName="babypoom"
-                uploadPreset="tdjjz08e"
-                onUploadStart={this.onUploadStart}
-                onUploadEnd={this.onUploadEnd}
-                onUploadError={this.onUploadError}
-                btnColor="neutral-app"
-              />
+              <Button color={this.props.btnColor || 'secondary'} onClick={this.onUploadBtnClick}>
+                {t(FORM_MSG.form_image_import)}
+              </Button>
+              {null != state.progress && (
+                <Progress styleName="progress" value={state.progress}>
+                  {state.progress}%
+                </Progress>
+              )}
               <Field name="photo" component="input" type="hidden" />
             </div>
           </div>
@@ -187,6 +209,20 @@ export default class VisitorBookForm extends Component {
     )
   }
 }
+
+export default connect(
+  mapStateToProps,
+  { saveMsg, flash },
+)(
+  reduxForm({
+    form: 'visitorBookForm',
+    touchOnBlur: false,
+    onSubmitFail: errors => {
+      let firstField = Object.keys(errors || {})[0]
+      INPUTS[firstField] && INPUTS[firstField].focus()
+    },
+  })(VisitorBookForm),
+)
 
 function mapStateToProps(state) {
   const {

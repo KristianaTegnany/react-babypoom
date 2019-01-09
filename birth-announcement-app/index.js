@@ -51,6 +51,6 @@ loadIntl([availableLocales.defaultLocale].concat(availableLocales), () => {
         <BrowserRouter>{renderRoutes(routes)}</BrowserRouter>
       </HotIntlProvider>
     </Provider>,
-    document.getElementById('root')
+    document.getElementById('root'),
   )
 })

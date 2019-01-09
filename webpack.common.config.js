@@ -140,7 +140,18 @@ module.exports = _.merge(config, {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: ['css-loader?modules&minimize&sourceMap', 'postcss-loader?sourceMap', 'resolve-url-loader'],
+          use: [
+            {
+              loader: 'css-loader',
+              query: {
+                modules: false,
+                minimize: true,
+                sourceMap: true,
+              },
+            },
+            'postcss-loader?sourceMap',
+            'resolve-url-loader',
+          ],
         }),
       },
       {
@@ -170,7 +181,7 @@ module.exports = _.merge(config, {
         use: {
           loader: 'babel-loader',
           query: {
-            presets: ['react', ['es2015', { modules: false }], 'stage-2'],
+            presets: ['@babel/preset-react', ['@babel/preset-env', { debug: true }]],
             plugins: [
               [
                 'react-intl',
@@ -180,9 +191,9 @@ module.exports = _.merge(config, {
                   languages: availableLocales,
                 },
               ],
-              'transform-decorators-legacy',
-              'transform-function-bind',
-              'transform-runtime',
+              ['@babel/plugin-proposal-class-properties', { loose: true }],
+              '@babel/plugin-proposal-function-bind',
+              '@babel/plugin-transform-runtime',
               [
                 'react-css-modules',
                 {

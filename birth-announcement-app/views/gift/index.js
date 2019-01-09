@@ -16,14 +16,16 @@ import BubbleSay from '../../components/bubble-say'
 import Panel from '../../components/panel'
 import Transition from '../../components/transition'
 
+// Lib
+import getPhoto from '../../../lib/get-photo'
+
 // i18n
 import t from '../../i18n/i18n'
 
 // CSS
 import styles from './styles.scss'
 
-@connect(mapStateToProps)
-export default class Gift extends Component {
+class Gift extends Component {
   constructor(props) {
     super(props)
 
@@ -67,6 +69,8 @@ export default class Gift extends Component {
     let bpoom = props.bpoom
     let gift = bpoom.bp_gift || {}
     let charity = gift.caritative || {}
+    let photo = getPhoto(bpoom.photo, 'thumbnail')
+    let image = getPhoto(charity.image, 'normal')
 
     let link = (
       <Button styleName="btn-link" color="link" onClick={this.openCharityModal}>
@@ -77,7 +81,7 @@ export default class Gift extends Component {
     return (
       <div styleName="gift-container">
         <div styleName="mascot">
-          <Bubble speechDir={props.desktop ? 'left' : null}>{gift.message}</Bubble>
+          <Bubble dir={props.desktop ? 'left' : null}>{gift.message}</Bubble>
         </div>
         <div styleName="panel-container">
           <Panel title={t(MSG.baby_gift_title)} imgType="piggy-bank">
@@ -98,11 +102,11 @@ export default class Gift extends Component {
         {props.noNav ? (
           ''
         ) : props.desktop ? (
-          <BubbleSay speechDir="left" imgSrc={bpoom.photo_thumbnail}>
+          <BubbleSay speechDir="left" imgSrc={photo}>
             <Transition />
           </BubbleSay>
         ) : (
-          <BubblePic imgSrc={bpoom.photo_thumbnail}>
+          <BubblePic imgSrc={photo}>
             <Transition />
           </BubblePic>
         )}
@@ -112,7 +116,7 @@ export default class Gift extends Component {
             {charity.name}
           </ModalHeader>
           <ModalBody>
-            {charity.image ? <img src={charity.image} styleName="charity-modal-img" alt="" /> : ''}
+            {image ? <img src={image} styleName="charity-modal-img" alt="" /> : ''}
             {charity.description}
           </ModalBody>
         </Modal>
@@ -120,6 +124,8 @@ export default class Gift extends Component {
     )
   }
 }
+
+export default connect(mapStateToProps)(Gift)
 
 function mapStateToProps(state) {
   const {

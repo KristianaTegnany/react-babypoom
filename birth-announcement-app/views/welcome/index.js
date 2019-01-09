@@ -14,8 +14,7 @@ import styles from './styles.scss'
 // Img
 import BABY_IMAGES from '../../../lib/baby-img'
 
-@connect(mapStateToProps)
-export default class Welcome extends Component {
+class Welcome extends Component {
   render() {
     let props = this.props
     let bpoom = props.bpoom
@@ -40,6 +39,8 @@ export default class Welcome extends Component {
     )
   }
 }
+
+export default connect(mapStateToProps)(Welcome)
 
 function mapStateToProps(state) {
   const {

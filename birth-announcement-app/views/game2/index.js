@@ -17,6 +17,7 @@ import t from '../../i18n/i18n'
 import TimeTracker from '../../../lib/time-tracker'
 import Ahoy from '../../../lib/ahoy-custom'
 import { transformProp } from '../../../lib/css-props'
+import getPhoto from '../../../lib/get-photo'
 
 // CSS
 import styles from './styles.scss'
@@ -50,11 +51,7 @@ const CURRENT_LEVEL = LEVELS.easy
 let timeTracker = new TimeTracker()
 let tries = 0
 
-@connect(
-  mapStateToProps,
-  { move, gameOver },
-)
-export default class Game2 extends Component {
+class Game2 extends Component {
   constructor(props) {
     super(props)
     if (!props.puzzle.length) {
@@ -237,7 +234,7 @@ export default class Game2 extends Component {
   renderCases() {
     let len = SIZE * SIZE
     let cases = []
-    let photo = this.props.bpoom.photo
+    let photo = getPhoto(this.props.bpoom.photo, 'normal')
     let puzzle = this.props.puzzle
     let positionRatio = 100 / (SIZE - 1)
 
@@ -298,6 +295,11 @@ export default class Game2 extends Component {
     )
   }
 }
+
+export default connect(
+  mapStateToProps,
+  { move, gameOver },
+)(Game2)
 
 function mapStateToProps(state) {
   const {

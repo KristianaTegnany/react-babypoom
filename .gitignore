@@ -4,6 +4,9 @@ logs
 .history
 config/locales/extracted
 
+# Cert
+*.pem
+
 # Public
 public
 

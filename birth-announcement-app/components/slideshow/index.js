@@ -24,6 +24,9 @@ function getList(items) {
   return list
 }
 
+// TODO: mousemove and mouseup should be done on document
+// TODO: e.preventDefault on pointerDown to avoid browser's own drag to take over
+
 export default class extends Component {
   static isTouch = (() => {
     return (
@@ -154,7 +157,7 @@ export default class extends Component {
     let elt = this.isFullScreen ? document : this.containerElt
     if (!elt) return
     let prefix = (this.isFullScreen ? EXIT_FULLSCREEN_PREFIXES : REQUEST_FULLSCREEN_PREFIXES).find(
-      p => elt[`${p}FullScreen`] || elt[`${p}Fullscreen`]
+      p => elt[`${p}FullScreen`] || elt[`${p}Fullscreen`],
     )
     if (prefix) {
       this.setState({ fullScreenMode: !this.isFullScreen })
@@ -190,7 +193,7 @@ export default class extends Component {
       let posY = height > clientHeight ? Math.floor((height - clientHeight) / 2) : 0
       let scale = Math.max(
         width > clientWidth ? width / clientWidth : 1,
-        height > clientHeight ? height / clientHeight : 1
+        height > clientHeight ? height / clientHeight : 1,
       )
       this.zoomInfo = {
         elt,
@@ -429,7 +432,7 @@ export default class extends Component {
     window.open(
       e.currentTarget.getAttribute('href'),
       t(MSG.share),
-      `scrollbars=yes,resizable=yes,toolbar=no,location=yes,width=550,height=420,top=100,left=${dim}`
+      `scrollbars=yes,resizable=yes,toolbar=no,location=yes,width=550,height=420,top=100,left=${dim}`,
     )
   }
 
@@ -455,7 +458,7 @@ export default class extends Component {
     let currentURL = encodeURIComponent(window.location.href)
     let media = encodeURIComponent(currentItem.src || '')
     let text = encodeURIComponent(
-      currentItem.title ? `${currentItem.title} - ${currentItem.description || ''}` : currentItem.description
+      currentItem.title ? `${currentItem.title} - ${currentItem.description || ''}` : currentItem.description,
     )
 
     return (

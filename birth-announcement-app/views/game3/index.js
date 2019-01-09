@@ -18,6 +18,7 @@ import t from '../../i18n/i18n'
 import TimeTracker from '../../../lib/time-tracker'
 import Ahoy from '../../../lib/ahoy-custom'
 import { transformProp } from '../../../lib/css-props'
+import getPhoto from '../../../lib/get-photo'
 
 // CSS
 import styles from './styles.scss'
@@ -40,11 +41,7 @@ let INIT_POS = [
 let ZINDEX = 100
 let UNIQ_KEY = 0
 
-@connect(
-  mapStateToProps,
-  { move, gameOver },
-)
-export default class Game3 extends Component {
+class Game3 extends Component {
   constructor(props) {
     super(props)
 
@@ -211,7 +208,7 @@ export default class Game3 extends Component {
     let bp_game = bpoom.bp_game || {}
     let bubbleText = bp_game.message || t(MSG.message)
 
-    let img = bpoom.photo
+    let img = getPhoto(bpoom.photo, 'normal')
     let xy = [19, -43, -105, -167]
     let win = this.win()
     return (
@@ -279,6 +276,11 @@ export default class Game3 extends Component {
     )
   }
 }
+
+export default connect(
+  mapStateToProps,
+  { move, gameOver },
+)(Game3)
 
 function mapStateToProps(state) {
   const {

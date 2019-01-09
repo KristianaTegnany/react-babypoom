@@ -5,17 +5,13 @@ import { updateBreakpoint } from './Actions'
 
 import styles from './styles.scss'
 
-@connect(
-  null,
-  { updateBreakpoint }
-)
-export default class extends Component {
+class MediaQueries extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
       display: 'none',
     }
-
     this.animationHandler = ::this.animationHandler
   }
 
@@ -25,10 +21,15 @@ export default class extends Component {
 
   animationHandler(e) {
     e.stopPropagation()
-    this.props.updateBreakpoint(e.animationName)
+    this.props.updateBreakpoint(e.animationName) // sm, md...
   }
 
   render() {
-    return <div styleName="media-queries" onAnimationStart={this.animationHandler} style={this.state} />
+    return <div styleName="media-queries" style={this.state} onAnimationStart={this.animationHandler} />
   }
 }
+
+export default connect(
+  null,
+  { updateBreakpoint },
+)(MediaQueries)

@@ -21,8 +21,7 @@ import styles from './styles.scss'
 // Images
 import mascotSays from '../../images/mascot-says.png'
 
-@connect(mapStateToProps)
-export default class NotFound extends Component {
+class NotFound extends Component {
   render() {
     let props = this.props
     return (
@@ -52,6 +51,8 @@ export default class NotFound extends Component {
     )
   }
 }
+
+export default connect(mapStateToProps)(NotFound)
 
 function mapStateToProps(state) {
   const {
