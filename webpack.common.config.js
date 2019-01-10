@@ -179,7 +179,7 @@ module.exports = _.merge(config, {
         use: {
           loader: 'babel-loader',
           query: {
-            presets: ['@babel/preset-react', ['@babel/preset-env', { useBuiltIns: 'usage', debug: true }]],
+            presets: ['@babel/preset-react', ['@babel/preset-env', { useBuiltIns: 'usage' }]],
             plugins: [
               [
                 'react-intl',
