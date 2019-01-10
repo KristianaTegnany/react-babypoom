@@ -3,8 +3,7 @@
   "scripts": {
     "test": "",
     "postinstall": "if-env NODE_ENV=production && rimraf public && npm run build || echo ''",
-    "start": "if-env NODE_ENV=production && node server.bundle.js || npm run start:dev",
-    "start:dev": "node webpack-dev-server.js",
+    "dev": "node webpack-dev-server.js",
     "start:prod": "rimraf public && npm run build && node server.bundle.js",
     "build:client": "webpack --config webpack.production.config.js --progress --profile --colors",
     "build:server": "webpack --config webpack.server.config.js",
@@ -92,7 +91,7 @@
     "webpack-notifier": "1.7.0"
   },
   "engines": {
-    "node": "8.10.0",
+    "node": "10.15.0",
     "npm": "5.6.0"
   },
   "browserslist": [
