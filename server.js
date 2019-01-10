@@ -62,11 +62,9 @@ var compileString = (function() {
   }
 })()
 
-const PAGE_CACHE = compileString(
-  fs
-    .readFileSync(path.join(__dirname, 'public', process.env.NODE_ENV === 'production' ? 'index.tpl' : 'index.html'))
-    .toString(),
-)
+const tplPath = path.join(__dirname, 'public', 'index.tpl')
+const htmlPath = path.join(__dirname, 'public', 'index.html')
+const PAGE_CACHE = compileString(fs.readFileSync(fileExists(tplPath) ? tplPath : htmlPath).toString())
 
 app.get('*', (req, res) => {
   const branch = matchRoutes(routes, req.url)
@@ -126,6 +124,15 @@ function interpolateMetaTitle(meta, bpoom) {
 
 function interpolateMetaDescription(meta, bpoom) {
   return meta
+}
+
+function fileExists(path) {
+  try {
+    fs.accessSync(path, fs.constants.R_OK)
+    return true
+  } catch (err) {
+    return false
+  }
 }
 
 app.listen(PORT, function() {
