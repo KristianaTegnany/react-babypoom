@@ -62,7 +62,11 @@ var compileString = (function() {
   }
 })()
 
-const PAGE_CACHE = compileString(fs.readFileSync(path.join(__dirname, 'public', 'index.tpl')).toString())
+const PAGE_CACHE = compileString(
+  fs
+    .readFileSync(path.join(__dirname, 'public', process.env.NODE_ENV === 'production' ? 'index.html' : 'index.tpl'))
+    .toString(),
+)
 
 app.get('*', (req, res) => {
   const branch = matchRoutes(routes, req.url)

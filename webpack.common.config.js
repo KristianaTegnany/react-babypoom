@@ -19,7 +19,6 @@ var scssOptions = {
       loader: 'css-loader',
       query: {
         modules: true,
-        minimize: true,
         importLoaders: 1,
         //localIdentName: '[path]___[name]__[local]___[hash:base64:5]',
         getLocalIdent: (loaderContext, localIdentName, name, options) => {
@@ -145,7 +144,6 @@ module.exports = _.merge(config, {
               loader: 'css-loader',
               query: {
                 modules: false,
-                minimize: true,
                 sourceMap: true,
               },
             },
@@ -181,7 +179,7 @@ module.exports = _.merge(config, {
         use: {
           loader: 'babel-loader',
           query: {
-            presets: ['@babel/preset-react', ['@babel/preset-env', { debug: true }]],
+            presets: ['@babel/preset-react', ['@babel/preset-env', { useBuiltIns: 'usage', debug: true }]],
             plugins: [
               [
                 'react-intl',
