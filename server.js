@@ -3,7 +3,7 @@ import express from 'express'
 import createLocaleMiddleware from 'express-locale'
 import path from 'path'
 
-import compression from 'compression'
+import shrinkRay from 'shrink-ray-current'
 import fs from 'fs'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
@@ -38,7 +38,7 @@ var ALL_LOCALES = [availableLocales.defaultLocale].concat(availableLocales)
 
 var app = express()
 app.disable('x-powered-by')
-app.use(compression()) // must be first!
+app.use(shrinkRay()) // must be first!
 app.use(createLocaleMiddleware()) // detect locale
 
 // serve our static stuff like index.css
@@ -65,6 +65,8 @@ var compileString = (function() {
 const tplPath = path.join(__dirname, 'public', 'index.tpl')
 const htmlPath = path.join(__dirname, 'public', 'index.html')
 const PAGE_CACHE = compileString(fs.readFileSync(fileExists(tplPath) ? tplPath : htmlPath).toString())
+
+app.get('/favicon.ico', (req, res) => res.sendStatus(204))
 
 app.get('*', (req, res) => {
   const branch = matchRoutes(routes, req.url)
