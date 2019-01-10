@@ -64,7 +64,7 @@ var compileString = (function() {
 
 const PAGE_CACHE = compileString(
   fs
-    .readFileSync(path.join(__dirname, 'public', process.env.NODE_ENV === 'production' ? 'index.html' : 'index.tpl'))
+    .readFileSync(path.join(__dirname, 'public', process.env.NODE_ENV === 'production' ? 'index.tpl' : 'index.html'))
     .toString(),
 )
 
