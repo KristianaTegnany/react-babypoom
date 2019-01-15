@@ -16,7 +16,7 @@
     "babel-runtime": "6.26.0",
     "isomorphic-fetch": "2.2.1",
     "mangopay-cardregistration-js-kit": "1.2.2",
-    "multiple-sources-uploader": "1.1.0",
+    "multiple-sources-uploader": "1.1.1",
     "prop-types": "15.6.2",
     "react": "16.4.1",
     "react-dom": "16.4.1",
