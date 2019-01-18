@@ -4,6 +4,10 @@ logs
 .history
 config/locales/extracted
 
+# Pdf albums
+pdf-albums/*
+!pdf-albums/.gitkeep
+
 # Public
 public
 

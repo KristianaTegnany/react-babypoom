@@ -26,6 +26,9 @@ import 'isomorphic-fetch'
 import { loadBpoom, updateMedia } from './album-photo-app/views/app/Actions'
 import config from './config/application'
 
+import uuid from './lib/uuid'
+import merge from 'easy-pdf-merge'
+
 import puppeteer from 'puppeteer'
 
 var PORT = process.env.PORT || 8080
@@ -58,7 +61,9 @@ var compileString = (function() {
   }
 })()
 
-const PAGE_CACHE = compileString(fs.readFileSync(path.join(__dirname, 'public', 'index.tpl')).toString())
+const tplPath = path.join(__dirname, 'public', 'index.tpl')
+const htmlPath = path.join(__dirname, 'public', 'index.html')
+const PAGE_CACHE = compileString(fs.readFileSync(fileExists(tplPath) ? tplPath : htmlPath).toString())
 
 let BROWSER
 ;(async () => {
@@ -75,13 +80,31 @@ let BROWSER
   })
 })()
 
-var generatePdf = async function(url, callback) {
+const generatePdf = async function(url, albumPath, lockPath) {
   const page = await BROWSER.newPage()
   await page.goto(url, { waitUntil: 'networkidle2' })
-  await page.pdf({ format: 'A4', landscape: true, printBackground: true }).then(callback, error => {
-    console.log(error)
-  })
+  const totalPages = await page.$$eval('.page', pages => pages.length)
+  const pdfId = uuid()
+  const pagePaths = []
+  let errors = 0
+  for (let i = 1; i <= totalPages; ++i) {
+    let pagePath = `pdf-albums/${pdfId}-${i}.pdf`
+    pagePaths.push(pagePath)
+    await page
+      .pdf({ path: pagePath, pageRanges: `${i}`, format: 'A4', landscape: true, printBackground: true })
+      .catch(err => {
+        ++errors
+        console.error(err)
+      })
+  }
   page.close()
+
+  if (errors || fileExists(albumPath)) return deleteFiles(pagePaths.concat(lockPath))
+
+  merge(pagePaths, albumPath, err => {
+    if (err) console.error(err)
+    deleteFiles(pagePaths.concat(lockPath))
+  })
 }
 process.on('exit', async function() {
   await BROWSER.close()
@@ -91,14 +114,29 @@ var REG_PDF = /\.pdf$/
 
 app.get('*', (req, res) => {
   if (REG_PDF.test(req.url.split('?')[0])) {
-    res.setHeader('Content-Type', 'application/pdf')
-    res.setHeader('Content-Disposition', 'inline;filename=album-photo.pdf')
-    var originalURL =
-      (req.connection && req.connection.encrypted ? 'https' : 'http') +
-      '://' +
-      (req.get('host') + req.originalUrl).replace(REG_PDF, '')
-    generatePdf(originalURL + (originalURL.indexOf('?') >= 0 ? '&hd' : '?hd'), pdf => res.send(pdf))
-    return
+    const bpoomUuid = req.url.slice(1).replace(REG_PDF, '')
+    const albumPath = `pdf-albums/${bpoomUuid}.pdf`
+    const lockPath = `pdf-albums/${bpoomUuid}.txt`
+    if (fileExists(albumPath)) {
+      res.setHeader('Content-Type', 'application/pdf')
+      res.setHeader('Content-Disposition', `inline;filename=${bpoomUuid}.pdf`)
+      return fs.readFile(albumPath, (err, data) => {
+        if (err) return console.error(err)
+        res.send(data)
+      })
+    }
+    if (!fileExists(lockPath)) {
+      fs.writeFileSync(lockPath, '')
+      const originalURL =
+        (req.connection && req.connection.encrypted ? 'https' : 'http') +
+        '://' +
+        (req.get('host') + req.originalUrl).replace(REG_PDF, '')
+      generatePdf(originalURL + (originalURL.indexOf('?') >= 0 ? '&hd' : '?hd'), albumPath, lockPath)
+    }
+    return res.send(
+      'Creating the pdf... <br />This page will refresh when the pdf is ready' +
+        '<script>setTimeout(function() { location.reload() }, 5000);</script>',
+    )
   }
 
   const branch = matchRoutes(routes, req.url)
@@ -171,3 +209,22 @@ app.get('*', (req, res) => {
 let listener = app.listen(PORT, function() {
   console.log('Production Express server running at localhost:' + PORT)
 })
+
+function fileExists(path) {
+  try {
+    fs.accessSync(path, fs.constants.R_OK)
+    return true
+  } catch (err) {
+    return false
+  }
+}
+
+function deleteFiles(files) {
+  var i = files.length
+  files.forEach(function(filepath) {
+    fs.unlink(filepath, function(err) {
+      i--
+      if (err) return console.error(err)
+    })
+  })
+}

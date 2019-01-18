@@ -27,6 +27,10 @@
       text-shadow: none;
     }
   }
+
+  * {
+    -webkit-print-color-adjust: exact;
+  }
 }
 
 .page {

@@ -10,7 +10,7 @@ class Page extends Component {
   render() {
     let { reverse, children, className, media, ...props } = this.props
     return (
-      <div styleName={cx({ page: true, reverse, trademark: 'print' !== media })} className={className} {...props}>
+      <div styleName={cx({ page: true, reverse, trademark: 'print' !== media })} className={`page ${className}`} {...props}>
         {children}
       </div>
     )
