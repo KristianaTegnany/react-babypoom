@@ -112,6 +112,8 @@ process.on('exit', async function() {
 
 var REG_PDF = /\.pdf$/
 
+app.get('/favicon.ico', (req, res) => res.sendStatus(204))
+
 app.get('*', (req, res) => {
   if (REG_PDF.test(req.url.split('?')[0])) {
     const bpoomUuid = req.url.slice(1).replace(REG_PDF, '')
