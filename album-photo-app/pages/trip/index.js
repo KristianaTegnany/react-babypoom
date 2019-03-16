@@ -18,12 +18,18 @@ import { defineMessages, injectIntl } from 'react-intl'
 
 import logo from '../../images/logo-bp.png'
 
-@connect(mapStateToProps)
+function groupBy(arr, n) {
+  var group = []
+  for (var i = 0, end = arr.length / n; i < end; ++i) group.push(arr.slice(i * n, (i + 1) * n))
+  return group
+}
+
 class Trip extends Component {
-  groupBy = (arr, n) => {
-    var group = []
-    for (var i = 0, end = arr.length / n; i < end; ++i) group.push(arr.slice(i * n, (i + 1) * n))
-    return group
+  static pages(events) {
+    return [events.splice(0, 2)].concat(groupBy(events, 4))
+  }
+  static cntPages(events) {
+    return this.pages(events.slice(0)).length
   }
 
   formatDate = tripEvent => {
@@ -70,36 +76,34 @@ class Trip extends Component {
     if (!bp_trip_events.length) return ''
 
     bp_trip_events = bp_trip_events.slice(0)
-    let pages = [bp_trip_events.splice(0, 2)].concat(this.groupBy(bp_trip_events, 4))
+    let pages = this.constructor.pages(bp_trip_events)
 
-    return (
-      <div>
-        {pages.map((pageEvents, index) => {
-          let firstPage = 0 === index
-          let lastPage = index === pages.length - 1
-          return (
-            <Page
-              key={index}
-              reverse={pages.length > 1 && lastPage}
-              styleName={`page with-${pageEvents.length}-events`}
-            >
-              {pageEvents.length < 3 && (
-                <PresentationPanel styleName="presentation-panel">
-                  {firstPage && <Title label={t(MSG.title)} description={t(MSG.description)} />}
-                </PresentationPanel>
-              )}
-              <ContentPanel styleName="content-panel">
-                <div styleName="trip-events-container">{pageEvents.map(this.renderTripEvent)}</div>
-              </ContentPanel>
-            </Page>
-          )
-        })}
-      </div>
-    )
+    return pages.map((pageEvents, index) => {
+      let firstPage = 0 === index
+      let lastPage = index === pages.length - 1
+      return (
+        <Page
+          key={index}
+          reverse={pages.length > 1 && lastPage}
+          styleName={`page ${firstPage ? 'first-page' : ''} ${lastPage ? 'last-page' : ''} with-${
+            pageEvents.length
+          }-events`}
+        >
+          {pageEvents.length < 3 && (
+            <PresentationPanel styleName="presentation-panel">
+              {firstPage && <Title label={t(MSG.title)} description={t(MSG.description)} />}
+            </PresentationPanel>
+          )}
+          <ContentPanel styleName="content-panel">
+            <div styleName="trip-events-container">{pageEvents.map(this.renderTripEvent)}</div>
+          </ContentPanel>
+        </Page>
+      )
+    })
   }
 }
 
-export default injectIntl(Trip)
+export default injectIntl(connect(mapStateToProps)(Trip))
 
 function mapStateToProps(state) {
   const {

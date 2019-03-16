@@ -100,7 +100,13 @@ module.exports = _.merge(config, {
         test: /\.css$/,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader?modules&minimize&sourceMap',
+          {
+            loader: 'css-loader',
+            query: {
+              modules: false,
+              sourceMap: true,
+            },
+          },
           'postcss-loader?sourceMap',
           'resolve-url-loader',
         ],
@@ -113,7 +119,6 @@ module.exports = _.merge(config, {
             loader: 'css-loader',
             query: {
               modules: true,
-              minimize: true,
               importLoaders: 1,
               //localIdentName: '[path]___[name]__[local]___[hash:base64:5]',
               getLocalIdent: (loaderContext, localIdentName, name, options) => {
@@ -139,7 +144,7 @@ module.exports = _.merge(config, {
         use: {
           loader: 'babel-loader',
           query: {
-            presets: ['react', ['es2015', { modules: false }], 'stage-2'],
+            presets: ['@babel/preset-react', ['@babel/preset-env', { useBuiltIns: 'usage' }]],
             plugins: [
               [
                 'react-intl',
@@ -149,9 +154,9 @@ module.exports = _.merge(config, {
                   languages: availableLocales,
                 },
               ],
-              'transform-decorators-legacy',
-              'transform-function-bind',
-              'transform-runtime',
+              ['@babel/plugin-proposal-class-properties', { loose: true }],
+              '@babel/plugin-proposal-function-bind',
+              '@babel/plugin-transform-runtime',
               [
                 'react-css-modules',
                 {

@@ -1,9 +1,9 @@
 // First page and last page
-.page:first-child .presentation-panel::before,
-.page:last-child .presentation-panel::before,
-.page:first-child:last-child .content-panel::after, // Only one page
+.first-page .presentation-panel::before,
+.last-page .presentation-panel::before,
+.first-page.last-page .content-panel::after, // Only one page
 .with-3-events .content-panel::after, // Only last page can have 3 events
-.page:last-child.with-4-events .content-panel::after // First page can't have 4 events
+.last-page.with-4-events .content-panel::after // First page can't have 4 events
  {
   content: '';
   position: absolute;
@@ -15,41 +15,41 @@
   background: transparent url('../images/pictos-pages/sprite-timeline-flags.svg') left top/35mm auto no-repeat;
 }
 
-.page:last-child .presentation-panel::before,
-.page:first-child:last-child .content-panel::after,
+.last-page .presentation-panel::before,
+.first-page.last-page .content-panel::after,
 .with-3-events .content-panel::after,
-.page:last-child.with-4-events .content-panel::after {
+.last-page.with-4-events .content-panel::after {
   background-position: -18mm top;
 }
 
-.page:first-child:last-child .content-panel::after,
+.first-page.last-page .content-panel::after,
 .with-3-events .content-panel::after,
-.page:last-child.with-4-events .content-panel::after {
+.last-page.with-4-events .content-panel::after {
   right: 4mm;
 }
 
-.page:first-child:last-child .content-panel::after {
+.first-page.last-page .content-panel::after {
   right: 3mm;
 }
 
-.page:first-child:last-child,
-.page:first-child.with-1-events,
-.page:last-child.with-1-events {
+.first-page.last-page,
+.first-page.with-1-events,
+.last-page.with-1-events {
   .trip-events-container::before {
     width: 65%;
   }
 }
 
-.page:first-child,
-.page:last-child.with-1-events,
-.page:last-child.with-2-events {
+.first-page,
+.last-page.with-1-events,
+.last-page.with-2-events {
   .content-panel::before {
     width: 95%;
   }
 }
 
 // Gradient line
-.page:first-child:last-child .content-panel::before {
+.first-page.last-page .content-panel::before {
   width: 84%;
   right: 11%;
   background: linear-gradient(to right, #bceefb 30%, #ffadbf 30%, #ffadbf 75%, #ff5c70 75%);
@@ -61,7 +61,7 @@
 
 // First page
 // /!\ Must be after first page & last page section (for priorities purposes)
-.page:first-child {
+.first-page {
   .presentation-panel {
     width: 40%;
     background-image: url('../images/bg-pages/bg-timeline.svg');
@@ -83,7 +83,15 @@
 }
 
 // Last page
-.page + .page:last-child {
+:global(.hd) {
+  .last-page:not(.first-page) {
+    .presentation-panel {
+      background-image: url('../../album-photo-app/images/hd-page-bg.png');
+    }
+  }
+}
+
+.last-page:not(.first-page) {
   &.with-3-events,
   &.with-4-events {
     .content-panel::before {

@@ -16,7 +16,6 @@ import defaultPhoto from '../../images/default.jpeg'
 import t from '../../i18n/i18n'
 import { injectIntl, defineMessages } from 'react-intl'
 
-@connect(mapStateToProps)
 class Arrival extends Component {
   birthday = (intl, date) => {
     if (!date) return ''
@@ -92,41 +91,38 @@ class Arrival extends Component {
       ['sm eyes', eyes],
     ].filter(this.nonEmptyAttr)
 
-    return (
-      <div>
-        <Page reverse styleName="page">
-          <PresentationPanel styleName="arrival-presentation-panel">
-            <Title label={t(MSG.title)} />
-          </PresentationPanel>
-          <ContentPanel background />
-        </Page>
-
-        <Page styleName="page info-page">
-          <PresentationPanel>
-            <div styleName="figure">
-              <p styleName="fullname">
-                <span>{bpoom.babyname}</span> <span styleName="lastname">{bpoom.lastname}</span>
-              </p>
-              <div
-                styleName="baby-img"
-                style={{
-                  backgroundImage: `url(${getPhoto(bpoom, 'photo', media) || defaultPhoto})`,
-                }}
-              />
-            </div>
-          </PresentationPanel>
-          <ContentPanel centered styleName="info-content-panel">
-            {!!attributes.length && (
-              <BorderBgBox styleName="border-box">{attributes.map(this.renderAttribute)}</BorderBgBox>
-            )}
-          </ContentPanel>
-        </Page>
-      </div>
-    )
+    return [
+      <Page key="arrival-presentation" reverse styleName="page">
+        <PresentationPanel styleName="arrival-presentation-panel">
+          <Title label={t(MSG.title)} />
+        </PresentationPanel>
+        <ContentPanel background />
+      </Page>,
+      <Page key="arrival-info" styleName="page info-page">
+        <PresentationPanel>
+          <div styleName="figure">
+            <p styleName="fullname">
+              <span>{bpoom.babyname}</span> <span styleName="lastname">{bpoom.lastname}</span>
+            </p>
+            <div
+              styleName="baby-img"
+              style={{
+                backgroundImage: `url(${getPhoto(bpoom, 'photo', media) || defaultPhoto})`,
+              }}
+            />
+          </div>
+        </PresentationPanel>
+        <ContentPanel centered styleName="info-content-panel">
+          {!!attributes.length && (
+            <BorderBgBox styleName="border-box">{attributes.map(this.renderAttribute)}</BorderBgBox>
+          )}
+        </ContentPanel>
+      </Page>,
+    ]
   }
 }
 
-export default injectIntl(Arrival)
+export default injectIntl(connect(mapStateToProps)(Arrival))
 
 function mapStateToProps(state) {
   const {

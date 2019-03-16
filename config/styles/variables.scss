@@ -1,3 +1,6 @@
+$page-width: 297.25936mm;
+$page-height: 210mm;
+
 :root {
   content: '';
   --page-width: 297.25936mm;
@@ -5,4 +8,12 @@
   --page-color: #214257;
   --page-color-gray: #888;
   --page-border-color: #f4f4f4;
+}
+
+@function to-percent-w($value) {
+  @return percentage($value / $page-width);
+}
+
+@function to-percent-h($value) {
+  @return percentage($value / $page-height);
 }

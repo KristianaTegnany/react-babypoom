@@ -17,7 +17,8 @@ import HotIntlProvider from './album-photo-app/i18n/hot-intl-provider/HotIntlPro
 import { updateLocale } from './album-photo-app/i18n/hot-intl-provider/HotIntlProviderActions'
 import configureStore from './album-photo-app/store/configureStore'
 import routes from './album-photo-app/routes'
-import App, { REG_PRINT } from './album-photo-app/views/app'
+import App from './album-photo-app/views/app'
+import { REG_PRINT } from './lib/regs'
 
 import { messages } from './album-photo-app/i18n/messages'
 import availableLocales from './available-locales'
@@ -83,7 +84,7 @@ let BROWSER
 const generatePdf = async function(url, albumPath, lockPath) {
   const page = await BROWSER.newPage()
   await page.goto(url, { waitUntil: 'networkidle2' })
-  const totalPages = await page.$$eval('.page', pages => pages.length)
+  const totalPages = await page.$$eval('.pdf-page', pages => pages.length)
   const pdfId = uuid()
   const pagePaths = []
   let errors = 0

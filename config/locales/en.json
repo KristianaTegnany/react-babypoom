@@ -1,6 +1,8 @@
 {
   "app.not_found": "Désolé, cette page n'existe pas.",
+  "app.preview_limit": "Attention : cet affichage est un aperçu et ne présente qu’un extrait de votre album final",
   "app.request.error": "Une erreur est survenue. \nVeuillez réessayer plus tard.",
+  "app.rotate_device": "Tournez votre appareil pour un meilleur rendu",
   "arrival.title": "Mon arrivée",
   "back_cover.made_with_love": "Créé avec émotions sur Babypoom.com",
   "cover.my_photo_album": "Mon album Babypoom",

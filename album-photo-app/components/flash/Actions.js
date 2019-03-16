@@ -1,15 +1,13 @@
-
-
 export function flash(color, message) {
   return function(dispatch) {
-    return dispatch({
+    dispatch({
       type: 'FLASH',
       color,
-      message
-    });
-  };
+      message,
+    })
+  }
 }
 
 export function deleteFlash() {
-  return flash(null);
+  return flash(null)
 }

@@ -1,3 +1,9 @@
+:global(.hd) {
+  .background {
+    background-image: url('../../album-photo-app/images/hd-page-bg.png');
+  }
+}
+
 .background {
   background: var(--color-bg) url('../../album-photo-app/images/page-bg.png') left top/1000px auto repeat;
 }

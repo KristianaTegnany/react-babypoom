@@ -15,68 +15,65 @@ import { defineMessages, FormattedDate } from 'react-intl'
 
 import styles from './styles.scss'
 
-@connect(mapStateToProps)
 class ParentsAndStats extends Component {
   render() {
     let { bpoom, media } = this.props
 
-    return (
-      <div>
-        <Page>
-          <PresentationPanel styleName="parents-presentation-panel">
-            <Title label={t(MSG.parent_reactions)} />
-          </PresentationPanel>
-          <ContentPanel centered>
-            {['mum', 'dad'].map(parent => (
-              <div key={parent} styleName={`parents-reaction ${parent}`}>
-                <div>
-                  <div
-                    style={{
-                      backgroundImage: `url(${getPhoto(bpoom, `photo_${parent}`, media) || defaultPhoto})`,
-                    }}
-                    styleName="image-container"
-                  />
-                  {bpoom[`reaction_${parent}`] && (
-                    <div styleName="quote-container">
-                      <p styleName="quote">
-                        {bpoom[`reaction_${parent}`]}
-                        <br />-<br />
-                        {bpoom[`name_${parent}`]}
-                      </p>
-                    </div>
-                  )}
-                </div>
+    return [
+      <Page key="parents">
+        <PresentationPanel styleName="parents-presentation-panel">
+          <Title label={t(MSG.parent_reactions)} />
+        </PresentationPanel>
+        <ContentPanel centered>
+          {['mum', 'dad'].map(parent => (
+            <div key={parent} styleName={`parents-reaction ${parent}`}>
+              <div>
+                <div
+                  style={{
+                    backgroundImage: `url(${getPhoto(bpoom, `photo_${parent}`, media) || defaultPhoto})`,
+                  }}
+                  styleName="image-container"
+                />
+                {bpoom[`reaction_${parent}`] && (
+                  <div styleName="quote-container">
+                    <p styleName="quote">
+                      {bpoom[`reaction_${parent}`]}
+                      <br />-<br />
+                      {bpoom[`name_${parent}`]}
+                    </p>
+                  </div>
+                )}
               </div>
+            </div>
+          ))}
+        </ContentPanel>
+      </Page>,
+      <Page key="stats">
+        <PresentationPanel styleName="stat-presentation-panel">
+          <Title label={t(MSG.babypoom_results)} />
+        </PresentationPanel>
+        <ContentPanel background centered>
+          <ul styleName="list">
+            {[
+              ['tries', bpoom.game_tries_avg, t(MSG.stat_tries)],
+              ['time', t({ ...MSG.time_in_sec, values: { seconds: bpoom.game_time_avg } }), t(MSG.stat_time)],
+              ['visits', bpoom.visit_count, t(MSG.stat_visits)],
+              ['messages', bpoom.message_count, t(MSG.stat_messages)],
+            ].map(([type, metric, text]) => (
+              <li key={type}>
+                <i styleName={`${type}-icon`} />
+                <span styleName="result">{metric}</span>
+                <span styleName="desc">{text}</span>
+              </li>
             ))}
-          </ContentPanel>
-        </Page>
-        <Page>
-          <PresentationPanel styleName="stat-presentation-panel">
-            <Title label={t(MSG.babypoom_results)} />
-          </PresentationPanel>
-          <ContentPanel background centered>
-            <ul styleName="list">
-              {[
-                ['tries', bpoom.game_tries_avg, t(MSG.stat_tries)],
-                ['time', t({ ...MSG.time_in_sec, values: { seconds: bpoom.game_time_avg } }), t(MSG.stat_time)],
-                ['visits', bpoom.visit_count, t(MSG.stat_visits)],
-                ['messages', bpoom.message_count, t(MSG.stat_messages)],
-              ].map(([type, metric, text]) => (
-                <li key={type}>
-                  <i styleName={`${type}-icon`} />
-                  <span styleName="result">{metric}</span>
-                  <span styleName="desc">{text}</span>
-                </li>
-              ))}
-            </ul>
-          </ContentPanel>
-        </Page>
-      </div>
-    )
+          </ul>
+        </ContentPanel>
+      </Page>,
+    ]
   }
 }
 
-export default ParentsAndStats
+export default connect(mapStateToProps)(ParentsAndStats)
 
 function mapStateToProps(state) {
   const {

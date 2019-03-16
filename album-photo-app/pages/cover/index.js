@@ -12,7 +12,6 @@ import BorderBgBox from '../../components/border-bg-box'
 import t from '../../i18n/i18n'
 import { FormattedDate } from 'react-intl'
 
-@connect(mapStateToProps)
 class Cover extends Component {
   birthday = date => {
     if (!date) return ''
@@ -48,7 +47,7 @@ class Cover extends Component {
   }
 }
 
-export default Cover
+export default connect(mapStateToProps)(Cover)
 
 function mapStateToProps(state) {
   const {

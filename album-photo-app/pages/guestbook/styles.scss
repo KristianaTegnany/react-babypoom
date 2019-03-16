@@ -15,7 +15,7 @@
   letter-spacing: 0;
 }
 
-.page:first-child {
+.first-page {
   .message:nth-child(2) {
     // It's ok if display flex is not supported
     // Won't break the layout ;)
@@ -102,6 +102,12 @@
   }
 }
 
+:global(.hd) {
+  .content-panel {
+    background-image: url('../../album-photo-app/images/hd-page-bg.png');
+  }
+}
+
 .content-panel {
   background: var(--color-bg) url('../../album-photo-app/images/page-bg.png') left top/1000px auto repeat;
 }
@@ -110,7 +116,7 @@
   background: none;
 }
 
-.page:first-child,
+.first-page,
 .left-container {
   .message:nth-child(1) {
     .image-container {
@@ -142,7 +148,7 @@
 }
 
 // First page
-.page:first-child {
+.first-page {
   .message {
     max-width: 160mm;
   }
@@ -187,6 +193,14 @@
 }
 
 // Right page
+:global(.hd) {
+  .right-panel {
+    &::before {
+      background-image: url('../../album-photo-app/images/hd-page-bg.png');
+    }
+  }
+}
+
 .right-panel {
   &::before {
     content: '';

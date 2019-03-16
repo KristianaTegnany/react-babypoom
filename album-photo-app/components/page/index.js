@@ -5,19 +5,24 @@ import cx from '../../../lib/cx'
 
 import styles from './styles.scss'
 
-@connect(mapStateToProps)
 class Page extends Component {
   render() {
     let { reverse, children, className, media, ...props } = this.props
     return (
-      <div styleName={cx({ page: true, reverse, trademark: 'print' !== media })} className={`page ${className}`} {...props}>
-        {children}
+      <div>
+        <div
+          styleName={cx({ page: true, reverse, trademark: 'print' !== media })}
+          className={`pdf-page ${className || ''}`}
+          {...props}
+        >
+          {children}
+        </div>
       </div>
     )
   }
 }
 
-export default Page
+export default connect(mapStateToProps)(Page)
 
 function mapStateToProps(state) {
   const {

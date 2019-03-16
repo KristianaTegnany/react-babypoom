@@ -13,12 +13,15 @@ import configureStore from './store/configureStore'
 import HotIntlProvider from './i18n/hot-intl-provider/HotIntlProvider'
 import { updateLocale } from './i18n/hot-intl-provider/HotIntlProviderActions'
 
+import { updateMedia } from './views/app/Actions'
+
 import 'isomorphic-fetch'
 
 import config from '../config/application'
 
 // Lib
 import loadIntl from '../lib/intl-detection'
+import { REG_PRINT } from '../lib/regs'
 
 // i18n
 import availableLocales from '../available-locales'
@@ -35,6 +38,11 @@ loadIntl([locale].concat(availableLocales), () => {
   } else {
     store = configureStore()
     updateLocale('fr')(store.dispatch) // TODO: detect browser locale
+
+    // hd param
+    if (REG_PRINT.test(window.location.search)) {
+      updateMedia('print')(store.dispatch)
+    }
   }
 
   hydrate(

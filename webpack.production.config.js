@@ -1,27 +1,13 @@
 var webpack = require('webpack')
 var _ = require('lodash')
 var path = require('path')
-var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-
 var config = require('./webpack.common.config.js')
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 config.mode = 'production'
 
 // config.optimization = { minimize: false }
 
-config.optimization = {
-  minimizer: [
-    new UglifyJsPlugin({
-      cache: true,
-      parallel: true,
-      sourceMap: true, // set to true if you want JS source maps
-      uglifyOptions: {
-        output: {
-          comments: false,
-        },
-      },
-    }),
-  ],
-}
+config.plugins = config.plugins.concat([new OptimizeCssAssetsPlugin({})])
 
 module.exports = config

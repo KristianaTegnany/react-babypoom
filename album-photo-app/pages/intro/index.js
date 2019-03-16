@@ -12,30 +12,28 @@ import { defineMessages } from 'react-intl'
 
 import styles from './styles.scss'
 
-let Intro = () => (
-  <div>
-    <Page /> {/* Blank page */}
-    <Page styleName="page">
-      <PresentationPanel styleName="presentation-panel">
-        <Title general label={t(MSG.my_photo_album)} />
-      </PresentationPanel>
-      <ContentPanel styleName="content-panel">
-        <BorderBgBox>
-          <div styleName="content">
-            <p styleName="description">{t(MSG.my_photo_album_desc)}</p>
-            <ol styleName="list">
-              <li>{t(MSG.arrival)}</li>
-              <li>{t(MSG.trip)}</li>
-              <li>{t(MSG.guestbook)}</li>
-              <li>{t(MSG.reaction)}</li>
-              <li>{t(MSG.results)}</li>
-            </ol>
-          </div>
-        </BorderBgBox>
-      </ContentPanel>
-    </Page>
-  </div>
-)
+let Intro = () => [
+  <Page key="intro-blank" />, // Blank page
+  <Page key="intro" styleName="page">
+    <PresentationPanel styleName="presentation-panel">
+      <Title general label={t(MSG.my_photo_album)} />
+    </PresentationPanel>
+    <ContentPanel styleName="content-panel">
+      <BorderBgBox>
+        <div styleName="content">
+          <p styleName="description">{t(MSG.my_photo_album_desc)}</p>
+          <ol styleName="list">
+            <li>{t(MSG.arrival)}</li>
+            <li>{t(MSG.trip)}</li>
+            <li>{t(MSG.guestbook)}</li>
+            <li>{t(MSG.reaction)}</li>
+            <li>{t(MSG.results)}</li>
+          </ol>
+        </div>
+      </BorderBgBox>
+    </ContentPanel>
+  </Page>,
+]
 
 export default Intro
 

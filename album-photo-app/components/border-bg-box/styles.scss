@@ -1,3 +1,9 @@
+:global(.hd) {
+  .box {
+    background-image: url('../../album-photo-app/images/hd-page-bg.png');
+  }
+}
+
 .box {
   background: var(--color-bg) url('../../album-photo-app/images/page-bg.png') left top/1000px auto repeat;
   padding: 5mm;
