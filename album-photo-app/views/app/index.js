@@ -58,6 +58,7 @@ function setWindowHeight(container) {
   if (window.matchMedia && matchMedia('(orientation: landscape)')) {
     let change = container.style.height
     container.style.height = ''
+    container.offsetHeight
     if (window.innerHeight !== container.getBoundingClientRect().height) {
       container.style.height = `${window.innerHeight}px`
       window.scrollTo(0, 0)
@@ -150,16 +151,9 @@ class App extends Component {
         storage[uuid] = +(storage[uuid] || 0) + 1
       }
     }
-    if (+storage[uuid] > 1) {
-      closeWarning()
-    } else {
-      warning.style.display = 'flex'
-    }
 
     let css = document.createElement('style')
     document.body.appendChild(css)
-
-    setWindowHeight(container)
 
     let turn = new Turn(
       flipbook,
@@ -172,10 +166,7 @@ class App extends Component {
         },
       }),
     )
-    turn.peel('br')
 
-    container.querySelector('.loading-preview').style.display = 'none'
-    flipbook.style.visibility = 'visible'
     let resize = () => {
       setWindowHeight(container)
       flipbook.classList.remove('flipbook-transition')
@@ -183,7 +174,6 @@ class App extends Component {
       setTimeout(() => flipbook.classList.add('flipbook-transition'), 50)
     }
     window.addEventListener('resize', debounce(resize, 300))
-    if (iOsSafari()) setTimeout(resize, 500)
 
     let totalPages = turn.pages()
     let update = () => (page.value = turn.page())
@@ -216,7 +206,21 @@ class App extends Component {
       turn.page(Math.max(1, Math.min(+page.value || 1, totalPages)))
     })
 
+    container.querySelector('.loading-preview').style.display = 'none'
+    flipbook.style.visibility = 'visible'
+    controls.style.display = 'block'
+    if (+storage[uuid] > 1) {
+      closeWarning()
+    } else {
+      warning.style.display = 'flex'
+    }
+    turn.peel('br')
     setTimeout(() => flipbook.classList.add('flipbook-transition'), 50)
+    if (iOsSafari())
+      setTimeout(() => {
+        resize()
+        turn.peel('br')
+      }, 750)
   }
 
   renderFlash(msg) {
