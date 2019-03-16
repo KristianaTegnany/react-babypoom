@@ -49,10 +49,11 @@ function debounce(func, wait) {
   }
 }
 
-// Fix height on Safari/iOs
 function iOsSafari() {
-  return /iPhone|iPad|iPod/.test(navigator.platform) && navigator.userAgent.indexOf('AppleWebKit') > -1
+  let ua = navigator.userAgent
+  return /iPhone|iPad/i.test(ua) && /WebKit/i.test(ua) && !/CriOS/i.test(ua)
 }
+// Fix height on iOs
 function setWindowHeight(container) {
   if (!iOsSafari()) return
   if (window.matchMedia && matchMedia('(orientation: landscape)')) {
@@ -134,12 +135,20 @@ class App extends Component {
 
   domLoaded() {
     if ('print' === this.props.media) return
-    let uuid = this.props.bpoom.uuid
+    if (iOsSafari()) {
+      let viewportmeta = document.querySelector('meta[name="viewport"]')
+      viewportmeta.setAttribute(
+        'content',
+        viewportmeta.getAttribute('content') + ',minimum-scale=1.0,maximum-scale=1.0,user-scalable=no',
+      )
+    }
 
+    let uuid = this.props.bpoom.uuid
     let container = document.querySelector('.preview')
     let flipbook = container.querySelector('.flipbook')
     let controls = container.querySelector('.preview-controls')
     let page = controls.querySelector('.page')
+    let current = controls.querySelector('.current')
     let warning = container.querySelector('.limited-preview')
     let close = warning.querySelector('.close')
     let storage = window.sessionStorage || {}
@@ -176,7 +185,11 @@ class App extends Component {
     window.addEventListener('resize', debounce(resize, 300))
 
     let totalPages = turn.pages()
-    let update = () => (page.value = turn.page())
+    let update = () => {
+      let p = turn.page()
+      page.value = p
+      current.innerHTML = `${p} `
+    }
 
     update()
     controls.querySelector('.first').addEventListener('click', () => {
@@ -307,6 +320,7 @@ class App extends Component {
                 <button className="first">◂◂</button>
                 <button className="previous">◂</button>
                 <input className="page" type="number" step="1" min="1" />
+                <span className="current" />
                 <span className="total">/ </span>
                 <button className="next">▸</button>
                 <button className="last">▸▸</button>

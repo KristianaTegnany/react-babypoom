@@ -11,7 +11,7 @@
   <meta property="og:title" content="{{ogTitle}}" />
   <meta property="og:description" content="{{ogDescription}}" />
   <meta property="og:image" content="{{ogImage}}" />
-  <meta property="og:url" content="http://print.babypoom.com/{{uuid}}" />
+  <meta property="og:url" content="http://album.babypoom.com/{{uuid}}" />
   <meta property="og:site_name" content="Babypoom" />
   <% for (var i in htmlWebpackPlugin.files.css) { %><link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[i] %>" /><% } %>
 </head>

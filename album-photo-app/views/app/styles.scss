@@ -149,6 +149,7 @@
     }
 
     .total,
+    .current,
     input,
     button {
       border-radius: 3px;
@@ -167,6 +168,11 @@
       background-color: #f0f0f0;
     }
 
+    .current {
+      display: none;
+      margin: 0;
+      padding-right: 0;
+    }
     .total {
       margin: 0;
     }
@@ -224,6 +230,20 @@
       span {
         position: relative;
         top: -3px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    .preview-controls {
+      .page {
+        display: none;
+      }
+      .total {
+        padding-left: 0;
+      }
+      .current {
+        display: inline;
       }
     }
   }
