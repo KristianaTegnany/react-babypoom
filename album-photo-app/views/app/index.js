@@ -50,8 +50,11 @@ function debounce(func, wait) {
 }
 
 // Fix height on Safari/iOs
+function iOsSafari() {
+  return /iPhone|iPad|iPod/.test(navigator.platform) && navigator.userAgent.indexOf('AppleWebKit') > -1
+}
 function setWindowHeight(container) {
-  if (!(/iPhone|iPad|iPod/.test(navigator.platform) && navigator.userAgent.indexOf('AppleWebKit') > -1)) return
+  if (!iOsSafari()) return
   if (window.matchMedia && matchMedia('(orientation: landscape)')) {
     let change = container.style.height
     container.style.height = ''
@@ -173,15 +176,14 @@ class App extends Component {
 
     container.querySelector('.loading-preview').style.display = 'none'
     flipbook.style.visibility = 'visible'
-    window.addEventListener(
-      'resize',
-      debounce(() => {
-        setWindowHeight(container)
-        flipbook.classList.remove('flipbook-transition')
-        turn.options(this.updatePreviewScale(css, container))
-        setTimeout(() => flipbook.classList.add('flipbook-transition'), 50)
-      }, 300),
-    )
+    let resize = () => {
+      setWindowHeight(container)
+      flipbook.classList.remove('flipbook-transition')
+      turn.options(this.updatePreviewScale(css, container))
+      setTimeout(() => flipbook.classList.add('flipbook-transition'), 50)
+    }
+    window.addEventListener('resize', debounce(resize, 300))
+    if (iOsSafari()) setTimeout(resize, 500)
 
     let totalPages = turn.pages()
     let update = () => (page.value = turn.page())
