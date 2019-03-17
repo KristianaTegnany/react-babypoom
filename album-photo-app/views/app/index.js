@@ -116,7 +116,9 @@ class App extends Component {
     let height = 794
 
     let w = window.innerWidth - 20
-    let h = (parseFloat(container.style.height) || window.innerHeight) - 80
+    let cs = getComputedStyle(container)
+    let paddingV = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)
+    let h = (parseFloat(container.style.height) || window.innerHeight) - paddingV
     let scale = w < width || h < height ? Math.min(w / width, h / height) : 1
 
     let styles = `.pdf-page{${transformProp}:scale(${scale})}`
@@ -135,13 +137,6 @@ class App extends Component {
 
   domLoaded() {
     if ('print' === this.props.media) return
-    if (iOsSafari()) {
-      let viewportmeta = document.querySelector('meta[name="viewport"]')
-      viewportmeta.setAttribute(
-        'content',
-        viewportmeta.getAttribute('content') + ',minimum-scale=1.0,maximum-scale=1.0,user-scalable=no',
-      )
-    }
 
     let uuid = this.props.bpoom.uuid
     let container = document.querySelector('.preview')
@@ -192,6 +187,16 @@ class App extends Component {
     }
 
     update()
+
+    let lastClick
+    // Avoid triggering zoom on mobile
+    controls.addEventListener('touchstart', e => {
+      if (lastClick && Date.now() - lastClick < 500) {
+        e.preventDefault()
+      } else {
+        lastClick = Date.now()
+      }
+    })
     controls.querySelector('.first').addEventListener('click', () => {
       turn.page(1)
       update()
