@@ -7,11 +7,11 @@ import styles from './styles.scss'
 
 class Page extends Component {
   render() {
-    let { reverse, children, className, media, ...props } = this.props
+    let { reverse, children, className, params, ...props } = this.props
     return (
       <div>
         <div
-          styleName={cx({ page: true, reverse, trademark: 'print' !== media })}
+          styleName={cx({ page: true, reverse, trademark: params.hd })}
           className={`pdf-page ${className || ''}`}
           {...props}
         >
@@ -26,7 +26,7 @@ export default connect(mapStateToProps)(Page)
 
 function mapStateToProps(state) {
   const {
-    app: { media },
+    app: { params },
   } = state
-  return { media }
+  return { params }
 }

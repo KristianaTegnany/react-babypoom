@@ -17,7 +17,7 @@ import styles from './styles.scss'
 
 class ParentsAndStats extends Component {
   render() {
-    let { bpoom, media } = this.props
+    let { bpoom, params } = this.props
 
     return [
       <Page key="parents">
@@ -30,7 +30,7 @@ class ParentsAndStats extends Component {
               <div>
                 <div
                   style={{
-                    backgroundImage: `url(${getPhoto(bpoom, `photo_${parent}`, media) || defaultPhoto})`,
+                    backgroundImage: `url(${getPhoto(bpoom, `photo_${parent}`, params.hd) || defaultPhoto})`,
                   }}
                   styleName="image-container"
                 />
@@ -77,9 +77,9 @@ export default connect(mapStateToProps)(ParentsAndStats)
 
 function mapStateToProps(state) {
   const {
-    app: { bpoom, media },
+    app: { bpoom, params },
   } = state
-  return { bpoom, media }
+  return { bpoom, params }
 }
 
 const MSG = defineMessages({

@@ -24,9 +24,17 @@ import i18n from '../../i18n/i18n'
 import Turn from '../../../lib/turn'
 import Fullscreen from '../../../lib/fullscreen'
 
+// Config
+import config from '../../../config/application'
+
 // i18n
 import t from '../../i18n/i18n'
-// import '../../../lib/fix-ios-orientation-change'
+
+// Sound
+import flipSound from '../../sounds/flip-sound.mp3'
+
+// Icons
+import { RotateDeviceIcon, FullscreenIcon, VolumeOnIcon, VolumeOffIcon } from '../../icons'
 
 import './styles.scss'
 
@@ -69,11 +77,14 @@ function setWindowHeight(container) {
   container.style.height = ''
 }
 
+const FLIP_SOUND = 'undefined' !== typeof Audio ? new Audio(flipSound) : null
+
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
       theme: getThemeName(props.bpoom),
+      audioSupport: FLIP_SOUND && ['off', '0'].indexOf((props.params.sound || '').toLowerCase()) < 0,
     }
   }
 
@@ -136,7 +147,7 @@ class App extends Component {
   }
 
   domLoaded() {
-    if ('print' === this.props.media) return
+    if (this.props.params.hd) return
 
     let uuid = this.props.bpoom.uuid
     let container = document.querySelector('.preview')
@@ -144,9 +155,12 @@ class App extends Component {
     let controls = container.querySelector('.preview-controls')
     let page = controls.querySelector('.page')
     let current = controls.querySelector('.current')
+    let volumeOn = controls.querySelector('.volume-on')
+    let volumeOff = controls.querySelector('.volume-off')
     let warning = container.querySelector('.limited-preview')
     let close = warning.querySelector('.close')
     let storage = window.sessionStorage || {}
+    let soundActive = true
 
     let closeWarning = () => {
       if (warning) {
@@ -166,7 +180,10 @@ class App extends Component {
         gradients: true,
         autoCenter: true,
         when: {
-          turning: closeWarning,
+          turning: () => {
+            if (this.state.audioSupport && soundActive) FLIP_SOUND.play()
+            closeWarning()
+          },
         },
       }),
     )
@@ -223,6 +240,15 @@ class App extends Component {
     page.addEventListener('change', e => {
       turn.page(Math.max(1, Math.min(+page.value || 1, totalPages)))
     })
+    if (volumeOn && volumeOff) {
+      let volume = mute => {
+        soundActive = !mute
+        volumeOn.hidden = mute
+        volumeOff.hidden = !mute
+      }
+      volumeOn.addEventListener('click', e => volume(true))
+      volumeOff.addEventListener('click', e => volume(false))
+    }
 
     container.querySelector('.loading-preview').style.display = 'none'
     flipbook.style.visibility = 'visible'
@@ -257,7 +283,7 @@ class App extends Component {
   }
 
   render() {
-    let { bpoom, media } = this.props
+    let { bpoom, params } = this.props
     if (bpoom.not_found) {
       return <NotFound />
     }
@@ -275,7 +301,7 @@ class App extends Component {
       2 /* Parents & stats */ +
       1 /* Back Cover */
 
-    let blankPages = 'print' === media ? Math.max(0, 26 - totalPages) : 0
+    let blankPages = params.hd ? Math.max(0, 26 - totalPages) : 0
     // Pages need to be pair in any case scenario
     if ((totalPages + blankPages) % 2) ++blankPages
 
@@ -285,7 +311,7 @@ class App extends Component {
     return (
       <CSSVariableApplicator data-variables={THEMES[this.state.theme]}>
         {this.renderFlash()}
-        <div className={'print' !== media ? 'preview' : 'hd'}>
+        <div className={params.hd ? 'hd' : 'preview'}>
           <div className="flipbook">
             <Cover />
             <Intro />
@@ -296,7 +322,7 @@ class App extends Component {
             {missingPages}
             <BackCover />
           </div>
-          {'print' !== media && (
+          {!params.hd && (
             <div>
               <div className="loading-preview" styleName="loading-preview">
                 <div />
@@ -309,33 +335,38 @@ class App extends Component {
                   </button>
                 </div>
               </div>
+              <div className="order">
+                <a href={config.orderLink.replace('{{uuid}}', bpoom.uuid)}>{t(MSG.order)}</a>
+              </div>
               <div styleName="rotate-device">
-                <svg viewBox="0 0 26.1 22.6">
-                  <path
-                    d="M14.2,1.1c0.8-0.8,2.1-0.8,3,0l6.1,6.1c0.8,0.8,0.8,2.1,0,3L11.9,21.5c-0.8,0.8-2.1,0.8-3,0l-6.1-6.1c-0.8-0.8-0.8-2.1,0-3
-  L14.2,1.1z M14.4,2.6l-10,10l7.4,7.4l10-10L14.4,2.6z M6.4,18.2c0.4,0.4,1,0.4,1.4,0s0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0
-  C6,17.2,6,17.8,6.4,18.2z M1.8,5.7H0.9C0.6,5.7,0.4,5.9,0.6,6l2.7,2.7L5.9,6c0.1-0.1,0-0.3-0.3-0.3H4.8c-0.4-1.7,1.4-3,4-2.8
-  c0.5,0,0.5-0.2,0.3-0.3C5.9,0.7,1.8,1.9,1.8,5.7z M24.3,16.8h0.9c0.3,0,0.4-0.1,0.3-0.3l-2.7-2.7l-2.7,2.7c-0.1,0.1,0,0.3,0.3,0.3
-  h0.9c0.4,1.7-1.4,3-4,2.8c-0.5,0-0.5,0.2-0.3,0.3C20.1,21.8,24.3,20.6,24.3,16.8z"
-                  />
-                </svg>
+                <RotateDeviceIcon />
                 {t(MSG.rotate_device)}
               </div>
               <div className="preview-controls">
-                <button className="first">◂◂</button>
-                <button className="previous">◂</button>
-                <input className="page" type="number" step="1" min="1" />
-                <span className="current" />
-                <span className="total">/ </span>
-                <button className="next">▸</button>
-                <button className="last">▸▸</button>
-                {Fullscreen.support && (
-                  <button className="fullscreen">
-                    <svg viewBox="0 0 20 20">
-                      <path d="M1,1v6h2V3h4V1H1z M3,13H1v6h6v-2H3V13z M17,17h-4v2h6v-6h-2V17z M17,1h-4v2h4v4h2V1H17z" />
-                    </svg>
-                  </button>
-                )}
+                <div>
+                  {this.state.audioSupport && (
+                    <span>
+                      <button className="volume-on svg">
+                        <VolumeOnIcon />
+                      </button>
+                      <button hidden className="volume-off svg">
+                        <VolumeOffIcon />
+                      </button>
+                    </span>
+                  )}
+                  <button className="first">◂◂</button>
+                  <button className="previous">◂</button>
+                  <input className="page" type="number" step="1" min="1" />
+                  <span className="current" />
+                  <span className="total">/ </span>
+                  <button className="next">▸</button>
+                  <button className="last">▸▸</button>
+                  {Fullscreen.support && (
+                    <button className="fullscreen svg">
+                      <FullscreenIcon />
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -354,10 +385,10 @@ export default injectIntl(
 
 function mapStateToProps(state) {
   const {
-    app: { bpoom, media },
+    app: { bpoom, params },
     flash,
   } = state
-  return { bpoom, media, flash }
+  return { bpoom, params, flash }
 }
 
 const MSG = defineMessages({
@@ -368,5 +399,9 @@ const MSG = defineMessages({
   rotate_device: {
     id: 'app.rotate_device',
     defaultMessage: `Tournez votre appareil pour un meilleur rendu`,
+  },
+  order: {
+    id: 'app.order',
+    defaultMessage: `Commander`,
   },
 })

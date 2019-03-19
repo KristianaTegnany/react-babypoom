@@ -18,19 +18,19 @@ import { updateLocale } from './album-photo-app/i18n/hot-intl-provider/HotIntlPr
 import configureStore from './album-photo-app/store/configureStore'
 import routes from './album-photo-app/routes'
 import App from './album-photo-app/views/app'
-import { REG_PRINT } from './lib/regs'
 
 import { messages } from './album-photo-app/i18n/messages'
 import availableLocales from './available-locales'
 
 import 'isomorphic-fetch'
-import { loadBpoom, updateMedia } from './album-photo-app/views/app/Actions'
+import { loadBpoom, updateParams } from './album-photo-app/views/app/Actions'
 import config from './config/application'
 
 import uuid from './lib/uuid'
 import merge from 'easy-pdf-merge'
 
 import puppeteer from 'puppeteer'
+import { queryParams } from './lib/url-params'
 
 var PORT = process.env.PORT || 8080
 
@@ -83,6 +83,7 @@ let BROWSER
 
 const generatePdf = async function(url, albumPath, lockPath) {
   const page = await BROWSER.newPage()
+  page.emulateMedia('screen')
   await page.goto(url, { waitUntil: 'networkidle2' })
   const totalPages = await page.$$eval('.pdf-page', pages => pages.length)
   const pdfId = uuid()
@@ -111,7 +112,7 @@ process.on('exit', async function() {
   await BROWSER.close()
 })
 
-var REG_PDF = /\.pdf$/
+var REG_PDF = /\.bp\.pdf$/
 
 app.get('/favicon.ico', (req, res) => res.sendStatus(204))
 
@@ -134,7 +135,7 @@ app.get('*', (req, res) => {
         (req.connection && req.connection.encrypted ? 'https' : 'http') +
         '://' +
         (req.get('host') + req.originalUrl).replace(REG_PDF, '')
-      generatePdf(originalURL + (originalURL.indexOf('?') >= 0 ? '&hd' : '?hd'), albumPath, lockPath)
+      generatePdf(originalURL + (originalURL.indexOf('?') >= 0 ? '&hd=1' : '?hd=1'), albumPath, lockPath)
     }
     return res.send(
       'Creating the pdf... <br />This page will refresh when the pdf is ready' +
@@ -153,9 +154,7 @@ app.get('*', (req, res) => {
     // SERVER SIDE RENDERING
     let store = configureStore()
     updateLocale(lang)(store.dispatch)
-    if (REG_PRINT.test(req.url)) {
-      updateMedia('print')(store.dispatch)
-    }
+    updateParams(queryParams(req.url))(store.dispatch)
 
     let component = route.component
     while (component.WrappedComponent) component = component.WrappedComponent

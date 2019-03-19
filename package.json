@@ -65,7 +65,7 @@
     "postcss-percentage": "0.0.0",
     "postcss-pxtorem": "4.0.1",
     "postcss-scss": "1.0.6",
-    "puppeteer": "^1.7.0",
+    "puppeteer": "1.13.0",
     "react-intl-translations-manager": "5.0.3",
     "resolve-url-loader": "2.3.0",
     "rimraf": "2.6.2",

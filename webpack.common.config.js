@@ -96,6 +96,11 @@ module.exports = _.merge(config, {
         loader: 'file-loader',
         // exclude: /\/images\//,
       },
+      // Sounds
+      {
+        test: /\.mp3$/,
+        loader: 'file-loader',
+      },
       {
         test: /\.css$/,
         use: [

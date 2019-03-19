@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-import { BPOOM, MEDIA } from './types'
+import { BPOOM, PARAMS } from './types'
 
 import apiCall from '../../../api/call'
 import { flash } from '../../components/flash/Actions'
@@ -38,9 +38,9 @@ export function loadBpoom(uuid, options) {
   )
 }
 
-export function updateMedia(media) {
+export function updateParams(params) {
   return function(dispatch) {
-    dispatch({ type: MEDIA, media })
+    dispatch({ type: PARAMS, params })
   }
 }
 

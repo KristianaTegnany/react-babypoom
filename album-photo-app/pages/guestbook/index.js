@@ -35,7 +35,7 @@ class Guestbook extends Component {
       <div
         styleName="image-container"
         style={{
-          backgroundImage: `url(${getPhoto(msg, 'photo', this.props.media) || defaultPhoto})`,
+          backgroundImage: `url(${getPhoto(msg, 'photo', this.props.params.hd) || defaultPhoto})`,
         }}
       />
       <div styleName="quote-container">
@@ -94,9 +94,9 @@ export default injectIntl(connect(mapStateToProps)(Guestbook))
 
 function mapStateToProps(state) {
   const {
-    app: { bpoom, media },
+    app: { bpoom, params },
   } = state
-  return { bpoom, media }
+  return { bpoom, params }
 }
 
 const MSG = defineMessages({
