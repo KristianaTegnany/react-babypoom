@@ -63,16 +63,16 @@ export default class extends Component {
       index: props.index + (loop ? 1 : 0),
       zoomMode: false,
       fullScreenMode: this.isFullScreen,
-      shareMenuOpen: false,
+      // shareMenuOpen: false,
       rangeLoad: true,
     }
 
     this.reinitZoom = ::this.reinitZoom
     this.zoom = ::this.zoom
     this.fullScreen = ::this.fullScreen
-    this.toggleShareMenu = ::this.toggleShareMenu
+    // this.toggleShareMenu = ::this.toggleShareMenu
     this.close = ::this.close
-    this.closeShareMenu = ::this.closeShareMenu
+    // this.closeShareMenu = ::this.closeShareMenu
     this.imageMove = ::this.imageMove
     this.imageDown = ::this.imageDown
     this.imageClick = ::this.imageClick
@@ -84,7 +84,7 @@ export default class extends Component {
     this.checkIndex = ::this.checkIndex
     this.prev = ::this.prev
     this.next = ::this.next
-    this.openWindowPopup = ::this.openWindowPopup
+    // this.openWindowPopup = ::this.openWindowPopup
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -93,15 +93,15 @@ export default class extends Component {
     let loop = nextProps.items.length > 1 && nextProps.loop
     let index = nextProps.index + (loop ? 1 : 0)
     let zoomMode = prevState.zoomMode
-    let shareMenuOpen = prevState.shareMenuOpen
+    // let shareMenuOpen = prevState.shareMenuOpen
 
     if (prevState.items !== nextProps.items) {
       list = loop ? getList(nextProps.items) : nextProps.items
       zoomMode = false
-      shareMenuOpen = false
+      // shareMenuOpen = false
       ++listKey
     }
-    return { list, index, listKey, loop, zoomMode, shareMenuOpen, open: nextProps.open, items: nextProps.items }
+    return { list, index, listKey, loop, zoomMode, /*shareMenuOpen,*/ open: nextProps.open, items: nextProps.items }
   }
 
   get listIndex() {
@@ -415,26 +415,26 @@ export default class extends Component {
     this.props.onClose()
   }
 
-  closeShareMenu(e) {
-    if (this.state.shareMenuOpen) {
-      this.toggleShareMenu()
-    }
-  }
+  // closeShareMenu(e) {
+  //   if (this.state.shareMenuOpen) {
+  //     this.toggleShareMenu()
+  //   }
+  // }
 
-  toggleShareMenu() {
-    this.setState({ shareMenuOpen: !this.state.shareMenuOpen })
-  }
+  // toggleShareMenu() {
+  //   this.setState({ shareMenuOpen: !this.state.shareMenuOpen })
+  // }
 
-  openWindowPopup(e) {
-    if (this.constructor.isTouch) return true
-    e.preventDefault()
-    let dim = window.screen ? Math.round(screen.width / 2 - 275) : 100
-    window.open(
-      e.currentTarget.getAttribute('href'),
-      t(MSG.share),
-      `scrollbars=yes,resizable=yes,toolbar=no,location=yes,width=550,height=420,top=100,left=${dim}`,
-    )
-  }
+  // openWindowPopup(e) {
+  //   if (this.constructor.isTouch) return true
+  //   e.preventDefault()
+  //   let dim = window.screen ? Math.round(screen.width / 2 - 275) : 100
+  //   window.open(
+  //     e.currentTarget.getAttribute('href'),
+  //     t(MSG.share),
+  //     `scrollbars=yes,resizable=yes,toolbar=no,location=yes,width=550,height=420,top=100,left=${dim}`,
+  //   )
+  // }
 
   inRange(index, current, length) {
     if (!this.state.rangeLoad) return true
@@ -483,11 +483,11 @@ export default class extends Component {
             {this.constructor.fullScreenSupport && (
               <button styleName="fullscreen" title={t(MSG.fullscreen)} onClick={this.fullScreen} />
             )}
-            <button styleName="share" title={t(MSG.share)} onClick={this.toggleShareMenu} />
+            {/* <button styleName="share" title={t(MSG.share)} onClick={this.toggleShareMenu} /> */}
             <button styleName="close" title={t(MSG.close)} onClick={this.close} />
           </div>
         </div>
-        {state.shareMenuOpen && (
+        {/* {state.shareMenuOpen && (
           <div styleName="share-menu">
             <a
               onClick={this.openWindowPopup}
@@ -519,7 +519,7 @@ export default class extends Component {
               </a>
             )}
           </div>
-        )}
+        )} */}
         <div styleName="content">
           <div
             styleName="wrapper"
