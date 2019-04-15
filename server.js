@@ -1,13 +1,14 @@
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 import express from 'express'
 import createLocaleMiddleware from 'express-locale'
+import favicon from 'serve-favicon'
 import path from 'path'
 
 import shrinkRay from 'shrink-ray-current'
 import fs from 'fs'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import { StaticRouter } from 'react-router-dom'
+import { StaticRouter } from 'react-router'
 import { matchRoutes, renderRoutes } from 'react-router-config'
 import { RouterContext } from 'react-router'
 import { Provider } from 'react-redux'
@@ -25,6 +26,8 @@ import 'isomorphic-fetch'
 import { loadBpoom } from './birth-announcement-app/views/app/Actions'
 import config from './config/application'
 
+import { queryParams } from './lib/url-params'
+
 // Bootstrap
 import Bootstrap from './config/bootstrap/bootstrap.scss'
 import { setGlobalCssModule } from 'reactstrap/lib/utils'
@@ -38,6 +41,7 @@ var ALL_LOCALES = [availableLocales.defaultLocale].concat(availableLocales)
 
 var app = express()
 app.disable('x-powered-by')
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(shrinkRay()) // must be first!
 app.use(createLocaleMiddleware()) // detect locale
 
@@ -66,8 +70,6 @@ const tplPath = path.join(__dirname, 'public', 'index.tpl')
 const htmlPath = path.join(__dirname, 'public', 'index.html')
 const PAGE_CACHE = compileString(fs.readFileSync(fileExists(tplPath) ? tplPath : htmlPath).toString())
 
-app.get('/favicon.ico', (req, res) => res.sendStatus(204))
-
 app.get('*', (req, res) => {
   const branch = matchRoutes(routes, req.url)
   if (branch.length) {
@@ -88,7 +90,7 @@ app.get('*', (req, res) => {
     }
 
     component
-      .fetchData(store, match.params)
+      .fetchData(store, match.params, queryParams(match.url))
       .then(bpoom => {
         res.send(
           PAGE_CACHE({

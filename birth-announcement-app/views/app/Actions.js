@@ -5,6 +5,8 @@ import { BPOOM, STEPS, NO_NAV, SAVE_VISITORBOOK_MSG, DELETE_VISITORBOOK_MSG } fr
 import apiCall from '../../../api/call'
 import { flash } from '../../components/flash/Actions'
 
+import overrideBpoom from '../../../lib/override_bpoom_with_params'
+
 function _exec(url, urlOptions, options, okCallback, koCallback) {
   return function(dispatch) {
     return new Promise(function(resolve, reject) {
@@ -28,13 +30,14 @@ export function loadBpoom(uuid, options) {
     { method: 'GET' },
     options,
     (dispatch, json) => {
-      dispatch({ type: BPOOM, bpoom: json })
+      let bpoom = overrideBpoom(json, options.queryParams)
+      dispatch({ type: BPOOM, bpoom })
     },
     (dispatch, error, response) => {
       if (response && 404 === response.status) {
         dispatch({ type: BPOOM, bpoom: { not_found: true } })
       }
-    }
+    },
   )
 }
 

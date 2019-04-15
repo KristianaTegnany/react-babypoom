@@ -184,11 +184,6 @@ class Header extends Component {
         <div styleName="styles.menu">
           <Collapse isOpen={this.state.isMenuOpen}>
             <Nav styleName="bs.ml-auto" navbar>
-              {/* <NavItem>
-                  <NavLink tag={Link} to="/">
-                    Français
-                  </NavLink>
-                </NavItem> */}
               <NavItem>
                 <NavLink onClick={this.openBpoomModal}>{t(MSG.what_is_babypoom)}</NavLink>
               </NavItem>

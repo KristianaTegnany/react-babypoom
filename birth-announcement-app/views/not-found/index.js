@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { defineMessages } from 'react-intl'
-import { Route } from 'react-router'
+import { Route } from 'react-router-dom'
 
 import config from '../../../config/application'
 

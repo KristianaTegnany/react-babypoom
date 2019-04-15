@@ -210,18 +210,18 @@ class VisitorBookForm extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { saveMsg, flash },
-)(
-  reduxForm({
-    form: 'visitorBookForm',
-    touchOnBlur: false,
-    onSubmitFail: errors => {
-      let firstField = Object.keys(errors || {})[0]
-      INPUTS[firstField] && INPUTS[firstField].focus()
-    },
-  })(VisitorBookForm),
+export default reduxForm({
+  form: 'visitorBookForm',
+  touchOnBlur: false,
+  onSubmitFail: errors => {
+    let firstField = Object.keys(errors || {})[0]
+    INPUTS[firstField] && INPUTS[firstField].focus()
+  },
+})(
+  connect(
+    mapStateToProps,
+    { saveMsg, flash },
+  )(VisitorBookForm),
 )
 
 function mapStateToProps(state) {

@@ -27,7 +27,7 @@ import ReactGA from 'react-ga'
 import pixelate from '../../../lib/pixelate'
 import computeThemeColors from '../../../lib/theme'
 import Cookie from '../../../lib/cookie'
-import { hasParam } from '../../../lib/url-params'
+import { queryParams, hasParam } from '../../../lib/url-params'
 import getPhoto from '../../../lib/get-photo'
 
 // CSS
@@ -47,8 +47,8 @@ let UNIQ = 0
 const noNavParamName = 'nn'
 
 class App extends Component {
-  static fetchData(store, params) {
-    return store.dispatch(loadBpoom(params.uuid, { flash: false }))
+  static fetchData(store, params, qParams) {
+    return store.dispatch(loadBpoom(params.uuid, { flash: false, queryParams: qParams }))
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -110,7 +110,7 @@ class App extends Component {
       callback()
     } else {
       this.props
-        .loadBpoom(uuid)
+        .loadBpoom(uuid, { queryParams: queryParams(this.props.location.search) })
         .then(callback)
         .catch(() => {})
     }

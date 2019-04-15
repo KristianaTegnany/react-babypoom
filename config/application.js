@@ -1,5 +1,7 @@
+import config from './application.NODE_ENV.json'
+
 export default {
-  ...(process.env.NODE_ENV === 'production' ? require('./application.prod.json') : require('./application.dev.json')),
+  ...config,
   theme: {
     defaultColor1: '#59bab8',
     defaultColor2: '#fffcfc',

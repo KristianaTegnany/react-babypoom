@@ -3,12 +3,7 @@ import { connect } from 'react-redux'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import { reduxForm, Field } from 'redux-form'
 import ReactGA from 'react-ga'
-import required from 'redux-form-validators/lib/presence'
-import email from 'redux-form-validators/lib/email'
-import length from 'redux-form-validators/lib/length'
-import addValidator from 'redux-form-validators/lib/add-validator'
-import date from 'redux-form-validators/lib/date'
-import numericality from 'redux-form-validators/lib/numericality'
+import { required, email, length, addValidator, date, numericality } from 'redux-form-validators'
 
 // Payment
 import mangoPay from 'mangopay-cardregistration-js-kit'
@@ -46,7 +41,7 @@ const MANGOPAY_REGISTRATION_FIELDS = ['cardRegistrationURL', 'preregistrationDat
 const MANGOPAY_DATE_FORMAT = 'mmyy'
 
 const visaMC = addValidator({
-  defaultMessage: <FormattedMessage id="form.errors.visa_mc_len" defaultMessage="must contain 16 digits" />,
+  defaultMessage: FORM_MSG.form_visa_mc_len,
   validator: function(options, value) {
     return int(value).length === 16
   },
@@ -278,18 +273,18 @@ class GiftCharityForm extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { saveMangopayAccount, saveMangopayPayment, flash },
-)(
-  reduxForm({
-    form: 'giftCharityForm',
-    touchOnBlur: false,
-    onSubmitFail: errors => {
-      let firstField = Object.keys(errors || {})[0]
-      INPUTS[firstField] && INPUTS[firstField].focus()
-    },
-  })(GiftCharityForm),
+export default reduxForm({
+  form: 'giftCharityForm',
+  touchOnBlur: false,
+  onSubmitFail: errors => {
+    let firstField = Object.keys(errors || {})[0]
+    INPUTS[firstField] && INPUTS[firstField].focus()
+  },
+})(
+  connect(
+    mapStateToProps,
+    { saveMangopayAccount, saveMangopayPayment, flash },
+  )(GiftCharityForm),
 )
 
 function mapStateToProps(state) {

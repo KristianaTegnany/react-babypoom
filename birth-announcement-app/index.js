@@ -22,14 +22,21 @@ import config from '../config/application'
 import loadIntl from '../lib/intl-detection'
 
 // i18n
+import { FormattedMessage } from 'react-intl'
 import availableLocales from '../available-locales'
 import { messages } from './i18n/messages'
 import './i18n/messages/metas' // Just to be extracted by babel-plugin-react-intl
+import Validators from 'redux-form-validators'
+import './i18n/messages/redux-form-validators'
 
 // Bootstrap
 import Bootstrap from '../config/bootstrap/bootstrap.scss'
 import { setGlobalCssModule } from 'reactstrap/lib/utils'
 setGlobalCssModule(Bootstrap)
+
+Validators.formatMessage = function(msg) {
+  return <FormattedMessage {...msg.props || msg} />
+}
 
 loadIntl([availableLocales.defaultLocale].concat(availableLocales), () => {
   // Store

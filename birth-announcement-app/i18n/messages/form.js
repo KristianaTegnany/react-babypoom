@@ -1,6 +1,11 @@
 import { defineMessages } from 'react-intl'
 
 export default defineMessages({
+  // Bpoom forms
+  form_visa_mc_len: {
+    id: 'form.visa_mc_len',
+    defaultMessage: '16 chiffres requis',
+  },
   form_name_required: {
     id: 'form.name_required',
     defaultMessage: "C'est quoi ton petit nom ?",

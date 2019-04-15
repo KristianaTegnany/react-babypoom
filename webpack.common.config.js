@@ -5,6 +5,7 @@ var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var StringReplacePlugin = require('string-replace-webpack-plugin')
+var CopyPlugin = require('copy-webpack-plugin')
 var availableLocales = require('./available-locales')
 
 var config = {}
@@ -60,6 +61,10 @@ module.exports = _.merge(config, {
     },
     bootstrapCss,
     appCss,
+    new CopyPlugin([{ from: 'birth-announcement-app/favicon.ico', to: path.join(__dirname, '/public/') }]),
+    new webpack.NormalModuleReplacementPlugin(/\.NODE_ENV\.js(?:on)?$/, function(resource) {
+      resource.request = resource.request.replace(/\.NODE_ENV(\.js(?:on)?)$/, `.${config.mode}$1`)
+    }),
     new HtmlWebpackPlugin({
       inject: false,
       template: 'birth-announcement-app/index.tpl',
@@ -179,7 +184,16 @@ module.exports = _.merge(config, {
         use: {
           loader: 'babel-loader',
           query: {
-            presets: ['@babel/preset-react', ['@babel/preset-env', { useBuiltIns: 'usage' }]],
+            presets: [
+              '@babel/preset-react',
+              [
+                '@babel/preset-env',
+                {
+                  useBuiltIns: 'usage',
+                  corejs: '2',
+                },
+              ],
+            ],
             plugins: [
               [
                 'react-intl',
@@ -188,7 +202,18 @@ module.exports = _.merge(config, {
                   enforceDescriptions: false,
                   languages: availableLocales,
                 },
+                // 'react-intl',
               ],
+              // [
+              //   'react-intl',
+              //   {
+              //     messagesDir: './config/locales/extracted',
+              //     languages: availableLocales,
+              //     // /!\ it's important to keep a relative path here
+              //     moduleSourceName: './redux-form-validators',
+              //   },
+              //   'redux-form-validators',
+              // ],
               ['@babel/plugin-proposal-class-properties', { loose: true }],
               '@babel/plugin-proposal-function-bind',
               '@babel/plugin-transform-runtime',
