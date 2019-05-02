@@ -4,6 +4,10 @@ import { defineMessages, FormattedDate } from 'react-intl'
 
 import { loadSlideshow, openSlideshow } from '../../components/slideshow/Actions'
 
+// Hooks
+import useSlideshow from '../../hooks/slide-show'
+
+// Components
 import BubblePic from '../../components/bubble-pic'
 import BubbleSay from '../../components/bubble-say'
 import BpoomTitle from '../../components/bpoom-title'
@@ -19,122 +23,94 @@ import t from '../../i18n/i18n'
 import styles from './styles.scss'
 import defaultPhoto from '../../images/default.jpeg'
 
-class Arrival extends Component {
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.bpoom === nextProps.bpoom && prevState.slideShowInit) return null
-
-    let bpoom = nextProps.bpoom
-    let items = [
+let Arrival = ({ bpoom, bpoom: { bp_arrival = {} }, desktop, noNav, loadSlideshow, openSlideshow }) => {
+  useSlideshow(bpoom, loadSlideshow, () =>
+    [
       { src: getPhoto(bpoom.photo_mum, 'normal'), description: bpoom.reaction_mum },
       { src: getPhoto(bpoom.photo_dad, 'normal'), description: bpoom.reaction_dad },
-    ].filter(x => x.src)
-    if (items.length) {
-      nextProps.loadSlideshow({ items })
-    }
-    return { bpoom: nextProps.bpoom, slideShowInit: true }
-  }
+    ].filter(x => x.src),
+  )
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      bpoom: props.bpoom,
-      slideShowInit: false,
-    }
-
-    this.openSlideshow0 = this.openSlideshow.bind(this, 0)
-    this.openSlideshow1 = this.openSlideshow.bind(this, 1)
-  }
-
-  birthday(date) {
-    if (!date) return ''
-    let attrs = { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' }
-    if (date.indexOf('T') >= 0) {
-      attrs.hour = 'numeric'
-      attrs.minute = 'numeric'
-    }
-    return <FormattedDate value={new Date(date)} {...attrs} />
-  }
-
-  getText(info, attrName, msgName) {
-    let attr = info[attrName]
-    if (!attr) return ''
-    let msg = MSG[`${msgName || attrName}_${attr}`]
-    return msg ? t(msg) : attr
-  }
-
-  render() {
-    let props = this.props
-    let bpoom = props.bpoom
-    let arrival = bpoom.bp_arrival || {}
-    let photo = getPhoto(bpoom.photo, 'thumbnail')
-
-    let info = [
-      ['gender', this.getText(bpoom, 'gender')],
-      ['name', (bpoom.babyname || '').trim()],
-      ['orthernames', (bpoom.othernames || '').trim()],
-      ['lastname', (bpoom.lastname || '').trim()],
-      ['birthday', this.birthday(bpoom.birthday), { gender: bpoom.gender || 'M' }],
-      ['location_hospital', (bpoom.location_hospital || '').trim()],
-      ['location_country', (bpoom.country || '').trim()],
-      ['location_state', (bpoom.state || '').trim()],
-      ['weight', bpoom.weight && bpoom.weight_unit ? `${bpoom.weight} ${bpoom.weight_unit}` : ''],
-      ['size', bpoom.size && bpoom.size_unit ? `${bpoom.size} ${bpoom.size_unit}` : ''],
-      ['zodiac', this.getText(bpoom, 'zodiac_sign', 'zodiac')],
-      ['hair_color', this.getText(bpoom, 'hair_color', 'hair')],
-      ['eyes_colors', this.getText(bpoom, 'eyes_colors', 'eye')],
-    ].filter(pair => pair[1])
-
-    return (
-      <div styleName="arrival-container">
-        {this.renderBubbleMsg(photo, arrival.message, 'left')}
-        {info.length ? (
-          <div styleName="info">
-            <table>
-              <tbody>
-                {info.map(pair => {
-                  return (
-                    <tr key={pair[0]}>
-                      <th>{t({ ...MSG[`title_${pair[0]}`], values: pair[2] || {} })}</th>
-                      <td>{pair[1]}</td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          ''
-        )}
-        {bpoom.reaction_mum && bpoom.reaction_dad ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
-        {this.renderBubbleMsg(getPhoto(bpoom.photo_mum, 'thumbnail') || defaultPhoto, bpoom.reaction_mum, 'left', 0)}
-        {this.renderBubbleMsg(getPhoto(bpoom.photo_dad, 'thumbnail') || defaultPhoto, bpoom.reaction_dad, 'right', 1)}
-        {props.noNav ? '' : this.renderBubbleMsg(photo, <Transition />, 'left')}
-      </div>
-    )
-  }
-
-  openSlideshow(index) {
-    this.props.openSlideshow(index)
-  }
-
-  renderBubbleMsg(pic, msg, side, index) {
-    if (!msg) return ''
-    return this.props.desktop ? (
-      <BubbleSay onClick={index != null ? this[`openSlideshow${index}`] : null} speechDir={side} imgSrc={pic}>
+  const renderBubbleMsg = (pic, msg, side, index) =>
+    !msg ? (
+      ''
+    ) : desktop ? (
+      <BubbleSay onClick={index != null ? () => openSlideshow(index) : null} speechDir={side} imgSrc={pic}>
         {msg}
       </BubbleSay>
     ) : (
-      <BubblePic onClick={index != null ? this[`openSlideshow${index}`] : null} side={side} imgSrc={pic}>
+      <BubblePic onClick={index != null ? () => openSlideshow(index) : null} side={side} imgSrc={pic}>
         {msg}
       </BubblePic>
     )
-  }
+
+  let info = [
+    ['gender', getText(bpoom, 'gender')],
+    ['name', (bpoom.babyname || '').trim()],
+    ['orthernames', (bpoom.othernames || '').trim()],
+    ['lastname', (bpoom.lastname || '').trim()],
+    ['birthday', birthday(bpoom.birthday), { gender: bpoom.gender || 'M' }],
+    ['location_hospital', (bpoom.location_hospital || '').trim()],
+    ['location_country', (bpoom.country || '').trim()],
+    ['location_state', (bpoom.state || '').trim()],
+    ['weight', bpoom.weight && bpoom.weight_unit ? `${bpoom.weight} ${bpoom.weight_unit}` : ''],
+    ['size', bpoom.size && bpoom.size_unit ? `${bpoom.size} ${bpoom.size_unit}` : ''],
+    ['zodiac', getText(bpoom, 'zodiac_sign', 'zodiac')],
+    ['hair_color', getText(bpoom, 'hair_color', 'hair')],
+    ['eyes_colors', getText(bpoom, 'eyes_colors', 'eye')],
+  ].filter(pair => pair[1])
+
+  let photo = getPhoto(bpoom.photo, 'thumbnail')
+  return (
+    <div styleName="arrival-container">
+      {renderBubbleMsg(photo, bp_arrival.message, 'left')}
+      {info.length ? (
+        <div styleName="info">
+          <table>
+            <tbody>
+              {info.map(pair => {
+                return (
+                  <tr key={pair[0]}>
+                    <th>{t({ ...MSG[`title_${pair[0]}`], values: pair[2] || {} })}</th>
+                    <td>{pair[1]}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        ''
+      )}
+      {bpoom.reaction_mum && bpoom.reaction_dad ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
+      {renderBubbleMsg(getPhoto(bpoom.photo_mum, 'thumbnail') || defaultPhoto, bpoom.reaction_mum, 'left', 0)}
+      {renderBubbleMsg(getPhoto(bpoom.photo_dad, 'thumbnail') || defaultPhoto, bpoom.reaction_dad, 'right', 1)}
+      {noNav ? '' : renderBubbleMsg(photo, <Transition />, 'left')}
+    </div>
+  )
 }
 
 export default connect(
   mapStateToProps,
   { loadSlideshow, openSlideshow },
 )(Arrival)
+
+function birthday(date) {
+  if (!date) return ''
+  let attrs = { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' }
+  if (date.indexOf('T') >= 0) {
+    attrs.hour = 'numeric'
+    attrs.minute = 'numeric'
+  }
+  return <FormattedDate value={new Date(date)} {...attrs} />
+}
+
+function getText(info, attrName, msgName) {
+  let attr = info[attrName]
+  if (!attr) return ''
+  let msg = MSG[`${msgName || attrName}_${attr}`]
+  return msg ? t(msg) : attr
+}
 
 function mapStateToProps(state) {
   const {

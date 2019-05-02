@@ -3,6 +3,9 @@ import { connect } from 'react-redux'
 import { defineMessages } from 'react-intl'
 import ReactGA from 'react-ga'
 
+// Hooks
+import useToggle from '../../hooks/toggle'
+
 // Components
 import Button from 'reactstrap/lib/Button'
 import Modal from 'reactstrap/lib/Modal'
@@ -25,104 +28,73 @@ import t from '../../i18n/i18n'
 // CSS
 import styles from './styles.scss'
 
-class Gift extends Component {
-  constructor(props) {
-    super(props)
+let Gift = ({ desktop, noNav, bpoom, bpoom: { bp_gift = {} } }) => {
+  const modal = useToggle(false)
+  const form = useToggle(false)
 
-    this.state = {
-      charityModal: false,
-      charityForm: false,
-    }
-
-    this.openCharityModal = ::this.openCharityModal
-    this.closeCharityModal = ::this.closeCharityModal
-    this.showCharityForm = ::this.showCharityForm
-    this.hideCharityForm = ::this.hideCharityForm
+  const showForm = () => {
+    form.show()
+    ReactGA.ga('send', 'popup-charity-form')
   }
-
-  openCharityModal() {
-    this.setState({ charityModal: true })
+  const showModal = () => {
+    modal.show()
     ReactGA.ga('send', 'popup-charity-description')
   }
 
-  closeCharityModal() {
-    this.setState({ charityModal: false })
-  }
+  if (form.visible) return <GiftCharityForm onSave={form.hide} onCancel={form.hide} />
 
-  showCharityForm() {
-    this.setState({ charityForm: true })
-    ReactGA.ga('send', 'popup-charity-form')
-  }
-
-  hideCharityForm() {
-    this.setState({ charityForm: false })
-  }
-
-  render() {
-    let state = this.state
-    let props = this.props
-
-    if (state.charityForm) {
-      return <GiftCharityForm onSave={this.hideCharityForm} onCancel={this.hideCharityForm} />
-    }
-
-    let bpoom = props.bpoom
-    let gift = bpoom.bp_gift || {}
-    let charity = gift.caritative || {}
-    let photo = getPhoto(bpoom.photo, 'thumbnail')
-    let image = getPhoto(charity.image, 'normal')
-
-    let link = (
-      <Button styleName="btn-link" color="link" onClick={this.openCharityModal}>
-        {charity.name}
-      </Button>
-    )
-
-    return (
-      <div styleName="gift-container">
-        <div styleName="mascot">
-          <Bubble dir={props.desktop ? 'left' : null}>{gift.message}</Bubble>
-        </div>
-        <div styleName="panel-container">
-          <Panel title={t(MSG.baby_gift_title)} imgType="piggy-bank">
-            {t({ ...MSG.baby_gift_block, values: { fees: gift.caritative_fees, link } })}
-            <div styleName="action">
-              <Button styleName="btn" color="app" onClick={this.showCharityForm}>
-                {t(MSG.baby_gift_participate)}
-              </Button>
-            </div>
-          </Panel>
-          {/* <Panel title={t(MSG.find_gift_title)} imgType="gifts">
+  let charity = bp_gift.caritative || {}
+  let photo = getPhoto(bpoom.photo, 'thumbnail')
+  let image = getPhoto(charity.image, 'normal')
+  let link = (
+    <Button styleName="btn-link" color="link" onClick={showModal}>
+      {charity.name}
+    </Button>
+  )
+  return (
+    <div styleName="gift-container">
+      <div styleName="mascot">
+        <Bubble dir={desktop ? 'left' : null}>{bp_gift.message}</Bubble>
+      </div>
+      <div styleName="panel-container">
+        <Panel title={t(MSG.baby_gift_title)} imgType="piggy-bank">
+          {t({ ...MSG.baby_gift_block, values: { fees: bp_gift.caritative_fees, link } })}
+          <div styleName="action">
+            <Button styleName="btn" color="app" onClick={showForm}>
+              {t(MSG.baby_gift_participate)}
+            </Button>
+          </div>
+        </Panel>
+        {/* <Panel title={t(MSG.find_gift_title)} imgType="gifts">
             {t(MSG.find_gift_block)}
             <div styleName="action">
               <Button styleName="btn" color="secondary">{t(MSG.find_gift_btn)}</Button>
             </div>
           </Panel> */}
-        </div>
-        {props.noNav ? (
-          ''
-        ) : props.desktop ? (
-          <BubbleSay speechDir="left" imgSrc={photo}>
-            <Transition />
-          </BubbleSay>
-        ) : (
-          <BubblePic imgSrc={photo}>
-            <Transition />
-          </BubblePic>
-        )}
-
-        <Modal size="lg" isOpen={this.state.charityModal} toggle={this.closeCharityModal}>
-          <ModalHeader className="modal-primary" toggle={this.closeCharityModal}>
-            {charity.name}
-          </ModalHeader>
-          <ModalBody>
-            {image ? <img src={image} styleName="charity-modal-img" alt="" /> : ''}
-            {charity.description}
-          </ModalBody>
-        </Modal>
       </div>
-    )
-  }
+      {noNav ? (
+        ''
+      ) : desktop ? (
+        <BubbleSay speechDir="left" imgSrc={photo}>
+          <Transition />
+        </BubbleSay>
+      ) : (
+        <BubblePic imgSrc={photo}>
+          <Transition />
+        </BubblePic>
+      )}
+
+      <Modal size="lg" isOpen={modal.visible} toggle={modal.hide}>
+        <ModalHeader className="modal-primary" toggle={modal.hide}>
+          {charity.name}
+        </ModalHeader>
+        <ModalBody>
+          {image ? <img src={image} styleName="charity-modal-img" alt="" /> : ''}
+          {charity.description}
+        </ModalBody>
+      </Modal>
+    </div>
+  )
 }
 
 export default connect(mapStateToProps)(Gift)

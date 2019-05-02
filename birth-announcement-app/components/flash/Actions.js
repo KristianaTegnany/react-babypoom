@@ -1,15 +1,3 @@
+export const flash = (color, message) => dispatch => dispatch({ type: 'FLASH', color, message })
 
-
-export function flash(color, message) {
-  return function(dispatch) {
-    return dispatch({
-      type: 'FLASH',
-      color,
-      message
-    });
-  };
-}
-
-export function deleteFlash() {
-  return flash(null);
-}
+export const deleteFlash = () => flash(null)

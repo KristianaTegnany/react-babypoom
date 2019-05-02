@@ -15,28 +15,18 @@ import styles from './styles.scss'
 // Images
 import mascotSays from '../../images/mascot-says.png'
 
-class Souvenir extends Component {
-  render() {
-    let props = this.props
-    let bpoom = props.bpoom
-    let souvenir = bpoom.bp_souvenir || {}
-
-    return (
-      <div>
-        {true ? (
-          ''
-        ) : (
-          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={getPhoto(bpoom.photo, 'thumbnail')}>
-            {souvenir.message}
-          </BubbleSay>
-        )}
-        <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={mascotSays}>
-          <Transition />
-        </BubbleSay>
-      </div>
-    )
-  }
-}
+let Souvenir = ({ bpoom, bpoom: { bp_souvenir = {} }, desktop }) => (
+  <div>
+    {/* {
+      <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={getPhoto(bpoom.photo, 'thumbnail')}>
+        {bp_souvenir.message}
+      </BubbleSay>
+    } */}
+    <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={mascotSays}>
+      <Transition />
+    </BubbleSay>
+  </div>
+)
 
 export default connect(mapStateToProps)(Souvenir)
 

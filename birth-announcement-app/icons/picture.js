@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from 'react-icon-base'
 
-const Picture = props => (
+export default props => (
   <Icon viewBox="0 0 40 40" {...props}>
     <path
       d="M38,28.2V5.3C38,3.5,36.5,2,34.7,2H11.8C10,2,8.5,3.5,8.5,5.3v22.9c0,1.8,1.5,3.3,3.3,3.3h22.9
@@ -10,5 +10,3 @@ const Picture = props => (
     />
   </Icon>
 )
-
-export default Picture

@@ -1,6 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { defineMessages } from 'react-intl'
+
+import useTimeTracker from '../../hooks/time-tracker'
 
 import { updateGuessed, gameOver } from './Actions'
 
@@ -17,7 +19,6 @@ import t from '../../i18n/i18n'
 // Lib
 import ascii from '../../../lib/ascii'
 import pixelate from '../../../lib/pixelate'
-import TimeTracker from '../../../lib/time-tracker'
 import Ahoy from '../../../lib/ahoy-custom'
 import getPhoto from '../../../lib/get-photo'
 
@@ -28,8 +29,6 @@ import styles from './styles.scss'
 import BABY_IMAGES from '../../../lib/baby-img'
 
 const SPACE_REPLACEMENT = { ' ': '_' } // insecable space
-
-let timeTracker = new TimeTracker()
 
 function uniqChars(str) {
   return Object.keys(
@@ -42,143 +41,79 @@ function uniqChars(str) {
 
 let EXPERIMENTAL = 'undefined' !== typeof window && 'experimental' === (window.location.hash || '').substr(1)
 
-class Game1 extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      lastChar: null,
-      updateProps: false,
-      bpoom: props.bpoom,
-      guessed: props.guessed,
-      letters: uniqChars(props.bpoom.babyNameFormatted),
-    }
+let Game1 = ({
+  bpoom,
+  bpoom: { bp_game = {} },
+  desktop,
+  pixelGridSize,
+  pixels,
+  win,
+  gameOver,
+  guessed,
+  guessedOkCount,
+  guessedKoCount,
+  updateGuessed,
+}) => {
+  let babyName = bpoom.babyNameFormatted
+  let letters = uniqChars(babyName)
 
-    this.handleClick = ::this.handleClick
-  }
+  const [lastChar, setLastChar] = useState(null)
+  const [picture, setPicture] = useState(null)
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    return {
-      bpoom: nextProps.bpoom,
-      updateProps: prevState.bpoom !== nextProps.bpoom || nextProps.guessed !== prevState.guessed,
-      guessed: nextProps.guessed,
-      letters: uniqChars(nextProps.bpoom.babyNameFormatted),
-    }
-  }
+  // Timer
+  let timeTracker = useTimeTracker()
 
-  componentDidMount() {
-    // Will only resume if it's already started
-    timeTracker.resume()
+  // Pixelate baby photo
+  useEffect(() => {
+    let resolution = (24 - (letters ? Math.round((guessedOkCount * 24) / letters) : 0)) * 2
+    pixelate({ src: getPhoto(bpoom.photo, 'thumbnail'), resolution, width: 100, height: 100 }, setPicture)
+  }, [bpoom.photo, guessedOkCount, letters])
 
-    this.pixelatePicture(this.props)
-  }
-
-  componentDidUpdate(nextProps) {
-    if (this.state.updateProps) {
-      this.setState({ updateProps: false })
-      this.pixelatePicture(this.props)
-    }
-  }
-
-  componentWillUnmount() {
-    timeTracker.pause()
-  }
-
-  pixelatePicture(props) {
-    let { uniqueChars, okCount } = this.stats(props)
-    let resolution = 24 - (uniqueChars ? Math.round((okCount * 24) / uniqueChars) : 0)
-    pixelate(
-      {
-        src: getPhoto(props.bpoom.photo, 'thumbnail'),
-        resolution: resolution * 2,
-        width: 100,
-        height: 100,
-      },
-      picture => {
-        this.setState({ picture })
-      },
-    )
-  }
-
-  stats(props) {
-    return { uniqueChars: this.state.letters, okCount: props.guessedOkCount, koCount: props.guessedKoCount }
-  }
-
-  handleClick(e) {
-    // Will only start if it's not already started
-    timeTracker.start()
-
-    let elt = e.currentTarget
-    let char = elt.getAttribute('data-char')
-    let present = 'true' === elt.getAttribute('data-present')
-
-    this.setState({ lastChar: char })
-    this.props.updateGuessed({ letters: this.state.letters, char, present })
-  }
-
-  win() {
-    let { uniqueChars, okCount, koCount } = this.stats(this.props)
-    if (!(uniqueChars && uniqueChars === okCount)) return false
-
-    // Send statistics about game
-    if (!timeTracker.elapsed) {
-      timeTracker.stop()
-      Ahoy.updateVisit({
-        game_time: timeTracker.elapsed,
-        game_count: koCount,
-      })
-    }
-    return true
-  }
-
-  render() {
-    if (this.win()) setTimeout(() => this.props.gameOver(), 1500)
-    return this.props.win ? <GameWin /> : this.renderGame()
-  }
-
-  imageStyles() {
-    let gridSize = this.props.pixelGridSize
-    let pr = 100 / (gridSize - 1)
-    let pixels = this.props.pixels
+  const imageStyles = () => {
+    let pr = 100 / (pixelGridSize - 1)
 
     return {
       backgroundRepeat: 'no-repeat',
       backgroundImage:
-        new Array(gridSize * gridSize)
+        new Array(pixelGridSize * pixelGridSize)
           .fill(0)
           .map((_, i) => {
             let color = pixels.includes(i) ? 'var(--neutral-secondary)' : 'transparent'
             return `linear-gradient(to right,${color},${color})`
           })
-          .join(',') + `,url(${getPhoto(this.props.bpoom.photo, 'thumbnail')})`,
+          .join(',') + `,url(${getPhoto(bpoom.photo, 'thumbnail')})`,
       backgroundSize:
-        new Array(gridSize * gridSize)
+        new Array(pixelGridSize * pixelGridSize)
           .fill(0)
-          .map(() => `${103 / gridSize}% ${103 / gridSize}%`)
+          .map(() => `${103 / pixelGridSize}% ${103 / pixelGridSize}%`)
           .join(',') + ', cover',
       backgroundPosition:
-        new Array(gridSize * gridSize)
+        new Array(pixelGridSize * pixelGridSize)
           .fill(0)
-          .map((_, index) => `${Math.floor(index / gridSize) * pr}% ${(index % gridSize) * pr}%`)
+          .map((_, index) => `${Math.floor(index / pixelGridSize) * pr}% ${(index % pixelGridSize) * pr}%`)
           .join(',') + ', 50% 50%',
     }
   }
 
-  renderGame() {
-    let props = this.props
-    let guessed = props.guessed
-    let bpoom = props.bpoom
-    let bp_game = bpoom.bp_game || {}
+  const handleClick = e => {
+    timeTracker.start() // Will only start if it's not already started
+
+    let elt = e.currentTarget
+    let char = elt.getAttribute('data-char')
+    setLastChar(char)
+    updateGuessed({ letters, char, present: 'true' === elt.getAttribute('data-present') })
+  }
+
+  const renderGame = () => {
     let charset = (bp_game.charset || []).map(c => c.toUpperCase())
-    let name = props.bpoom.babyNameFormatted
-    let nameChars = Array.from(name)
-    let asciiName = ascii(name)
+    let nameChars = Array.from(babyName)
+    let asciiName = ascii(babyName)
     let asciiNameChars = Array.from(asciiName)
-    if (charset.length) {
+    if (charset.length)
       asciiNameChars.forEach(c => {
         if (charset.indexOf(c) < 0) charset.push(c)
       })
-    }
-    let lastChar = this.state.lastChar
+
     let bubbleText = lastChar
       ? t({
           ...MSG['guessed_' + (asciiName.indexOf(lastChar) < 0 ? 'ko' : 'ok')],
@@ -187,22 +122,22 @@ class Game1 extends Component {
       : bp_game.message || t(MSG.message)
 
     let babyType = bpoom.baby_full_type
-    let picture = EXPERIMENTAL ? null : this.state.picture
-    let style = EXPERIMENTAL ? this.imageStyles() : {}
+    let pic = EXPERIMENTAL ? null : picture
+    let style = EXPERIMENTAL ? imageStyles() : {}
 
     return (
       <div styleName={['game-container', babyType].join(' ')}>
-        {props.desktop ? (
+        {desktop ? (
           <BubbleSay speechDir="left" imgSrc={BABY_IMAGES[babyType]}>
             {bubbleText}
           </BubbleSay>
         ) : (
-          <BubblePic style={style} imgSrc={picture}>
+          <BubblePic style={style} imgSrc={pic}>
             {bubbleText}
           </BubblePic>
         )}
         <div styleName="game">
-          {props.desktop ? <BpoomImg style={style} imgSrc={picture} /> : ''}
+          {desktop ? <BpoomImg style={style} imgSrc={pic} /> : ''}
           <div styleName="panel">
             <div styleName="name">
               {asciiNameChars.map((c, index) => {
@@ -221,7 +156,7 @@ class Game1 extends Component {
                     key={c}
                     data-char={c}
                     data-present={asciiName.indexOf(c) >= 0}
-                    onClick={played ? null : this.handleClick}
+                    onClick={played ? null : handleClick}
                     styleName={`char ${played ? (guessed[c] ? 'ok' : 'ko') : ''}`}
                   >
                     <div styleName="content">{SPACE_REPLACEMENT[c] || c}</div>
@@ -234,6 +169,17 @@ class Game1 extends Component {
       </div>
     )
   }
+
+  if (letters && letters === guessedOkCount) {
+    // User win \o/
+    // Send statistics about game
+    if (!timeTracker.elapsed) {
+      timeTracker.stop()
+      Ahoy.updateVisit({ game_time: timeTracker.elapsed, game_count: guessedKoCount })
+    }
+    setTimeout(gameOver, 1500) // trigger win in 1.5s
+  }
+  return win ? <GameWin /> : renderGame()
 }
 
 export default connect(
@@ -247,6 +193,7 @@ function mapStateToProps(state) {
     game1: { pixelGridSize, pixels, guessed, guessedOkCount, guessedKoCount, win },
     mediaQueries: { desktop },
   } = state
+
   return {
     bpoom,
     noNav,

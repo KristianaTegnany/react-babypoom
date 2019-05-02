@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
 import { connect } from 'react-redux'
@@ -46,42 +46,40 @@ let UNIQ = 0
 
 const noNavParamName = 'nn'
 
-class App extends Component {
-  static fetchData(store, params, qParams) {
-    return store.dispatch(loadBpoom(params.uuid, { flash: false, queryParams: qParams }))
-  }
+let App = ({
+  bpoom,
+  desktop,
+  noNav,
+  loadBpoom,
+  updateNoNav,
+  steps,
+  updateStep,
+  location,
+  match,
+  history,
+  flash,
+  deleteFlash,
+  slideshow,
+  changeSlideshowIndex,
+  closeSlideshow,
+}) => {
+  const [theme, setTheme] = useState(null)
+  const [pathname, setPathname] = useState(location.pathname)
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    let bpoom = nextProps.bpoom
-    if (bpoom && bpoom.theme_color_1 && bpoom.theme_color_2) {
-      return {
-        theme: computeThemeColors(bpoom.theme_color_1, bpoom.theme_color_2),
-      }
-    }
-    return null
-  }
+  // No nav
+  useEffect(() => {
+    updateNoNav(hasParam(location.search, noNavParamName) ? PATH_TO_STEP_MAP[match.params.step || ''] : null)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      theme: computeThemeColors(config.theme.defaultColor1, config.theme.defaultColor2),
-    }
+  useEffect(() => {
+    let obj = bpoom.theme_color_1 && bpoom.theme_color_2 ? bpoom : config
+    setTheme(computeThemeColors(obj.theme_color_1, obj.theme_color_2))
+  }, [bpoom])
 
-    // No nav
-    let noNav = hasParam(this.props.location.search, noNavParamName)
-      ? PATH_TO_STEP_MAP[props.match.params.step || '']
-      : null
-    props.updateNoNav(noNav)
-  }
-
-  // TODO: don't display anything if bpoom is not loaded (display final step text now...)
-
-  // TODO: when receiving availableSteps, check if currentStep is included. if not, redirect to first available step
-  componentDidMount() {
-    // TODO check if bpoomId is numeric
-    let uuid = this.props.match.params.uuid
-
-    // Tracking
+  // Ahoy Tracking
+  useEffect(() => {
+    let uuid = match.params.uuid
     let oldBpoomId = Cookie.get('bpoomId')
     if (oldBpoomId != uuid) {
       Cookie.set('bpoomId', uuid)
@@ -90,63 +88,64 @@ class App extends Component {
     Ahoy.configure({ urlPrefix: config.SERVER_URL })
     Ahoy.start()
     Ahoy.trackClicks()
+  }, [match.params.uuid])
 
-    ReactGA.initialize('UA-75903062-4', 'auto')
-    ReactGA.pageview(this.props.location.pathname)
+  // GA Tracking
+  useEffect(() => ReactGA.initialize('UA-75903062-4', 'auto'), [])
+
+  useEffect(() => {
+    if (pathname === location.pathname) return
+    setPathname(location.pathname)
+    deleteFlash()
+    closeSlideshow()
+    setSteps(bpoom)
+
+    // Tracking
+    Ahoy.trackView()
+    ReactGA.pageview(location.pathname)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname])
+
+  useEffect(() => {
+    let uuid = match.params.uuid
 
     // Load bpoom data
-    let callback = () => {
-      this.setSteps(this.props)
+    let callback = bpoom => {
+      setSteps(bpoom)
 
       Ahoy.trackView()
-      Ahoy.updateVisit({ bpoom_id: this.props.bpoom.id })
+      Ahoy.updateVisit({ bpoom_id: bpoom.id })
 
       // Preload images
-      let bpoom = this.props.bpoom
       let photo = getPhoto(bpoom.photo, 'thumbnail')
       if (photo) pixelate({ src: photo })
     }
-    if (this.props.bpoom.uuid) {
-      callback()
+    if (bpoom.uuid) {
+      callback(bpoom)
     } else {
-      this.props
-        .loadBpoom(uuid, { queryParams: queryParams(this.props.location.search) })
+      loadBpoom(uuid, { queryParams: queryParams(location.search) })
         .then(callback)
         .catch(() => {})
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [match.params.uuid])
 
-  componentDidUpdate(prevProps) {
-    let props = this.props
+  function setSteps(bpoom) {
+    let current = PATH_TO_STEP_MAP[match.params.step || '']
 
-    // On route update
-    if (props.location.pathname !== prevProps.location.pathname) {
-      props.deleteFlash()
-      props.closeSlideshow()
-      this.setSteps(props)
-
-      // Tracking
-      Ahoy.trackView()
-      ReactGA.pageview(props.location.pathname)
-    }
-  }
-
-  setSteps(props) {
-    let bpoom = props.bpoom
-    let current = PATH_TO_STEP_MAP[props.match.params.step || '']
-
-    if (bpoom && null !== props.noNav && props.noNav !== current) {
-      return props.history.replace(stepPath(props.noNav, bpoom))
+    if (bpoom && null !== noNav && noNav !== current) {
+      return history.replace(stepPath(noNav, bpoom))
     }
 
     let availableSteps = bpoom.available_steps || []
     let index = availableSteps.indexOf(current)
 
     if (availableSteps.length && index < 0) {
-      return props.history.replace(stepPath(availableSteps[0], bpoom))
+      return history.replace(stepPath(availableSteps[0], bpoom))
     }
 
-    props.updateStep({
+    updateStep({
       current,
       index,
       prev: index < 0 ? null : availableSteps[index - 1],
@@ -154,11 +153,9 @@ class App extends Component {
     })
   }
 
-  renderFlash() {
-    let props = this.props
-    let flash = props.flash
+  function renderFlash() {
     if (!flash || !flash.message) {
-      flash = (props.location.state || {}).flash
+      flash = (location.state || {}).flash
     }
     if (!flash || !flash.message) {
       return ''
@@ -171,40 +168,35 @@ class App extends Component {
     )
   }
 
-  render() {
-    let props = this.props
-    let bpoom = props.bpoom
+  if (bpoom.not_found) return <NotFound />
 
-    if (bpoom.not_found) {
-      return <NotFound />
-    }
-
-    let Step = stepComponent(props.steps.current, bpoom)
-    let stepName = props.steps.current || ''
-
-    return (
-      <CSSVariableApplicator data-variables={this.state.theme}>
-        {props.noNav ? '' : <Header />}
-        <div styleName="flash">{this.renderFlash()}</div>
-        <main styleName={`${stepName}${'game' === stepName ? ` ${stepName}${bpoom.game_type}` : ''}`}>
-          <div key={props.steps.current}>
-            <Step />
-          </div>
-          <Cloud styleName="cloud" />
-          <Slideshow
-            open={props.slideshow.isOpen}
-            index={props.slideshow.index}
-            onChangeIndex={props.changeSlideshowIndex}
-            onClose={props.closeSlideshow}
-            items={props.slideshow.items}
-          />
-        </main>
-        {props.noNav ? '' : <Footer />}
-        <MediaQueries />
-      </CSSVariableApplicator>
-    )
-  }
+  let Step = stepComponent(steps.current, bpoom)
+  let stepName = steps.current || ''
+  return (
+    <CSSVariableApplicator data-variables={theme}>
+      {noNav ? '' : <Header />}
+      <div styleName="flash">{renderFlash()}</div>
+      <main styleName={`${stepName}${'game' === stepName ? ` ${stepName}${bpoom.game_type}` : ''}`}>
+        <div key={stepName}>
+          <Step />
+        </div>
+        <Cloud styleName="cloud" />
+        <Slideshow
+          open={slideshow.isOpen}
+          index={slideshow.index}
+          onChangeIndex={changeSlideshowIndex}
+          onClose={closeSlideshow}
+          items={slideshow.items}
+        />
+      </main>
+      {noNav ? '' : <Footer />}
+      <MediaQueries />
+    </CSSVariableApplicator>
+  )
 }
+
+App.fetchData = (store, params, qParams) =>
+  store.dispatch(loadBpoom(params.uuid, { flash: false, queryParams: qParams }))
 
 export default injectIntl(
   connect(

@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import { reducer as form } from 'redux-form'
 
 import flash from '../components/flash/Reducer'
-import mediaQueries from '../components/media-queries/Reducer'
+import { reducer as mediaQueries } from '../components/media-queries'
 import slideshow from '../components/slideshow/Reducer'
 import app from '../views/app/Reducer'
 import game1 from '../views/game1/Reducer'

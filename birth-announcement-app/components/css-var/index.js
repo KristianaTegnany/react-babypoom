@@ -1,43 +1,28 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import * as Color from '../../../lib/color'
 import poly from '../../../lib/css-var-polyfill'
 
 const SPECIAL_FUNC_REG = /(?:darken|lighten|rgba)-\d+$/
 
-export default class extends Component {
-  constructor(props) {
-    super(props)
-    if ('undefined' === typeof document) return // Node
-    this.root = document.documentElement
-    this.specialCssVariables = getComputedStyle(this.root)
+export default props => {
+  let root = null
+  let specialCssVariables = null
+  let propVariables = props['data-variables']
+
+  if ('undefined' !== typeof document) {
+    root = document.documentElement
+    specialCssVariables = getComputedStyle(root)
       .getPropertyValue('content')
       .slice(1, -1)
       .split(' ')
   }
 
-  componentDidMount() {
-    this.updateCSSVariables(this.props['data-variables'])
-  }
-
-  // TODO: not here. static getDerivedStateFromProps(nextProps, prevState)
-  componentDidUpdate(prevProps) {
-    if (this.props['data-variables'] !== prevProps['data-variables']) {
-      this.updateCSSVariables(this.props['data-variables'])
-    }
-  }
-
-  updateCSSVariables(variables) {
-    variables = { ...variables }
-    let style = this.root.style
-    this.computeSpecialCssVariables(variables)
-    Object.keys(variables).forEach(name => {
-      style.setProperty(name, variables[name])
-    })
-    poly.init(variables)
-  }
-
-  computeSpecialCssVariables(variables) {
-    this.specialCssVariables.forEach(varName => {
+  useEffect(() => {
+    if (!root) return
+    let variables = { ...propVariables }
+    let style = root.style
+    // compute special css variables (colors)
+    specialCssVariables.forEach(varName => {
       let match = varName.match(SPECIAL_FUNC_REG)
       if (match) {
         let suffix = match[0]
@@ -48,9 +33,11 @@ export default class extends Component {
         }
       }
     })
-  }
+    // Assign colors
+    Object.keys(variables).forEach(name => style.setProperty(name, variables[name]))
+    // Polyfill call
+    poly.init(variables)
+  })
 
-  render() {
-    return <div {...this.props}>{this.props.children}</div>
-  }
+  return <div {...props}>{props.children}</div>
 }

@@ -1,35 +1,34 @@
-import React, { Component } from 'react'
+import React, { Component, useReducer, useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { updateBreakpoint } from './Actions'
-
 import styles from './styles.scss'
+import useToggle from '../../hooks/toggle'
 
-class MediaQueries extends Component {
-  constructor(props) {
-    super(props)
+const DESKTOP_SCREENS = ['md', 'lg', 'xl']
 
-    this.state = {
-      display: 'none',
-    }
-    this.animationHandler = ::this.animationHandler
-  }
-
-  componentDidMount() {
-    this.setState({ display: '' })
-  }
-
-  animationHandler(e) {
-    e.stopPropagation()
-    this.props.updateBreakpoint(e.animationName) // sm, md...
-  }
-
-  render() {
-    return <div styleName="media-queries" style={this.state} onAnimationStart={this.animationHandler} />
-  }
-}
+export const reducer = (state = {}, action) =>
+  'MEDIA_QUERIES' === action.type
+    ? { ...state, breakpoint: action.breakpoint, desktop: DESKTOP_SCREENS.includes(action.breakpoint) }
+    : state
 
 export default connect(
   null,
-  { updateBreakpoint },
-)(MediaQueries)
+  { updateBreakpoint: breakpoint => dispatch => dispatch({ type: 'MEDIA_QUERIES', breakpoint }) },
+)(({ updateBreakpoint }) => {
+  const div = useToggle(false)
+
+  useEffect(() => {
+    if (!div.visible) div.show()
+  })
+
+  return (
+    <div
+      styleName="media-queries"
+      style={{ display: div.visible ? '' : 'none' }}
+      onAnimationStart={e => {
+        e.stopPropagation()
+        updateBreakpoint(e.animationName)
+      }}
+    />
+  )
+})

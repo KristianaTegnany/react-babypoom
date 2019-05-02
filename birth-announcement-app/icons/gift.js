@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from 'react-icon-base'
 
-const Gift = props => (
+export default props => (
   <Icon viewBox="0 0 40 40" {...props}>
     <g>
       <path
@@ -14,5 +14,3 @@ const Gift = props => (
     </g>
   </Icon>
 )
-
-export default Gift

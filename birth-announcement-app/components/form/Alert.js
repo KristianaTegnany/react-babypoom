@@ -1,26 +1,13 @@
 import React, { Component } from 'react'
 import Alert from 'reactstrap/lib/Alert'
+import useToggle from '../../hooks/toggle'
 
-export default class extends Component {
-  constructor(props) {
-    super(props)
+export default props => {
+  const alert = useToggle(true)
 
-    this.state = {
-      visible: true,
-    }
-
-    this.onDismiss = ::this.onDismiss
-  }
-
-  onDismiss() {
-    this.setState({ visible: false })
-  }
-
-  render() {
-    return (
-      <Alert isOpen={this.state.visible} toggle={this.onDismiss} {...this.props}>
-        {this.props.children}
-      </Alert>
-    )
-  }
+  return (
+    <Alert isOpen={alert.visible} toggle={alert.hide} {...props}>
+      {props.children}
+    </Alert>
+  )
 }

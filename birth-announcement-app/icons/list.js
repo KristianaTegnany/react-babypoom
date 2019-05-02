@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from 'react-icon-base'
 
-const List = props => (
+export default props => (
   <Icon viewBox="0 0 40 40" {...props}>
     <g>
       <path d="M7,2C4.2,2,2,4.2,2,7s2.2,5,5,5s5-2.2,5-5S9.7,2,7,2z" />
@@ -22,5 +22,3 @@ const List = props => (
     </g>
   </Icon>
 )
-
-export default List

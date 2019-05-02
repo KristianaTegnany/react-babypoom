@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from 'react-icon-base'
 
-const Book = props => (
+export default props => (
   <Icon viewBox="0 0 40 40" {...props}>
     <path
       d="M37.4,10.2c-0.3-0.4-0.7-0.8-1.3-1c0,0.5,0,1-0.1,1.3l-6.5,23.1c-0.1,0.4-0.4,0.7-0.8,1
@@ -22,5 +22,3 @@ const Book = props => (
     />
   </Icon>
 )
-
-export default Book

@@ -28,17 +28,11 @@ const DEFAULT = nameToPaths[0][1]
 
 const NAMES_TO_PATHS = new Map(nameToPaths)
 
-export function stepPath(name, bpoom) {
-  return _stepInfo(name, bpoom, true)
-}
+export const stepPath = (name, bpoom) => _stepInfo(name, bpoom, true)
 
-export function stepComponent(name, bpoom) {
-  return _stepInfo(name, bpoom, false)
-}
+export const stepComponent = (name, bpoom) => _stepInfo(name, bpoom, false)
 
-export function rootPath(bpoom) {
-  return stepPath(null, bpoom)
-}
+export const rootPath = bpoom => stepPath(null, bpoom)
 
 function _stepInfo(name, bpoom, path) {
   let info =
@@ -46,6 +40,6 @@ function _stepInfo(name, bpoom, path) {
   return path
     ? info.path.replace(':uuid', bpoom.uuid)
     : 'game' === name
-      ? info.component[bpoom.game_type - 1]
-      : info.component
+    ? info.component[bpoom.game_type - 1]
+    : info.component
 }

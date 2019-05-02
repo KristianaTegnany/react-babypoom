@@ -1,9 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, useRef, useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { defineMessages, FormattedMessage } from 'react-intl'
+import { defineMessages, FormattedMessage, injectIntl } from 'react-intl'
 import { reduxForm, Field } from 'redux-form'
 import ReactGA from 'react-ga'
-import { required, email, length, addValidator, date, numericality } from 'redux-form-validators'
+import { required, email, length, addValidator, date, numericality, combine } from 'redux-form-validators'
+
+import useScrollToTop from '../../hooks/scroll-top'
 
 // Payment
 import mangoPay from 'mangopay-cardregistration-js-kit'
@@ -41,250 +43,181 @@ const MANGOPAY_REGISTRATION_FIELDS = ['cardRegistrationURL', 'preregistrationDat
 const MANGOPAY_DATE_FORMAT = 'mmyy'
 
 const visaMC = addValidator({
-  defaultMessage: FORM_MSG.form_visa_mc_len,
-  validator: function(options, value) {
-    return int(value).length === 16
-  },
+  validator: (_, value) => (int(value).length !== 16 ? FORM_MSG.form_visa_mc_len : void 0),
 })
 
-let INPUTS
+let GiftCharityForm = ({
+  bpoom,
+  intl,
+  flash,
+  onSave,
+  onCancel,
+  handleSubmit,
+  submitting,
+  saveMangopayAccount,
+  saveMangopayPayment,
+}) => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const scrollElt = useScrollToTop()
 
-function refInput(input) {
-  if (!input) return
-  INPUTS[input.name] = input
-}
+  let format = intl.formatMessage(FORM_MSG.form_card_expiration_date_format)
+  let ymd = intl.formatMessage(FORM_MSG.form_card_expiration_date_ymd)
 
-class GiftCharityForm extends Component {
-  constructor(props) {
-    super(props)
-
-    INPUTS = {}
-    this.state = {
-      submitting: false,
-    }
-
-    this.onSubmit = ::this.onSubmit
-    this.onCancel = ::this.onCancel
-  }
-
-  componentDidMount() {
-    // this.firstField.focus();
-    this.formContainer.parentNode.scrollTop = 0
-  }
-
-  onCancel() {
-    this.props.onCancel && this.props.onCancel()
-  }
-
-  onSubmit(values) {
-    this.setState({ submitting: true })
-
-    let props = this.props
-
-    let dateFormat = INPUTS.dateFormat.value
-    let dateYmd = INPUTS.dateYmd.value
-
+  const onSubmit = values => {
+    setIsSubmitting(true)
     let mangopayAccountParams = extractParams(values, { name: 'mangopay_account', only: MANGOPAY_ACCOUNT_FIELDS })
-    return props
-      .saveMangopayAccount(mangopayAccountParams)
+    return saveMangopayAccount(mangopayAccountParams)
       .then(json => {
-        mangoPay.cardRegistration.baseURL = json.cardRegistrationBaseURL
-        mangoPay.cardRegistration.clientId = json.cardRegistrationClientId
-        mangoPay.cardRegistration.init(extractParams(json, { only: MANGOPAY_REGISTRATION_FIELDS }))
-        mangoPay.cardRegistration.registerCard(
+        let cardRegistration = mangoPay.cardRegistration
+        cardRegistration.baseURL = json.cardRegistrationBaseURL
+        cardRegistration.clientId = json.cardRegistrationClientId
+        cardRegistration.init(extractParams(json, { only: MANGOPAY_REGISTRATION_FIELDS }))
+        cardRegistration.registerCard(
           {
             cardNumber: int(values.card_number),
             cardExpirationDate: date.formatDate(
-              date.parseDate(values.card_expiration_date, dateFormat, dateYmd),
+              date.parseDate(values.card_expiration_date, format, ymd),
               MANGOPAY_DATE_FORMAT,
             ),
             cardCvx: int(values.card_cvx),
             cardType: 'CB_VISA_MASTERCARD',
           },
           res => {
-            props
-              .saveMangopayPayment(
-                props.bpoom.uuid,
-                extractParams(
-                  {
-                    mangopay_card_id: res.CardId,
-                    mangopay_account_id: json.mpaid,
-                    sumcent: json.sumcent,
-                  },
-                  { name: 'mangopay_payment' },
-                ),
-              )
+            saveMangopayPayment(
+              bpoom.uuid,
+              extractParams(
+                {
+                  mangopay_card_id: res.CardId,
+                  mangopay_account_id: json.mpaid,
+                  sumcent: json.sumcent,
+                },
+                { name: 'mangopay_payment' },
+              ),
+            )
               .then(() => {
-                props.onSave && props.onSave()
-                props.flash('info', MSG.thanks)
+                onSave && onSave()
+                flash('info', MSG.thanks)
                 ReactGA.ga('send', 'charity-gift')
               })
-              .catch(() => {
-                this.setState({ submitting: false })
-              })
+              .catch(e => setIsSubmitting(false))
           },
           res => {
-            this.setState({ submitting: false })
-
-            let errorKey = `error_${res.ResultCode}`
-            props.flash('danger', MP_MSG[errorKey] || MP_MSG.error_default)
-
-            // TODO: Rollbar
-            // var message = 'Erreur<br />';
-            // message += 'Code: ' + res.ResultCode + ', message: ' + res.ResultMessage;
-            // Rollbar.warning(message);
-
-            // TODO: mixpanel
-            // mixpanel.track("payment_error", {
-            //  "error_code": res.ResultCode,
-            //  "error_msg": t(MP_MSG[errorKey] || MP_MSG.error_default)
-            // });
+            setIsSubmitting(false)
+            flash('danger', MP_MSG[`error_${res.ResultCode}`] || MP_MSG.error_default)
           },
         )
       })
-      .catch(() => {
-        this.setState({ submitting: false })
-      })
+      .catch(e => setIsSubmitting(false))
   }
 
-  render() {
-    let props = this.props
-    let state = this.state
-    let submitting = props.submitting || state.submitting
+  submitting = submitting || isSubmitting
 
-    return (
-      <div ref={elt => (this.formContainer = elt)} styleName="visitorbook-form">
-        <Form onSubmit={props.handleSubmit(this.onSubmit)} noValidate>
-          <Field
-            name="last_sumcent"
-            innerRef={refInput}
-            label={t(FORM_MSG.form_last_sumcent)}
-            component={SelectField}
-            options={[10, 20, 30, 50, 100].map(x => [{ ...MSG.charity_form_amount, values: { amount: x } }, x * 100])}
-            i18n="true"
-            includeBlank="--"
-            validate={[required({ msg: t(FORM_MSG.form_last_sumcent_required) })]}
-          />
+  return (
+    <div ref={scrollElt} styleName="visitorbook-form">
+      <Form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Field
+          name="last_sumcent"
+          label={t(FORM_MSG.form_last_sumcent)}
+          component={SelectField}
+          options={[10, 20, 30, 50, 100].map(x => [{ ...MSG.charity_form_amount, values: { amount: x } }, x * 100])}
+          i18n="true"
+          includeBlank="--"
+          validate={required({ msg: t(FORM_MSG.form_last_sumcent_required) })}
+        />
 
-          <div styleName="col-2">
-            <div>
-              <Field
-                name="first_name"
-                innerRef={refInput}
-                label={t(FORM_MSG.form_first_name)}
-                component={InputField}
-                validate={[required()]}
-              />
-            </div>
-            <div>
-              <Field
-                name="last_name"
-                innerRef={refInput}
-                label={t(FORM_MSG.form_last_name)}
-                component={InputField}
-                validate={[required()]}
-              />
-            </div>
+        <div styleName="col-2">
+          <div>
+            <Field name="first_name" label={t(FORM_MSG.form_first_name)} component={InputField} validate={required()} />
           </div>
-
-          <Field
-            name="email"
-            innerRef={refInput}
-            type="email"
-            label={t(FORM_MSG.form_email)}
-            component={InputField}
-            validate={[
-              required({ msg: t(FORM_MSG.form_email_required) }),
-              email({ msg: t(FORM_MSG.form_email_invalid) }),
-            ]}
-          />
-
-          <hr />
-
-          <Field
-            name="card_number"
-            innerRef={refInput}
-            label={
-              <span>
-                {t(FORM_MSG.form_card_number)} <small>{t(FORM_MSG.form_card_number_type)}</small>
-              </span>
-            }
-            component={InputField}
-            placeholder="_ _ _ _    _ _ _ _    _ _ _ _    _ _ _ _"
-            normalize={visaMastercardNum}
-            maxLength="19"
-            validate={[required(), visaMC()]}
-          />
-
-          <div styleName="col-2">
-            <FormattedMessage {...FORM_MSG.form_card_expiration_date_format}>
-              {format => {
-                return (
-                  <FormattedMessage {...FORM_MSG.form_card_expiration_date_ymd}>
-                    {ymd => {
-                      return (
-                        <div>
-                          <input name="dateFormat" type="hidden" ref={refInput} value={format} />
-                          <input name="dateYmd" type="hidden" ref={refInput} value={ymd} />
-                          <Field
-                            name="card_expiration_date"
-                            innerRef={refInput}
-                            label={t(FORM_MSG.form_card_expiration_date)}
-                            component={InputField}
-                            placeholder={format}
-                            normalize={cardDate}
-                            validate={[required(), date({ format: format, ymd: ymd })]}
-                          />
-                        </div>
-                      )
-                    }}
-                  </FormattedMessage>
-                )
-              }}
-            </FormattedMessage>
-            <div>
-              <Field
-                name="card_cvx"
-                innerRef={refInput}
-                label={t(FORM_MSG.form_card_cvx)}
-                component={InputField}
-                placeholder="_ _ _"
-                normalize={int}
-                maxLength="3"
-                validate={[required(), length({ is: 3 }), numericality({ int: true })]}
-              />
-            </div>
+          <div>
+            <Field name="last_name" label={t(FORM_MSG.form_last_name)} component={InputField} validate={required()} />
           </div>
+        </div>
 
-          <img styleName="powered-by" src={poweredBy} alt="Powered by Mangopay" />
+        <Field
+          name="email"
+          type="email"
+          label={t(FORM_MSG.form_email)}
+          component={InputField}
+          validate={combine(
+            required({ msg: t(FORM_MSG.form_email_required) }),
+            email({ msg: t(FORM_MSG.form_email_invalid) }),
+          )}
+        />
 
-          <div styleName="actions">
-            <Button disabled={submitting} color="neutral-app" onClick={this.onCancel}>
-              {t(FORM_MSG.form_cancel)}
-            </Button>
-            <Button disabled={submitting} color="app" type="submit">
-              {submitting ? <FaSpinner styleName="icon" className="icon-pulse" /> : ''}
-              {t(FORM_MSG.form_submit)}
-            </Button>
+        <hr />
+
+        <Field
+          name="card_number"
+          label={
+            <span>
+              {t(FORM_MSG.form_card_number)} <small>{t(FORM_MSG.form_card_number_type)}</small>
+            </span>
+          }
+          className={styles['card-number']}
+          component={InputField}
+          placeholder="____ ____ ____ ____"
+          normalize={visaMastercardNum}
+          maxLength="19"
+          validate={combine(required(), visaMC())}
+        />
+
+        <div styleName="col-2">
+          <div>
+            <Field
+              name="card_expiration_date"
+              label={t(FORM_MSG.form_card_expiration_date)}
+              component={InputField}
+              placeholder={format}
+              normalize={cardDate}
+              validate={combine(required(), date({ format, ymd }))}
+            />
           </div>
-        </Form>
-      </div>
-    )
-  }
+          <div>
+            <Field
+              name="card_cvx"
+              label={t(FORM_MSG.form_card_cvx)}
+              className={styles['card-number']}
+              component={InputField}
+              placeholder="___"
+              normalize={int}
+              maxLength="3"
+              validate={combine(required(), length({ is: 3 }), numericality({ int: true }))}
+            />
+          </div>
+        </div>
+
+        <img styleName="powered-by" src={poweredBy} alt="Powered by Mangopay" />
+
+        <div styleName="actions">
+          <Button disabled={submitting} color="neutral-app" onClick={() => onCancel && onCancel()}>
+            {t(FORM_MSG.form_cancel)}
+          </Button>
+          <Button disabled={submitting} color="app" type="submit">
+            {submitting ? <FaSpinner styleName="icon" className="icon-pulse" /> : ''}
+            {t(FORM_MSG.form_submit)}
+          </Button>
+        </div>
+      </Form>
+    </div>
+  )
 }
 
-export default reduxForm({
-  form: 'giftCharityForm',
-  touchOnBlur: false,
-  onSubmitFail: errors => {
-    let firstField = Object.keys(errors || {})[0]
-    INPUTS[firstField] && INPUTS[firstField].focus()
-  },
-})(
-  connect(
-    mapStateToProps,
-    { saveMangopayAccount, saveMangopayPayment, flash },
-  )(GiftCharityForm),
+export default injectIntl(
+  reduxForm({
+    form: 'giftCharityForm',
+    touchOnBlur: false,
+    onSubmitFail: errors => {
+      let fieldName = Object.keys(errors || {})[0]
+      let firstField = document.querySelector(`[name="${fieldName}"]`)
+      firstField && firstField.focus()
+    },
+  })(
+    connect(
+      mapStateToProps,
+      { saveMangopayAccount, saveMangopayPayment, flash },
+    )(GiftCharityForm),
+  ),
 )
 
 function mapStateToProps(state) {

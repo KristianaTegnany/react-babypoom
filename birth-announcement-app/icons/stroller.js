@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from 'react-icon-base'
 
-const Stroller = props => (
+export default props => (
   <Icon viewBox="0 0 40 40" {...props}>
     <g>
       <path
@@ -13,5 +13,3 @@ const Stroller = props => (
     </g>
   </Icon>
 )
-
-export default Stroller

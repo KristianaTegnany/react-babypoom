@@ -1,6 +1,5 @@
 import { SLIDESHOW, IS_OPEN, INDEX } from './types'
 
-// TODO: store it in the session or localstorage or cookie, with bpoomId /!\ important
 let defaultState = {
   isOpen: false,
   options: {},

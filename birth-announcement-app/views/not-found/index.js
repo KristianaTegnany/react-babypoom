@@ -21,36 +21,31 @@ import styles from './styles.scss'
 // Images
 import mascotSays from '../../images/mascot-says.png'
 
-class NotFound extends Component {
-  render() {
-    let props = this.props
-    return (
-      <Route
-        render={({ staticContext }) => {
-          if (staticContext) {
-            staticContext.status = 404
-          }
-          return (
-            <CSSVariableApplicator
-              data-variables={computeThemeColors(config.theme.defaultColor1, config.theme.defaultColor2)}
-            >
-              <main>
-                <div styleName="styles.container">
-                  <div styleName="styles.wrapper">
-                    <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={mascotSays}>
-                      {t(MSG.not_found)}
-                    </BubbleSay>
-                  </div>
-                </div>
-              </main>
-              <MediaQueries />
-            </CSSVariableApplicator>
-          )
-        }}
-      />
-    )
-  }
-}
+let NotFound = ({ desktop }) => (
+  <Route
+    render={({ staticContext }) => {
+      if (staticContext) {
+        staticContext.status = 404
+      }
+      return (
+        <CSSVariableApplicator
+          data-variables={computeThemeColors(config.theme.defaultColor1, config.theme.defaultColor2)}
+        >
+          <main>
+            <div styleName="styles.container">
+              <div styleName="styles.wrapper">
+                <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={mascotSays}>
+                  {t(MSG.not_found)}
+                </BubbleSay>
+              </div>
+            </div>
+          </main>
+          <MediaQueries />
+        </CSSVariableApplicator>
+      )
+    }}
+  />
+)
 
 export default connect(mapStateToProps)(NotFound)
 

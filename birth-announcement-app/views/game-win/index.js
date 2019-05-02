@@ -1,9 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { connect } from 'react-redux'
 import { defineMessages } from 'react-intl'
 
 import { loadSlideshow, openSlideshow } from '../../components/slideshow/Actions'
 
+// Hooks
+import useSlideshow from '../../hooks/slide-show'
+
+// Components
 import BubbleSay from '../../components/bubble-say'
 import BubblePic from '../../components/bubble-pic'
 import BpoomImg from '../../components/bpoom-img'
@@ -21,71 +25,54 @@ import styles from './styles.scss'
 // Images
 import BABY_IMAGES from '../../../lib/baby-img'
 
-class GameWin extends Component {
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.bpoom === nextProps.bpoom && prevState.slideShowInit) return null
-    nextProps.loadSlideshow({ items: [{ src: getPhoto(nextProps.bpoom.photo, 'normal') }] })
-    return { bpoom: nextProps.bpoom, slideShowInit: true }
-  }
+let GameWin = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
+  useSlideshow(bpoom, loadSlideshow, () => [{ src: getPhoto(bpoom.photo, 'normal') }])
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      bpoom: props.bpoom,
-      slideShowInit: false,
-    }
-  }
-
-  render() {
-    let props = this.props
-    let bpoom = props.bpoom
-    let babyType = bpoom.baby_full_type
-
-    return (
-      <div styleName={['game-container', babyType].join(' ')}>
-        {props.desktop ? (
-          <BubbleSay speechDir="left" imgSrc={BABY_IMAGES[babyType]}>
-            {t(MSG.win)} {props.noNav ? '' : <Transition />}
-          </BubbleSay>
+  let babyType = bpoom.baby_full_type
+  return (
+    <div styleName={['game-container', babyType].join(' ')}>
+      {desktop ? (
+        <BubbleSay speechDir="left" imgSrc={BABY_IMAGES[babyType]}>
+          {t(MSG.win)} {noNav ? '' : <Transition />}
+        </BubbleSay>
+      ) : (
+        [
+          <BubblePic key="bubble" onClick={openSlideshow} imgSrc={getPhoto(bpoom.photo, 'thumbnail')}>
+            {t(MSG.win)} {noNav ? '' : <Transition />}
+          </BubblePic>,
+          <div key="text" styleName="mob-fullscreen">
+            {t(MSG.mobile_fullscreen)}
+          </div>,
+        ]
+      )}
+      <div styleName="game">
+        {desktop ? (
+          <BpoomImg
+            imgText={<a href="javascript:void(0)">{t(MSG.desktop_fullscreen)}</a>}
+            onClick={openSlideshow}
+            imgSrc={getPhoto(bpoom.photo, 'thumbnail')}
+          />
         ) : (
-          [
-            <BubblePic key="bubble" onClick={this.props.openSlideshow} imgSrc={getPhoto(bpoom.photo, 'thumbnail')}>
-              {t(MSG.win)} {props.noNav ? '' : <Transition />}
-            </BubblePic>,
-            <div key="text" styleName="mob-fullscreen">
-              {t(MSG.mobile_fullscreen)}
-            </div>,
-          ]
+          ''
         )}
-        <div styleName="game">
-          {props.desktop ? (
-            <BpoomImg
-              imgText={<a href="javascript:void(0)">{t(MSG.desktop_fullscreen)}</a>}
-              onClick={this.props.openSlideshow}
-              imgSrc={getPhoto(bpoom.photo, 'thumbnail')}
-            />
-          ) : (
-            ''
-          )}
-          <div styleName="panel">
-            <div styleName="babyname-container">
-              <div>
-                <div styleName="name">
-                  {Array.from(bpoom.babyNameFormatted).map((c, i) => {
-                    return (
-                      <div key={i} styleName="char">
-                        <span>{c}</span>
-                      </div>
-                    )
-                  })}
-                </div>
+        <div styleName="panel">
+          <div styleName="babyname-container">
+            <div>
+              <div styleName="name">
+                {Array.from(bpoom.babyNameFormatted).map((c, i) => {
+                  return (
+                    <div key={i} styleName="char">
+                      <span>{c}</span>
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </div>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default connect(

@@ -5,7 +5,7 @@ import { addImgSrc } from '../bubble'
 // CSS
 import styles from './styles.scss'
 
-let BpoomImg = ({ style, imgSrc, imgText, onClick }) => (
+export default ({ style, imgSrc, imgText, onClick }) => (
   <div className="bp-image" onClick={onClick} styleName={`img-container ${onClick ? 'clickable' : ''}`}>
     <div styleName="img-border">
       <div styleName="img" style={addImgSrc(style || {}, imgSrc)} />
@@ -13,5 +13,3 @@ let BpoomImg = ({ style, imgSrc, imgText, onClick }) => (
     </div>
   </div>
 )
-
-export default BpoomImg

@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from 'react-icon-base'
 
-const Puzzle = props => (
+export default props => (
   <Icon viewBox="0 0 40 40" {...props}>
     <path
       d="M37.1,17.8l-4.2-4.2c-1.7-1.7-0.7-3.6,1.2-3.7c3.1-0.2,4.9-3.5,2.3-6.3c-2.8-2.5-6.1-0.8-6.3,2.3
@@ -13,5 +13,3 @@ const Puzzle = props => (
     />
   </Icon>
 )
-
-export default Puzzle

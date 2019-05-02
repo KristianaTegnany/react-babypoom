@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from 'react-icon-base'
 
-const Heart = props => (
+export default props => (
   <Icon viewBox="0 0 40 40" {...props}>
     <path
       d="M37.8,12.1c-0.6-4-3.3-6.4-6.5-7.3c-4.1-1.1-8.8,0.6-11.6,4c-0.1-0.1-0.1-0.2-0.2-0.3c0-0.1-0.2-0.7-0.5-0.8
@@ -32,5 +32,3 @@ const Heart = props => (
     />
   </Icon>
 )
-
-export default Heart

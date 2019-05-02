@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { defineMessages, injectIntl } from 'react-intl'
@@ -6,6 +6,8 @@ import { defineMessages, injectIntl } from 'react-intl'
 import { deleteMsg } from '../app/Actions'
 import { loadSlideshow, openSlideshow } from '../../components/slideshow/Actions'
 import { flash } from '../../components/flash/Actions'
+
+import useSlideshow from '../../hooks/slide-show'
 
 import VisitorBookForm from '../visitorbook-form'
 import BubblePic from '../../components/bubble-pic'
@@ -29,138 +31,111 @@ import defaultPhoto from '../../images/default.jpeg'
 
 // Icon
 import FaPencil from 'react-icons/lib/fa/pencil'
+import useToggle from '../../hooks/toggle'
 
-class VisitorBook extends Component {
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.bpoom === nextProps.bpoom && prevState.slideShowInit) return null
-    let visitorbook = nextProps.bpoom.bp_visitorbook
-    if (visitorbook && visitorbook.bp_visitorbook_msgs && visitorbook.bp_visitorbook_msgs.length) {
-      nextProps.loadSlideshow({
-        items: visitorbook.bp_visitorbook_msgs.map(msg => {
-          return {
-            src: getPhoto(msg.photo, 'normal') || defaultPhoto,
-            title: msg.created_at
-              ? `${formatDate(nextProps.intl, msg.created_at)} - ${msg.name || ''}`
-              : `${msg.name || ''}`,
-            description: msg.message || '',
-          }
-        }),
-      })
+let VisitorBook = ({
+  bpoom,
+  bpoom: { bp_visitorbook = {} },
+  desktop,
+  noNav,
+  intl,
+  loadSlideshow,
+  openSlideshow,
+  deleteMsg,
+  flash,
+}) => {
+  let visitorbookMsgs = bp_visitorbook.bp_visitorbook_msgs || []
+
+  useSlideshow(bpoom, loadSlideshow, () =>
+    visitorbookMsgs.map(msg => ({
+      src: getPhoto(msg.photo, 'normal') || defaultPhoto,
+      title: msg.created_at ? `${formatDate(intl, msg.created_at)} - ${msg.name || ''}` : `${msg.name || ''}`,
+      description: msg.message || '',
+    })),
+  )
+
+  const form = useToggle(false)
+
+  // Scroll to bottom
+  const [scrollToBottom, setScrollToBottom] = useState(false)
+  const scrollableElt = useRef(null)
+  useEffect(() => {
+    if (scrollToBottom) {
+      setScrollToBottom(false)
+      let parent = scrollableElt.current.parentNode
+      parent.scrollTop = parent.scrollHeight
     }
-    return { bpoom: nextProps.bpoom, slideShowInit: true }
-  }
+  }, [scrollToBottom])
 
-  constructor(props) {
-    super(props)
+  if (form.visible)
+    return <VisitorBookForm onSave={() => (form.hide(), setScrollToBottom(true))} onCancel={form.hide} />
 
-    this.state = {
-      bpoom: props.bpoom,
-      formVisible: false, // TODO
-      scrollToBottom: false,
-      slideShowInit: false,
-    }
-
-    this.displayForm = ::this.displayForm
-    this.onCancelMsg = ::this.onCancelMsg
-    this.onSaveMsg = ::this.onSaveMsg
-  }
-
-  componentDidUpdate() {
-    if (this.state.scrollToBottom) {
-      this.setState({ scrollToBottom: false })
-      let scrollableElt = this.visitorbookContainer.parentNode
-      scrollableElt.scrollTop = scrollableElt.scrollHeight
-    }
-  }
-
-  displayForm() {
-    this.setState({ formVisible: true })
-  }
-
-  onSaveMsg() {
-    this.setState({ formVisible: false, scrollToBottom: true })
-  }
-
-  onCancelMsg() {
-    this.setState({ formVisible: false })
-  }
-
-  onDeleteMsg(event) {
-    if (window.confirm(this.props.intl.formatMessage(MSG.delete_message_confirm))) {
-      this.props.deleteMsg(event.id, event.uuid).then(dispatch => {
-        this.props.flash('info', MSG.message_deleted)
-        this.setState({ scrollToBottom: true })
-      })
-    }
-  }
-
-  render() {
-    let state = this.state
-    if (state.formVisible) {
-      return <VisitorBookForm onSave={this.onSaveMsg} onCancel={this.onCancelMsg} />
-    }
-
-    let props = this.props
-    let bpoom = props.bpoom
-    let visitorbook = bpoom.bp_visitorbook || {}
-    let visitorbookMsgs = visitorbook.bp_visitorbook_msgs || []
-    let visitorId = Ahoy.getVisitorId()
-    let photo = getPhoto(bpoom.photo, 'thumbnail')
-
-    return (
-      <div ref={elt => (this.visitorbookContainer = elt)} styleName="visitorbook-container">
-        <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={photo}>
-          {visitorbook.message}
-        </BubbleSay>
-        <div styleName="button-container">
-          <Button block color="app" onClick={this.displayForm}>
-            <i styleName="icon">
-              <FaPencil />
-            </i>{' '}
-            {t(MSG.leave_message)}
-          </Button>
-        </div>
-        <div styleName="visitorbook-msgs">
-          {visitorbookMsgs.map((event, i) => {
-            if (event.private && visitorId !== event.uuid) return ''
-            return (
-              <div key={i}>
-                <Message
-                  imgSrc={getPhoto(event.photo, 'thumbnail') || defaultPhoto}
-                  message={event.message}
-                  date={formatDate(props.intl, event.created_at)}
-                  name={event.name}
-                  onClick={() => props.openSlideshow(i)}
-                  onDelete={visitorId === event.uuid ? () => this.onDeleteMsg(event) : null}
-                />
-              </div>
-            )
-          })}
-        </div>
-        {visitorbookMsgs.length > 2 ? (
-          <Button block color="app" onClick={this.displayForm}>
-            <i styleName="icon">
-              <FaPencil />
-            </i>{' '}
-            {t(MSG.leave_message)}
-          </Button>
-        ) : (
-          ''
-        )}
-        {props.noNav ? (
-          ''
-        ) : props.desktop ? (
-          <BubbleSay speechDir="left" imgSrc={photo}>
-            <Transition />
-          </BubbleSay>
-        ) : (
-          <BubblePic imgSrc={photo}>
-            <Transition />
-          </BubblePic>
-        )}
+  let visitorId = Ahoy.getVisitorId()
+  let photo = getPhoto(bpoom.photo, 'thumbnail')
+  return (
+    <div ref={scrollableElt} styleName="visitorbook-container">
+      <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={photo}>
+        {bp_visitorbook.message}
+      </BubbleSay>
+      <div styleName="button-container">
+        <Button block color="app" onClick={form.show}>
+          <i styleName="icon">
+            <FaPencil />
+          </i>{' '}
+          {t(MSG.leave_message)}
+        </Button>
       </div>
-    )
-  }
+      <div styleName="visitorbook-msgs">
+        {visitorbookMsgs.map((event, i) => {
+          if (event.private && visitorId !== event.uuid) return ''
+          return (
+            <div key={i}>
+              <Message
+                imgSrc={getPhoto(event.photo, 'thumbnail') || defaultPhoto}
+                message={event.message}
+                date={formatDate(intl, event.created_at)}
+                name={event.name}
+                onClick={() => openSlideshow(i)}
+                onDelete={
+                  visitorId === event.uuid
+                    ? () => {
+                        if (window.confirm(intl.formatMessage(MSG.delete_message_confirm))) {
+                          deleteMsg(event.id, event.uuid).then(dispatch => {
+                            flash('info', MSG.message_deleted)
+                            setScrollToBottom(true)
+                          })
+                        }
+                      }
+                    : null
+                }
+              />
+            </div>
+          )
+        })}
+      </div>
+      {visitorbookMsgs.length > 2 ? (
+        <Button block color="app" onClick={form.show}>
+          <i styleName="icon">
+            <FaPencil />
+          </i>{' '}
+          {t(MSG.leave_message)}
+        </Button>
+      ) : (
+        ''
+      )}
+      {noNav ? (
+        ''
+      ) : desktop ? (
+        <BubbleSay speechDir="left" imgSrc={photo}>
+          <Transition />
+        </BubbleSay>
+      ) : (
+        <BubblePic imgSrc={photo}>
+          <Transition />
+        </BubblePic>
+      )}
+    </div>
+  )
 }
 
 export default injectIntl(

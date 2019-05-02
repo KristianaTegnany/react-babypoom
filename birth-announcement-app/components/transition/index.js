@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { defineMessages } from 'react-intl'
@@ -17,70 +17,64 @@ import stepMsg from '../../i18n/messages/steps'
 // CSS
 import styles from './styles.scss'
 
-class Transition extends Component {
-  componentDidMount() {
-    // FB like button is rendered only once otherwise
+let Transition = ({ bpoom, steps }) => {
+  useEffect(() => {
     if ('undefined' !== typeof FB) {
       FB.XFBML.parse()
       FB.Event.subscribe('edge.create', function(trackUrl) {
         ReactGA.ga('send', 'fb-like', trackUrl)
       })
     }
-  }
+  })
 
-  render() {
-    let props = this.props
-    let steps = props.steps
-    if (!steps.ok) return ''
+  if (!steps.ok) return ''
 
-    let transitionId = `to_${steps.next || 'finish'}`
-    let msg = stepMsg[transitionId]
+  let transitionId = `to_${steps.next || 'finish'}`
+  let msg = stepMsg[transitionId]
 
-    // Hack
-    let hackMsg = HACK_MSG[`${transitionId}_${props.bpoom.uuid}`]
-    if (hackMsg) {
-      return <span dangerouslySetInnerHTML={{ __html: hackMsg }} />
-    }
+  // Hack
+  let hackMsg = HACK_MSG[`${transitionId}_${bpoom.uuid}`]
+  if (hackMsg) return <span dangerouslySetInnerHTML={{ __html: hackMsg }} />
 
-    return msg
-      ? t({
-          ...msg,
-          values: {
-            link: (
-              <ReactGA.OutboundLink eventLabel="babypoom-website" to={config.babypoomWebsiteLink} target="_blank">
-                {config.babypoomWebsiteShortLink}
-              </ReactGA.OutboundLink>
-            ),
-            share: (
-              <div styleName="share-container">
-                <ReactFBLike
-                  language="fr_FR"
-                  appId={config.fbAppId}
-                  layout="button"
-                  action="like"
-                  size="large"
-                  showFaces="false"
-                  share="true"
-                  version="v2.8"
-                />
-                <span styleName="share">
-                  <Button
-                    size="sm"
-                    tag={ReactGA.OutboundLink}
-                    eventLabel={config.shareLink}
-                    color="app"
-                    to={config.shareLink}
-                    target="_blank"
-                  >
-                    {t(MSG.share)}
-                  </Button>
-                </span>
-              </div>
-            ),
-          },
-        })
-      : ''
-  }
+  return msg
+    ? t({
+        ...msg,
+        values: {
+          link: (
+            <ReactGA.OutboundLink eventLabel="babypoom-website" to={config.babypoomWebsiteLink} target="_blank">
+              {config.babypoomWebsiteShortLink}
+            </ReactGA.OutboundLink>
+          ),
+          share: (
+            <div styleName="share-container">
+              <span styleName="share">
+                <Button
+                  size="sm"
+                  tag={ReactGA.OutboundLink}
+                  eventLabel={config.shareLink}
+                  color="app"
+                  to={config.shareLink}
+                  target="_blank"
+                >
+                  {t(MSG.share)}
+                </Button>
+              </span>
+
+              <ReactFBLike
+                language="fr_FR"
+                appId={config.fbAppId}
+                layout="button"
+                action="like"
+                size="large"
+                showFaces="false"
+                share="true"
+                version="v2.8"
+              />
+            </div>
+          ),
+        },
+      })
+    : ''
 }
 
 export default connect(mapStateToProps)(Transition)

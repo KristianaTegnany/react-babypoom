@@ -4,6 +4,8 @@ import { injectIntl, defineMessages } from 'react-intl'
 
 import { loadSlideshow, openSlideshow } from '../../components/slideshow/Actions'
 
+import useSlideshow from '../../hooks/slide-show'
+
 import Bubble from '../../components/bubble'
 import BubblePic from '../../components/bubble-pic'
 import BubbleSay from '../../components/bubble-say'
@@ -20,81 +22,59 @@ import t from '../../i18n/i18n'
 import styles from './styles.scss'
 import defaultPhoto from '../../images/default.jpeg'
 
-class Trip extends Component {
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.bpoom === nextProps.bpoom && prevState.slideShowInit) return null
-    let trip = nextProps.bpoom.bp_trip
-    if (trip && trip.bp_trip_events && trip.bp_trip_events.length) {
-      nextProps.loadSlideshow({
-        items: trip.bp_trip_events.map(event => {
-          return {
-            src: getPhoto(event.photo, 'normal') || defaultPhoto,
-            title: formatDate(nextProps.intl, event),
-            description: event.message || '',
-          }
-        }),
-      })
-    }
-    return { bpoom: nextProps.bpoom, slideShowInit: true }
-  }
+let Trip = ({ bpoom, bpoom: { bp_trip = {} }, desktop, noNav, intl, loadSlideshow, openSlideshow }) => {
+  let tripEvents = bp_trip.bp_trip_events || []
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      bpoom: props.bpoom,
-      slideShowInit: false,
-    }
-  }
+  useSlideshow(bpoom, loadSlideshow, () =>
+    tripEvents.map(event => ({
+      src: getPhoto(event.photo, 'normal') || defaultPhoto,
+      title: formatDate(intl, event),
+      description: event.message || '',
+    })),
+  )
 
-  render() {
-    let props = this.props
-
-    let bpoom = props.bpoom
-    let trip = bpoom.bp_trip || {}
-    let photo = getPhoto(bpoom.photo, 'thumbnail')
-
-    return (
+  let photo = getPhoto(bpoom.photo, 'thumbnail')
+  return (
+    <div>
       <div>
-        <div>
-          <BubbleSay speechDir={props.desktop ? 'left' : 'top'} imgSrc={photo}>
-            {trip.message}
-          </BubbleSay>
-        </div>
-        <div styleName="trip-events">
-          {(trip.bp_trip_events || []).map((event, i) => {
-            return (
-              <div key={i} styleName={i % 2 ? 'odd' : 'even'}>
-                <div />
-                <div styleName="img">
-                  <BpoomImg
-                    imgSrc={getPhoto(event.photo, 'thumbnail') || defaultPhoto}
-                    imgText={formatDate(props.intl, event)}
-                    onClick={() => props.openSlideshow(i)}
-                  />
-                </div>
-                <div styleName="bubble">
-                  <Bubble speechDir={props.desktop ? (i % 2 ? 'right' : 'left') : null}>{event.message}</Bubble>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-        <div>
-          {props.noNav ? (
-            ''
-          ) : props.desktop ? (
-            <BubbleSay speechDir="left" imgSrc={photo}>
-              <Transition />
-            </BubbleSay>
-          ) : (
-            <BubblePic imgSrc={photo}>
-              <Transition />
-            </BubblePic>
-          )}
-        </div>
+        <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={photo}>
+          {bp_trip.message}
+        </BubbleSay>
       </div>
-    )
-  }
+      <div styleName="trip-events">
+        {tripEvents.map((event, i) => {
+          return (
+            <div key={i} styleName={i % 2 ? 'odd' : 'even'}>
+              <div />
+              <div styleName="img">
+                <BpoomImg
+                  imgSrc={getPhoto(event.photo, 'thumbnail') || defaultPhoto}
+                  imgText={formatDate(intl, event)}
+                  onClick={() => openSlideshow(i)}
+                />
+              </div>
+              <div styleName="bubble">
+                <Bubble speechDir={desktop ? (i % 2 ? 'right' : 'left') : null}>{event.message}</Bubble>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+      <div>
+        {noNav ? (
+          ''
+        ) : desktop ? (
+          <BubbleSay speechDir="left" imgSrc={photo}>
+            <Transition />
+          </BubbleSay>
+        ) : (
+          <BubblePic imgSrc={photo}>
+            <Transition />
+          </BubblePic>
+        )}
+      </div>
+    </div>
+  )
 }
 
 export default injectIntl(

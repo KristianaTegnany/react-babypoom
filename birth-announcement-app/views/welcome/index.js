@@ -14,31 +14,24 @@ import styles from './styles.scss'
 // Img
 import BABY_IMAGES from '../../../lib/baby-img'
 
-class Welcome extends Component {
-  render() {
-    let props = this.props
-    let bpoom = props.bpoom
-
-    return (
-      <div styleName="welcome-container">
-        <div styleName="baby" style={{ backgroundImage: `url(${BABY_IMAGES[bpoom.baby_full_type]})` }} />
-        <div styleName="wrapper">
-          <Bubble speechDir={props.desktop ? 'left' : 'bottom'} scrollable>
-            {bpoom.bp_welcome ? (
-              <span>
-                {bpoom.bp_welcome.message}
-                {props.noNav ? '' : '\n\n'}
-                {props.noNav ? '' : <Transition />}
-              </span>
-            ) : (
-              t(MSG.welcome)
-            )}
-          </Bubble>
-        </div>
-      </div>
-    )
-  }
-}
+let Welcome = ({ bpoom, desktop, noNav }) => (
+  <div styleName="welcome-container">
+    <div styleName="baby" style={{ backgroundImage: `url(${BABY_IMAGES[bpoom.baby_full_type]})` }} />
+    <div styleName="wrapper">
+      <Bubble speechDir={desktop ? 'left' : 'bottom'} scrollable>
+        {bpoom.bp_welcome ? (
+          <span>
+            {bpoom.bp_welcome.message}
+            {noNav ? '' : '\n\n'}
+            {noNav ? '' : <Transition />}
+          </span>
+        ) : (
+          t(MSG.welcome)
+        )}
+      </Bubble>
+    </div>
+  </div>
+)
 
 export default connect(mapStateToProps)(Welcome)
 

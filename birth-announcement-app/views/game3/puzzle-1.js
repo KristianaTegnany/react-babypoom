@@ -3,7 +3,7 @@ import Icon from 'react-icon-base'
 
 let ID = 0
 
-const Puzzle1 = props => {
+export default props => {
   let { img, rotate, x, y, ...iconProps } = props
   let id = `puzzle-1-${ID++}`
   return (
@@ -32,5 +32,3 @@ const Puzzle1 = props => {
     </Icon>
   )
 }
-
-export default Puzzle1

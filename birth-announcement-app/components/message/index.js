@@ -13,7 +13,7 @@ import styles from './styles.scss'
 // Icon
 import FaTrashO from 'react-icons/lib/fa/trash-o'
 
-let Message = ({ imgSrc, date, name, message, onClick, onDelete }) => (
+export default ({ imgSrc, date, name, message, onClick, onDelete }) => (
   <div styleName="message-container">
     <div styleName="content">
       <BpoomImg imgSrc={imgSrc} onClick={onClick} />
@@ -33,5 +33,3 @@ let Message = ({ imgSrc, date, name, message, onClick, onDelete }) => (
     </div>
   </div>
 )
-
-export default Message

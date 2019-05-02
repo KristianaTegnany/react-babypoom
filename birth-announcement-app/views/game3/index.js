@@ -1,6 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { defineMessages } from 'react-intl'
+
+import useTimeTracker from '../../hooks/time-tracker'
 
 import { move, gameOver } from './Actions'
 
@@ -15,7 +17,6 @@ import GameWin from '../game-win'
 import t from '../../i18n/i18n'
 
 // Lib
-import TimeTracker from '../../../lib/time-tracker'
 import Ahoy from '../../../lib/ahoy-custom'
 import { transformProp } from '../../../lib/css-props'
 import getPhoto from '../../../lib/get-photo'
@@ -30,8 +31,6 @@ import Puzzle2 from './puzzle-2'
 import Puzzle3 from './puzzle-3'
 import Puzzle4 from './puzzle-4'
 
-let timeTracker = new TimeTracker()
-
 let INIT_POS = [
   [['-96%', '180%', 3], ['-83%', '-30%', 7], ['-90%', '20%', 11], ['-96%', '-80%', 4]],
   [['-156%', '120%', 6], ['-153%', '100%', 13], ['-150%', '-120%', 16], ['-156%', '-150%', 12]],
@@ -41,104 +40,38 @@ let INIT_POS = [
 let ZINDEX = 100
 let UNIQ_KEY = 0
 
-class Game3 extends Component {
-  constructor(props) {
-    super(props)
+const preventDefault = event => {
+  let e = event.touches[0]
+  if (
+    document.elementFromPoint
+      ? document.elementFromPoint(e.clientX, e.clientY).closest('.' + styles['puzzle-wrapper'])
+      : e.clientY > 170
+  )
+    event.preventDefault()
+}
 
-    if (!props.pieces.length) {
-      // let pieces = INIT_POS.slice(0)
-      // pieces.forEach((row, i) =>
-      //   row.forEach((c, j) => {
-      //     if (i || j) {
-      //       c[0] = '0%'
-      //       c[1] = '0%'
-      //     }
-      //   })
-      // )
-      this.props.move({ pieces: INIT_POS })
-    }
+let Game3 = ({ bpoom, bpoom: { bp_game = {} }, desktop, win, pieces, moves, move, gameOver }) => {
+  let timeTracker = useTimeTracker()
 
-    this.pieceDown = ::this.pieceDown
-    this.pieceMove = ::this.pieceMove
-    this.pieceUp = ::this.pieceUp
-  }
+  // Prevent mobile pull-down refresh
+  useEffect(() => {
+    let root = document.getElementById('root')
+    root.addEventListener('touchmove', preventDefault, { passive: false })
+    return () => root.removeEventListener('touchmove', preventDefault)
+  }, [])
 
-  shouldComponentUpdate(nextProps) {
-    return !!nextProps.pieces.length
-  }
+  let selectedPiece
+  let mouseLastPos
 
-  preventDefault(e) {
-    let event = e.touches[0]
-    if (
-      document.elementFromPoint
-        ? document.elementFromPoint(event.clientX, event.clientY).closest('.' + styles['puzzle-wrapper'])
-        : event.clientY > 170
-    )
-      e.preventDefault()
-  }
-
-  componentDidMount() {
-    // Will only resume if it's already started
-    timeTracker.resume()
-
-    // #root - Prevent pull down refresh on mobile
-    document.getElementById('root').addEventListener('touchmove', this.preventDefault, { passive: false })
-  }
-
-  componentWillUnmount() {
-    timeTracker.pause()
-
-    // #root - Prevent pull down refresh on mobile
-    document.getElementById('root').removeEventListener('touchmove', this.preventDefault)
-  }
-
-  win() {
-    let pieces = this.props.pieces
-    if (!pieces.length) return false
-    let previousCase
-    let win = !pieces.some(row => {
-      return row.some(c => {
-        let result = previousCase ? previousCase[0] !== c[0] || previousCase[1] !== c[1] : false
-        previousCase = c
-        return result
-      })
-    })
-    if (!win) return false
-
-    if (!timeTracker.elapsed) {
-      timeTracker.stop()
-      Ahoy.updateVisit({
-        game_time: timeTracker.elapsed,
-        game_count: this.props.moves,
-      })
-
-      // Position the pieces correctly. Just in case
-      pieces = pieces.slice(0)
-      pieces.forEach(row =>
-        row.forEach(c => {
-          c[0] = '0%'
-          c[1] = '0%'
-        }),
-      )
-      setTimeout(() => this.props.move({ pieces }), 0)
-    }
-    return true
-  }
-
-  render() {
-    if (this.win()) setTimeout(() => this.props.gameOver(), 2000)
-    return this.props.win ? <GameWin /> : this.renderGame()
-  }
-
-  pieceDown(e) {
-    if (this.selectedPiece) this.pieceUp()
+  const pieceDown = e => {
+    if (selectedPiece) pieceUp()
     let elt = (e.targetTouches ? e.targetTouches[0] : e).target
     if (!elt.matches('path')) return
     e.stopPropagation()
     e.preventDefault()
     elt = elt.parentNode
     let [x, y] = [+elt.getAttribute('data-x'), +elt.getAttribute('data-y')]
-    let [xp, yp] = this.props.pieces[x][y].slice(0, 2).map(x => +x.slice(0, -1))
+    let [xp, yp] = pieces[x][y].slice(0, 2).map(x => +x.slice(0, -1))
     let transform = elt.style[transformProp]
     let dim = elt
     if (elt.getBoundingClientRect) dim = elt.getBoundingClientRect()
@@ -146,13 +79,12 @@ class Game3 extends Component {
     let [posX, posY] = [(xp * w) / 100, (yp * h) / 100]
     elt.style[transformProp] = `translate(${posX}px, ${posY}px)`
     elt.style.zIndex = ZINDEX++
-    this.selectedPiece = { style: elt.style, w, h, posX, posY, x, y }
-    this.mouseLastPos = null
+    selectedPiece = { style: elt.style, w, h, posX, posY, x, y }
+    mouseLastPos = null
   }
 
-  pieceMove(e) {
-    // console.log(0)
-    if (!this.selectedPiece) return
+  const pieceMove = e => {
+    if (!selectedPiece) return
     e.preventDefault()
 
     // Will only start if it's not already started
@@ -161,9 +93,9 @@ class Game3 extends Component {
     let event = e.touches ? e.touches[0] : e
     let clientX = event.clientX
     let clientY = event.clientY
-    let lastPos = this.mouseLastPos
+    let lastPos = mouseLastPos
     if (lastPos) {
-      let piece = this.selectedPiece
+      let piece = selectedPiece
       let diffX = lastPos.x - clientX
       let diffY = lastPos.y - clientY
       let newPosX = piece.posX - diffX
@@ -172,48 +104,70 @@ class Game3 extends Component {
       piece.posX = newPosX
       piece.posY = newPosY
     }
-    this.mouseLastPos = { x: clientX, y: clientY }
+    mouseLastPos = { x: clientX, y: clientY }
   }
 
-  round(x) {
+  const pieceUp = e => {
+    if (selectedPiece) {
+      e.preventDefault()
+      let selected = selectedPiece
+      selectedPiece = null
+      let newPosX = round((selected.posX * 100) / selected.w)
+      let newPosY = round((selected.posY * 100) / selected.h)
+      let allPieces = pieces.slice(0)
+      let piece = allPieces[selected.x][selected.y]
+      let add = 0
+      if (piece[0] !== `${newPosX}%` || piece[1] !== `${newPosY}%`) ++add
+      allPieces[selected.x][selected.y] = [`${newPosX}%`, `${newPosY}%`, selected.style.zIndex]
+      move({ pieces: allPieces, moves: moves + add })
+    }
+  }
+
+  const puzzleStyle = (x, y) => {
+    let p = pieces[x][y]
+    return { [transformProp]: `translate(${p[0]},${p[1]})`, zIndex: p[2] }
+  }
+
+  const round = x => {
     let step = 62
     return x < 0 ? Math.floor((x + step / 2) / step) * step : Math.ceil((x - step / 2) / step) * step
   }
 
-  pieceUp(e) {
-    if (this.selectedPiece) {
-      e.preventDefault()
-      let selectedPiece = this.selectedPiece
-      this.selectedPiece = null
-      let newPosX = this.round((selectedPiece.posX * 100) / selectedPiece.w)
-      let newPosY = this.round((selectedPiece.posY * 100) / selectedPiece.h)
-      let pieces = this.props.pieces.slice(0)
-      let piece = pieces[selectedPiece.x][selectedPiece.y]
-      let move = 0
-      if (piece[0] !== `${newPosX}%` || piece[1] !== `${newPosY}%`) ++move
-      pieces[selectedPiece.x][selectedPiece.y] = [`${newPosX}%`, `${newPosY}%`, selectedPiece.style.zIndex]
-      this.props.move({ pieces, moves: this.props.moves + move })
-    }
+  const puzzleSolved = () => {
+    if (!pieces.length) return false
+    let previousCase
+    return !pieces.some(row =>
+      row.some(c => {
+        let result = previousCase ? previousCase[0] !== c[0] || previousCase[1] !== c[1] : false
+        previousCase = c
+        return result
+      }),
+    )
   }
 
-  puzzleStyle(x, y) {
-    let p = this.props.pieces[x][y]
-    return { [transformProp]: `translate(${p[0]},${p[1]})`, zIndex: p[2] }
+  if (!pieces.length) {
+    // let pieces = INIT_POS.slice(0)
+    // pieces.forEach((row, i) =>
+    //   row.forEach((c, j) => {
+    //     if (i || j) {
+    //       c[0] = '0%'
+    //       c[1] = '0%'
+    //     }
+    //   })
+    // )
+    move({ pieces: INIT_POS })
   }
 
-  renderGame() {
-    let props = this.props
-    let bpoom = props.bpoom
+  const renderGame = () => {
     let babyType = bpoom.baby_full_type
-    let bp_game = bpoom.bp_game || {}
     let bubbleText = bp_game.message || t(MSG.message)
 
     let img = getPhoto(bpoom.photo, 'normal')
     let xy = [19, -43, -105, -167]
-    let win = this.win()
+    let win = puzzleSolved()
     return (
       <div styleName={['game-container', babyType].join(' ')}>
-        {props.desktop ? (
+        {desktop ? (
           <BubbleSay speechDir="left" imgSrc={BABY_IMAGES[babyType]}>
             {bubbleText}
           </BubbleSay>
@@ -221,49 +175,49 @@ class Game3 extends Component {
           <BubblePic imgSrc={BABY_IMAGES[babyType]}>{bubbleText}</BubblePic>
         )}
         <div
-          ref={elt => (this.pc = elt)}
           styleName={`puzzle-container ${win ? 'win' : ''}`}
-          onMouseDown={this.pieceDown}
-          onMouseMove={this.pieceMove}
-          onMouseUp={this.pieceUp}
-          onTouchStart={this.pieceDown}
-          onTouchMove={this.pieceMove}
-          onTouchEnd={this.pieceUp}
-          onMouseLeave={this.pieceUp}
+          onMouseDown={pieceDown}
+          onMouseMove={pieceMove}
+          onMouseUp={pieceUp}
+          onTouchStart={pieceDown}
+          onTouchMove={pieceMove}
+          onTouchEnd={pieceUp}
+          onMouseLeave={pieceUp}
         >
-          <div ref={elt => (this.puzzleWrapper = elt)} styleName="puzzle-wrapper">
-            {props.pieces.length && (
+          <div styleName="puzzle-wrapper">
+            {pieces.length && (
               <div styleName="puzzle" style={{ backgroundImage: win ? `url(${img})` : 'none' }}>
                 {[
-                  { component: Puzzle1, rotate: 90 },
-                  { component: Puzzle3, rotate: 180 },
-                  { component: Puzzle4, rotate: 180 },
-                  { component: Puzzle1, rotate: 180 },
-                  { component: Puzzle4, rotate: 90 },
-                  { component: Puzzle2, rotate: 0 },
-                  { component: Puzzle2, rotate: 90 },
-                  { component: Puzzle3, rotate: 270 },
-                  { component: Puzzle3, rotate: 90 },
-                  { component: Puzzle2, rotate: 90 },
-                  { component: Puzzle2, rotate: 0 },
-                  { component: Puzzle4, rotate: 270 },
-                  { component: Puzzle1, rotate: 0 },
-                  { component: Puzzle4, rotate: 0 },
-                  { component: Puzzle3, rotate: 0 },
-                  { component: Puzzle1, rotate: 270 },
+                  [Puzzle1, 90],
+                  [Puzzle3, 180],
+                  [Puzzle4, 180],
+                  [Puzzle1, 180],
+                  [Puzzle4, 90],
+                  [Puzzle2, 0],
+                  [Puzzle2, 90],
+                  [Puzzle3, 270],
+                  [Puzzle3, 90],
+                  [Puzzle2, 90],
+                  [Puzzle2, 0],
+                  [Puzzle4, 270],
+                  [Puzzle1, 0],
+                  [Puzzle4, 0],
+                  [Puzzle3, 0],
+                  [Puzzle1, 270],
                 ].map((info, i) => {
                   let x = i % 4
                   let y = Math.floor(i / 4)
+                  let Component = info[0]
                   return (
-                    <info.component
+                    <Component
                       key={`${++UNIQ_KEY}-${i}`}
-                      rotate={info.rotate}
+                      rotate={info[1]}
                       img={img}
                       data-x={x}
                       data-y={y}
                       x={xy[x]}
                       y={xy[y]}
-                      style={this.puzzleStyle(x, y)}
+                      style={puzzleStyle(x, y)}
                       styleName={`piece c${x + 1} r${y + 1}`}
                     />
                   )
@@ -275,6 +229,21 @@ class Game3 extends Component {
       </div>
     )
   }
+
+  if (puzzleSolved()) {
+    // User win \o/
+    // Send statistics about game
+    if (!timeTracker.elapsed) {
+      timeTracker.stop()
+      Ahoy.updateVisit({ game_time: timeTracker.elapsed, game_count: moves })
+    }
+    // Position the pieces correctly. Just in case
+    ;(pieces = pieces.slice(0)).forEach(row => row.forEach(c => (c[0] = c[1] = '0%')))
+    setTimeout(() => move({ pieces }), 0)
+
+    setTimeout(gameOver, 1500) // trigger win in 1.5s
+  }
+  return win ? <GameWin /> : renderGame()
 }
 
 export default connect(

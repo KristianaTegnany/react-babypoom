@@ -68,7 +68,7 @@ export default defineMessages({
   },
   form_import_formats: {
     id: 'form.import_formats',
-    defaultMessage: '(Formats : JPG, PNG)',
+    defaultMessage: '(Formats : JPG, PNG, GIF)',
   },
   form_image_capture: {
     id: 'form.image_capture',

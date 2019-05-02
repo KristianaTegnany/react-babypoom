@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { defineMessages } from 'react-intl'
@@ -42,6 +42,7 @@ import FaListUl from '../../icons/list'
 import FaBook from '../../icons/book'
 import FaGift from '../../icons/gift'
 import FaImage from '../../icons/picture'
+import useToggle from '../../hooks/toggle'
 
 const ICONS = {
   welcome: FaBirthdayCake,
@@ -53,167 +54,123 @@ const ICONS = {
   souvenir: FaImage,
 }
 
-class Header extends Component {
-  constructor(props) {
-    super(props)
+let Header = ({ bpoom, desktop, steps }) => {
+  const modal = useToggle(false)
+  const [menus, setMenus] = useState({
+    isDropdownOpen: false,
+    isBurgerOpen: false,
+  })
 
-    this.toggle = ::this.toggle
-    this.toggleMenu = ::this.toggleMenu
-    this.closeMenu = ::this.closeMenu
-    this.openBpoomModal = ::this.openBpoomModal
-    this.closeBpoomModal = ::this.closeBpoomModal
+  let stepText = steps.ok ? t(stepMsg[steps.current]) : ''
+  let root = rootPath(bpoom)
 
-    this.state = {
-      isOpen: false,
-      isMenuOpen: false,
-      bpoomModal: false,
-    }
-  }
+  let mainNav = (
+    <div styleName="styles.main-nav">
+      <Collapse isOpen={menus.isDropdownOpen} navbar>
+        <Nav navbar>
+          {(bpoom.available_steps || []).map((name, index) => {
+            let text = t(stepMsg[name])
+            let to = stepPath(name, bpoom)
+            let cssClasses = [
+              index === steps.index ? 'styles.current' : '',
+              index === steps.maxIndex ? 'styles.max' : '',
+              index > steps.maxIndex ? 'styles.disabled-link' : '',
+            ]
+            let Icon = ICONS[name]
 
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-      isMenuOpen: false,
-    })
-  }
+            return (
+              <NavItem styleName={cssClasses.join(' ')} key={'' + index}>
+                {index <= steps.maxIndex ? (
+                  <NavLink styleName="styles.link-item" tag={Link} to={to}>
+                    <i styleName={['styles.icon', `styles.${name}`].join(' ')}>
+                      <Icon />
+                    </i>
+                    {text}
+                  </NavLink>
+                ) : (
+                  <div styleName="styles.link-item bs.nav-link bs.disabled">
+                    <i styleName={['styles.icon', `styles.${name}`].join(' ')}>
+                      <Icon />
+                    </i>
+                    {text}
+                  </div>
+                )}
+              </NavItem>
+            )
+          })}
+        </Nav>
+      </Collapse>
+    </div>
+  )
 
-  toggleMenu(close) {
-    this.setState(
-      true === close
-        ? { isMenuOpen: false }
-        : {
-            isMenuOpen: !this.state.isMenuOpen,
-            isOpen: false,
-          },
-    )
-  }
-
-  closeMenu() {
-    setTimeout(() => this.toggleMenu(true), 150)
-  }
-
-  openBpoomModal() {
-    this.setState({ bpoomModal: true })
-  }
-
-  closeBpoomModal() {
-    this.setState({ bpoomModal: false })
-  }
-
-  renderMenu(stepIndex) {
-    let props = this.props
-    let bpoom = props.bpoom
-    let steps = props.steps
-
-    return (bpoom.available_steps || []).map((name, index) => {
-      let text = t(stepMsg[name])
-      let to = stepPath(name, bpoom)
-      let cssClasses = [
-        index === steps.index ? 'styles.current' : '',
-        index === steps.maxIndex ? 'styles.max' : '',
-        index > steps.maxIndex ? 'styles.disabled-link' : '',
-      ]
-      let Icon = ICONS[name]
-
-      return (
-        <NavItem styleName={cssClasses.join(' ')} key={'' + index}>
-          {index <= steps.maxIndex ? (
-            <NavLink styleName="styles.link-item" tag={Link} to={to}>
-              <i styleName={['styles.icon', `styles.${name}`].join(' ')}>
-                <Icon />
-              </i>
-              {text}
-            </NavLink>
-          ) : (
-            <div styleName="styles.link-item bs.nav-link bs.disabled">
-              <i styleName={['styles.icon', `styles.${name}`].join(' ')}>
-                <Icon />
-              </i>
-              {text}
-            </div>
-          )}
-        </NavItem>
-      )
-    })
-  }
-
-  render() {
-    let props = this.props
-    let stepText = props.steps.ok ? t(stepMsg[props.steps.current]) : ''
-    let root = rootPath(props.bpoom)
-    let mainNav = (
-      <div styleName="styles.main-nav">
-        <Collapse isOpen={this.state.isOpen} navbar>
-          <Nav navbar>{this.renderMenu()}</Nav>
+  return (
+    <header>
+      <Navbar light expand="md" styleName="styles.navbar">
+        {bpoom.available_steps ? (
+          <Nav styleName="bs.navbar-toggler styles.menu-nav styles.navbar-toggler" navbar>
+            <NavItem>
+              <ButtonDropdown
+                styleName="styles.nav-button"
+                isOpen={menus.isDropdownOpen}
+                toggle={() => setMenus({ isDropdownOpen: !menus.isDropdownOpen, isBurgerOpen: false })}
+              >
+                <DropdownToggle outline color="primary" caret>
+                  {stepText}
+                </DropdownToggle>
+              </ButtonDropdown>
+            </NavItem>
+          </Nav>
+        ) : (
+          ''
+        )}
+        <span>
+          <NavbarBrand styleName="styles.nav-brand" tag={Link} to={root}>
+            <img src={logo} />
+          </NavbarBrand>
+        </span>
+        {desktop ? mainNav : ''}
+        <Button
+          color="primary"
+          styleName="bs.navbar-toggler styles.toggler styles.navbar-toggler"
+          onClick={() => setMenus({ isBurgerOpen: !menus.isBurgerOpen, isDropdownOpen: false })}
+          onBlur={() => setMenus({ isBurgerOpen: false })}
+        >
+          <span styleName="styles.icon" />
+        </Button>
+      </Navbar>
+      {desktop ? '' : mainNav}
+      <div styleName="styles.menu">
+        <Collapse isOpen={menus.isBurgerOpen}>
+          <Nav styleName="bs.ml-auto" navbar>
+            <NavItem>
+              <NavLink onClick={modal.show}>{t(MSG.what_is_babypoom)}</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={Link} target="_blank" to={CGU}>
+                {t(MSG.legals)}
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink target="_blank" href={config.shareLink}>
+                {t(MSG.share)}
+              </NavLink>
+            </NavItem>
+          </Nav>
         </Collapse>
       </div>
-    )
-
-    return (
-      <header>
-        <Navbar light expand="md" styleName="styles.navbar">
-          {props.bpoom.available_steps ? (
-            <Nav styleName="bs.navbar-toggler styles.menu-nav styles.navbar-toggler" navbar>
-              <NavItem>
-                <ButtonDropdown styleName="styles.nav-button" isOpen={this.state.isOpen} toggle={this.toggle}>
-                  <DropdownToggle outline color="primary" caret>
-                    {stepText}
-                  </DropdownToggle>
-                </ButtonDropdown>
-              </NavItem>
-            </Nav>
-          ) : (
-            ''
-          )}
-          <span>
-            <NavbarBrand styleName="styles.nav-brand" tag={Link} to={root}>
-              <img src={logo} />
-            </NavbarBrand>
-          </span>
-          {props.desktop ? mainNav : ''}
-          <Button
-            color="primary"
-            styleName="bs.navbar-toggler styles.toggler styles.navbar-toggler"
-            onClick={this.toggleMenu}
-            onBlur={this.closeMenu}
-          >
-            <span styleName="styles.icon" />
-          </Button>
-        </Navbar>
-        {props.desktop ? '' : mainNav}
-        <div styleName="styles.menu">
-          <Collapse isOpen={this.state.isMenuOpen}>
-            <Nav styleName="bs.ml-auto" navbar>
-              <NavItem>
-                <NavLink onClick={this.openBpoomModal}>{t(MSG.what_is_babypoom)}</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} target="_blank" to={CGU}>
-                  {t(MSG.legals)}
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink target="_blank" href={config.shareLink}>
-                  {t(MSG.share)}
-                </NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </div>
-        <Modal isOpen={this.state.bpoomModal} toggle={this.closeBpoomModal}>
-          <ModalHeader styleName="bs.modal-primary" toggle={this.closeBpoomModal}>
-            {t(MSG.what_is_babypoom)}
-          </ModalHeader>
-          <ModalBody styleName="styles.pre-wrap">
-            <div styleName="styles.modal-logo">
-              <img src={logo} />
-            </div>
-            {t(MSG.what_is_babypoom_desc)}
-          </ModalBody>
-        </Modal>
-      </header>
-    )
-  }
+      <Modal isOpen={modal.visible} toggle={modal.hide}>
+        <ModalHeader styleName="bs.modal-primary" toggle={modal.hide}>
+          {t(MSG.what_is_babypoom)}
+        </ModalHeader>
+        <ModalBody styleName="styles.pre-wrap">
+          <div styleName="styles.modal-logo">
+            <img src={logo} />
+          </div>
+          {t(MSG.what_is_babypoom_desc)}
+        </ModalBody>
+      </Modal>
+    </header>
+  )
 }
 
 export default connect(mapStateToProps)(Header)
