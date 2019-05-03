@@ -1,7 +1,10 @@
 import React, { Component, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { injectIntl } from 'react-intl'
+import { injectIntl, addLocaleData } from 'react-intl'
 import { connect } from 'react-redux'
+
+import availableLocales from '../../../available-locales'
+import localeDataLoader from '../../../config/locales/data-loader'
 
 // Routes
 import { PATH_TO_STEP_MAP, stepComponent, stepPath } from './steps'
@@ -29,13 +32,15 @@ import computeThemeColors from '../../../lib/theme'
 import Cookie from '../../../lib/cookie'
 import { queryParams, hasParam } from '../../../lib/url-params'
 import getPhoto from '../../../lib/get-photo'
+import loadIntl from '../../../lib/intl-detection'
 
 // CSS
 import CSSVariableApplicator from '../../components/css-var'
 import MediaQueries from '../../components/media-queries'
 import styles from './styles.scss'
 
-import i18n from '../../i18n/i18n'
+import t from '../../i18n/i18n'
+import { updateLocale } from '../../i18n/hot-intl-provider/HotIntlProviderActions'
 
 // Images
 import Cloud from 'svg-react-loader?name=Cloud!../../images/cloud.svg'
@@ -59,6 +64,8 @@ let App = ({
   history,
   flash,
   deleteFlash,
+  i18n,
+  updateLocale,
   slideshow,
   changeSlideshowIndex,
   closeSlideshow,
@@ -91,7 +98,9 @@ let App = ({
   }, [match.params.uuid])
 
   // GA Tracking
-  useEffect(() => ReactGA.initialize('UA-75903062-4', 'auto'), [])
+  useEffect(() => {
+    ReactGA.initialize('UA-75903062-4', 'auto')
+  }, [])
 
   useEffect(() => {
     if (pathname === location.pathname) return
@@ -111,7 +120,8 @@ let App = ({
     let uuid = match.params.uuid
 
     // Load bpoom data
-    let callback = bpoom => {
+    let callback = (bpoom, localeData) => {
+      addLocaleData(localeData)
       setSteps(bpoom)
 
       Ahoy.trackView()
@@ -122,11 +132,18 @@ let App = ({
       if (photo) pixelate({ src: photo })
     }
     if (bpoom.uuid) {
-      callback(bpoom)
+      callback(bpoom, i18n.localeData)
     } else {
       loadBpoom(uuid, { queryParams: queryParams(location.search) })
-        .then(callback)
         .catch(() => {})
+        .then(bpoom => {
+          loadIntl([bpoom.locale], () => {
+            localeDataLoader(bpoom.locale).then(json => {
+              updateLocale({ locale: bpoom.locale, localeData: json.data, messages: json.messages })
+              callback(bpoom, json.data)
+            })
+          })
+        })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match.params.uuid])
@@ -163,7 +180,7 @@ let App = ({
     }
     return (
       <Alert key={++UNIQ} toggle={null} color={flash.color}>
-        {i18n(flash.message)}
+        {t(flash.message)}
       </Alert>
     )
   }
@@ -208,6 +225,7 @@ export default injectIntl(
       changeSlideshowIndex,
       closeSlideshow,
       deleteFlash,
+      updateLocale,
     },
   )(App),
 )
@@ -217,6 +235,7 @@ function mapStateToProps(state) {
     app: { bpoom, steps, noNav },
     slideshow,
     flash,
+    i18n,
   } = state
-  return { bpoom, steps, noNav, slideshow, flash }
+  return { bpoom, steps, noNav, slideshow, flash, i18n }
 }

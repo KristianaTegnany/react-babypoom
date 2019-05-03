@@ -1,6 +1,5 @@
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 import express from 'express'
-import createLocaleMiddleware from 'express-locale'
 import favicon from 'serve-favicon'
 import path from 'path'
 
@@ -19,7 +18,7 @@ import configureStore from './birth-announcement-app/store/configureStore'
 import routes from './birth-announcement-app/routes'
 import App from './birth-announcement-app/views/app'
 
-import { messages } from './birth-announcement-app/i18n/messages'
+import { data as localeData, messages } from './config/locales/data/all-data'
 import availableLocales from './available-locales'
 
 import 'isomorphic-fetch'
@@ -27,6 +26,7 @@ import { loadBpoom } from './birth-announcement-app/views/app/Actions'
 import config from './config/application'
 
 import { queryParams } from './lib/url-params'
+import template from './lib/template'
 
 // Bootstrap
 import Bootstrap from './config/bootstrap/bootstrap.scss'
@@ -43,44 +43,21 @@ var app = express()
 app.disable('x-powered-by')
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(shrinkRay()) // must be first!
-app.use(createLocaleMiddleware()) // detect locale
 
 // serve our static stuff like index.css
 app.use(express.static(path.join(__dirname, 'public')))
 
-var compileString = (function() {
-  var REG_D_QUOTES = /"/g,
-    REG_EOL = /(\n)/gm,
-    REG_INTERPOLATE = /([^\{])\{\{([^\{\}]*)\}\}([^\}])/gm
-
-  return function(str) {
-    return new Function(
-      'd',
-      'return "' +
-        str
-          .replace(REG_EOL, '\\n')
-          .replace(REG_D_QUOTES, '\\"')
-          .replace(REG_INTERPOLATE, '$1"+(d.$2 || "")+"$3') +
-        '"',
-    )
-  }
-})()
-
 const tplPath = path.join(__dirname, 'public', 'index.tpl')
 const htmlPath = path.join(__dirname, 'public', 'index.html')
-const PAGE_CACHE = compileString(fs.readFileSync(fileExists(tplPath) ? tplPath : htmlPath).toString())
+const PAGE_CACHE = template(fs.readFileSync(fileExists(tplPath) ? tplPath : htmlPath).toString())
 
 app.get('*', (req, res) => {
   const branch = matchRoutes(routes, req.url)
   if (branch.length) {
     let { route, match } = branch[0]
 
-    let lang = req.locale.language
-    if (!lang || !ALL_LOCALES.includes(lang)) lang = ALL_LOCALES[0]
-
     // SERVER SIDE RENDERING
     let store = configureStore()
-    updateLocale(lang)(store.dispatch)
 
     let component = route.component
     while (component.WrappedComponent) component = component.WrappedComponent
@@ -92,10 +69,12 @@ app.get('*', (req, res) => {
     component
       .fetchData(store, match.params, queryParams(match.url))
       .then(bpoom => {
+        let locale = bpoom.locale
+        updateLocale({ locale, localeData: localeData[locale], messages: messages[locale] })(store.dispatch)
         res.send(
           PAGE_CACHE({
-            ogTitle: interpolateMetaTitle(messages[lang]['metas.title'], bpoom),
-            ogDescription: interpolateMetaDescription(messages[lang]['welcome'], bpoom),
+            ogTitle: interpolateMetaTitle(messages[locale]['metas.title'], bpoom),
+            ogDescription: interpolateMetaDescription(messages[locale]['welcome'], bpoom),
             ogImage: (bpoom.photo_mum || {}).thumbnail,
             html: render(),
             uuid: match.params.uuid,

@@ -6,6 +6,7 @@ var _ = require('lodash')
 var path = require('path')
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 var config = require('./webpack.common.config.js')
 
@@ -13,16 +14,19 @@ config.mode = 'production'
 
 // config.optimization = { minimize: false }
 
-// config.optimization = {
-//   minimizer: [
-//     new TerserPlugin({
-//       parallel: true,
-//       terserOptions: {
-//         ecma: 6,
-//       },
-//     }),
-//   ],
-// }
+config.optimization = {
+  minimizer: [
+    new TerserPlugin({
+      parallel: true,
+      terserOptions: {
+        // ecma: 6,
+        output: {
+          comments: false,
+        },
+      },
+    }),
+  ],
+}
 config.plugins = config.plugins.concat([new OptimizeCssAssetsPlugin({})])
 
 // new BundleAnalyzerPlugin({

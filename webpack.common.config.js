@@ -10,6 +10,7 @@ var availableLocales = require('./available-locales')
 
 var config = {}
 
+require('./generate-locale-data')
 var ShortClassNameGenerator = require('./css-modules-scoped-name')
 var shortClassName = new ShortClassNameGenerator(config)
 
@@ -63,7 +64,7 @@ module.exports = _.merge(config, {
     appCss,
     new CopyPlugin([{ from: 'birth-announcement-app/favicon.ico', to: path.join(__dirname, '/public/') }]),
     new webpack.NormalModuleReplacementPlugin(/\.NODE_ENV\.js(?:on)?$/, function(resource) {
-      resource.request = resource.request.replace(/\.NODE_ENV(\.js(?:on)?)$/, `.${config.mode}$1`)
+      resource.request = resource.request.replace(/\.NODE_ENV(\.js(?:on)?)$/, `.${config.mode}$1`) //`.development$1`) //
     }),
     new HtmlWebpackPlugin({
       inject: false,
@@ -78,53 +79,9 @@ module.exports = _.merge(config, {
     // tell webpack which extensions to auto search when it resolves modules. With this,
     // you'll be able to do `require('./utils')` instead of `require('./utils.js')`
     extensions: ['.js', '.es6', '.css', '.png', '.gif'],
-    // by default, webpack will search in `web_modules` and `node_modules`. Because we're using
-    // Bower, we want it to look in there too
-    modules: ['node_modules', 'vendor/assets/components'],
   },
   module: {
-    // preLoaders: [
-    //   {
-    //     test: /\.js$/,
-    //     exclude: /node_modules/,
-    //     use: {
-    //       loader: 'eslint',
-    //       options: {
-    //         configFile: '.eslintrc',
-    //         failOnWarning: false,
-    //         failOnError: false
-    //       }
-    //     }
-    //   }
-    // ],
     rules: [
-      // i18n imports
-      {
-        test: /messages\.js$/,
-        loader: StringReplacePlugin.replace({
-          replacements: [
-            {
-              pattern: /\/\/\s*replace\:(.*?)\:end/gi,
-              replacement: function(match, p1, offset, string) {
-                if (p1.indexOf('${loc}') > 0) {
-                  return availableLocales.map(loc => p1.replace(/\$\{loc\}/g, loc)).join('\n')
-                }
-                if (p1.indexOf('${defaultLoc}') > 0) {
-                  p1 = p1.replace(/\$\{defaultLoc\}/g, availableLocales.defaultLocale)
-                }
-                if (p1.indexOf('${all}') > 0) {
-                  p1 = p1.replace(/\$\{all\}/g, availableLocales.join(', '))
-                }
-                if (p1.indexOf('${allData}') > 0) {
-                  p1 = p1.replace(/\$\{allData\}/g, availableLocales.map(l => l + 'Data').join(', '))
-                }
-                return p1
-              },
-            },
-          ],
-        }),
-      },
-
       // Fonts
       {
         test: /\.woff(2)?(\?v=\d+\.\d+\.\d+)?$/,
@@ -214,6 +171,7 @@ module.exports = _.merge(config, {
               //   },
               //   'redux-form-validators',
               // ],
+              '@babel/plugin-syntax-dynamic-import',
               ['@babel/plugin-proposal-class-properties', { loose: true }],
               '@babel/plugin-proposal-function-bind',
               '@babel/plugin-transform-runtime',

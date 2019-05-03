@@ -2,14 +2,12 @@ import React, { Component } from 'react'
 import { IntlProvider } from 'react-intl'
 import { connect } from 'react-redux'
 
-import { messages } from '../messages'
 import availableLocales from '../../../available-locales'
 
-function mapStateToProps(state) {
-  const locale = state.i18n.locale
+function mapStateToProps({ i18n: { locale, localeData, messages } }) {
   return {
     locale,
-    messages: messages[locale],
+    messages,
     defaultLocale: availableLocales.defaultLocale,
   }
 }
