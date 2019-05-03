@@ -19,6 +19,7 @@ import routes from './birth-announcement-app/routes'
 import App from './birth-announcement-app/views/app'
 
 import { data as localeData, messages } from './config/locales/data/all-data'
+import metas from './birth-announcement-app/i18n/messages/metas'
 import availableLocales from './available-locales'
 
 import 'isomorphic-fetch'
@@ -70,11 +71,12 @@ app.get('*', (req, res) => {
       .fetchData(store, match.params, queryParams(match.url))
       .then(bpoom => {
         let locale = bpoom.locale
-        updateLocale({ locale, localeData: localeData[locale], messages: messages[locale] })(store.dispatch)
+        let msgs = messages[locale]
+        updateLocale({ locale, localeData: localeData[locale], messages: msgs })(store.dispatch)
         res.send(
           PAGE_CACHE({
-            ogTitle: interpolateMetaTitle(messages[locale]['metas.title'], bpoom),
-            ogDescription: interpolateMetaDescription(messages[locale]['welcome'], bpoom),
+            ogTitle: interpolateMetaTitle(msgs ? msgs['metas.title'] : metas.title.defaultMessage, bpoom),
+            ogDescription: interpolateMetaDescription(msgs ? msgs['metas.description'] : metas.description.defaultMessage, bpoom),
             ogImage: (bpoom.photo_mum || {}).thumbnail,
             html: render(),
             uuid: match.params.uuid,
