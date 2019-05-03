@@ -1,5 +1,6 @@
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 import express from 'express'
+import createLocaleMiddleware from 'express-locale'
 import favicon from 'serve-favicon'
 import path from 'path'
 
@@ -44,6 +45,7 @@ var app = express()
 app.disable('x-powered-by')
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(shrinkRay()) // must be first!
+app.use(createLocaleMiddleware()) // detect locale
 
 // serve our static stuff like index.css
 app.use(express.static(path.join(__dirname, 'public')))
@@ -56,6 +58,9 @@ app.get('*', (req, res) => {
   const branch = matchRoutes(routes, req.url)
   if (branch.length) {
     let { route, match } = branch[0]
+
+    // let lang = req.locale.language
+    // if (!lang || !ALL_LOCALES.includes(lang)) lang = ALL_LOCALES[0]
 
     // SERVER SIDE RENDERING
     let store = configureStore()
