@@ -1,6 +1,8 @@
 var path = require('path')
 var fs = require('fs')
+var Terser = require('terser')
 var availableLocales = require('./available-locales')
+var toSource = require('tosource-polyfill')
 
 // es6 template
 const template = (strings, ...keys) => obj =>
@@ -8,17 +10,28 @@ const template = (strings, ...keys) => obj =>
 
 var LOCALE_DIR = path.join(__dirname, 'config', 'locales')
 var LOCALE_DATA_DIR = path.join(LOCALE_DIR, 'data')
+var REACT_INTL_DATA_DIR = path.join(__dirname, 'node_modules', 'react-intl', 'locale-data')
 
 var ALL_LOCALES = [availableLocales.defaultLocale].concat(availableLocales)
 
-var dataAndMessageImport = template`import ${'locale'}Data from 'react-intl/locale-data/${'locale'}'
+var minifyOptions = { compress: { expression: true } }
+var ALL_LOCALE_DATA = ALL_LOCALES.reduce((h, locale) => {
+  h[locale] =
+    '`' +
+    Terser.minify(toSource(require(`react-intl/locale-data/${locale}`)).replace(/\$\{/g, '\\${'), minifyOptions).code +
+    '`'
+  return h
+}, {})
+
+var dataAndMessageImport = template`
 import ${'locale'}Messages from '../${'locale'}.json'
+const ${'locale'}Data = ${'data'}
 `
 
 var dataAndMessageExport = template`export const data = ${'locale'}Data
 export const messages = ${'locale'}Messages\n`
 
-var dataImport = template`import ${'locale'}Data from 'react-intl/locale-data/${'locale'}'\n`
+var dataImport = template`const ${'locale'}Data = ${'data'}\n`
 
 var dataExport = template`export const data = ${'locale'}Data\n`
 
@@ -27,21 +40,25 @@ fs.readdirSync(LOCALE_DATA_DIR).forEach(file => fs.unlinkSync(path.join(LOCALE_D
 
 // Create default locale file
 var locale = availableLocales.defaultLocale
-fs.writeFileSync(path.join(LOCALE_DATA_DIR, `${locale}.js`), dataImport({ locale }) + dataExport({ locale }), 'utf8')
+fs.writeFileSync(
+  path.join(LOCALE_DATA_DIR, `${locale}.js`),
+  dataImport({ locale, data: ALL_LOCALE_DATA[locale] }) + dataExport({ locale }),
+  'utf8',
+)
 
 // Create all locale data files
 availableLocales.forEach(locale => {
-  let content = dataAndMessageImport({ locale }) + dataAndMessageExport({ locale })
+  let content = dataAndMessageImport({ locale, data: ALL_LOCALE_DATA[locale] }) + dataAndMessageExport({ locale })
   fs.writeFileSync(path.join(LOCALE_DATA_DIR, `${locale}.js`), content, 'utf8')
 })
 
 // Create all locale data file (server-side)
 var content = `
 import { addLocaleData } from 'react-intl'
-${dataImport({ locale })}
-${availableLocales.map(locale => dataAndMessageImport({ locale }))}
+${dataImport({ locale, data: ALL_LOCALE_DATA[locale] })}
+${availableLocales.map(locale => dataAndMessageImport({ locale, data: ALL_LOCALE_DATA[locale] }))}
 
-${ALL_LOCALES.map(locale => `addLocaleData(${locale}Data)`).join('\n')}
+${ALL_LOCALES.map(locale => `addLocaleData(new Function('return ' + ${locale}Data)())`).join('\n')}
 
 export const data = {
   ${ALL_LOCALES.map(locale => `${locale}: ${locale}Data`).join(',\n  ')}

@@ -10,7 +10,6 @@ var availableLocales = require('./available-locales')
 
 var config = {}
 
-require('./generate-locale-data')
 var ShortClassNameGenerator = require('./css-modules-scoped-name')
 var shortClassName = new ShortClassNameGenerator(config)
 
@@ -148,6 +147,7 @@ module.exports = _.merge(config, {
                 {
                   useBuiltIns: 'usage',
                   corejs: '2',
+                  targets: '> 0.5%, not IE < 11',
                 },
               ],
             ],

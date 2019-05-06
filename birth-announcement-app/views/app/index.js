@@ -51,6 +51,10 @@ let UNIQ = 0
 
 const noNavParamName = 'nn'
 
+function setLocaleData(localeData) {
+  addLocaleData(new Function(`return ${localeData}`)())
+}
+
 let App = ({
   bpoom,
   desktop,
@@ -70,7 +74,6 @@ let App = ({
   changeSlideshowIndex,
   closeSlideshow,
 }) => {
-  const [theme, setTheme] = useState(null)
   const [pathname, setPathname] = useState(location.pathname)
 
   // No nav
@@ -78,11 +81,6 @@ let App = ({
     updateNoNav(hasParam(location.search, noNavParamName) ? PATH_TO_STEP_MAP[match.params.step || ''] : null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    let obj = bpoom.theme_color_1 && bpoom.theme_color_2 ? bpoom : config
-    setTheme(computeThemeColors(obj.theme_color_1, obj.theme_color_2))
-  }, [bpoom])
 
   // Ahoy Tracking
   useEffect(() => {
@@ -121,7 +119,7 @@ let App = ({
 
     // Load bpoom data
     let callback = (bpoom, localeData) => {
-      addLocaleData(localeData)
+      setLocaleData(localeData)
       setSteps(bpoom)
 
       Ahoy.trackView()
@@ -189,8 +187,9 @@ let App = ({
 
   let Step = stepComponent(steps.current, bpoom)
   let stepName = steps.current || ''
+  let theme = bpoom.theme_color_1 && bpoom.theme_color_2 ? bpoom : config
   return (
-    <CSSVariableApplicator data-variables={theme}>
+    <CSSVariableApplicator data-variables={computeThemeColors(theme.theme_color_1, theme.theme_color_2)}>
       {noNav ? '' : <Header />}
       <div styleName="flash">{renderFlash()}</div>
       <main styleName={`${stepName}${'game' === stepName ? ` ${stepName}${bpoom.game_type}` : ''}`}>

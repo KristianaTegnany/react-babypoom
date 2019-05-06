@@ -3,6 +3,7 @@ logs
 *.log
 .history
 config/locales/extracted
+config/locales/data
 
 # Cert
 *.pem

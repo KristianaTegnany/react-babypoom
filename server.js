@@ -24,7 +24,7 @@ import metas from './birth-announcement-app/i18n/messages/metas'
 import availableLocales from './available-locales'
 
 import 'isomorphic-fetch'
-import { loadBpoom } from './birth-announcement-app/views/app/Actions'
+import { loadBpoom, updateStep } from './birth-announcement-app/views/app/Actions'
 import config from './config/application'
 
 import { queryParams } from './lib/url-params'
@@ -33,6 +33,7 @@ import template from './lib/template'
 // Bootstrap
 import Bootstrap from './config/bootstrap/bootstrap.scss'
 import { setGlobalCssModule } from 'reactstrap/lib/utils'
+import { PATH_TO_STEP_MAP } from './birth-announcement-app/views/app/steps'
 setGlobalCssModule(Bootstrap)
 
 // var stats = JSON.parse(fs.readFileSync("./public/webpack.stats.json"));
@@ -78,10 +79,28 @@ app.get('*', (req, res) => {
         let locale = bpoom.locale
         let msgs = messages[locale]
         updateLocale({ locale, localeData: localeData[locale], messages: msgs })(store.dispatch)
+
+        let availableSteps = bpoom.available_steps || []
+        let current = PATH_TO_STEP_MAP[match.params.step || '']
+        let index = availableSteps.indexOf(current)
+        if (availableSteps.length && index < 0) {
+          current = NAMES_TO_PATHS.keys().next().value
+          index = 0
+        }
+        updateStep({
+          current,
+          index,
+          prev: index < 0 ? null : availableSteps[index - 1],
+          next: index < 0 ? null : availableSteps[index + 1],
+        })(store.dispatch)
+
         res.send(
           PAGE_CACHE({
             ogTitle: interpolateMetaTitle(msgs ? msgs['metas.title'] : metas.title.defaultMessage, bpoom),
-            ogDescription: interpolateMetaDescription(msgs ? msgs['metas.description'] : metas.description.defaultMessage, bpoom),
+            ogDescription: interpolateMetaDescription(
+              msgs ? msgs['metas.description'] : metas.description.defaultMessage,
+              bpoom,
+            ),
             ogImage: (bpoom.photo_mum || {}).thumbnail,
             html: render(),
             uuid: match.params.uuid,

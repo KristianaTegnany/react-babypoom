@@ -1,17 +1,32 @@
 var webpack = require('webpack')
-// var ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
-// var StatsWriterPlugin = require("webpack-stats-plugin").StatsWriterPlugin;
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var _ = require('lodash')
 var path = require('path')
+// var crypto = require('crypto')
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 var config = require('./webpack.common.config.js')
 
-config.mode = 'production'
+// HACK. Get same hash for the 2 bundles
+// var hashCache
+// var hash = crypto.createHash("md4")
+// class CreateHash {
+//   constructor() {
+//     this.hash = crypto.createHash("md4")
+//   }
+//   digest() {
+//     if (hashCache) return hashCache
+//     return (hashCache = this.hash.digest.apply(this.hash, arguments))
+//   }
+//   update() {
+//     return this.hash.update.apply(this.hash, arguments)
+//   }
+// }
+// config.output.hashFunction = CreateHash
 
+config.mode = 'production'
 // config.optimization = { minimize: false }
 
 config.optimization = {
@@ -28,17 +43,27 @@ config.optimization = {
   ],
 }
 config.plugins = config.plugins.concat([new OptimizeCssAssetsPlugin({})])
-
-// new BundleAnalyzerPlugin({
-//   analyzerMode: 'static',
-//   reportFilename: 'report.html',
-//   openAnalyzer: true,
-//   statsFilename: 'stats.json',
-//   // See more options here: https://github.com/webpack/webpack/blob/webpack-1/lib/Stats.js#L21
-//   statsOptions: null,
-//   // Log level. Can be 'info', 'warn', 'error' or 'silent'.
-//   logLevel: 'info'
-// })
-// ])
-
 module.exports = config
+
+// const moduleConfig = _.cloneDeep(config)
+
+// moduleConfig.output.filename = config.output.filename.replace(/\.js$/, '.mjs')
+// moduleConfig.module.rules.forEach(function(rule) {
+//   if (rule.use && 'babel-loader' === rule.use.loader) {
+//     rule.use.query.presets = [
+//       '@babel/preset-react',
+//       [
+//         '@babel/preset-env',
+//         {
+//           useBuiltIns: 'usage',
+//           corejs: '2',
+//           targets: {
+//             "esmodules": true
+//           }
+//         },
+//       ],
+//     ]
+//   }
+// })
+
+// module.exports = [config, moduleConfig]

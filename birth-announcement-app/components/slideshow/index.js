@@ -41,7 +41,7 @@ let lastTap
 
 export default ({ items = [], open = true, index: propIndex = 0, loop: propLoop = true, onChangeIndex, onClose }) => {
   const toggle = useToggle(open)
-  const [loop, setLoop] = useState(loop && items.length > 1)
+  const [loop, setLoop] = useState(propLoop && items.length > 1)
   const [currentIndex, setCurrentIndex] = useState(propIndex + (loop ? 1 : 0))
   const [zoomMode, setZoomMode] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(Fullscreen.active())
@@ -54,8 +54,8 @@ export default ({ items = [], open = true, index: propIndex = 0, loop: propLoop 
   let rangeLoad = true
 
   useEffect(() => {
-    setLoop(loop && items.length > 1)
-  }, [loop, items])
+    setLoop(propLoop && items.length > 1)
+  }, [propLoop, items])
 
   useEffect(() => {
     setCurrentIndex(propIndex)

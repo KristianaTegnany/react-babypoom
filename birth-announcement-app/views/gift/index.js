@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { defineMessages } from 'react-intl'
+import { defineMessages, FormattedMessage } from 'react-intl'
 import ReactGA from 'react-ga'
 
 // Hooks
@@ -46,11 +46,7 @@ let Gift = ({ desktop, noNav, bpoom, bpoom: { bp_gift = {} } }) => {
   let charity = bp_gift.caritative || {}
   let photo = getPhoto(bpoom.photo, 'thumbnail')
   let image = getPhoto(charity.image, 'normal')
-  let link = (
-    <Button styleName="btn-link" color="link" onClick={showModal}>
-      {charity.name}
-    </Button>
-  )
+
   return (
     <div styleName="gift-container">
       <div styleName="mascot">
@@ -58,7 +54,17 @@ let Gift = ({ desktop, noNav, bpoom, bpoom: { bp_gift = {} } }) => {
       </div>
       <div styleName="panel-container">
         <Panel title={t(MSG.baby_gift_title)} imgType="piggy-bank">
-          {t({ ...MSG.baby_gift_block, values: { fees: bp_gift.caritative_fees, link } })}
+          {t({
+            ...MSG.baby_gift_block,
+            values: {
+              fees: bp_gift.caritative_fees,
+              link: (
+                <Button styleName="btn-link" color="link" onClick={showModal}>
+                  {charity.name}
+                </Button>
+              ),
+            },
+          })}
           <div styleName="action">
             <Button styleName="btn" color="app" onClick={showForm}>
               {t(MSG.baby_gift_participate)}
