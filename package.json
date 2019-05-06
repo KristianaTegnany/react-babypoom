@@ -4,11 +4,11 @@
     "test": "",
     "postinstall": "if-env NODE_ENV=production && rimraf public && npm run build || echo ''",
     "dev": "npm run build:locale-data && node webpack-dev-server.js",
-    "start:prod": "rimraf public && npm run build:locale-data && npm run build && node server.bundle.js",
+    "start:prod": "rimraf public && npm run build && node server.bundle.js",
     "build:locale-data": "node generate-locale-data.js",
     "build:client": "webpack --config webpack.production.config.js --progress --profile --colors",
     "build:server": "webpack --config webpack.server.config.js",
-    "build": "npm run build:client && npm run build:server",
+    "build": "npm run build:locale-data && npm run build:client && npm run build:server",
     "manage:i18n": "node ./translationRunner.js",
     "eslint": "eslint ."
   },
