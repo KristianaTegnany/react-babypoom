@@ -3,7 +3,8 @@ logs
 *.log
 .history
 config/locales/extracted
-config/locales/data
+config/locales/data/*
+!config/locales/data/.gitkeep
 
 # Cert
 *.pem
