@@ -42,6 +42,10 @@
     & > div + div {
       margin-top: $main-padding * 2 * 1.25;
     }
+
+    & > :global(.bp-bubble-say .bp-bubble) {
+      margin-bottom: $main-padding * 2 * 1.25;
+    }
   }
 
   .info {
