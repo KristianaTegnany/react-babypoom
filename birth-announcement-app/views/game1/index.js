@@ -115,10 +115,7 @@ let Game1 = ({
       })
 
     let bubbleText = lastChar
-      ? t({
-          ...MSG['guessed_' + (asciiName.indexOf(lastChar) < 0 ? 'ko' : 'ok')],
-          values: { char: lastChar },
-        })
+      ? t(MSG['guessed_' + (asciiName.indexOf(lastChar) < 0 ? 'ko' : 'ok')], { char: lastChar })
       : bp_game.message || t(MSG.message)
 
     let babyType = bpoom.baby_full_type

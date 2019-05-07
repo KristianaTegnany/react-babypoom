@@ -58,10 +58,6 @@ export default defineMessages({
     id: 'form.last_sumcent',
     defaultMessage: 'Montant de votre cadeau',
   },
-  form_image_import: {
-    id: 'form.image_import',
-    defaultMessage: 'Importer une image',
-  },
   form_import: {
     id: 'form.import',
     defaultMessage: 'Importe ta photo',

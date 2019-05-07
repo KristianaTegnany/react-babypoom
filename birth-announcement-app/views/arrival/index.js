@@ -71,7 +71,7 @@ let Arrival = ({ bpoom, bpoom: { bp_arrival = {} }, desktop, noNav, loadSlidesho
               {info.map(pair => {
                 return (
                   <tr key={pair[0]}>
-                    <th>{t({ ...MSG[`title_${pair[0]}`], values: pair[2] || {} })}</th>
+                    <th>{t(MSG[`title_${pair[0]}`], pair[2])}</th>
                     <td>{pair[1]}</td>
                   </tr>
                 )

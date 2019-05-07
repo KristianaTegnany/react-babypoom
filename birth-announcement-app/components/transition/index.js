@@ -25,7 +25,7 @@ let Transition = ({ bpoom, steps }) => {
         ReactGA.ga('send', 'fb-like', trackUrl)
       })
     }
-  })
+  }, [])
 
   if (!steps.ok) return ''
 
@@ -37,42 +37,39 @@ let Transition = ({ bpoom, steps }) => {
   if (hackMsg) return <span dangerouslySetInnerHTML={{ __html: hackMsg }} />
 
   return msg
-    ? t({
-        ...msg,
-        values: {
-          link: (
-            <ReactGA.OutboundLink eventLabel="babypoom-website" to={config.babypoomWebsiteLink} target="_blank">
-              {config.babypoomWebsiteShortLink}
-            </ReactGA.OutboundLink>
-          ),
-          share: (
-            <div styleName="share-container">
-              <span styleName="share">
-                <Button
-                  size="sm"
-                  tag={ReactGA.OutboundLink}
-                  eventLabel={config.shareLink}
-                  color="app"
-                  to={config.shareLink}
-                  target="_blank"
-                >
-                  {t(MSG.share)}
-                </Button>
-              </span>
+    ? t(msg, {
+        link: (
+          <ReactGA.OutboundLink eventLabel="babypoom-website" to={config.babypoomWebsiteLink} target="_blank">
+            {config.babypoomWebsiteShortLink}
+          </ReactGA.OutboundLink>
+        ),
+        share: (
+          <div styleName="share-container">
+            <span styleName="share">
+              <Button
+                size="sm"
+                tag={ReactGA.OutboundLink}
+                eventLabel={config.shareLink}
+                color="app"
+                to={config.shareLink}
+                target="_blank"
+              >
+                {t(MSG.share)}
+              </Button>
+            </span>
 
-              <ReactFBLike
-                language="fr_FR"
-                appId={config.fbAppId}
-                layout="button"
-                action="like"
-                size="large"
-                showFaces="false"
-                share="true"
-                version="v2.8"
-              />
-            </div>
-          ),
-        },
+            <ReactFBLike
+              language="fr_FR"
+              appId={config.fbAppId}
+              layout="button"
+              action="like"
+              size="large"
+              showFaces="false"
+              share="true"
+              version="v2.9"
+            />
+          </div>
+        ),
       })
     : ''
 }

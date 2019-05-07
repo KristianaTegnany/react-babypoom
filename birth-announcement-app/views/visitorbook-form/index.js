@@ -141,15 +141,15 @@ let VisitorBookForm = ({
         <div styleName="upload-img">
           <BpoomImg imgSrc={imgSrc} />
           <div styleName="upload-desc">
-            <div>
-              {t(FORM_MSG.form_import)}
-              <br />
-              <small>{t(FORM_MSG.form_import_formats)}</small>
-            </div>
+            <div>{t(MSG.photo_incentive)}</div>
             <Button color={btnColor || 'secondary'} onClick={onUploadBtnClick}>
-              {t(FORM_MSG.form_image_import)}
+              {t(FORM_MSG.form_import)}
             </Button>
-            {null != progress && (
+            {null == progress ? (
+              <div>
+                <small>{t(FORM_MSG.form_import_formats)}</small>
+              </div>
+            ) : (
               <Progress styleName="progress" value={progress}>
                 {progress}%
               </Progress>
@@ -197,5 +197,9 @@ const MSG = defineMessages({
   form_thanks: {
     id: 'visitorbook.form.thanks',
     defaultMessage: 'Merci pour ton petit message =)',
+  },
+  photo_incentive: {
+    id: 'visitorbook.form.photo_incentive',
+    defaultMessage: 'L’ajout d’une photo fait 5 fois plus plaisir à bébé :)',
   },
 })

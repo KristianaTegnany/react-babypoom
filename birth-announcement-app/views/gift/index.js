@@ -54,16 +54,13 @@ let Gift = ({ desktop, noNav, bpoom, bpoom: { bp_gift = {} } }) => {
       </div>
       <div styleName="panel-container">
         <Panel title={t(MSG.baby_gift_title)} imgType="piggy-bank">
-          {t({
-            ...MSG.baby_gift_block,
-            values: {
-              fees: bp_gift.caritative_fees,
-              link: (
-                <Button styleName="btn-link" color="link" onClick={showModal}>
-                  {charity.name}
-                </Button>
-              ),
-            },
+          {t(MSG.baby_gift_block, {
+            fees: bp_gift.caritative_fees,
+            link: (
+              <Button styleName="btn-link" color="link" onClick={showModal}>
+                {charity.name}
+              </Button>
+            ),
           })}
           <div styleName="action">
             <Button styleName="btn" color="app" onClick={showForm}>

@@ -57,26 +57,23 @@ let Footer = ({ bpoom, desktop, steps }) => {
         )}
       </div>
       <div styleName="made-with">
-        {t({
-          ...MSG.made_with_love,
-          values: {
-            love: (
-              <i styleName="icon">
-                <FaHeart />
-              </i>
-            ),
-            link: desktop ? (
-              <ReactGA.OutboundLink
-                eventLabel={config.babypoomWebsiteLink}
-                to={config.babypoomWebsiteLink}
-                target="_blank"
-              >
-                {config.babypoomWebsiteShortLink}
-              </ReactGA.OutboundLink>
-            ) : (
-              config.babypoomWebsiteShortLink
-            ),
-          },
+        {t(MSG.made_with_love, {
+          love: (
+            <i styleName="icon">
+              <FaHeart />
+            </i>
+          ),
+          link: desktop ? (
+            <ReactGA.OutboundLink
+              eventLabel={config.babypoomWebsiteLink}
+              to={config.babypoomWebsiteLink}
+              target="_blank"
+            >
+              {config.babypoomWebsiteShortLink}
+            </ReactGA.OutboundLink>
+          ) : (
+            config.babypoomWebsiteShortLink
+          ),
         })}
       </div>
     </footer>
