@@ -46,6 +46,7 @@ import { updateLocale } from '../../i18n/hot-intl-provider/HotIntlProviderAction
 import Cloud from 'svg-react-loader?name=Cloud!../../images/cloud.svg'
 
 import MSUploader from '../../components/uploader'
+import lazyLoad from '../../../lib/image-loader'
 
 let UNIQ = 0
 
@@ -128,6 +129,8 @@ let App = ({
       // Preload images
       let photo = getPhoto(bpoom.photo, 'thumbnail')
       if (photo) pixelate({ src: photo })
+      lazyLoadAllImages(bpoom, 'thumbnail')
+      lazyLoadAllImages(bpoom, 'normal')
     }
     if (bpoom.uuid) {
       callback(bpoom, i18n.localeData)
@@ -168,6 +171,14 @@ let App = ({
     })
   }
 
+  function lazyLoadAllImages(bpoom, photoType) {
+    lazyLoad(getPhoto(bpoom.photo, photoType))
+    lazyLoad(getPhoto(bpoom.photo_mum, photoType))
+    lazyLoad(getPhoto(bpoom.photo_dad, photoType))
+    ;((bpoom.bp_trip || {}).bp_trip_events || []).forEach(e => lazyLoad(getPhoto(e.photo, photoType)))
+    ;((bpoom.bp_visitorbook || {}).bp_visitorbook_msgs || [] || []).forEach(e => lazyLoad(getPhoto(e.photo, photoType)))
+  }
+
   function renderFlash() {
     if (!flash || !flash.message) {
       flash = (location.state || {}).flash
@@ -203,6 +214,7 @@ let App = ({
           onChangeIndex={changeSlideshowIndex}
           onClose={closeSlideshow}
           items={slideshow.items}
+          loop={false}
         />
       </main>
       {noNav ? '' : <Footer />}

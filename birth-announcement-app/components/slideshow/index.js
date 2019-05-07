@@ -58,8 +58,8 @@ export default ({ items = [], open = true, index: propIndex = 0, loop: propLoop 
   }, [propLoop, items])
 
   useEffect(() => {
-    setCurrentIndex(propIndex)
-  }, [propIndex])
+    setCurrentIndex(propIndex + (loop ? 1 : 0))
+  }, [propIndex, loop])
 
   useEffect(() => {
     toggle[open ? 'show' : 'hide']()
@@ -89,13 +89,13 @@ export default ({ items = [], open = true, index: propIndex = 0, loop: propLoop 
     onChangeIndex(index + (loop ? -1 : 0))
   }
 
-  const inRange = (index, current, length) => {
-    if (!rangeLoad) return true
-    if (loop && (!index || index > length)) return false
-    if ((current >= index && current - index <= 2) || (loop && length - index + current <= 2)) return true
-    if ((current <= index && index - current <= 5) || (loop && length - current + index <= 5)) return true
-    return false
-  }
+  // const inRange = (index, current, length) => {
+  //   if (!rangeLoad) return true
+  //   if (loop && (!index || index > length)) return false
+  //   if ((current >= index && current - index <= 2) || (loop && length - index + current <= 2)) return true
+  //   if ((current <= index && index - current <= 5) || (loop && length - current + index <= 5)) return true
+  //   return false
+  // }
 
   const prevNext = dir => {
     let currentImg = images[listIndex()]
@@ -419,12 +419,11 @@ export default ({ items = [], open = true, index: propIndex = 0, loop: propLoop 
       <div styleName="content">
         <div styleName="wrapper" onTransitionEnd={checkIndex} ref={wrapperElt} style={{ [transformProp]: transform }}>
           {list.map((item, index) => {
-            let load = inRange(index, listIndex(), items.length)
-            let style = load ? { backgroundImage: `url(${item.src})` } : {}
+            let style = { backgroundImage: `url(${item.src})` }
             return (
               <div
                 key={'_' + index}
-                ref={elt => setImageElement(elt, index, item.src, load)}
+                ref={elt => setImageElement(elt, index, item.src, true)}
                 styleName="slide"
                 onTransitionEnd={effectEnd}
               >

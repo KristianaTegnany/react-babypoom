@@ -36,7 +36,7 @@ var dataImport = template`const ${'locale'}Data = ${'data'}\n`
 var dataExport = template`export const data = ${'locale'}Data\n`
 
 // Remove all files in DIR
-fs.readdirSync(LOCALE_DATA_DIR).forEach(file => fs.unlinkSync(path.join(LOCALE_DATA_DIR, file)))
+fs.readdirSync(LOCALE_DATA_DIR).forEach(file => file !== '.gitkeep' && fs.unlinkSync(path.join(LOCALE_DATA_DIR, file)))
 
 // Create default locale file
 var locale = availableLocales.defaultLocale
