@@ -3,5 +3,5 @@
   "SERVER_URL": "https://my.babypoom.com",
   "fbAppId": "1392663717428389",
   "s3UploadUrl": "https://babypoom-bucket.s3-accelerate.amazonaws.com",
-  "s3CloudFrontUrl": "https://d1vabderfnpkgv.cloudfront.net"
+  "s3CloudFrontUrl": "https://aws.babypoom.com"
 }
