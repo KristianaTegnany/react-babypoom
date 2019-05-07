@@ -158,7 +158,7 @@ class App extends Component {
     let volumeOn = controls.querySelector('.volume-on')
     let volumeOff = controls.querySelector('.volume-off')
     let warning = container.querySelector('.limited-preview')
-    let close = warning.querySelector('.close')
+    let close = warning && warning.querySelector('.close')
     let storage = window.sessionStorage || {}
     let soundActive = true
 
@@ -230,7 +230,7 @@ class App extends Component {
       turn.page(totalPages)
       update()
     })
-    close.addEventListener('click', closeWarning)
+    if (close) close.addEventListener('click', closeWarning)
     if (Fullscreen.support)
       controls.querySelector('.fullscreen').addEventListener('click', () => {
         Fullscreen.toggle(document.body)
@@ -255,7 +255,7 @@ class App extends Component {
     controls.style.display = 'block'
     if (+storage[uuid] > 1) {
       closeWarning()
-    } else {
+    } else if (warning) {
       warning.style.display = 'flex'
     }
     turn.peel('br')
@@ -327,14 +327,16 @@ class App extends Component {
               <div className="loading-preview" styleName="loading-preview">
                 <div />
               </div>
-              <div className="limited-preview">
-                <div>
-                  {t(MSG.preview_limit)}
-                  <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                  </button>
+              {!params.full && (
+                <div className="limited-preview">
+                  <div>
+                    {t(MSG.preview_limit)}
+                    <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="order">
                 <a href={config.orderLink.replace('{{uuid}}', bpoom.uuid)}>{t(MSG.order)}</a>
               </div>
