@@ -56,6 +56,11 @@ function setLocaleData(localeData) {
   addLocaleData(new Function(`return ${localeData}`)())
 }
 
+const normalImgSize = { width: config.imageSizes.normal, height: config.imageSizes.normal }
+function getImageSize(item, callback) {
+  return callback(normalImgSize)
+}
+
 let App = ({
   bpoom,
   desktop,
@@ -215,6 +220,7 @@ let App = ({
           onClose={closeSlideshow}
           items={slideshow.items}
           loop={false}
+          getImageSize={getImageSize}
         />
       </main>
       {noNav ? '' : <Footer />}

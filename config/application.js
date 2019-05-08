@@ -2,6 +2,11 @@ import config from './application.NODE_ENV.json'
 
 export default {
   ...config,
+  imageSizes: {
+    hd: 1000,
+    normal: 650,
+    thumbnail: 250,
+  },
   theme_color_1: '#59bab8',
   theme_color_2: '#fffcfc',
   requestCacheVar: '__WEBPACK_REQUEST_CACHE__',

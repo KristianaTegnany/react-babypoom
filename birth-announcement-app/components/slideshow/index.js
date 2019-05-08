@@ -39,7 +39,29 @@ let mouseLastPos
 let abortTransition
 let lastTap
 
-export default ({ items = [], open = true, index: propIndex = 0, loop: propLoop = true, onChangeIndex, onClose }) => {
+export default ({
+  items = [],
+  open = true,
+  index: propIndex = 0,
+  loop: propLoop = true,
+  onChangeIndex,
+  onClose,
+  getImageSize,
+}) => {
+  getImageSize =
+    getImageSize ||
+    function(item, callback) {
+      let img = new Image()
+      img.onload = () => {
+        callback(img)
+      }
+      img.onerror = () => {
+        item.tries = (item.tries || 0) + 1
+        getImageSize(item, callback)
+      }
+      img.src = item.src
+    }
+
   const toggle = useToggle(open)
   const [loop, setLoop] = useState(propLoop && items.length > 1)
   const [currentIndex, setCurrentIndex] = useState(propIndex + (loop ? 1 : 0))
@@ -89,13 +111,13 @@ export default ({ items = [], open = true, index: propIndex = 0, loop: propLoop 
     onChangeIndex(index + (loop ? -1 : 0))
   }
 
-  // const inRange = (index, current, length) => {
-  //   if (!rangeLoad) return true
-  //   if (loop && (!index || index > length)) return false
-  //   if ((current >= index && current - index <= 2) || (loop && length - index + current <= 2)) return true
-  //   if ((current <= index && index - current <= 5) || (loop && length - current + index <= 5)) return true
-  //   return false
-  // }
+  const inRange = (index, current, length) => {
+    if (!rangeLoad) return true
+    if (loop && (!index || index > length)) return false
+    if ((current >= index && current - index <= 2) || (loop && length - index + current <= 2)) return true
+    if ((current <= index && index - current <= 2) || (loop && length - current + index <= 2)) return true
+    return false
+  }
 
   const prevNext = dir => {
     let currentImg = images[listIndex()]
@@ -125,18 +147,12 @@ export default ({ items = [], open = true, index: propIndex = 0, loop: propLoop 
   }
 
   const setItemDim = (item, callback) => {
-    if (!item.src || item.width >= 0 || item.tries > 2) return callback(item)
-    let img = new Image()
-    img.onload = () => {
-      item.width = img.width
-      item.height = img.height
-      callback(img)
-    }
-    img.onerror = () => {
-      item.tries = (item.tries || 0) + 1
-      setItemDim(item, callback)
-    }
-    img.src = item.src
+    if (!item.src || item.width >= 0 || item.tries > 1) return callback(item)
+    getImageSize(item, size => {
+      item.width = size.width
+      item.height = size.height
+      callback()
+    })
   }
 
   const beforeZoomSetup = (elt, tries) => {
@@ -419,11 +435,12 @@ export default ({ items = [], open = true, index: propIndex = 0, loop: propLoop 
       <div styleName="content">
         <div styleName="wrapper" onTransitionEnd={checkIndex} ref={wrapperElt} style={{ [transformProp]: transform }}>
           {list.map((item, index) => {
-            let style = { backgroundImage: `url(${item.src})` }
+            let load = inRange(index, listIndex(), items.length)
+            let style = load ? { backgroundImage: `url(${item.src})` } : {}
             return (
               <div
                 key={'_' + index}
-                ref={elt => setImageElement(elt, index, item.src, true)}
+                ref={elt => setImageElement(elt, index, item.src, load)}
                 styleName="slide"
                 onTransitionEnd={effectEnd}
               >
