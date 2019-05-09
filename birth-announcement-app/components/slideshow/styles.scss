@@ -15,14 +15,16 @@
   flex-direction: column;
   cursor: pointer;
 
-  &:hover:not(.touch) {
+  &:hover {
     .previous,
     .next {
       display: block;
     }
   }
   &.first .previous,
-  &.last .next {
+  &.last .next,
+  .touch .previous,
+  .touch .next {
     display: none !important;
   }
 }
