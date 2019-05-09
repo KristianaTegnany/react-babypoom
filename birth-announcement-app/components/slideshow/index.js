@@ -74,6 +74,7 @@ function cleanSlides() {
     titles[index].innerHTML = ''
     descriptions[index].innerHTML = ''
   })
+  zoom(false)
 }
 
 function prevNext(add) {

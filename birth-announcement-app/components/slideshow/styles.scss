@@ -23,8 +23,8 @@
   }
   &.first .previous,
   &.last .next,
-  .touch .previous,
-  .touch .next {
+  &.touch .previous,
+  &.touch .next {
     display: none !important;
   }
 }
