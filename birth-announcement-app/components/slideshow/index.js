@@ -321,6 +321,16 @@ function checkIndex() {
   slideTransitionInfo = null
 }
 
+const preventDefault = event => {
+  let e = event.touches[0]
+  if (
+    document.elementFromPoint
+      ? document.elementFromPoint(e.clientX, e.clientY).closest('.' + styles['slideshow'])
+      : e.clientY > 170
+  )
+    event.preventDefault()
+}
+
 export default function({
   items = [],
   open = true,
@@ -347,19 +357,24 @@ export default function({
   }, [])
 
   useEffect(() => {
-    container = containerElt.current
+    if ((container = containerElt.current) && IS_TOUCH) {
+      addClass(container, 'touch')
+    }
   }, [containerElt])
 
   useEffect(() => {
-    open ? updateSlides() : cleanSlides()
+    let root = document.getElementById('root')
+    if (open) {
+      updateSlides()
+      root.addEventListener('touchmove', preventDefault, { passive: false })
+    } else {
+      cleanSlides()
+      root.removeEventListener('touchmove', preventDefault)
+    }
   }, [items, propIndex, open])
 
   return (
-    <div
-      className={[styles['slideshow'], IS_TOUCH ? styles['touch'] : ''].join(' ')}
-      style={{ display: open ? '' : 'none' }}
-      ref={containerElt}
-    >
+    <div styleName="slideshow" style={{ display: open ? '' : 'none' }} ref={containerElt}>
       <div styleName="nav">
         <div styleName="counter" />
         <div styleName="loading" />
