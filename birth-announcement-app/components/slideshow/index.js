@@ -26,10 +26,6 @@ const removeClass = (elt, className) => removeGlobalClass(elt, styles[className]
 
 let loop
 let container
-let counter
-let images
-let titles
-let descriptions
 let currentIndex
 let currentItems
 let totalItems
@@ -49,7 +45,10 @@ function calcIndex(add) {
 
 function updateSlides() {
   if (!container) return
-  counter.innerHTML = `${currentIndex + 1} / ${totalItems}`
+  let images = container.querySelectorAll('.' + styles['image'])
+  let titles = container.querySelectorAll('.' + styles['title'])
+  let descriptions = container.querySelectorAll('.' + styles['description'])
+  container.querySelector('.' + styles['counter']).innerHTML = `${currentIndex + 1} / ${totalItems}`
   ;[currentItems[currentIndex] || {}, currentItems[calcIndex(1)] || {}, currentItems[calcIndex(-1)] || {}].forEach(
     (item, index) => {
       index = (index + 1) % 3
@@ -59,23 +58,22 @@ function updateSlides() {
     },
   )
   if (!loop) {
-    container.setAttribute('data-first', !currentIndex)
-    container.setAttribute('data-last', currentIndex === totalItems - 1)
+    ;(currentIndex === 0 ? addClass : removeClass)(container, 'first')
+    ;(currentIndex === totalItems - 1 ? addClass : removeClass)(container, 'last')
   }
 }
 
 function cleanSlides() {
   if (!container) return
-  counter.innerHTML = ''
+  container.querySelector('.' + styles['counter']).innerHTML = ''
+  let images = container.querySelectorAll('.' + styles['image'])
+  let titles = container.querySelectorAll('.' + styles['title'])
+  let descriptions = container.querySelectorAll('.' + styles['description'])
   ;[0, 1, 2].forEach(index => {
     images[index].style.backgroundImage = ''
     titles[index].innerHTML = ''
     descriptions[index].innerHTML = ''
   })
-  if (!loop) {
-    container.removeAttribute('data-first')
-    container.removeAttribute('data-last')
-  }
 }
 
 function prevNext(add) {
@@ -306,10 +304,17 @@ function handleTouchEnd() {
 function checkIndex() {
   if (abortTransition) return
   if (slideTransitionInfo) {
+    let slides = container.querySelectorAll('.' + styles['slide'])
     // remove transition
     removeClass(slideTransitionInfo.elt, 'slide-transition')
     slideTransitionInfo.style[transformProp] = ''
-    slideTransitionInfo.elt.offsetHeight
+    // slideTransitionInfo.elt.offsetHeight
+    let diff = slideTransitionInfo.originalPosX - slideTransitionInfo.posX
+    if (diff < 0) {
+      slideTransitionInfo.elt.insertBefore(slides[2], slides[0])
+    } else {
+      slideTransitionInfo.elt.appendChild(slides[0])
+    }
     updateSlides()
   }
   slideTransitionInfo = null
@@ -341,12 +346,7 @@ export default function({
   }, [])
 
   useEffect(() => {
-    if ((container = containerElt.current)) {
-      counter = container.querySelector('.' + styles['counter'])
-      images = container.querySelectorAll('.' + styles['image'])
-      titles = container.querySelectorAll('.' + styles['title'])
-      descriptions = container.querySelectorAll('.' + styles['description'])
-    }
+    container = containerElt.current
   }, [containerElt])
 
   useEffect(() => {
@@ -370,37 +370,25 @@ export default function({
       </div>
       <div styleName="content">
         <div styleName="slides" onTransitionEnd={checkIndex}>
-          <div styleName="slide">
-            <div styleName="image" />
-            <div styleName="caption">
-              <div styleName="title" />
-              <div styleName="description" />
+          {[0, 1, 2].map(index => (
+            <div key={index} styleName="slide" onTransitionEnd={effectEnd}>
+              {IS_TOUCH ? (
+                <div styleName="image" onTouchMove={imageMove} onTouchStart={imageDown} onTouchEnd={handleTouchEnd} />
+              ) : (
+                <div
+                  styleName="image"
+                  onMouseDown={zoomDown}
+                  onClick={imageClick}
+                  onMouseLeave={zoomUp}
+                  onMouseMove={zoomMove}
+                />
+              )}
+              <div styleName="caption">
+                <div styleName="title" />
+                <div styleName="description" />
+              </div>
             </div>
-          </div>
-          <div styleName="slide" onTransitionEnd={effectEnd}>
-            {IS_TOUCH ? (
-              <div styleName="image" onTouchMove={imageMove} onTouchStart={imageDown} onTouchEnd={handleTouchEnd} />
-            ) : (
-              <div
-                styleName="image"
-                onMouseDown={zoomDown}
-                onClick={imageClick}
-                onMouseLeave={zoomUp}
-                onMouseMove={zoomMove}
-              />
-            )}
-            <div styleName="caption">
-              <div styleName="title" />
-              <div styleName="description" />
-            </div>
-          </div>
-          <div styleName="slide">
-            <div styleName="image" />
-            <div styleName="caption">
-              <div styleName="title" />
-              <div styleName="description" />
-            </div>
-          </div>
+          ))}
         </div>
         <div styleName="previous" title={t(MSG.previous)} onClick={prev} />
         <div styleName="next" title={t(MSG.next)} onClick={next} />

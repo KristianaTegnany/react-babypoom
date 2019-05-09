@@ -21,8 +21,8 @@
       display: block;
     }
   }
-  &[data-first='true'] .previous,
-  &[data-last='true'] .next {
+  &.first .previous,
+  &.last .next {
     display: none !important;
   }
 }
