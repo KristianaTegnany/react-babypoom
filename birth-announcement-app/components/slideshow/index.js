@@ -293,7 +293,6 @@ function slide(e) {
 }
 
 function handleTouchEnd(e) {
-  if (e.target !== container.querySelectorAll('.' + styles['image'])[1]) return
   imageUp()
   if (lastTap && new Date() - lastTap <= 500) {
     // Double tap
@@ -313,10 +312,12 @@ function checkIndex() {
     slideTransitionInfo.style[transformProp] = ''
     // slideTransitionInfo.elt.offsetHeight
     let diff = slideTransitionInfo.originalPosX - slideTransitionInfo.posX
-    if (diff < 0) {
-      slideTransitionInfo.elt.insertBefore(slides[2], slides[0])
-    } else {
-      slideTransitionInfo.elt.appendChild(slides[0])
+    if (Math.abs(diff) > 30) {
+      if (diff < 0) {
+        slideTransitionInfo.elt.insertBefore(slides[2], slides[0])
+      } else {
+        slideTransitionInfo.elt.appendChild(slides[0])
+      }
     }
     updateSlides()
   }
