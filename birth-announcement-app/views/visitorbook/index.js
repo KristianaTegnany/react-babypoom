@@ -48,7 +48,7 @@ let VisitorBook = ({
 
   useSlideshow(bpoom, loadSlideshow, () =>
     visitorbookMsgs.map(msg => ({
-      src: getPhoto(msg.photo, 'normal') || defaultPhoto,
+      src: [getPhoto(msg.photo, 'normal') || defaultPhoto, getPhoto(msg.photo, 'thumbnail') || defaultPhoto],
       title: msg.created_at ? `${formatDate(intl, msg.created_at)} - ${msg.name || ''}` : `${msg.name || ''}`,
       description: msg.message || '',
     })),

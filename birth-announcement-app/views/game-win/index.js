@@ -26,7 +26,9 @@ import styles from './styles.scss'
 import BABY_IMAGES from '../../../lib/baby-img'
 
 let GameWin = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
-  useSlideshow(bpoom, loadSlideshow, () => [{ src: getPhoto(bpoom.photo, 'normal') }])
+  useSlideshow(bpoom, loadSlideshow, () => [
+    { src: [getPhoto(bpoom.photo, 'normal'), getPhoto(bpoom.photo, 'thumbnail')] },
+  ])
 
   let babyType = bpoom.baby_full_type
   return (

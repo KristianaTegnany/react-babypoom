@@ -134,8 +134,8 @@ let App = ({
       // Preload images
       let photo = getPhoto(bpoom.photo, 'thumbnail')
       if (photo) pixelate({ src: photo })
-      lazyLoadAllImages(bpoom, 'thumbnail')
-      lazyLoadAllImages(bpoom, 'normal')
+      // lazyLoadAllImages(bpoom, 'thumbnail')
+      // lazyLoadAllImages(bpoom, 'normal')
     }
     if (bpoom.uuid) {
       callback(bpoom, i18n.localeData)

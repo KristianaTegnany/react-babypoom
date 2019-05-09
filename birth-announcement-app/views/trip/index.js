@@ -27,7 +27,7 @@ let Trip = ({ bpoom, bpoom: { bp_trip = {} }, desktop, noNav, intl, loadSlidesho
 
   useSlideshow(bpoom, loadSlideshow, () =>
     tripEvents.map(event => ({
-      src: getPhoto(event.photo, 'normal') || defaultPhoto,
+      src: [getPhoto(event.photo, 'normal') || defaultPhoto, getPhoto(event.photo, 'thumbnail') || defaultPhoto],
       title: formatDate(intl, event),
       description: event.message || '',
     })),

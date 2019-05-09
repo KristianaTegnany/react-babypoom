@@ -26,8 +26,14 @@ import defaultPhoto from '../../images/default.jpeg'
 let Arrival = ({ bpoom, bpoom: { bp_arrival = {} }, desktop, noNav, loadSlideshow, openSlideshow }) => {
   useSlideshow(bpoom, loadSlideshow, () =>
     [
-      { src: getPhoto(bpoom.photo_mum, 'normal'), description: bpoom.reaction_mum },
-      { src: getPhoto(bpoom.photo_dad, 'normal'), description: bpoom.reaction_dad },
+      {
+        src: [getPhoto(bpoom.photo_mum, 'normal'), getPhoto(bpoom.photo_mum, 'thumbnail')],
+        description: bpoom.reaction_mum,
+      },
+      {
+        src: [getPhoto(bpoom.photo_dad, 'normal'), getPhoto(bpoom.photo_dad, 'thumbnail')],
+        description: bpoom.reaction_dad,
+      },
     ].filter(x => x.src),
   )
 

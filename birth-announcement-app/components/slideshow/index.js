@@ -52,7 +52,12 @@ function updateSlides() {
   ;[currentItems[currentIndex] || {}, currentItems[calcIndex(1)] || {}, currentItems[calcIndex(-1)] || {}].forEach(
     (item, index) => {
       index = (index + 1) % 3
-      images[index].style.backgroundImage = item.src ? `url(${item.src})` : ''
+      images[index].style.backgroundImage = item.src
+        ? []
+            .concat(item.src)
+            .map(src => `url(${src})`)
+            .join(',')
+        : ''
       titles[index].innerHTML = item.title || ''
       descriptions[index].innerHTML = item.description || ''
     },
@@ -74,7 +79,8 @@ function cleanSlides() {
     titles[index].innerHTML = ''
     descriptions[index].innerHTML = ''
   })
-  zoom(false)
+  if (Fullscreen.active()) fullScreen()
+  else zoom(false)
 }
 
 function prevNext(add) {
