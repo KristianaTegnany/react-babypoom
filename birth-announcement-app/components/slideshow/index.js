@@ -355,7 +355,7 @@ export default function({
 
   return (
     <div
-      styleName={['slideshow', IS_TOUCH ? 'touch' : ''].join(' ')}
+      className={[styles['slideshow'], IS_TOUCH ? styles['touch'] : ''].join(' ')}
       style={{ display: open ? '' : 'none' }}
       ref={containerElt}
     >
