@@ -346,7 +346,6 @@ export default function({
   currentIndex = propIndex
   currentItems = items
   totalItems = items.length
-  zoomMode = false
   loop = loopProp
   getImageSize = getImageSizeFunc || defaultGetImageSize
 
