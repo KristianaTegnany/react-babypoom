@@ -293,7 +293,7 @@ function slide(e) {
 }
 
 function handleTouchEnd(e) {
-  if (e.touches && e.touches.length > 1) return
+  if (e.target !== container.querySelectorAll('.' + styles['image'])[1]) return
   imageUp()
   if (lastTap && new Date() - lastTap <= 500) {
     // Double tap
@@ -325,9 +325,10 @@ function checkIndex() {
 
 const preventDefault = event => {
   let e = event.touches[0]
+  let elt
   if (
     document.elementFromPoint
-      ? document.elementFromPoint(e.clientX, e.clientY).closest('.' + styles['slideshow'])
+      ? (elt = document.elementFromPoint(e.clientX, e.clientY)) && elt.closest('.' + styles['slideshow'])
       : e.clientY > 170
   )
     event.preventDefault()
