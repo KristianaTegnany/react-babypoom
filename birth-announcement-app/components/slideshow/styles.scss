@@ -225,6 +225,11 @@
 
 .fullscreen {
   background-position: 0 0;
+  display: none;
+}
+
+.fullscreen-support .fullscreen {
+  display: block;
 }
 
 .fullscreen-mode {

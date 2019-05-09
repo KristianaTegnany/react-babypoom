@@ -360,8 +360,9 @@ export default function({
   }, [])
 
   useEffect(() => {
-    if ((container = containerElt.current) && IS_TOUCH) {
-      addClass(container, 'touch')
+    if ((container = containerElt.current)) {
+      if (IS_TOUCH) addClass(container, 'touch')
+      if (Fullscreen.support) addClass(container, 'fullscreen-support')
     }
   }, [containerElt])
 
@@ -383,7 +384,7 @@ export default function({
         <div styleName="loading" />
         <div styleName="actions">
           <button styleName="zoom" title={t(MSG.zoom)} onClick={() => zoom()} />
-          {Fullscreen.support && <button styleName="fullscreen" title={t(MSG.fullscreen)} onClick={fullScreen} />}
+          <button styleName="fullscreen" title={t(MSG.fullscreen)} onClick={fullScreen} />
           <button styleName="close" title={t(MSG.close)} onClick={() => (toggle.hide(), onClose && onClose())} />
         </div>
       </div>
