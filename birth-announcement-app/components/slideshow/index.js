@@ -276,6 +276,7 @@ function imageUp() {
 }
 
 function slide(e) {
+  if (e.touches && e.touches.length > 1) return
   if (!slideInfo) return
   let clientX = e.touches[0].clientX
   if (mouseLastPos) {
@@ -291,7 +292,8 @@ function slide(e) {
   mouseLastPos = { x: clientX }
 }
 
-function handleTouchEnd() {
+function handleTouchEnd(e) {
+  if (e.touches && e.touches.length > 1) return
   imageUp()
   if (lastTap && new Date() - lastTap <= 500) {
     // Double tap
