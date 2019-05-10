@@ -133,7 +133,7 @@ let App = ({
 
       // Preload images
       let photo = getPhoto(bpoom.photo, 'thumbnail')
-      if (photo) pixelate({ src: photo })
+      if (photo) pixelate({ src: photo + '?cache-control=no-cache' }) // Need to cache the CORS headers
       lazyLoadAllImages(bpoom, 'thumbnail')
       // lazyLoadAllImages(bpoom, 'normal')
     }
