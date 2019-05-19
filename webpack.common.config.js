@@ -5,6 +5,7 @@ var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var MiniCssExtractPlugin = require('mini-css-extract-plugin')
 var StringReplacePlugin = require('string-replace-webpack-plugin')
+var CopyPlugin = require('copy-webpack-plugin')
 var availableLocales = require('./available-locales')
 
 var config = {}
@@ -34,6 +35,7 @@ module.exports = _.merge(config, {
         })
       },
     },
+    new CopyPlugin([{ from: 'album-photo-app/favicon.ico', to: path.join(__dirname, '/public/') }]),
     new MiniCssExtractPlugin('app-[hash].min.css'),
     new HtmlWebpackPlugin({
       inject: false,
