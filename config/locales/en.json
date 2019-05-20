@@ -1,4 +1,5 @@
 {
+  "app.disabled": "Désolé, ce babypoom a été désactivé.",
   "app.not_found": "Désolé, cette page n'existe pas.",
   "app.request.error": "Une erreur est survenue. \nVeuillez réessayer plus tard.",
   "arrival.parent_reaction": "La réaction des parents",
@@ -40,7 +41,6 @@
   "form.errors.presence": "Champ requis",
   "form.first_name": "Prénom",
   "form.image_capture": "Webcam",
-  "form.image_import": "Importer une image",
   "form.import": "Importe ta photo",
   "form.import_formats": "(Formats : JPG, PNG, GIF)",
   "form.last_name": "Nom",
@@ -112,6 +112,7 @@
   "trip.type_period_late": "Fin {month} {year}",
   "trip.type_period_mid": "Mi-{month} {year}",
   "visitorbook.delete_message_confirm": "Êtes-vous sûr de vouloir supprimer ce message ?",
+  "visitorbook.form.photo_incentive": "L’ajout d’une photo fait 5 fois plus plaisir à bébé :)",
   "visitorbook.form.thanks": "Merci pour ton petit message =)",
   "visitorbook.leave_message": "Laisser un message",
   "visitorbook.message_deleted": "Votre message a bien été supprimé",
