@@ -14,7 +14,7 @@ import Slideshow from '../../components/slideshow'
 
 import { loadSlideshow, openSlideshow, changeSlideshowIndex, closeSlideshow } from '../../components/slideshow/Actions'
 
-import NotFound from '../not-found'
+import StaticMessage from '../static-message'
 import Alert from '../../components/form/Alert'
 import Header from '../../components/header'
 import Footer from '../../components/footer'
@@ -199,7 +199,8 @@ let App = ({
     )
   }
 
-  if (bpoom.not_found) return <NotFound />
+  if (bpoom.not_found) return <StaticMessage />
+  if (bpoom.disabled) return <StaticMessage msg="disabled" />
 
   let Step = stepComponent(steps.current, bpoom)
   let stepName = steps.current || ''

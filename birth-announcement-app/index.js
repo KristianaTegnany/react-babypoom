@@ -25,7 +25,11 @@ import './i18n/messages/redux-form-validators'
 import Bootstrap from '../config/bootstrap/bootstrap.scss'
 import { setGlobalCssModule } from 'reactstrap/lib/utils'
 
-if (typeof window !== 'undefined' && location.href.match('http:') && !config.development) {
+if (
+  typeof window !== 'undefined' &&
+  location.href.match('http:') &&
+  ['localhost', 'lvh', 'lvh.me'].indexOf(location.hostname) < 0
+) {
   window.location.href = location.href.replace('http', 'https')
 }
 

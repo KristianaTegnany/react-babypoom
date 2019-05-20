@@ -1,6 +1,6 @@
 import React from 'react'
 import App from './views/app/'
-import NotFound from './views/not-found/'
+import StaticMessage from './views/static-message/'
 
 const routes = [
   {
@@ -9,7 +9,7 @@ const routes = [
   },
   {
     path: '*',
-    component: NotFound,
+    component: StaticMessage, // NotFound
   },
 ]
 

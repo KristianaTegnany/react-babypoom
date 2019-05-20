@@ -15,6 +15,7 @@ export default function(state = defaultState, action) {
   let bpoom
   switch (action.type) {
     case BPOOM:
+      if (action.bpoom.disabled) return { ...state, bpoom: { disabled: true } }
       action.bpoom.babyNameFormatted = (action.bpoom.babyname || '')
         .toUpperCase()
         .replace(/\s+/g, ' ')

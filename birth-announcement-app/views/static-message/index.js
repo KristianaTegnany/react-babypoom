@@ -21,21 +21,17 @@ import styles from './styles.scss'
 // Images
 import mascotSays from '../../images/mascot-says.png'
 
-let NotFound = ({ desktop }) => (
+let StaticMessage = ({ desktop, msg }) => (
   <Route
     render={({ staticContext }) => {
-      if (staticContext) {
-        staticContext.status = 404
-      }
+      if (staticContext) staticContext.status = 404
       return (
-        <CSSVariableApplicator
-          data-variables={computeThemeColors(config.theme.defaultColor1, config.theme.defaultColor2)}
-        >
+        <CSSVariableApplicator data-variables={computeThemeColors(config.theme_color_1, config.theme_color_2)}>
           <main>
             <div styleName="styles.container">
               <div styleName="styles.wrapper">
                 <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={mascotSays}>
-                  {t(MSG.not_found)}
+                  {t(MSG[msg || 'not_found'])}
                 </BubbleSay>
               </div>
             </div>
@@ -47,7 +43,7 @@ let NotFound = ({ desktop }) => (
   />
 )
 
-export default connect(mapStateToProps)(NotFound)
+export default connect(mapStateToProps)(StaticMessage)
 
 function mapStateToProps(state) {
   const {
@@ -60,5 +56,9 @@ const MSG = defineMessages({
   not_found: {
     id: 'app.not_found',
     defaultMessage: "Désolé, cette page n'existe pas.",
+  },
+  disabled: {
+    id: 'app.disabled',
+    defaultMessage: 'Désolé, ce babypoom a été désactivé.',
   },
 })

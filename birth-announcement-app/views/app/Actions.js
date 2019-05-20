@@ -15,7 +15,8 @@ function _exec(url, urlOptions, options, okCallback, koCallback) {
           if (okCallback) okCallback(dispatch, json)
           resolve(json)
         })
-        .catch(function([error, response]) {
+        .catch(function(args) {
+          let [error, response = {}] = [].concat(args)
           if (!options || false !== options.flash) flash('danger', MSG.error)(dispatch)
           if (koCallback) koCallback(dispatch, error, response)
           reject(error)
