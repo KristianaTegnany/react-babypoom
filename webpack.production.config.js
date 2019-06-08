@@ -42,7 +42,13 @@ config.optimization = {
     }),
   ],
 }
-config.plugins = config.plugins.concat([new OptimizeCssAssetsPlugin({})])
+config.plugins = config.plugins.concat([
+  new OptimizeCssAssetsPlugin({
+    cssProcessorPluginOptions: {
+      preset: ['default', { discardComments: { removeAll: true } }],
+    },
+  }),
+])
 module.exports = config
 
 // const moduleConfig = _.cloneDeep(config)
