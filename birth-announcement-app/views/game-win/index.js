@@ -27,7 +27,7 @@ import BABY_IMAGES from '../../../lib/baby-img'
 
 let GameWin = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
   useSlideshow(bpoom, loadSlideshow, () => [
-    { src: [getPhoto(bpoom.photo, 'normal'), getPhoto(bpoom.photo, 'thumbnail')] },
+    { src: [getPhoto(bpoom.photo_urls, 'normal'), getPhoto(bpoom.photo_urls, 'thumbnail')] },
   ])
 
   let babyType = bpoom.baby_full_type
@@ -39,7 +39,7 @@ let GameWin = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
         </BubbleSay>
       ) : (
         [
-          <BubblePic key="bubble" onClick={openSlideshow} imgSrc={getPhoto(bpoom.photo, 'thumbnail')}>
+          <BubblePic key="bubble" onClick={openSlideshow} imgSrc={getPhoto(bpoom.photo_urls, 'thumbnail')}>
             {t(MSG.win)} {noNav ? '' : <Transition />}
           </BubblePic>,
           <div key="text" styleName="mob-fullscreen">
@@ -52,7 +52,7 @@ let GameWin = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
           <BpoomImg
             imgText={<a href="javascript:void(0)">{t(MSG.desktop_fullscreen)}</a>}
             onClick={openSlideshow}
-            imgSrc={getPhoto(bpoom.photo, 'thumbnail')}
+            imgSrc={getPhoto(bpoom.photo_urls, 'thumbnail')}
           />
         ) : (
           ''

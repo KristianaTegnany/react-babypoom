@@ -27,11 +27,11 @@ let Arrival = ({ bpoom, bpoom: { bp_arrival = {} }, desktop, noNav, loadSlidesho
   useSlideshow(bpoom, loadSlideshow, () =>
     [
       {
-        src: [getPhoto(bpoom.photo_mum, 'normal'), getPhoto(bpoom.photo_mum, 'thumbnail')],
+        src: [getPhoto(bpoom.photo_mum_urls, 'normal'), getPhoto(bpoom.photo_mum_urls, 'thumbnail')],
         description: bpoom.reaction_mum,
       },
       {
-        src: [getPhoto(bpoom.photo_dad, 'normal'), getPhoto(bpoom.photo_dad, 'thumbnail')],
+        src: [getPhoto(bpoom.photo_dad_urls, 'normal'), getPhoto(bpoom.photo_dad_urls, 'thumbnail')],
         description: bpoom.reaction_dad,
       },
     ].filter(x => x.src),
@@ -66,7 +66,7 @@ let Arrival = ({ bpoom, bpoom: { bp_arrival = {} }, desktop, noNav, loadSlidesho
     ['eyes_colors', getText(bpoom, 'eyes_colors', 'eye')],
   ].filter(pair => pair[1])
 
-  let photo = getPhoto(bpoom.photo, 'thumbnail')
+  let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
   return (
     <div styleName="arrival-container">
       {renderBubbleMsg(photo, bp_arrival.message, 'left')}
@@ -89,8 +89,8 @@ let Arrival = ({ bpoom, bpoom: { bp_arrival = {} }, desktop, noNav, loadSlidesho
         ''
       )}
       {bpoom.reaction_mum && bpoom.reaction_dad ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
-      {renderBubbleMsg(getPhoto(bpoom.photo_mum, 'thumbnail') || defaultPhoto, bpoom.reaction_mum, 'left', 0)}
-      {renderBubbleMsg(getPhoto(bpoom.photo_dad, 'thumbnail') || defaultPhoto, bpoom.reaction_dad, 'right', 1)}
+      {renderBubbleMsg(getPhoto(bpoom.photo_mum_urls, 'thumbnail') || defaultPhoto, bpoom.reaction_mum, 'left', 0)}
+      {renderBubbleMsg(getPhoto(bpoom.photo_dad_urls, 'thumbnail') || defaultPhoto, bpoom.reaction_dad, 'right', 1)}
       {noNav ? '' : renderBubbleMsg(photo, <Transition />, 'left')}
     </div>
   )

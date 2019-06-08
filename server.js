@@ -101,7 +101,7 @@ app.get('*', (req, res) => {
               msgs ? msgs['metas.description'] : metas.description.defaultMessage,
               bpoom,
             ),
-            ogImage: (bpoom.photo_mum || {}).thumbnail,
+            ogImage: (bpoom.photo_mum_urls || {}).thumbnail,
             html: render(),
             uuid: match.params.uuid,
             cachedJs: `var ${config.requestCacheVar} = ${JSON.stringify(store.getState())}`,

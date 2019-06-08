@@ -44,7 +44,7 @@ let Gift = ({ desktop, noNav, bpoom, bpoom: { bp_gift = {} } }) => {
   if (form.visible) return <GiftCharityForm onSave={form.hide} onCancel={form.hide} />
 
   let charity = bp_gift.caritative || {}
-  let photo = getPhoto(bpoom.photo, 'thumbnail')
+  let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
   let image = getPhoto(charity.image, 'normal')
 
   return (

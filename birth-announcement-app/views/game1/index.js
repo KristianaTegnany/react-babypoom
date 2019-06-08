@@ -66,8 +66,8 @@ let Game1 = ({
   // Pixelate baby photo
   useEffect(() => {
     let resolution = (24 - (letters ? Math.round((guessedOkCount * 24) / letters) : 0)) * 2
-    pixelate({ src: getPhoto(bpoom.photo, 'thumbnail'), resolution, width: 100, height: 100 }, setPicture)
-  }, [bpoom.photo, guessedOkCount, letters])
+    pixelate({ src: getPhoto(bpoom.photo_urls, 'thumbnail'), resolution, width: 100, height: 100 }, setPicture)
+  }, [bpoom.photo_urls, guessedOkCount, letters])
 
   const imageStyles = () => {
     let pr = 100 / (pixelGridSize - 1)
@@ -81,7 +81,7 @@ let Game1 = ({
             let color = pixels.includes(i) ? 'var(--neutral-secondary)' : 'transparent'
             return `linear-gradient(to right,${color},${color})`
           })
-          .join(',') + `,url(${getPhoto(bpoom.photo, 'thumbnail')})`,
+          .join(',') + `,url(${getPhoto(bpoom.photo_urls, 'thumbnail')})`,
       backgroundSize:
         new Array(pixelGridSize * pixelGridSize)
           .fill(0)

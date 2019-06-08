@@ -18,7 +18,7 @@ import mascotSays from '../../images/mascot-says.png'
 let Souvenir = ({ bpoom, bpoom: { bp_souvenir = {} }, desktop }) => (
   <div>
     {/* {
-      <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={getPhoto(bpoom.photo, 'thumbnail')}>
+      <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={getPhoto(bpoom.photo_urls, 'thumbnail')}>
         {bp_souvenir.message}
       </BubbleSay>
     } */}

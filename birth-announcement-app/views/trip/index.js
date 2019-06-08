@@ -27,13 +27,16 @@ let Trip = ({ bpoom, bpoom: { bp_trip = {} }, desktop, noNav, intl, loadSlidesho
 
   useSlideshow(bpoom, loadSlideshow, () =>
     tripEvents.map(event => ({
-      src: [getPhoto(event.photo, 'normal') || defaultPhoto, getPhoto(event.photo, 'thumbnail') || defaultPhoto],
+      src: [
+        getPhoto(event.photo_urls, 'normal') || defaultPhoto,
+        getPhoto(event.photo_urls, 'thumbnail') || defaultPhoto,
+      ],
       title: formatDate(intl, event),
       description: event.message || '',
     })),
   )
 
-  let photo = getPhoto(bpoom.photo, 'thumbnail')
+  let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
   return (
     <div>
       <div>
@@ -48,7 +51,7 @@ let Trip = ({ bpoom, bpoom: { bp_trip = {} }, desktop, noNav, intl, loadSlidesho
               <div />
               <div styleName="img">
                 <BpoomImg
-                  imgSrc={getPhoto(event.photo, 'thumbnail') || defaultPhoto}
+                  imgSrc={getPhoto(event.photo_urls, 'thumbnail') || defaultPhoto}
                   imgText={formatDate(intl, event)}
                   onClick={() => openSlideshow(i)}
                 />

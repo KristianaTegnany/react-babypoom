@@ -132,7 +132,7 @@ let App = ({
       Ahoy.updateVisit({ bpoom_id: bpoom.id })
 
       // Preload images
-      let photo = getPhoto(bpoom.photo, 'thumbnail')
+      let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
       if (photo) pixelate({ src: photo })
       lazyLoadAllImages(bpoom, 'thumbnail')
       // lazyLoadAllImages(bpoom, 'normal')
@@ -177,11 +177,11 @@ let App = ({
   }
 
   function lazyLoadAllImages(bpoom, photoType) {
-    lazyLoad(getPhoto(bpoom.photo, photoType))
-    lazyLoad(getPhoto(bpoom.photo_mum, photoType))
-    lazyLoad(getPhoto(bpoom.photo_dad, photoType))
-    ;((bpoom.bp_trip || {}).bp_trip_events || []).forEach(e => lazyLoad(getPhoto(e.photo, photoType)))
-    ;((bpoom.bp_visitorbook || {}).bp_visitorbook_msgs || [] || []).forEach(e => lazyLoad(getPhoto(e.photo, photoType)))
+    lazyLoad(getPhoto(bpoom.photo_urls, photoType))
+    lazyLoad(getPhoto(bpoom.photo_mum_urls, photoType))
+    lazyLoad(getPhoto(bpoom.photo_dad_urls, photoType))
+    ;((bpoom.bp_trip || {}).bp_trip_events || []).forEach(e => lazyLoad(getPhoto(e.photo_urls, photoType)))
+    ;((bpoom.bp_visitorbook || {}).bp_visitorbook_msgs || [] || []).forEach(e => lazyLoad(getPhoto(e.photo_urls, photoType)))
   }
 
   function renderFlash() {

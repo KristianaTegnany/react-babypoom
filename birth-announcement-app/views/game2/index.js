@@ -197,7 +197,7 @@ let Game2 = ({
     if (!puzzle.length) return []
     let len = SIZE * SIZE
     let cases = []
-    let photo = getPhoto(bpoom.photo, 'normal')
+    let photo = getPhoto(bpoom.photo_urls, 'normal')
     let positionRatio = 100 / (SIZE - 1)
     let win = puzzleSolved()
 

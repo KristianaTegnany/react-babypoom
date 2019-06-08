@@ -162,7 +162,7 @@ let Game3 = ({ bpoom, bpoom: { bp_game = {} }, desktop, win, pieces, moves, move
     let babyType = bpoom.baby_full_type
     let bubbleText = bp_game.message || t(MSG.message)
 
-    let img = getPhoto(bpoom.photo, 'normal')
+    let img = getPhoto(bpoom.photo_urls, 'normal')
     let xy = [19, -43, -105, -167]
     let win = puzzleSolved()
     return (

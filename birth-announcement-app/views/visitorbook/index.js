@@ -48,7 +48,7 @@ let VisitorBook = ({
 
   useSlideshow(bpoom, loadSlideshow, () =>
     visitorbookMsgs.map(msg => ({
-      src: [getPhoto(msg.photo, 'normal') || defaultPhoto, getPhoto(msg.photo, 'thumbnail') || defaultPhoto],
+      src: [getPhoto(msg.photo_urls, 'normal') || defaultPhoto, getPhoto(msg.photo_urls, 'thumbnail') || defaultPhoto],
       title: msg.created_at ? `${formatDate(intl, msg.created_at)} - ${msg.name || ''}` : `${msg.name || ''}`,
       description: msg.message || '',
     })),
@@ -71,7 +71,7 @@ let VisitorBook = ({
     return <VisitorBookForm onSave={() => (form.hide(), setScrollToBottom(true))} onCancel={form.hide} />
 
   let visitorId = Ahoy.getVisitorId()
-  let photo = getPhoto(bpoom.photo, 'thumbnail')
+  let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
   return (
     <div ref={scrollableElt} styleName="visitorbook-container">
       <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={photo}>
@@ -91,7 +91,7 @@ let VisitorBook = ({
           return (
             <div key={i}>
               <Message
-                imgSrc={getPhoto(event.photo, 'thumbnail') || defaultPhoto}
+                imgSrc={getPhoto(event.photo_urls, 'thumbnail') || defaultPhoto}
                 message={event.message}
                 date={formatDate(intl, event.created_at)}
                 name={event.name}
