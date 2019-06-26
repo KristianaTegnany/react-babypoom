@@ -17,12 +17,12 @@ export default defineMessages({
     id: 'step.trip',
     defaultMessage: `Mon voyage`,
   },
-  visitorbook: {
-    id: 'step.visitorbook',
+  guest_book: {
+    id: 'step.guest_book',
     defaultMessage: `Mon livre d'or`,
   },
-  gift: {
-    id: 'step.gift',
+  pot: {
+    id: 'step.pot',
     defaultMessage: `Les cadeaux`,
   },
   souvenir: {
@@ -41,12 +41,12 @@ export default defineMessages({
     id: 'step.to_trip',
     defaultMessage: `Tu peux maintenant découvrir en images mon long voyage vers ton monde.`,
   },
-  to_visitorbook: {
-    id: 'step.to_visitorbook',
+  to_guest_book: {
+    id: 'step.to_guest_book',
     defaultMessage: `Si tu souhaites me laisser un petit message sur mon livre d'or...`,
   },
-  to_gift: {
-    id: 'step.to_gift',
+  to_pot: {
+    id: 'step.to_pot',
     defaultMessage: `Désormais tu peux accéder à l'étape suivante pour voir toutes les possibilités de cadeaux Babypoom.`,
   },
   to_souvenir: {

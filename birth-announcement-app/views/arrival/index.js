@@ -21,18 +21,18 @@ import t from '../../i18n/i18n'
 
 // CSS
 import styles from './styles.scss'
-import defaultPhoto from '../../images/default.jpeg'
+import imgPath from '../../../lib/img-path'
 
-let Arrival = ({ bpoom, bpoom: { bp_arrival = {} }, desktop, noNav, loadSlideshow, openSlideshow }) => {
+let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
   useSlideshow(bpoom, loadSlideshow, () =>
     [
       {
-        src: [getPhoto(bpoom.photo_mum_urls, 'normal'), getPhoto(bpoom.photo_mum_urls, 'thumbnail')],
-        description: bpoom.reaction_mum,
+        src: [getPhoto(bpoom.parent_1_photo_urls, 'normal'), getPhoto(bpoom.parent_1_photo_urls, 'thumbnail')],
+        description: bpoom.parent_1_reaction,
       },
       {
-        src: [getPhoto(bpoom.photo_dad_urls, 'normal'), getPhoto(bpoom.photo_dad_urls, 'thumbnail')],
-        description: bpoom.reaction_dad,
+        src: [getPhoto(bpoom.parent_2_photo_urls, 'normal'), getPhoto(bpoom.parent_2_photo_urls, 'thumbnail')],
+        description: bpoom.parent_2_reaction,
       },
     ].filter(x => x.src),
   )
@@ -52,9 +52,9 @@ let Arrival = ({ bpoom, bpoom: { bp_arrival = {} }, desktop, noNav, loadSlidesho
 
   let info = [
     ['gender', getText(bpoom, 'gender')],
-    ['name', (bpoom.babyname || '').trim()],
-    ['orthernames', (bpoom.othernames || '').trim()],
-    ['lastname', (bpoom.lastname || '').trim()],
+    ['name', (bpoom.baby_name || '').trim()],
+    ['other_names', (bpoom.other_names || '').trim()],
+    ['last_name', (bpoom.last_name || '').trim()],
     ['birthday', birthday(bpoom.birthday), { gender: bpoom.gender || 'M' }],
     ['location_hospital', (bpoom.location_hospital || '').trim()],
     ['location_country', (bpoom.country || '').trim()],
@@ -63,13 +63,13 @@ let Arrival = ({ bpoom, bpoom: { bp_arrival = {} }, desktop, noNav, loadSlidesho
     ['size', bpoom.size && bpoom.size_unit ? `${bpoom.size} ${bpoom.size_unit}` : ''],
     ['zodiac', getText(bpoom, 'zodiac_sign', 'zodiac')],
     ['hair_color', getText(bpoom, 'hair_color', 'hair')],
-    ['eyes_colors', getText(bpoom, 'eyes_colors', 'eye')],
+    ['eyes_color', getText(bpoom, 'eyes_color', 'eye')],
   ].filter(pair => pair[1])
 
   let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
   return (
     <div styleName="arrival-container">
-      {renderBubbleMsg(photo, bp_arrival.message, 'left')}
+      {renderBubbleMsg(photo, bpoom.arrival_message, 'left')}
       {info.length ? (
         <div styleName="info">
           <table>
@@ -88,9 +88,19 @@ let Arrival = ({ bpoom, bpoom: { bp_arrival = {} }, desktop, noNav, loadSlidesho
       ) : (
         ''
       )}
-      {bpoom.reaction_mum && bpoom.reaction_dad ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
-      {renderBubbleMsg(getPhoto(bpoom.photo_mum_urls, 'thumbnail') || defaultPhoto, bpoom.reaction_mum, 'left', 0)}
-      {renderBubbleMsg(getPhoto(bpoom.photo_dad_urls, 'thumbnail') || defaultPhoto, bpoom.reaction_dad, 'right', 1)}
+      {bpoom.parent_1_reaction && bpoom.parent_2_reaction ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
+      {renderBubbleMsg(
+        getPhoto(bpoom.parent_1_photo_urls, 'thumbnail') || imgPath('/avatars/parent_1.svg'),
+        bpoom.parent_1_reaction,
+        'left',
+        0,
+      )}
+      {renderBubbleMsg(
+        getPhoto(bpoom.parent_2_photo_urls, 'thumbnail') || imgPath('/avatars/parent_2.svg'),
+        bpoom.parent_2_reaction,
+        'right',
+        1,
+      )}
       {noNav ? '' : renderBubbleMsg(photo, <Transition />, 'left')}
     </div>
   )
@@ -139,12 +149,12 @@ const MSG = defineMessages({
     id: 'arrival.title_name',
     defaultMessage: 'Mon prénom',
   },
-  title_orthernames: {
-    id: 'arrival.title_orthernames',
+  title_other_names: {
+    id: 'arrival.title_other_names',
     defaultMessage: 'Autres prénoms',
   },
-  title_lastname: {
-    id: 'arrival.title_lastname',
+  title_last_name: {
+    id: 'arrival.title_last_name',
     defaultMessage: 'Mon nom',
   },
   title_birthday: {
@@ -179,8 +189,8 @@ const MSG = defineMessages({
     id: 'arrival.title_hair_color',
     defaultMessage: 'Mes cheveux',
   },
-  title_eyes_colors: {
-    id: 'arrival.title_eyes_colors',
+  title_eyes_color: {
+    id: 'arrival.title_eyes_color',
     defaultMessage: 'Mes yeux',
   },
   gender_F: {

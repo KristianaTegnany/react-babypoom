@@ -1,4 +1,4 @@
-import { BPOOM, STEPS, NO_NAV, SAVE_VISITORBOOK_MSG, DELETE_VISITORBOOK_MSG } from './types'
+import { BPOOM, STEPS, NO_NAV, GUEST_BOOK_MSG_SAVE, GUEST_BOOK_MSG_DELETE } from './types'
 
 // TODO: store it in the session or localstorage or cookie, with bpoomId /!\ important
 let defaultState = {
@@ -16,22 +16,20 @@ export default function(state = defaultState, action) {
   switch (action.type) {
     case BPOOM:
       if (action.bpoom.disabled) return { ...state, bpoom: { disabled: true } }
-      action.bpoom.babyNameFormatted = (action.bpoom.babyname || '')
+      action.bpoom.babyNameFormatted = (action.bpoom.baby_name || '')
         .toUpperCase()
         .replace(/\s+/g, ' ')
         .replace(/_+/g, '-')
         .trim()
       return { ...state, bpoom: action.bpoom }
-    case SAVE_VISITORBOOK_MSG:
+    case GUEST_BOOK_MSG_SAVE:
       bpoom = { ...state.bpoom }
-      let msg = action.visitorbookMsg
-      ;(bpoom.bp_visitorbook.bp_visitorbook_msgs = bpoom.bp_visitorbook.bp_visitorbook_msgs.slice(0)).push(msg)
+      let msg = action.guestBookMsg
+      ;(bpoom.guest_book_msgs = bpoom.guest_book_msgs.slice(0)).push(msg)
       return { ...state, bpoom }
-    case DELETE_VISITORBOOK_MSG:
+    case GUEST_BOOK_MSG_DELETE:
       bpoom = { ...state.bpoom }
-      bpoom.bp_visitorbook.bp_visitorbook_msgs = bpoom.bp_visitorbook.bp_visitorbook_msgs.filter(
-        msg => !action.id.includes(msg.id),
-      )
+      bpoom.guest_book_msgs = bpoom.guest_book_msgs.filter(msg => !action.id.includes(msg.id))
       return { ...state, bpoom }
     case STEPS:
       if (state.steps.current === action.steps.current) {

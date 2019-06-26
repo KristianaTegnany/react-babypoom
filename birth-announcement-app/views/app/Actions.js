@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-import { BPOOM, STEPS, NO_NAV, SAVE_VISITORBOOK_MSG, DELETE_VISITORBOOK_MSG } from './types'
+import { BPOOM, STEPS, NO_NAV, GUEST_BOOK_MSG_SAVE, GUEST_BOOK_MSG_DELETE } from './types'
 
 import apiCall from '../../../api/call'
 import { flash } from '../../components/flash/Actions'
@@ -10,7 +10,7 @@ import overrideBpoom from '../../../lib/override_bpoom_with_params'
 function _exec(url, urlOptions, options, okCallback, koCallback) {
   return function(dispatch) {
     return new Promise(function(resolve, reject) {
-      return apiCall(url, urlOptions)
+      return apiCall('/birth_app' + url, urlOptions)
         .then(([json, response]) => {
           if (okCallback) okCallback(dispatch, json)
           resolve(json)
@@ -43,14 +43,14 @@ export function loadBpoom(uuid, options) {
 }
 
 export function saveMsg(uuid, params, options) {
-  return _exec(`/bp_visitorbook_msgs/${uuid}`, { method: 'POST', data: params }, options, (dispatch, json) => {
-    dispatch({ type: SAVE_VISITORBOOK_MSG, visitorbookMsg: json })
+  return _exec(`/guest_book_msgs/${uuid}`, { method: 'POST', data: params }, options, (dispatch, json) => {
+    dispatch({ type: GUEST_BOOK_MSG_SAVE, guestBookMsg: json })
   })
 }
 
 export function deleteMsg(id, uuid, options) {
-  return _exec(`/bp_visitorbook_msgs/${id}/${uuid}`, { method: 'DELETE' }, options, (dispatch, json) => {
-    dispatch({ type: DELETE_VISITORBOOK_MSG, id: json.id })
+  return _exec(`/guest_book_msgs/${id}/${uuid}`, { method: 'DELETE' }, options, (dispatch, json) => {
+    dispatch({ type: GUEST_BOOK_MSG_DELETE, id: json.id })
   })
 }
 

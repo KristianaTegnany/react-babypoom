@@ -4,8 +4,8 @@ import Game2 from '../game2'
 import Game3 from '../game3'
 import Arrival from '../arrival'
 import Trip from '../trip'
-import VisitorBook from '../visitorbook'
-import Gift from '../gift'
+import GuestBook from '../guest-book'
+import Pot from '../pot'
 import Souvenir from '../souvenir'
 
 let nameToPaths = [
@@ -13,8 +13,8 @@ let nameToPaths = [
   ['game', { path: '/:uuid/game', component: [Game1, Game2, Game3] }],
   ['arrival', { path: '/:uuid/my-info', component: Arrival }],
   ['trip', { path: '/:uuid/my-trip', component: Trip }],
-  ['visitorbook', { path: '/:uuid/guest-book', component: VisitorBook }],
-  ['gift', { path: '/:uuid/gifts', component: Gift }],
+  ['guest_book', { path: '/:uuid/guest-book', component: GuestBook }],
+  ['pot', { path: '/:uuid/pot', component: Pot }],
   ['souvenir', { path: '/:uuid/souvenir', component: Souvenir }],
 ]
 

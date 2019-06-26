@@ -28,10 +28,7 @@ $img-size: 120px;
     }
   }
   &[data-img='piggy-bank'] .header::before {
-    background-image: url(../../images/piggy-bank.png);
-  }
-  &[data-img='gifts'] .header::before {
-    background-image: url(../../images/gifts.png);
+    background-image: img-url('/payments/piggy-bank.png');
   }
 }
 

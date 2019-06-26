@@ -101,7 +101,7 @@ app.get('*', (req, res) => {
               msgs ? msgs['metas.description'] : metas.description.defaultMessage,
               bpoom,
             ),
-            ogImage: (bpoom.photo_mum_urls || {}).thumbnail,
+            ogImage: (bpoom.parent_1_photo_urls || {}).thumbnail,
             html: render(),
             uuid: match.params.uuid,
             cachedJs: `var ${config.requestCacheVar} = ${JSON.stringify(store.getState())}`,
@@ -128,7 +128,7 @@ app.get('*', (req, res) => {
 })
 
 function interpolateMetaTitle(meta, bpoom) {
-  return meta.replace('{name_mum}', bpoom.name_mum).replace('{name_dad}', bpoom.name_dad)
+  return meta.replace('{parent_1_name}', bpoom.parent_1_name).replace('{parent_2_name}', bpoom.parent_2_name)
 }
 
 function interpolateMetaDescription(meta, bpoom) {

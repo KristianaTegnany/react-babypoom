@@ -31,7 +31,6 @@ import styles from './styles.scss'
 import bs from '../../../config/bootstrap/bootstrap.scss'
 
 // Resources
-import logo from '../../images/logo.png'
 import CGU from '../../pdf/CGU_babypoom.pdf'
 
 // Icons. TODO: refactor into a single import when passing to webpack 4
@@ -43,16 +42,19 @@ import FaBook from '../../icons/book'
 import FaGift from '../../icons/gift'
 import FaImage from '../../icons/picture'
 import useToggle from '../../hooks/toggle'
+import imgPath from '../../../lib/img-path'
 
 const ICONS = {
   welcome: FaBirthdayCake,
   game: FaPuzzlePiece,
   arrival: FaInfo,
   trip: FaListUl,
-  visitorbook: FaBook,
-  gift: FaGift,
+  guest_book: FaBook,
+  pot: FaGift,
   souvenir: FaImage,
 }
+
+const LOGO = imgPath('/corporate/logo.png')
 
 let Header = ({ bpoom, desktop, steps }) => {
   const modal = useToggle(false)
@@ -125,7 +127,7 @@ let Header = ({ bpoom, desktop, steps }) => {
         )}
         <span>
           <NavbarBrand styleName="styles.nav-brand" tag={Link} to={root}>
-            <img src={logo} />
+            <img src={LOGO} />
           </NavbarBrand>
         </span>
         {desktop ? mainNav : ''}
@@ -164,7 +166,7 @@ let Header = ({ bpoom, desktop, steps }) => {
         </ModalHeader>
         <ModalBody styleName="styles.pre-wrap">
           <div styleName="styles.modal-logo">
-            <img src={logo} />
+            <img src={LOGO} />
           </div>
           {t(MSG.what_is_babypoom_desc)}
         </ModalBody>

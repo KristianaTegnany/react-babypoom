@@ -19,9 +19,9 @@ let Welcome = ({ bpoom, desktop, noNav }) => (
     <div styleName="baby" style={{ backgroundImage: `url(${BABY_IMAGES[bpoom.baby_full_type]})` }} />
     <div styleName="wrapper">
       <Bubble speechDir={desktop ? 'left' : 'bottom'} scrollable>
-        {bpoom.bp_welcome ? (
+        {bpoom.welcome_message ? (
           <span>
-            {bpoom.bp_welcome.message}
+            {bpoom.welcome_message}
             {noNav ? '' : '\n\n'}
             {noNav ? '' : <Transition />}
           </span>

@@ -1,5 +1,5 @@
 const LOADERS = {
-  fr: () => import('./data/fr'),
-  en: () => import('./data/en')
+  'fr-FR': () => import('./data/fr-FR'),
+  'en-US': () => import('./data/en-US')
 }
 export default locale => LOADERS[locale]()

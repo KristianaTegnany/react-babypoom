@@ -1,6 +1,6 @@
 @import '../../../config/bootstrap/bootstrap-var';
 
-.visitorbook-container {
+.guest-book-container {
   & > button,
   & > .button-container {
     flex: none;
@@ -18,7 +18,7 @@
   }
 }
 
-.visitorbook-msgs {
+.guest-book-msgs {
   & > div {
     padding: $main-padding 0 0 0;
     position: relative;
@@ -34,7 +34,7 @@
 }
 
 @media (min-width: map-get($grid-breakpoints, md)) {
-  .visitorbook-container {
+  .guest-book-container {
     .button-container {
       position: sticky;
       top: 30px;
@@ -64,7 +64,7 @@
     }
   }
 
-  .visitorbook-msgs {
+  .guest-book-msgs {
     max-width: 80%;
     margin: 0 auto;
 

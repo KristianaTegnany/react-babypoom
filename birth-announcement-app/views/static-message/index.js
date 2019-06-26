@@ -2,24 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { defineMessages } from 'react-intl'
 import { Route } from 'react-router-dom'
-
 import config from '../../../config/application'
-
 import computeThemeColors from '../../../lib/theme'
-
 import CSSVariableApplicator from '../../components/css-var'
 import BubbleSay from '../../components/bubble-say'
 import MediaQueries from '../../components/media-queries'
-
-// i18n
 import t from '../../i18n/i18n'
-
-// CSS
 import appStyles from '../app/styles.scss'
 import styles from './styles.scss'
-
-// Images
-import mascotSays from '../../images/mascot-says.png'
+import imgPath from '../../../lib/img-path'
 
 let StaticMessage = ({ desktop, msg }) => (
   <Route
@@ -30,7 +21,7 @@ let StaticMessage = ({ desktop, msg }) => (
           <main>
             <div styleName="styles.container">
               <div styleName="styles.wrapper">
-                <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={mascotSays}>
+                <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={imgPath('/mascot/says.png')}>
                   {t(MSG[msg || 'not_found'])}
                 </BubbleSay>
               </div>

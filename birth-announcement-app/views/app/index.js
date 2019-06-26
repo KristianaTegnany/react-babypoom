@@ -15,7 +15,7 @@ import Slideshow from '../../components/slideshow'
 import { loadSlideshow, openSlideshow, changeSlideshowIndex, closeSlideshow } from '../../components/slideshow/Actions'
 
 import StaticMessage from '../static-message'
-import Alert from '../../components/form/Alert'
+import Alert from '../../components/alert/Alert'
 import Header from '../../components/header'
 import Footer from '../../components/footer'
 
@@ -178,10 +178,10 @@ let App = ({
 
   function lazyLoadAllImages(bpoom, photoType) {
     lazyLoad(getPhoto(bpoom.photo_urls, photoType))
-    lazyLoad(getPhoto(bpoom.photo_mum_urls, photoType))
-    lazyLoad(getPhoto(bpoom.photo_dad_urls, photoType))
-    ;((bpoom.bp_trip || {}).bp_trip_events || []).forEach(e => lazyLoad(getPhoto(e.photo_urls, photoType)))
-    ;((bpoom.bp_visitorbook || {}).bp_visitorbook_msgs || [] || []).forEach(e => lazyLoad(getPhoto(e.photo_urls, photoType)))
+    lazyLoad(getPhoto(bpoom.parent_1_photo_urls, photoType))
+    lazyLoad(getPhoto(bpoom.parent_2_photo_urls, photoType))
+    ;(bpoom.trip_events || []).forEach(e => lazyLoad(getPhoto(e.photo_urls, photoType)))
+    ;(bpoom.guest_book_msgs || []).forEach(e => lazyLoad(getPhoto(e.photo_urls, photoType)))
   }
 
   function renderFlash() {

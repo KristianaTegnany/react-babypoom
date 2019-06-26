@@ -8,7 +8,7 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   title: {
     id: 'metas.title',
-    defaultMessage: '{name_mum} et {name_dad} souhaitent te présenter bébé !',
+    defaultMessage: '{parent_1_name} et {parent_2_name} souhaitent te présenter bébé !',
   },
   description: {
     id: 'metas.description',

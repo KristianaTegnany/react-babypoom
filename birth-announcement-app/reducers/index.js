@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux'
-import { reducer as form } from 'redux-form'
 
 import flash from '../components/flash/Reducer'
 import { reducer as mediaQueries } from '../components/media-queries'
@@ -14,7 +13,6 @@ const rootReducer = combineReducers({
   i18n,
   flash,
   mediaQueries,
-  form,
   app,
   game1,
   game2,

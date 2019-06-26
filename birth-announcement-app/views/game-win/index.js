@@ -58,7 +58,7 @@ let GameWin = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
           ''
         )}
         <div styleName="panel">
-          <div styleName="babyname-container">
+          <div styleName="baby-name-container">
             <div>
               <div styleName="name">
                 {Array.from(bpoom.babyNameFormatted).map((c, i) => {

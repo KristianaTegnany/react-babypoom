@@ -1,29 +1,22 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { injectIntl, defineMessages } from 'react-intl'
-
 import { loadSlideshow, openSlideshow } from '../../components/slideshow/Actions'
-
 import useSlideshow from '../../hooks/slide-show'
-
 import Bubble from '../../components/bubble'
 import BubblePic from '../../components/bubble-pic'
 import BubbleSay from '../../components/bubble-say'
 import BpoomImg from '../../components/bpoom-img'
 import Transition from '../../components/transition'
-
-// Lib
 import getPhoto from '../../../lib/get-photo'
-
-// i18n
 import t from '../../i18n/i18n'
-
-// CSS
 import styles from './styles.scss'
-import defaultPhoto from '../../images/default.jpeg'
+import imgPath from '../../../lib/img-path'
 
-let Trip = ({ bpoom, bpoom: { bp_trip = {} }, desktop, noNav, intl, loadSlideshow, openSlideshow }) => {
-  let tripEvents = bp_trip.bp_trip_events || []
+const defaultPhoto = imgPath('/avatars/default.png')
+
+let Trip = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow }) => {
+  let tripEvents = bpoom.trip_events || []
 
   useSlideshow(bpoom, loadSlideshow, () =>
     tripEvents.map(event => ({
@@ -41,7 +34,7 @@ let Trip = ({ bpoom, bpoom: { bp_trip = {} }, desktop, noNav, intl, loadSlidesho
     <div>
       <div>
         <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={photo}>
-          {bp_trip.message}
+          {bpoom.trip_message}
         </BubbleSay>
       </div>
       <div styleName="trip-events">

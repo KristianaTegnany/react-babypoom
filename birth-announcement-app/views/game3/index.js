@@ -50,7 +50,7 @@ const preventDefault = event => {
     event.preventDefault()
 }
 
-let Game3 = ({ bpoom, bpoom: { bp_game = {} }, desktop, win, pieces, moves, move, gameOver }) => {
+let Game3 = ({ bpoom, desktop, win, pieces, moves, move, gameOver }) => {
   let timeTracker = useTimeTracker()
 
   // Prevent mobile pull-down refresh
@@ -160,7 +160,7 @@ let Game3 = ({ bpoom, bpoom: { bp_game = {} }, desktop, win, pieces, moves, move
 
   const renderGame = () => {
     let babyType = bpoom.baby_full_type
-    let bubbleText = bp_game.message || t(MSG.message)
+    let bubbleText = t(MSG.message)
 
     let img = getPhoto(bpoom.photo_urls, 'normal')
     let xy = [19, -43, -105, -167]

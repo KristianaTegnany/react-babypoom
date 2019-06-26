@@ -51,20 +51,7 @@ const CURRENT_LEVEL = LEVELS.easy
 
 let tries = 0
 
-let Game2 = ({
-  bpoom,
-  bpoom: { bp_game = {} },
-  desktop,
-  win,
-  currentX,
-  currentY,
-  puzzle,
-  moves,
-  steps,
-  stepLen,
-  move,
-  gameOver,
-}) => {
+let Game2 = ({ bpoom, desktop, win, currentX, currentY, puzzle, moves, steps, stepLen, move, gameOver }) => {
   // Timer
   let timeTracker = useTimeTracker()
 
@@ -228,7 +215,7 @@ let Game2 = ({
 
   const renderGame = () => {
     let babyType = bpoom.baby_full_type
-    let bubbleText = bp_game.message || t(MSG.message)
+    let bubbleText = t(MSG.message)
 
     return (
       <div styleName={['game-container', babyType].join(' ')}>

@@ -43,7 +43,6 @@ let EXPERIMENTAL = 'undefined' !== typeof window && 'experimental' === (window.l
 
 let Game1 = ({
   bpoom,
-  bpoom: { bp_game = {} },
   desktop,
   pixelGridSize,
   pixels,
@@ -105,7 +104,7 @@ let Game1 = ({
   }
 
   const renderGame = () => {
-    let charset = (bp_game.charset || []).map(c => c.toUpperCase())
+    let charset = (bpoom.game_charset || []).map(c => c.toUpperCase())
     let nameChars = Array.from(babyName)
     let asciiName = ascii(babyName)
     let asciiNameChars = Array.from(asciiName)
@@ -116,7 +115,7 @@ let Game1 = ({
 
     let bubbleText = lastChar
       ? t(MSG['guessed_' + (asciiName.indexOf(lastChar) < 0 ? 'ko' : 'ok')], { char: lastChar })
-      : bp_game.message || t(MSG.message)
+      : t(MSG.message)
 
     let babyType = bpoom.baby_full_type
     let pic = EXPERIMENTAL ? null : picture
