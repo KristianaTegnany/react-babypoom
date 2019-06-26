@@ -2,40 +2,26 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl, defineMessages } from 'react-intl'
 import { connect } from 'react-redux'
-
 import { loadBpoom } from './Actions'
 import { deleteFlash } from '../../components/flash/Actions'
-
 import CSSVariableApplicator from '../../components/css-var'
 import THEMES from './themes'
-
 import Page from '../../components/page'
 import NotFound from '../not-found'
 import Cover from '../../pages/cover'
 import Intro from '../../pages/intro'
 import Arrival from '../../pages/arrival'
 import Trip from '../../pages/trip'
-import Guestbook from '../../pages/guestbook'
+import Guestbook from '../../pages/guest_book'
 import ParentsAndStats from '../../pages/parents-and-stats'
 import BackCover from '../../pages/back-cover'
-
 import i18n from '../../i18n/i18n'
-
 import Turn from '../../../lib/turn'
 import Fullscreen from '../../../lib/fullscreen'
-
-// Config
 import config from '../../../config/application'
-
-// i18n
 import t from '../../i18n/i18n'
-
-// Sound
 import flipSound from '../../sounds/flip-sound.mp3'
-
-// Icons
 import { RotateDeviceIcon, FullscreenIcon, VolumeOnIcon, VolumeOffIcon } from '../../icons'
-
 import './styles.scss'
 
 let UNIQ = 0
@@ -188,13 +174,18 @@ class App extends Component {
       }),
     )
 
+    let resizeWrapper = () => {
+      setTimeout(resize, 0)
+      setTimeout(resize, 100)
+    }
+
     let resize = () => {
       setWindowHeight(container)
       flipbook.classList.remove('flipbook-transition')
       turn.options(this.updatePreviewScale(css, container))
       setTimeout(() => flipbook.classList.add('flipbook-transition'), 50)
     }
-    window.addEventListener('resize', debounce(resize, 300))
+    window.addEventListener('resize', debounce(resizeWrapper, 300))
 
     let totalPages = turn.pages()
     let update = () => {
@@ -252,7 +243,7 @@ class App extends Component {
 
     container.querySelector('.loading-preview').style.display = 'none'
     flipbook.style.visibility = 'visible'
-    controls.style.display = 'block'
+    controls.style.display = 'flex'
     if (+storage[uuid] > 1) {
       closeWarning()
     } else if (warning) {
@@ -262,7 +253,7 @@ class App extends Component {
     setTimeout(() => flipbook.classList.add('flipbook-transition'), 50)
     if (iOsSafari())
       setTimeout(() => {
-        resize()
+        resizeWrapper()
         turn.peel('br')
       }, 750)
   }
@@ -288,16 +279,14 @@ class App extends Component {
       return <NotFound />
     }
 
-    let {
-      bpoom: { bp_visitorbook: { bp_visitorbook_msgs = [] } = {}, bp_trip: { bp_trip_events = [] } = {} },
-    } = this.props
+    let { bpoom: { guest_book_msgs = [], trip_events = [] } = {} } = this.props
 
     let totalPages =
       1 /* Cover */ +
       2 /* Intro */ +
       2 /* Arrival */ +
-      Trip.cntPages(bp_trip_events) /* Trip */ +
-      Guestbook.cntPages(bp_visitorbook_msgs) /* Guest-book */ +
+      Trip.cntPages(trip_events) /* Trip */ +
+      Guestbook.cntPages(guest_book_msgs) /* Guest-book */ +
       2 /* Parents & stats */ +
       1 /* Back Cover */
 

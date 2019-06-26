@@ -33,7 +33,7 @@ class Cover extends Component {
             <div styleName="decoration-box">
               <BorderBgBox styleName="border-box">
                 <div styleName="box-content">
-                  <span styleName="first-name">{bpoom.babyname}</span>
+                  <span styleName="first-name">{bpoom.baby_name}</span>
                   <span styleName="last-name">{bpoom.lastname}</span>
                   <hr />
                   <time styleName="birthdate">{this.birthday(bpoom.birthday)}</time>

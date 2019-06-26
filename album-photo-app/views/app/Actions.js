@@ -24,7 +24,7 @@ function _exec(url, urlOptions, options, okCallback, koCallback) {
 
 export function loadBpoom(uuid, options) {
   return _exec(
-    `/bpooms/photo-album-data/${uuid}`,
+    `/bpooms/${uuid}`,
     { method: 'GET' },
     options,
     (dispatch, json) => {

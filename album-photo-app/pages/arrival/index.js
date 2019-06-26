@@ -71,7 +71,7 @@ class Arrival extends Component {
     let gender = this.getText(bpoom, 'gender')
     let zodiac = this.getText(bpoom, 'zodiac_sign', 'zodiac')
     let hair = this.getText(bpoom, 'hair_color', 'hair')
-    let eyes = this.getText(bpoom, 'eyes_colors', 'eye')
+    let eyes = this.getText(bpoom, 'eyes_color', 'eye')
     let weight = this.getDim(bpoom, 'weight')
     let size = this.getDim(bpoom, 'size')
 
@@ -102,12 +102,12 @@ class Arrival extends Component {
         <PresentationPanel>
           <div styleName="figure">
             <p styleName="fullname">
-              <span>{bpoom.babyname}</span> <span styleName="lastname">{bpoom.lastname}</span>
+              <span>{bpoom.baby_name}</span> <span styleName="lastname">{bpoom.lastname}</span>
             </p>
             <div
               styleName="baby-img"
               style={{
-                backgroundImage: `url(${getPhoto(bpoom, 'photo', params.hd) || defaultPhoto})`,
+                backgroundImage: `url(${getPhoto(bpoom.photo_urls, params.hd) || defaultPhoto})`,
               }}
             />
           </div>

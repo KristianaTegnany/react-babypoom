@@ -202,8 +202,8 @@ app.get('*', (req, res) => {
 
 // function interpolateMetaTitle(meta, bpoom) {
 //   return meta
-//     .replace('{name_mum}', bpoom.name_mum)
-//     .replace('{name_dad}', bpoom.name_dad)
+//     .replace('{parent_1_name}', bpoom.parent_1_name)
+//     .replace('{parent_2_name}', bpoom.parent_2_name)
 // }
 
 // function interpolateMetaDescription(meta, bpoom) {

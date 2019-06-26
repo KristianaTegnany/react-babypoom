@@ -35,7 +35,7 @@ class Guestbook extends Component {
       <div
         styleName="image-container"
         style={{
-          backgroundImage: `url(${getPhoto(msg, 'photo', this.props.params.hd) || defaultPhoto})`,
+          backgroundImage: `url(${getPhoto(msg.photo_urls, this.props.params.hd) || defaultPhoto})`,
         }}
       />
       <div styleName="quote-container">
@@ -49,15 +49,13 @@ class Guestbook extends Component {
   )
 
   render() {
-    let {
-      bpoom: { bp_visitorbook: { bp_visitorbook_msgs = [] } = {} },
-    } = this.props
-    if (!bp_visitorbook_msgs.length) return ''
+    let { bpoom: { guest_book_msgs = [] } = {} } = this.props
+    if (!guest_book_msgs.length) return ''
 
-    bp_visitorbook_msgs = bp_visitorbook_msgs.slice(0)
+    guest_book_msgs = guest_book_msgs.slice(0)
 
-    let firstPageMsgs = bp_visitorbook_msgs.splice(0, 2)
-    let pages = this.constructor.pages(bp_visitorbook_msgs)
+    let firstPageMsgs = guest_book_msgs.splice(0, 2)
+    let pages = this.constructor.pages(guest_book_msgs)
 
     return [
       <Page key="guest-book-presentation" styleName="page first-page">

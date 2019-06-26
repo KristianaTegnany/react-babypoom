@@ -1,18 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
 import Page from '../../components/page'
 import Title from '../../components/title'
 import PresentationPanel from '../../components/presentation-panel'
 import ContentPanel from '../../components/content-panel'
-
 import getPhoto from '../../../lib/get-photo'
 import defaultPhoto from '../../images/default.jpeg'
-
-// i18n
 import t from '../../i18n/i18n'
 import { defineMessages, FormattedDate } from 'react-intl'
-
+import range from '../../../lib/range'
 import styles from './styles.scss'
 
 class ParentsAndStats extends Component {
@@ -25,21 +21,21 @@ class ParentsAndStats extends Component {
           <Title label={t(MSG.parent_reactions)} />
         </PresentationPanel>
         <ContentPanel centered>
-          {['mum', 'dad'].map(parent => (
-            <div key={parent} styleName={`parents-reaction ${parent}`}>
+          {range(1, 2).map(index => (
+            <div key={index} styleName={`parents-reaction parent-${index}`}>
               <div>
                 <div
                   style={{
-                    backgroundImage: `url(${getPhoto(bpoom, `photo_${parent}`, params.hd) || defaultPhoto})`,
+                    backgroundImage: `url(${getPhoto(bpoom[`parent_${index}_photo_urls`], params.hd) || defaultPhoto})`,
                   }}
                   styleName="image-container"
                 />
-                {bpoom[`reaction_${parent}`] && (
+                {bpoom[`parent_${index}_reaction`] && (
                   <div styleName="quote-container">
                     <p styleName="quote">
-                      {bpoom[`reaction_${parent}`]}
+                      {bpoom[`parent_${index}_reaction`]}
                       <br />-<br />
-                      {bpoom[`name_${parent}`]}
+                      {bpoom[`parent_${index}_name`]}
                     </p>
                   </div>
                 )}

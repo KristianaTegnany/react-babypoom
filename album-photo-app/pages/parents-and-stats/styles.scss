@@ -50,11 +50,11 @@
   }
 }
 
-.mum .quote-container {
+.parent-1 .quote-container {
   margin-top: 8mm;
 }
 
-.dad {
+.parent-2 {
   // It's ok if display flex is not supported
   // Pdf will be generated correctly anyway
   & > * {

@@ -59,7 +59,7 @@ class Trip extends Component {
       <div
         styleName="image-container"
         style={{
-          backgroundImage: `url(${getPhoto(tripEvent, 'photo', this.props.params.hd) || defaultPhoto})`,
+          backgroundImage: `url(${getPhoto(tripEvent.photo_urls, this.props.params.hd) || defaultPhoto})`,
         }}
       />
       <div styleName="quote">{tripEvent.message}</div>
@@ -70,13 +70,11 @@ class Trip extends Component {
   )
 
   render() {
-    let {
-      bpoom: { bp_trip: { bp_trip_events = [] } = {} },
-    } = this.props
-    if (!bp_trip_events.length) return ''
+    let { bpoom: { trip_events = [] } = {} } = this.props
+    if (!trip_events.length) return ''
 
-    bp_trip_events = bp_trip_events.slice(0)
-    let pages = this.constructor.pages(bp_trip_events)
+    trip_events = trip_events.slice(0)
+    let pages = this.constructor.pages(trip_events)
 
     return pages.map((pageEvents, index) => {
       let firstPage = 0 === index
