@@ -1,11 +1,6 @@
 import { BPOOM, PARAMS } from './types'
 import api from '../../api'
 
-export const fetchBpoom = uuid => dispatch =>
-  api(`/album/bpooms/${uuid}`, bpoom => dispatch({ type: BPOOM, bpoom }))(dispatch)
+export const fetchBpoom = uuid => api(`/album/bpooms/${uuid}`, (bpoom, dispatch) => dispatch({ type: BPOOM, bpoom }))
 
-export function updateParams(params) {
-  return function(dispatch) {
-    dispatch({ type: PARAMS, params })
-  }
-}
+export const updateParams = params => dispatch => dispatch({ type: PARAMS, params })

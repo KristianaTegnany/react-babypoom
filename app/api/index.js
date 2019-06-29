@@ -19,7 +19,7 @@ export default function api(opts, cb) {
     dispatch({ type: START_FETCHING })
     return apiFetch(path, opts)
       .then(val => {
-        cb && cb(val)
+        cb && cb(val, dispatch)
         dispatch({ type: STOP_FETCHING })
         return val
       })
