@@ -12,33 +12,27 @@ import { StaticRouter } from 'react-router'
 import { matchRoutes, renderRoutes } from 'react-router-config'
 import { RouterContext } from 'react-router'
 import { Provider } from 'react-redux'
-
-import HotIntlProvider from './birth-announcement-app/i18n/hot-intl-provider/HotIntlProvider'
-import { updateLocale } from './birth-announcement-app/i18n/hot-intl-provider/HotIntlProviderActions'
-import configureStore from './birth-announcement-app/store/configureStore'
-import routes from './birth-announcement-app/routes'
-import App from './birth-announcement-app/views/app'
-
+import HotIntlProvider from './app/i18n/hot-intl-provider/HotIntlProvider'
+import { updateLocale } from './app/i18n/hot-intl-provider/HotIntlProviderActions'
+import configureStore from './app/store/configureStore'
+import routes from './app/routes'
+import App from './app/views/app'
 import { data as localeData, messages } from './config/locales/data/all-data'
-import metas from './birth-announcement-app/i18n/messages/metas'
+import metas from './app/i18n/messages/metas'
 import availableLocales from './available-locales'
 
 import 'isomorphic-fetch'
-import { loadBpoom, updateStep } from './birth-announcement-app/views/app/Actions'
-import config from './config/application'
-
+import { fetchBpoom, updateStep } from './app/views/app/Actions'
+import config from './config'
 import { queryParams } from './lib/url-params'
 import template from './lib/template'
-
-// Bootstrap
 import Bootstrap from './config/bootstrap/bootstrap.scss'
 import { setGlobalCssModule } from 'reactstrap/lib/utils'
-import { PATH_TO_STEP_MAP } from './birth-announcement-app/views/app/steps'
+import { PATH_TO_STEP_MAP } from './app/views/app/steps'
+import imgPath from './lib/img-path'
 setGlobalCssModule(Bootstrap)
 
-// var stats = JSON.parse(fs.readFileSync("./public/webpack.stats.json"));
-
-var PORT = process.env.PORT || 8080
+var PORT = process.env.PORT || 8282
 
 var ALL_LOCALES = [availableLocales.defaultLocale].concat(availableLocales)
 
@@ -94,14 +88,21 @@ app.get('*', (req, res) => {
           next: index < 0 ? null : availableSteps[index + 1],
         })(store.dispatch)
 
+        const metaTitleKey = bpoom.parent_1_name && bpoom.parent_2_name ? 'title' : 'title_default'
         res.send(
           PAGE_CACHE({
-            ogTitle: interpolateMetaTitle(msgs ? msgs['metas.title'] : metas.title.defaultMessage, bpoom),
+            ogTitle: interpolateMetaTitle(
+              msgs ? msgs[`metas.${metaTitleKey}`] : metas[metaTitleKey].defaultMessage,
+              bpoom,
+            ),
             ogDescription: interpolateMetaDescription(
               msgs ? msgs['metas.description'] : metas.description.defaultMessage,
               bpoom,
             ),
-            ogImage: (bpoom.parent_1_photo_urls || {}).thumbnail,
+            ogImage:
+              (bpoom.parent_1_photo_urls || {}).thumbnail ||
+              (bpoom.parent_2_photo_urls || {}).thumbnail ||
+              imgPath('/corporate/logo-for-metas.png'),
             html: render(),
             uuid: match.params.uuid,
             cachedJs: `var ${config.requestCacheVar} = ${JSON.stringify(store.getState())}`,
