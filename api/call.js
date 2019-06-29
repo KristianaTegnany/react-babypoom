@@ -1,4 +1,4 @@
-import config from '../config/application'
+import config from '../config'
 
 import sendRequest from '../lib/send-request'
 

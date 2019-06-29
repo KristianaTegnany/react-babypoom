@@ -14,18 +14,18 @@ import { matchRoutes, renderRoutes } from 'react-router-config'
 import { RouterContext } from 'react-router'
 import { Provider } from 'react-redux'
 
-import HotIntlProvider from './album-photo-app/i18n/hot-intl-provider/HotIntlProvider'
-import { updateLocale } from './album-photo-app/i18n/hot-intl-provider/HotIntlProviderActions'
-import configureStore from './album-photo-app/store/configureStore'
-import routes from './album-photo-app/routes'
-import App from './album-photo-app/views/app'
+import HotIntlProvider from './app/i18n/hot-intl-provider/HotIntlProvider'
+import { updateLocale } from './app/i18n/hot-intl-provider/HotIntlProviderActions'
+import configureStore from './app/store/configureStore'
+import routes from './app/routes'
+import App from './app/views/app'
 
-import { messages } from './album-photo-app/i18n/messages'
+import { data as localeData, messages } from './config/locales/data/all-data'
 import availableLocales from './available-locales'
 
 import 'isomorphic-fetch'
-import { loadBpoom, updateParams } from './album-photo-app/views/app/Actions'
-import config from './config/application'
+import { loadBpoom, updateParams } from './app/views/app/Actions'
+import config from './config'
 
 import uuid from './lib/uuid'
 import merge from 'easy-pdf-merge'
@@ -33,7 +33,7 @@ import merge from 'easy-pdf-merge'
 import puppeteer from 'puppeteer'
 import { queryParams } from './lib/url-params'
 
-var PORT = process.env.PORT || 8080
+var PORT = process.env.PORT || 8383
 
 var ALL_LOCALES = [availableLocales.defaultLocale].concat(availableLocales)
 
@@ -150,12 +150,8 @@ app.get('*', (req, res) => {
   if (branch.length) {
     let { route, match } = branch[0]
 
-    let lang = req.locale.language
-    if (!lang || !ALL_LOCALES.includes(lang)) lang = ALL_LOCALES[0]
-
     // SERVER SIDE RENDERING
     let store = configureStore()
-    updateLocale(lang)(store.dispatch)
     updateParams(queryParams(req.url))(store.dispatch)
 
     let component = route.component
@@ -168,6 +164,10 @@ app.get('*', (req, res) => {
     component
       .fetchData(store, match.params)
       .then(bpoom => {
+        let locale = bpoom.locale
+        let msgs = messages[locale]
+        updateLocale({ locale, localeData: localeData[locale], messages: msgs })(store.dispatch)
+
         var content = PAGE_CACHE({
           // ogTitle: interpolateMetaTitle(messages[lang]['metas.title'], bpoom),
           // ogDescription: interpolateMetaDescription(
@@ -182,7 +182,7 @@ app.get('*', (req, res) => {
         res.send(content)
       })
       .catch(err => {
-        console.log('ERROR:', err)
+        console.log('ERROR:', err, (match || {}).params)
         res.send(PAGE_CACHE({ uuid: match.params.uuid }))
       })
 
