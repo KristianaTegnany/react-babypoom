@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { injectIntl, defineMessages, addLocaleData } from 'react-intl'
 import localeDataLoader from '../../../config/locales/data-loader'
 import { connect } from 'react-redux'
-import { loadBpoom } from './Actions'
+import { fetchBpoom } from './Actions'
 import { deleteFlash } from '../../components/flash/Actions'
 import CSSVariableApplicator from '../../components/css-var'
 import THEMES from './themes'
@@ -80,7 +80,7 @@ class App extends Component {
   }
 
   static fetchData(store, params) {
-    return store.dispatch(loadBpoom(params.uuid))
+    return store.dispatch(fetchBpoom(params.uuid))
   }
 
   static getDerivedStateFromProps(nextProps) {
@@ -92,7 +92,7 @@ class App extends Component {
   componentDidMount() {
     if (!this.props.bpoom.uuid) {
       this.props
-        .loadBpoom(this.props.match.params.uuid)
+        .fetchBpoom(this.props.match.params.uuid)
         .then(bpoom => {
           loadIntl([bpoom.locale], () => {
             localeDataLoader(bpoom.locale).then(json => {
@@ -384,7 +384,7 @@ class App extends Component {
 export default injectIntl(
   connect(
     mapStateToProps,
-    { loadBpoom, updateLocale, deleteFlash },
+    { fetchBpoom, updateLocale, deleteFlash },
   )(App),
 )
 
