@@ -17,7 +17,7 @@ export default function api(opts, cb) {
       delete opts.error
     }
     dispatch({ type: START_FETCHING })
-    return apiFetch(path, opts)
+    return request(API_URL + path, opts)
       .then(val => {
         cb && cb(val, dispatch)
         dispatch({ type: STOP_FETCHING })
@@ -39,7 +39,7 @@ const CONTENT_TYPE_HEADERS = {
   json: 'application/json',
 }
 
-function apiFetch(path, options = {}) {
+export function request(path, options = {}) {
   options = { ...defaultOptions, ...options }
 
   const fetchOptions = {
@@ -64,7 +64,7 @@ function apiFetch(path, options = {}) {
 
   // eslint-disable-next-line no-undef
   return new Promise(function(resolve, reject) {
-    fetch(API_URL + path, fetchOptions)
+    fetch(path, fetchOptions)
       .then(response => {
         if ((response.status >= 200 && response.status < 300) || response.status === 304) {
           return resolve(response[options.type]())

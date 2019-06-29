@@ -26,7 +26,6 @@ var ALL_LANGS = ALL_LOCALES.reduce((acc, locale) => {
 
 var LOCALE_DIR = path.join(__dirname, 'config', 'locales')
 var LOCALE_DATA_DIR = path.join(LOCALE_DIR, 'data')
-var REACT_INTL_DATA_DIR = path.join(__dirname, 'node_modules', 'react-intl', 'locale-data')
 
 var minifyOptions = { compress: { expression: true }, output: { quote_style: 1 } }
 var ALL_LOCALE_DATA = ALL_LOCALES.reduce((h, locale) => {

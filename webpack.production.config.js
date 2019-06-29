@@ -8,8 +8,6 @@ const TerserPlugin = require('terser-webpack-plugin')
 var ShortClassNameGenerator = require('./css-modules-scoped-name')
 var shortClassName = new ShortClassNameGenerator()
 
-// config.optimization = { minimize: false }
-
 var config = require('./webpack.common.config.js')({
   mode: 'production',
   optimization: {
