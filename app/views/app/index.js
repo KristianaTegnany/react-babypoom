@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { injectIntl, defineMessages, addLocaleData } from 'react-intl'
 import localeDataLoader from '../../../config/locales/data-loader'
 import { connect } from 'react-redux'
@@ -58,7 +57,6 @@ function iOsSafari() {
 function setWindowHeight(container) {
   if (!iOsSafari()) return
   if (window.matchMedia && matchMedia('(orientation: landscape)')) {
-    let change = container.style.height
     container.style.height = ''
     container.offsetHeight
     if (window.innerHeight !== container.getBoundingClientRect().height) {
@@ -82,10 +80,10 @@ class App extends Component {
   }
 
   static fetchData(store, params) {
-    return store.dispatch(loadBpoom(params.uuid, { flash: false }))
+    return store.dispatch(loadBpoom(params.uuid))
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps) {
     return {
       theme: getThemeName(nextProps.bpoom),
     }
@@ -99,12 +97,14 @@ class App extends Component {
           loadIntl([bpoom.locale], () => {
             localeDataLoader(bpoom.locale).then(json => {
               this.props.updateLocale({ locale: bpoom.locale, localeData: json.data, messages: json.messages })
+              setLocaleData(json.data)
               this.domLoaded()
             })
           })
         })
         .catch(() => {})
     } else {
+      setLocaleData(i18n.localeData)
       this.domLoaded()
     }
   }
@@ -136,7 +136,7 @@ class App extends Component {
     if (css.styleSheet) {
       css.styleSheet.cssText = styles
     } else {
-      css.innerHTML = styles = styles
+      css.innerHTML = styles
     }
 
     return {
@@ -242,7 +242,7 @@ class App extends Component {
       })
     controls.querySelector('.total').innerText = `/ ${totalPages}`
     page.setAttribute('max', totalPages)
-    page.addEventListener('change', e => {
+    page.addEventListener('change', () => {
       turn.page(Math.max(1, Math.min(+page.value || 1, totalPages)))
     })
     if (volumeOn && volumeOff) {
@@ -251,8 +251,8 @@ class App extends Component {
         volumeOn.hidden = mute
         volumeOff.hidden = !mute
       }
-      volumeOn.addEventListener('click', e => volume(true))
-      volumeOff.addEventListener('click', e => volume(false))
+      volumeOn.addEventListener('click', () => volume(true))
+      volumeOff.addEventListener('click', () => volume(false))
     }
 
     container.querySelector('.loading-preview').style.display = 'none'
@@ -272,7 +272,7 @@ class App extends Component {
       }, 750)
   }
 
-  renderFlash(msg) {
+  renderFlash() {
     let { flash, location } = this.props
     if (!flash || !flash.message) {
       flash = (location.state || {}).flash
@@ -392,8 +392,9 @@ function mapStateToProps(state) {
   const {
     app: { bpoom, params },
     flash,
+    i18n,
   } = state
-  return { bpoom, params, flash }
+  return { bpoom, params, flash, i18n }
 }
 
 const MSG = defineMessages({

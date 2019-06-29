@@ -24,7 +24,7 @@ import { data as localeData, messages } from './config/locales/data/all-data'
 import availableLocales from './available-locales'
 
 import 'isomorphic-fetch'
-import { loadBpoom, updateParams } from './app/views/app/Actions'
+import { updateParams } from './app/views/app/Actions'
 import config from './config'
 
 import uuid from './lib/uuid'
