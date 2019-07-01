@@ -12,7 +12,6 @@ export default {
     color_2: '#fffcfc',
   },
   requestCacheVar: '__WEBPACK_REQUEST_CACHE__',
-  babypoomDashboardHost: 'app.babypoom.com',
   babypoomWebsiteLink: 'http://babypoom.com',
   babypoomWebsiteShortLink: 'babypoom.com',
   shareLink: 'https://babypoom.typeform.com/to/CYlRUM',

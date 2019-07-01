@@ -5,27 +5,27 @@ import { defineMessages } from 'react-intl'
 
 const API_URL = `${config.SERVER_URL}/api/v2`
 
-export default function api(opts, cb) {
+export default function api({ path, error, fail, success, complete, beforeSend, ...fetchOptions }) {
   return dispatch => {
-    let path, error
-    if (typeof opts === 'string') {
-      path = opts
-    } else {
-      path = opts.path
-      error = opts.error
-      delete opts.path
-      delete opts.error
-    }
     dispatch({ type: START_FETCHING })
-    return request(API_URL + path, opts)
+    if (beforeSend) beforeSend(dispatch)
+
+    return request(API_URL + path, fetchOptions)
       .then(val => {
-        cb && cb(val, dispatch)
         dispatch({ type: STOP_FETCHING })
+        if (success) success(val, dispatch)
+        if (complete) complete(val, dispatch)
         return val
       })
       .catch(val => {
         dispatch({ type: STOP_FETCHING })
-        flash('danger', error || MSG.error)(dispatch)
+
+        if (fail) {
+          fail(val, dispatch)
+        } else {
+          flash('danger', error || MSG.error)(dispatch)
+        }
+        if (complete) complete(val, dispatch)
         return val
       })
   }

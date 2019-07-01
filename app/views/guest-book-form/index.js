@@ -38,7 +38,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
     new MSUploader({
       uploader: {
         url: config.s3UploadUrl,
-        getSignature: callback => api(`/aws/s3_signature/${uuid}`, callback),
+        getSignature: success => api({ path: `/aws/s3_signature/${uuid}`, success }),
         onStart: () => setUploading(true),
         onProgress: p => setProgress(Math.floor(p)),
         onDone: xhr => {
