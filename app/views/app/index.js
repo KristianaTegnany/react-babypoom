@@ -28,6 +28,8 @@ import './styles.scss'
 
 let UNIQ = 0
 
+const MIN_PAGES = 24
+
 function setLocaleData(localeData) {
   addLocaleData(new Function(`return ${localeData}`)())
 }
@@ -304,7 +306,7 @@ class App extends Component {
       2 /* Parents & stats */ +
       1 /* Back Cover */
 
-    let blankPages = params.hd ? Math.max(0, 26 - totalPages) : 0
+    let blankPages = params.hd ? Math.max(0, MIN_PAGES - totalPages) : 0
     // Pages need to be pair in any case scenario
     if ((totalPages + blankPages) % 2) ++blankPages
 
