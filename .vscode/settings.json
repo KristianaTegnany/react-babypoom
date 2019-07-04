@@ -9,13 +9,6 @@
   "files.trimTrailingWhitespace": true,
   "editor.snippetSuggestions": "top",
   "files.autoSave": "onFocusChange",
-  // ruby
-  "[ruby]": {
-    "editor.formatOnSave": true
-  },
-  "ruby.format": "rufo",
-  "ruby.useBundler": true,
-  "ruby.intellisense": "rubyLocate",
   // Exclusions from the explorer
   "files.exclude": {
     "**/.DS_Store": true,
