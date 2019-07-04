@@ -24,6 +24,7 @@ import flipSound from '../../sounds/flip-sound.mp3'
 import { RotateDeviceIcon, FullscreenIcon, VolumeOnIcon, VolumeOffIcon } from '../../icons'
 import loadIntl from '../../../lib/intl-detection'
 import { updateLocale } from '../../i18n/hot-intl-provider/HotIntlProviderActions'
+import twemoji from 'twemoji'
 import './styles.scss'
 
 let UNIQ = 0
@@ -148,7 +149,21 @@ class App extends Component {
     }
   }
 
+  replaceInvalidChars() {
+    let n
+    const invalidCharReg = /\uFFFD/g
+    const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false)
+    while ((n = walk.nextNode())) n.nodeValue = n.nodeValue.replace(invalidCharReg, '')
+  }
+
+  //
+
   domLoaded() {
+    // Replace Emojis
+    twemoji.parse(document.body)
+    // Replace invalid chars
+    this.replaceInvalidChars()
+
     if (this.props.params.hd) return
 
     let uuid = this.props.bpoom.uuid
