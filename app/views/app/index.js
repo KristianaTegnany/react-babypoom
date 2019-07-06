@@ -150,13 +150,12 @@ class App extends Component {
   }
 
   replaceInvalidChars() {
+    if (!document.createTreeWalker) return
     let n
     const invalidCharReg = /\uFFFD/g
     const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false)
     while ((n = walk.nextNode())) n.nodeValue = n.nodeValue.replace(invalidCharReg, '')
   }
-
-  //
 
   domLoaded() {
     // Replace Emojis
