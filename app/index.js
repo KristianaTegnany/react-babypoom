@@ -14,9 +14,11 @@ import config from '../config'
 import isLocalhost from '../lib/is-localhost'
 import { queryParams } from '../lib/url-params'
 
-if (!isLocalhost() && location.protocol === 'http:') {
-  window.location.href = location.href.replace('http', 'https')
-}
+if (!isLocalhost() && typeof document !== 'undefined')
+  document.domain = location.hostname
+    .split('.')
+    .slice(-2)
+    .join('.')
 
 // Store
 const initialState = window[config.requestCacheVar]
