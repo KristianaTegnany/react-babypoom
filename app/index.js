@@ -17,9 +17,11 @@ import Bootstrap from '../config/bootstrap/bootstrap.scss'
 import { setGlobalCssModule } from 'reactstrap/lib/utils'
 import isLocalhost from '../lib/is-localhost'
 
-if (!isLocalhost() && location.protocol === 'http:') {
-  window.location.href = location.href.replace('http', 'https')
-}
+if (!isLocalhost() && typeof document !== 'undefined')
+  document.domain = location.hostname
+    .split('.')
+    .slice(-2)
+    .join('.')
 
 setGlobalCssModule(Bootstrap)
 
