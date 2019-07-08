@@ -209,8 +209,7 @@ let App = ({
   )
 }
 
-App.fetchData = (store, params, qParams) =>
-  store.dispatch(fetchBpoom(params.uuid, { flash: false, queryParams: qParams }))
+App.fetchData = (store, params, qParams, canEdit) => store.dispatch(fetchBpoom(params.uuid, qParams, canEdit))
 
 export default injectIntl(
   connect(

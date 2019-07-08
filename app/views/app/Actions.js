@@ -2,10 +2,10 @@ import { BPOOM, STEPS, NO_NAV, GUEST_BOOK_MSG_SAVE, GUEST_BOOK_MSG_DELETE } from
 import overrideBpoom from '../../../lib/override_bpoom_with_params'
 import api from '../../api'
 
-export const fetchBpoom = (uuid, queryParams = {}) =>
+export const fetchBpoom = (uuid, queryParams = {}, canEdit) =>
   api({
     path: `/birth_app/bpooms/${uuid}`,
-    success: (bpoom, dispatch) => dispatch({ type: BPOOM, bpoom: overrideBpoom(bpoom, queryParams) }),
+    success: (bpoom, dispatch) => dispatch({ type: BPOOM, bpoom: overrideBpoom(bpoom, queryParams, canEdit) }),
   })
 
 export const saveMsg = (uuid, guest_book_msg) =>

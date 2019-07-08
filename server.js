@@ -22,7 +22,7 @@ import metas from './app/i18n/messages/metas'
 import availableLocales from './available-locales'
 
 import 'isomorphic-fetch'
-import { fetchBpoom, updateStep } from './app/views/app/Actions'
+import { updateStep } from './app/views/app/Actions'
 import config from './config'
 import { queryParams } from './lib/url-params'
 import template from './lib/template'
@@ -67,8 +67,18 @@ app.get('*', (req, res) => {
       return res.send(PAGE_CACHE({ html: render() }))
     }
 
+    const url = new URL(req.headers.referer)
+    const canEdit =
+      req.get('host') !== url.host &&
+      ['localhost', 'babypoom.com'].includes(
+        url.hostname
+          .split('.')
+          .slice(-2)
+          .join('.'),
+      )
+
     component
-      .fetchData(store, match.params, queryParams(match.url))
+      .fetchData(store, match.params, queryParams(match.url), canEdit)
       .then(bpoom => {
         let locale = bpoom.locale
         let msgs = messages[locale]
