@@ -67,15 +67,19 @@ app.get('*', (req, res) => {
       return res.send(PAGE_CACHE({ html: render() }))
     }
 
-    const url = new URL(req.headers.referer)
-    const canEdit =
-      req.get('host') !== url.host &&
-      ['localhost', 'babypoom.com'].includes(
-        url.hostname
-          .split('.')
-          .slice(-2)
-          .join('.'),
-      )
+    let canEdit = false
+    const referer = req.headers.referrer || req.headers.referer
+    if (referer) {
+      const url = new URL(referer)
+      canEdit =
+        req.get('host') !== url.host &&
+        ['localhost', 'babypoom.com'].includes(
+          url.hostname
+            .split('.')
+            .slice(-2)
+            .join('.'),
+        )
+    }
 
     component
       .fetchData(store, match.params, queryParams(match.url), canEdit)
