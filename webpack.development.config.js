@@ -1,21 +1,25 @@
 var webpack = require('webpack')
-var _ = require('lodash')
 var WebpackNotifierPlugin = require('webpack-notifier')
-
 var config = require('./webpack.common.config.js')
 
-_.merge(config, {
+module.exports = config({
   mode: 'development',
-  entry: ['webpack-dev-server/client?http://localhost:8181', 'webpack/hot/only-dev-server'].concat(config.entry),
-  output: {
-    pathinfo: true,
+  entry: ['webpack-dev-server/client?http://localhost:8383', 'webpack/hot/only-dev-server', 'react-hot-loader/patch'],
+  pathinfo: true,
+  stats: {
+    errorDetails: true,
+    modules: true,
+    reasons: true,
   },
-  plugins: config.plugins.concat([
+  cssLoaders: ['style-loader'],
+  scssLoaders: ['style-loader'],
+  localIdentName: '[path]___[name]__[local]___[hash:base64:5]',
+  generateScopedName: '[path]___[name]__[local]___[hash:base64:5]',
+  appendPlugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.LoaderOptionsPlugin({ debug: true }),
     new WebpackNotifierPlugin({ alwaysNotify: true }),
-    //new webpack.optimize.CommonsChunkPlugin('common', 'common-bundle.js'),
-  ]),
+  ],
+  appendBabelPlugins: ['react-hot-loader/babel'],
 })
 
-module.exports = config

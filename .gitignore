@@ -2,7 +2,6 @@
 logs
 *.log
 .history
-.vscode
 config/locales/extracted
 
 # Pdf albums
