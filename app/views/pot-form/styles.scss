@@ -1,0 +1,64 @@
+@import '../../../config/bootstrap/bootstrap-var';
+
+.pot-form {
+  form {
+    padding: $main-padding;
+    background: var(--neutral-primary-D);
+  }
+
+  label {
+    position: absolute;
+    top: 1px;
+    margin: 0;
+    z-index: 1;
+    left: $main-padding / 2;
+    text-shadow: -3px 0 3px white, 0 3px 3px white, 3px 0 3px white, 0 -3px 3px white;
+  }
+}
+
+.card-number {
+  letter-spacing: 3px;
+}
+
+.icon {
+  position: relative;
+  top: -2px;
+  margin-right: 1em;
+}
+
+.actions {
+  display: flex;
+  margin-top: $main-padding;
+
+  button {
+    width: 50%;
+    margin-left: $main-padding;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+
+.col-2 {
+  display: flex;
+
+  & > * {
+    flex: 1 0 50%;
+    padding-right: 7.5px;
+
+    & + * {
+      padding-right: 0;
+      padding-left: 7.5px;
+    }
+  }
+}
+
+.powered-by {
+  margin-top: $main-padding;
+  width: 100%;
+}
+
+hr {
+  margin: $main-padding 0 $main-padding / 2;
+}

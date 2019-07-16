@@ -1,0 +1,85 @@
+@import '../../../config/bootstrap/bootstrap-var';
+
+.guest-book-container {
+  & > button,
+  & > .button-container {
+    flex: none;
+    margin: $main-padding 0;
+  }
+
+  & > .button-container button {
+    line-height: 1em;
+  }
+
+  .icon {
+    margin-right: 5px;
+    position: relative;
+    top: -2px;
+  }
+}
+
+.guest-book-msgs {
+  & > div {
+    padding: $main-padding 0 0 0;
+    position: relative;
+
+    &:first-child {
+      padding-top: 0;
+    }
+  }
+
+  & > :last-child {
+    margin-bottom: $main-padding;
+  }
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .guest-book-container {
+    .button-container {
+      position: sticky;
+      top: 30px;
+      z-index: 1;
+
+      & > button {
+        margin: ($main-padding * 2) 0 0;
+        width: auto;
+        position: absolute;
+        right: -$main-padding * 2;
+        white-space: normal;
+        border-radius: 50px;
+        padding: 14px;
+        cursor: pointer;
+        box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.15);
+
+        & > span {
+          display: none;
+        }
+      }
+    }
+
+    .icon {
+      margin: 0;
+      font-size: 200%;
+      position: static;
+    }
+  }
+
+  .guest-book-msgs {
+    max-width: 80%;
+    margin: 0 auto;
+
+    & > div,
+    & > div:first-child,
+    & + button + div {
+      padding-top: $main-padding * 2;
+    }
+
+    & + button {
+      display: none;
+    }
+
+    & > :last-child {
+      margin-bottom: $main-padding * 3;
+    }
+  }
+}
