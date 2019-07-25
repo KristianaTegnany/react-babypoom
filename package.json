@@ -10,7 +10,8 @@
     "build:server": "webpack --config webpack.server.config.js",
     "build": "npm run build:locale-data && npm run build:client && npm run build:server",
     "manage:i18n": "node ./translationRunner.js",
-    "eslint": "eslint ."
+    "eslint": "eslint .",
+    "ssh": "ssh root@134.209.233.179"
   },
   "dependencies": {
     "babel-plugin-react-css-modules": "5.2.6",

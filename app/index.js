@@ -15,13 +15,7 @@ import Validators from 'redux-form-validators'
 import './i18n/messages/redux-form-validators'
 import Bootstrap from '../config/bootstrap/bootstrap.scss'
 import { setGlobalCssModule } from 'reactstrap/lib/utils'
-import isLocalhost from '../lib/is-localhost'
 
-if (!isLocalhost() && typeof document !== 'undefined')
-  document.domain = location.hostname
-    .split('.')
-    .slice(-2)
-    .join('.')
 
 setGlobalCssModule(Bootstrap)
 
