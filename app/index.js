@@ -11,14 +11,7 @@ import HotIntlProvider from './i18n/hot-intl-provider/HotIntlProvider'
 import { updateParams } from './views/app/Actions'
 import 'isomorphic-fetch'
 import config from '../config'
-import isLocalhost from '../lib/is-localhost'
 import { queryParams } from '../lib/url-params'
-
-if (!isLocalhost() && typeof document !== 'undefined')
-  document.domain = location.hostname
-    .split('.')
-    .slice(-2)
-    .join('.')
 
 // Store
 const initialState = window[config.requestCacheVar]
