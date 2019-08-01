@@ -357,7 +357,7 @@ class App extends Component {
                 </div>
               )}
               <div className="order">
-                <a href={config.orderLink.replace('{{id}}', bpoom.id)}>{t(MSG.order)}</a>
+                <a href={config.orderLink.replace('{{id}}', this.props.bpoom.id)}>{t(MSG.order)}</a>
               </div>
               <div styleName="rotate-device">
                 <RotateDeviceIcon />
