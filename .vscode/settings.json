@@ -1,0 +1,29 @@
+{
+  "workbench.iconTheme": "vscode-great-icons",
+  "explorer.autoReveal": false,
+  "editor.wordWrapColumn": 120,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "editor.snippetSuggestions": "top",
+  "files.autoSave": "onFocusChange",
+  // Exclusions from the explorer
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true
+  },
+  // Exclusion from the search
+  "search.exclude": {
+    "**/.history": true
+  },
+  "javascript.format.enable": false,
+  // Prettier & ESLint
+  "prettier.eslintIntegration": true,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all",
+  "prettier.semi": false,
+  "prettier.printWidth": 120,
+  "editor.formatOnSave": true
+}

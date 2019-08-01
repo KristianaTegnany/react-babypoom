@@ -3,7 +3,30 @@ var path = require('path')
 var _ = require('lodash')
 var webpack = require('webpack')
 
-var config = require('./webpack.common.config.js')
+var ShortClassNameGenerator = require('./css-modules-scoped-name')
+var shortClassName = new ShortClassNameGenerator()
+
+var config = require('./webpack.common.config.js')({
+  getLocalIdent: (loaderContext, localIdentName, name, options) => {
+    return shortClassName.next(loaderContext.resourcePath, name)
+  },
+  generateScopedName: function(name, filename, css) {
+    return shortClassName.next(filename, name)
+  },
+  prependPlugins: [
+    {
+      apply: function(compiler) {
+        // We generate classNames for the client & server build and need to ensure they're synced
+        compiler.hooks.afterEnvironment.tap('ShortClassNameGenerator', function(compilation) {
+          shortClassName.importData(path.join(__dirname, 'public'))
+        })
+        compiler.hooks.afterEmit.tap('ShortClassNameGenerator', function(compilation) {
+          shortClassName.exportData(path.join(__dirname, 'public'))
+        })
+      },
+    },
+  ],
+})
 
 module.exports = _.merge(config, {
   devtool: false,

@@ -21,10 +21,9 @@ new WebpackDevServer(webpack(config), {
     chunks: false,
     chunkModules: false,
   },
-}).listen(8181, 'localhost', function(err) {
+}).listen(8383, 'localhost', function(err) {
   if (err) {
     console.log(err)
   }
-  console.warn("WARNING: PORT has been changed. It's now 8181")
-  console.log('Listening at localhost:8181')
+  console.log('Listening at localhost:8383')
 })
