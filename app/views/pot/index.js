@@ -26,7 +26,7 @@ import getPhoto from '../../../lib/get-photo'
 import t from '../../i18n/i18n'
 
 // CSS
-import styles from './styles.scss'
+import './styles.scss'
 
 let Pot = ({ desktop, noNav, bpoom }) => {
   const modal = useToggle(false)
@@ -55,7 +55,7 @@ let Pot = ({ desktop, noNav, bpoom }) => {
       <div styleName="panel-container">
         <Panel title={t(MSG.baby_pot_title)} imgType="piggy-bank">
           {t(MSG.baby_pot_block, {
-            fees: bpoom.caritative_fees,
+            fees: bpoom.charity_fees,
             link: (
               <Button styleName="btn-link" color="link" onClick={showModal}>
                 {charity.name}
