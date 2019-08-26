@@ -217,7 +217,7 @@ app.get('*', (req, res) => {
     // Wait for it...! :P
     return res.send(
       'Creating the pdf... <br />This page will refresh when the pdf is ready' +
-        '<script>setTimeout(function() { location.reload() }, 2500);</script>',
+        '<script>setTimeout(function() { location.reload() }, 5000);</script>',
     )
   }
 
