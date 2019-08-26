@@ -42,6 +42,7 @@ const KITE_SPINE_WIDTH = {
 }
 
 function kitePageRange(totalPages) {
+  totalPages -= 2 // Cover
   return Object.keys(KITE_SPINE_WIDTH).find(r => {
     const [low, high] = r.split('-').map(Number)
     return low <= totalPages && totalPages <= high
