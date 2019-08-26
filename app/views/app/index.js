@@ -31,6 +31,7 @@ let UNIQ = 0
 
 const MIN_PAGES = 24
 
+// Sync it with css
 const KITE_SPINE_WIDTH = {
   '0-50': 6.76,
   '51-100': 11.25,

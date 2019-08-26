@@ -98,8 +98,8 @@ const generatePdf = async function(url, path, params) {
       .pdf({
         path: path.pages,
         pageRanges: '1',
-        width: `${648 + kiteSpineWidth}mm`,
-        height: '256mm',
+        width: `${654 + kiteSpineWidth}mm`,
+        height: '262mm',
         margin: {
           top: '3mm',
           left: '3mm',
@@ -129,14 +129,14 @@ const generatePdf = async function(url, path, params) {
         .pdf({
           path: pagePath,
           pageRanges: `${i}`,
-          width: '297mm',
-          height: '210mm',
+          width: params.kitePages ? '303mm' : '297mm',
+          height: params.kitePages ? '216mm' : '210mm',
           margin: params.kitePages
             ? {
-                top: '2.11641mm',
-                right: '3mm',
-                bottom: '2.11641mm',
+                top: '3mm',
                 left: '3mm',
+                right: '3mm',
+                bottom: '3mm',
               }
             : void 0,
           printBackground: true,
