@@ -87,54 +87,74 @@ const generatePdf = async function(url, path, params) {
   const page = await BROWSER.newPage()
   page.emulateMedia('screen')
   await page.goto(url, { waitUntil: 'networkidle2' })
+  await page.addStyleTag({ content: 'html, body { background: white; }' })
 
-  // Clean up
-  deleteFiles([path.cover], true)
-
-  const pdfId = uuid()
-  const pagePaths = []
   let errors = 0
-  let startPage = 1
 
-  let totalPages = await page.$$eval('.pdf-page', pages => pages.length)
-
-  if (params.kite) {
-    startPage = 2
-    totalPages -= 1
+  if (params.kiteCover) {
+    let kiteSpineWidth = await page.$$eval('.puppeteer-pdf-margin', div => +div[0].innerText.trim())
 
     await page
       .pdf({
-        path: path.cover,
+        path: path.pages,
         pageRanges: '1',
-        width: '654.76mm',
+        width: `${648 + kiteSpineWidth}mm`,
         height: '256mm',
+        margin: {
+          top: '3mm',
+          left: '3mm',
+          right: '3mm',
+          bottom: '3mm',
+        },
         printBackground: true,
       })
       .catch(err => {
         ++errors
         console.error(err)
       })
+
+    page.close()
+
+    deleteFiles([path.lock])
+    if (errors && fileExists(path.pages)) return deleteFiles([path.pages])
+  } else {
+    let totalPages = await page.$$eval('.pdf-page', pages => pages.length)
+    const pagePaths = []
+    const pdfId = uuid()
+
+    for (let i = 1; i <= totalPages; ++i) {
+      let pagePath = `pdf-albums/${pdfId}-${i}.pdf`
+      pagePaths.push(pagePath)
+      await page
+        .pdf({
+          path: pagePath,
+          pageRanges: `${i}`,
+          width: '297mm',
+          height: '210mm',
+          margin: params.kitePages
+            ? {
+                top: '2.11641mm',
+                right: '3mm',
+                bottom: '2.11641mm',
+                left: '3mm',
+              }
+            : void 0,
+          printBackground: true,
+        })
+        .catch(err => {
+          ++errors
+          console.error(err)
+        })
+    }
+    page.close()
+
+    if (errors || fileExists(path.pages)) return deleteFiles(pagePaths.concat(path.lock))
+
+    merge(pagePaths, path.pages, err => {
+      if (err) console.error(err)
+      deleteFiles(pagePaths.concat(path.lock))
+    })
   }
-
-  for (let i = startPage; i <= totalPages; ++i) {
-    let pagePath = `pdf-albums/${pdfId}-${i}.pdf`
-    pagePaths.push(pagePath)
-    await page
-      .pdf({ path: pagePath, pageRanges: `${i}`, format: 'A4', landscape: true, printBackground: true })
-      .catch(err => {
-        ++errors
-        console.error(err)
-      })
-  }
-
-  page.close()
-
-  if (errors || fileExists(path.album)) return deleteFiles(pagePaths.concat(path.lock))
-
-  merge(pagePaths, path.album, err => {
-    if (err) console.error(err)
-    deleteFiles(pagePaths.concat(path.lock))
-  })
 }
 process.on('exit', async function() {
   await BROWSER.close()
@@ -152,38 +172,35 @@ app.get('*', (req, res) => {
 
   if (REG_PDF.test(reqPath)) {
     const bpoomUuid = reqPath.slice(1).replace(REG_PDF, '')
+    const suffix = params.kiteCover ? 'kite-cover' : params.kitePages ? 'kite-pages' : 'full'
     const path = {
-      album: `pdf-albums/${bpoomUuid}-pages.pdf`,
-      cover: `pdf-albums/${bpoomUuid}-cover.pdf`,
-      lock: `pdf-albums/${bpoomUuid}.txt`,
+      pages: `pdf-albums/${bpoomUuid}-${suffix}.pdf`,
+      lock: `pdf-albums/${bpoomUuid}-${suffix}.txt`,
     }
 
     // Manage lock file
-    if (params.check_lock) return res.send('lock file ' + (fileExists(path.lock) ? 'found' : 'not found'))
-    if (params.delete_lock) {
+    if (params.checkLock) return res.send('lock file ' + (fileExists(path.lock) ? 'found' : 'not found'))
+    if (params.deleteLock) {
       if (fileExists(path.lock)) {
         deleteFiles([path.lock])
         return res.send('lock file deleted')
       }
       return res.send('lock file not found')
     }
-    // Delete album files if force flag is set
-    if (params.delete_files) {
-      deleteFiles([path.cover, path.album], true)
-      return res.send('album files deleted')
+    // Delete album files if delete_files flag is set
+    if (params.deleteFiles) {
+      if (fileExists(path.pages)) {
+        deleteFiles([path.pages])
+        return res.send('Album file deleted')
+      }
+      return res.send('Album file not found')
     }
 
     // Render album
-    if (fileExists(path.album) || fileExists(path.cover)) {
-      if (params.kite && !params.type) {
-        const coverURL = originalURL + '?' + toQueryString({ ...params, type: 'cover' })
-        const pagesURL = originalURL + '?' + toQueryString({ ...params, type: 'pages' })
-        return res.send(`<a href="${coverURL}">Cover</a><br /><a href="${pagesURL}">Pages</a>`)
-      }
-
+    if (fileExists(path.pages)) {
       res.setHeader('Content-Type', 'application/pdf')
       res.setHeader('Content-Disposition', `inline;filename=${bpoomUuid}.pdf`)
-      return fs.readFile(params.kite && params.type === 'cover' ? path.cover : path.album, (err, data) => {
+      return fs.readFile(path.pages, (err, data) => {
         if (err) return console.error(err)
         res.send(data)
       })
@@ -200,7 +217,7 @@ app.get('*', (req, res) => {
     // Wait for it...! :P
     return res.send(
       'Creating the pdf... <br />This page will refresh when the pdf is ready' +
-        '<script>setTimeout(function() { location.reload() }, 5000);</script>',
+        '<script>setTimeout(function() { location.reload() }, 2500);</script>',
     )
   }
 
@@ -282,8 +299,8 @@ function fileExists(path) {
   }
 }
 
-function deleteFiles(files, check) {
+function deleteFiles(files) {
   files.forEach(filepath => {
-    if (!check || fileExists(filepath)) fs.unlink(filepath, err => err && console.error(err))
+    fs.unlink(filepath, err => err && console.error(err))
   })
 }

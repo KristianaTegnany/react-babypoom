@@ -1,17 +1,17 @@
 /* Reset */
 @charset "UTF-8";
 
-@page {
-  size: A4 landscape;
-  margin: 0;
-}
-@media print {
-  html,
-  body {
-    width: var(--page-width);
-    height: var(--page-height);
-  }
-}
+// @page {
+// size: A4 landscape;
+// margin: 0;
+// }
+// @media print {
+//   html,
+//   body {
+//     width: var(--page-width);
+//     height: var(--page-height);
+//   }
+// }
 
 [hidden] {
   display: none !important;

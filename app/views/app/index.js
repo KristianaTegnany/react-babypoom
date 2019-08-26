@@ -31,6 +31,22 @@ let UNIQ = 0
 
 const MIN_PAGES = 24
 
+const KITE_SPINE_WIDTH = {
+  '0-50': 6.76,
+  '51-100': 11.25,
+  '101-150': 15.75,
+  '151-200': 20.24,
+  '201-250': 24.74,
+  '251-300': 29.24,
+}
+
+function kitePageRange(totalPages) {
+  return Object.keys(KITE_SPINE_WIDTH).find(r => {
+    const [low, high] = r.split('-').map(Number)
+    return low <= totalPages && totalPages <= high
+  })
+}
+
 function setLocaleData(localeData) {
   addLocaleData(new Function(`return ${localeData}`)())
 }
@@ -320,34 +336,43 @@ class App extends Component {
       2 /* Parents & stats */ +
       1 /* Back Cover */
 
-    let blankPages = params.hd ? Math.max(0, MIN_PAGES - totalPages) : 0
+    const kiteCover = params.hd && params.kiteCover
+    const kitePages = params.hd && params.kitePages
+
+    const minPages = kitePages ? 20 : MIN_PAGES
+
+    let blankPages = params.hd ? Math.max(0, minPages - totalPages) : 0
     // Pages need to be pair in any case scenario
     if ((totalPages + blankPages) % 2) ++blankPages
 
     let missingPages = []
     for (let i = 0; i < blankPages; ++i) missingPages.push(<Page key={`missing-${i}`} />)
 
-    const kite = params.hd && params.kite
     return (
       <CSSVariableApplicator data-variables={THEMES[this.state.theme]}>
         {this.renderFlash()}
         <div className={params.hd ? 'hd' : 'preview'}>
           <div className="flipbook">
-            {kite ? (
-              <div className="kite-cover">
-                <BackCover />
-                <Cover />
-              </div>
+            {kiteCover ? (
+              <React.Fragment>
+                <div className={`kite-cover kite-pr-${kitePageRange(totalPages)}`}>
+                  <BackCover />
+                  <Cover />
+                </div>
+                <div hidden className="puppeteer-pdf-margin">
+                  {KITE_SPINE_WIDTH[kitePageRange(totalPages)]}
+                </div>
+              </React.Fragment>
             ) : (
               <React.Fragment>
-                <Cover />
+                {!kitePages && <Cover />}
                 <Intro />
                 <Arrival />
                 <Trip />
                 <Guestbook />
                 <ParentsAndStats />
                 {missingPages}
-                <BackCover />
+                {!kitePages && <BackCover />}
               </React.Fragment>
             )}
           </div>

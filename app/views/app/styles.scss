@@ -3,18 +3,37 @@
 
 :global {
   .kite-cover {
-    page-break-inside: avoid;
     --page-width: 324mm;
     --page-height: 256mm;
-    width: calc(var(--page-width) * 2 + 6.76mm);
+    --kite-margin: 6.76mm;
+
+    page-break-inside: avoid;
     height: var(--page-height);
 
     > div {
       display: inline-block;
     }
 
+    &.kite-pr-51-100 {
+      --kite-margin: 11.25mm;
+    }
+    &.kite-pr-101-150 {
+      --kite-margin: 15.75mm;
+    }
+    &.kite-pr-151-200 {
+      --kite-margin: 20.24mm;
+    }
+    &.kite-pr-201-250 {
+      --kite-margin: 24.74mm;
+    }
+    &.kite-pr-251-300 {
+      --kite-margin: 29.24mm;
+    }
+
+    width: calc(var(--page-width) * 2 + var(--kite-margin));
+
     > div:last-child .pdf-page {
-      margin-left: 6.76mm;
+      margin-left: var(--kite-margin);
     }
   }
 }

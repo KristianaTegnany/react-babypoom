@@ -3,6 +3,8 @@
 :global(.kite-cover) {
   .panel {
     padding-right: 20mm + 8mm;
+    background-size: 256mm auto !important;
+    background-position: calc(50% - 10mm) 50% !important;
   }
 }
 
