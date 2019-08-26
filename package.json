@@ -48,7 +48,7 @@
     "babel-plugin-react-intl": "3.3.3",
     "copy-webpack-plugin": "5.0.3",
     "css-loader": "2.1.1",
-    "easy-pdf-merge": "0.2.1",
+    "easy-pdf-merge": "0.2.2",
     "eslint": "5.16.0",
     "eslint-loader": "2.1.2",
     "eslint-plugin-import": "2.18.0",
