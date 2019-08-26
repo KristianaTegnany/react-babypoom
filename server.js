@@ -150,7 +150,7 @@ const generatePdf = async function(url, path, params) {
 
     if (errors || fileExists(path.pages)) return deleteFiles(pagePaths.concat(path.lock))
 
-    merge(pagePaths, path.pages, err => {
+    merge(pagePaths, path.pages, { maxHeap: '3072m' }, err => {
       if (err) console.error(err)
       deleteFiles(pagePaths.concat(path.lock))
     })
