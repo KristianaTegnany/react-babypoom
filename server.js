@@ -199,7 +199,7 @@ app.get('*', (req, res) => {
     // Render album
     if (fileExists(path.pages)) {
       res.setHeader('Content-Type', 'application/pdf')
-      res.setHeader('Content-Disposition', `inline;filename=${bpoomUuid}.pdf`)
+      res.setHeader('Content-Disposition', `inline;filename=${bpoomUuid}-${suffix}.pdf`)
       return fs.readFile(path.pages, (err, data) => {
         if (err) return console.error(err)
         res.send(data)
