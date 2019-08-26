@@ -1,6 +1,24 @@
 @import '../../../config/styles/variables';
 @import '../../../config/styles/reset';
 
+:global {
+  .kite-cover {
+    page-break-inside: avoid;
+    --page-width: 324mm;
+    --page-height: 256mm;
+    width: calc(var(--page-width) * 2 + 6.76mm);
+    height: var(--page-height);
+
+    > div {
+      display: inline-block;
+    }
+
+    > div:last-child .pdf-page {
+      margin-left: 6.76mm;
+    }
+  }
+}
+
 .alert {
   position: fixed;
   z-index: 1;

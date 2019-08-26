@@ -1,16 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
-import styles from './styles.scss'
-
 import Page from '../../components/page'
-import Title from '../../components/title'
 import ContentPanel from '../../components/content-panel'
 import BorderBgBox from '../../components/border-bg-box'
-
-// i18n
-import t from '../../i18n/i18n'
 import { FormattedDate } from 'react-intl'
+import './styles.scss'
 
 class Cover extends Component {
   birthday = date => {

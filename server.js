@@ -31,7 +31,7 @@ import uuid from './lib/uuid'
 import merge from 'easy-pdf-merge'
 
 import puppeteer from 'puppeteer'
-import { queryParams } from './lib/url-params'
+import { queryParams, hasParam, toQueryString } from './lib/url-params'
 
 var PORT = process.env.PORT || 8383
 
@@ -83,15 +83,40 @@ let BROWSER
   })
 })()
 
-const generatePdf = async function(url, albumPath, lockPath) {
+const generatePdf = async function(url, path, params) {
   const page = await BROWSER.newPage()
   page.emulateMedia('screen')
   await page.goto(url, { waitUntil: 'networkidle2' })
-  const totalPages = await page.$$eval('.pdf-page', pages => pages.length)
+
+  // Clean up
+  deleteFiles([path.cover], true)
+
   const pdfId = uuid()
   const pagePaths = []
   let errors = 0
-  for (let i = 1; i <= totalPages; ++i) {
+  let startPage = 1
+
+  let totalPages = await page.$$eval('.pdf-page', pages => pages.length)
+
+  if (params.kite) {
+    startPage = 2
+    totalPages -= 1
+
+    await page
+      .pdf({
+        path: path.cover,
+        pageRanges: '1',
+        width: '654.76mm',
+        height: '256mm',
+        printBackground: true,
+      })
+      .catch(err => {
+        ++errors
+        console.error(err)
+      })
+  }
+
+  for (let i = startPage; i <= totalPages; ++i) {
     let pagePath = `pdf-albums/${pdfId}-${i}.pdf`
     pagePaths.push(pagePath)
     await page
@@ -101,13 +126,14 @@ const generatePdf = async function(url, albumPath, lockPath) {
         console.error(err)
       })
   }
+
   page.close()
 
-  if (errors || fileExists(albumPath)) return deleteFiles(pagePaths.concat(lockPath))
+  if (errors || fileExists(path.album)) return deleteFiles(pagePaths.concat(path.lock))
 
-  merge(pagePaths, albumPath, err => {
+  merge(pagePaths, path.album, err => {
     if (err) console.error(err)
-    deleteFiles(pagePaths.concat(lockPath))
+    deleteFiles(pagePaths.concat(path.lock))
   })
 }
 process.on('exit', async function() {
@@ -119,26 +145,59 @@ var REG_PDF = /\.bp\.pdf$/
 app.get('/favicon.ico', (req, res) => res.sendStatus(204))
 
 app.get('*', (req, res) => {
-  if (REG_PDF.test(req.url.split('?')[0])) {
-    const bpoomUuid = req.url.slice(1).replace(REG_PDF, '')
-    const albumPath = `pdf-albums/${bpoomUuid}.pdf`
-    const lockPath = `pdf-albums/${bpoomUuid}.txt`
-    if (fileExists(albumPath)) {
+  const [reqPath, queryString = ''] = req.originalUrl.split('?')
+  const params = queryParams(queryString)
+  const protocol = req.connection && req.connection.encrypted ? 'https' : 'http'
+  const originalURL = `${protocol}://${req.get('host')}${reqPath}`
+
+  if (REG_PDF.test(reqPath)) {
+    const bpoomUuid = reqPath.slice(1).replace(REG_PDF, '')
+    const path = {
+      album: `pdf-albums/${bpoomUuid}-pages.pdf`,
+      cover: `pdf-albums/${bpoomUuid}-cover.pdf`,
+      lock: `pdf-albums/${bpoomUuid}.txt`,
+    }
+
+    // Manage lock file
+    if (params.check_lock) return res.send('lock file ' + (fileExists(path.lock) ? 'found' : 'not found'))
+    if (params.delete_lock) {
+      if (fileExists(path.lock)) {
+        deleteFiles([path.lock])
+        return res.send('lock file deleted')
+      }
+      return res.send('lock file not found')
+    }
+    // Delete album files if force flag is set
+    if (params.delete_files) {
+      deleteFiles([path.cover, path.album], true)
+      return res.send('album files deleted')
+    }
+
+    // Render album
+    if (fileExists(path.album) || fileExists(path.cover)) {
+      if (params.kite && !params.type) {
+        const coverURL = originalURL + '?' + toQueryString({ ...params, type: 'cover' })
+        const pagesURL = originalURL + '?' + toQueryString({ ...params, type: 'pages' })
+        return res.send(`<a href="${coverURL}">Cover</a><br /><a href="${pagesURL}">Pages</a>`)
+      }
+
       res.setHeader('Content-Type', 'application/pdf')
       res.setHeader('Content-Disposition', `inline;filename=${bpoomUuid}.pdf`)
-      return fs.readFile(albumPath, (err, data) => {
+      return fs.readFile(params.kite && params.type === 'cover' ? path.cover : path.album, (err, data) => {
         if (err) return console.error(err)
         res.send(data)
       })
     }
-    if (!fileExists(lockPath)) {
-      fs.writeFileSync(lockPath, '')
-      const originalURL =
-        (req.connection && req.connection.encrypted ? 'https' : 'http') +
-        '://' +
-        (req.get('host') + req.originalUrl).replace(REG_PDF, '')
-      generatePdf(originalURL + (originalURL.indexOf('?') >= 0 ? '&hd=1' : '?hd=1'), albumPath, lockPath)
+
+    // Create lock and generate pdf
+    if (!fileExists(path.lock)) {
+      fs.writeFileSync(path.lock, '')
+      const pdfURL = originalURL.replace(REG_PDF, '')
+      const pdfParams = { ...params, hd: 1 }
+      generatePdf(pdfURL + '?' + toQueryString(pdfParams), path, params)
     }
+
+    // Wait for it...! :P
     return res.send(
       'Creating the pdf... <br />This page will refresh when the pdf is ready' +
         '<script>setTimeout(function() { location.reload() }, 5000);</script>',
@@ -223,12 +282,8 @@ function fileExists(path) {
   }
 }
 
-function deleteFiles(files) {
-  var i = files.length
-  files.forEach(function(filepath) {
-    fs.unlink(filepath, function(err) {
-      i--
-      if (err) return console.error(err)
-    })
+function deleteFiles(files, check) {
+  files.forEach(filepath => {
+    if (!check || fileExists(filepath)) fs.unlink(filepath, err => err && console.error(err))
   })
 }

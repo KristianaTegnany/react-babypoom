@@ -327,19 +327,29 @@ class App extends Component {
     let missingPages = []
     for (let i = 0; i < blankPages; ++i) missingPages.push(<Page key={`missing-${i}`} />)
 
+    const kite = params.hd && params.kite
     return (
       <CSSVariableApplicator data-variables={THEMES[this.state.theme]}>
         {this.renderFlash()}
         <div className={params.hd ? 'hd' : 'preview'}>
           <div className="flipbook">
-            <Cover />
-            <Intro />
-            <Arrival />
-            <Trip />
-            <Guestbook />
-            <ParentsAndStats />
-            {missingPages}
-            <BackCover />
+            {kite ? (
+              <div className="kite-cover">
+                <BackCover />
+                <Cover />
+              </div>
+            ) : (
+              <React.Fragment>
+                <Cover />
+                <Intro />
+                <Arrival />
+                <Trip />
+                <Guestbook />
+                <ParentsAndStats />
+                {missingPages}
+                <BackCover />
+              </React.Fragment>
+            )}
           </div>
           {!params.hd && (
             <div>

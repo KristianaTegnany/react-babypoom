@@ -1,5 +1,11 @@
 @import '../../../config/styles/variables.scss';
 
+:global(.kite-cover) {
+  .panel {
+    padding-right: 20mm + 8mm;
+  }
+}
+
 .panel {
   padding: 0 8mm;
   background-position: center !important;

@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 
 import Page from '../../components/page'
 import ContentPanel from '../../components/content-panel'
 
-import styles from './styles.scss'
+import './styles.scss'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -16,7 +15,7 @@ class BackCover extends Component {
   render() {
     return (
       <Page>
-        <ContentPanel background centered>
+        <ContentPanel background centered styleName="panel">
           <div styleName="box">
             <img styleName="logo" src={logo} alt="Logo Babypoom" />
             <p styleName="text">{t(MSG.made_with_love)}</p>
