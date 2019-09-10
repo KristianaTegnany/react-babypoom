@@ -8,6 +8,13 @@ export const fetchBpoom = (uuid, queryParams = {}, canEdit) =>
     success: (bpoom, dispatch) => dispatch({ type: BPOOM, bpoom: overrideBpoom(bpoom, queryParams, canEdit) }),
   })
 
+export const sendCardByEmail = (uuid, email) =>
+  api({
+    path: `/birth_app/cards/send-by-email/${uuid}`,
+    method: 'GET',
+    data: { email }
+  })
+
 export const saveMsg = (uuid, guest_book_msg) =>
   api({
     path: `/birth_app/guest_book_msgs/${uuid}`,

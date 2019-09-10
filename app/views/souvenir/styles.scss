@@ -1,5 +1,51 @@
 @import '../../../config/bootstrap/bootstrap-var';
 
+.souvenir-container {
+  max-width: map-get($grid-breakpoints, lg) !important;
+
+  & > div {
+    margin-top: $main-padding;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  img {
+    display: block;
+    width: 300px;
+    max-width: 100%;
+    margin: $main-padding auto;
+  }
+}
+
+.action {
+  width: 380px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.sent {
+  text-align: center;
+  color: $primary;
+}
+
 .fb-button {
   margin-top: 2em;
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .souvenir-container {
+    & > div {
+      margin-top: $main-padding * 2;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    img {
+      margin: $main-padding * 2 auto;
+    }
+  }
 }

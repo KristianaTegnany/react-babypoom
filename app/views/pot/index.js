@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { defineMessages, FormattedMessage } from 'react-intl'
+import { defineMessages } from 'react-intl'
 import ReactGA from 'react-ga'
 
 // Hooks

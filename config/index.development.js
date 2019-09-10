@@ -1,0 +1,7 @@
+export default {
+  development: true,
+  SERVER_URL: 'http://localhost:4000',
+  fbAppId: '1575628329131926',
+  s3UploadUrl: 'https://babypoom-bucket-dev.s3-accelerate.amazonaws.com',
+  s3CloudFrontUrl: 'https://aws-dev.babypoom.com',
+}

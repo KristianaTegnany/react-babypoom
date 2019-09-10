@@ -161,6 +161,7 @@ let App = ({
     lazyLoad(getPhoto(bpoom.parent_2_photo_urls, photoType))
     ;(bpoom.trip_events || []).forEach(e => lazyLoad(getPhoto(e.photo_urls, photoType)))
     ;(bpoom.guest_book_msgs || []).forEach(e => lazyLoad(getPhoto(e.photo_urls, photoType)))
+    lazyLoad(bpoom.card_url)
   }
 
   function renderFlash() {

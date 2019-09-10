@@ -1,4 +1,4 @@
-import config from './index.NODE_ENV.json'
+import config from './index.NODE_ENV.js'
 
 export default {
   ...config,
