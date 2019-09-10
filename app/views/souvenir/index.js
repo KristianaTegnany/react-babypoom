@@ -31,7 +31,10 @@ let Souvenir = ({ bpoom, desktop, sendCardByEmail }) => {
   }
 
   const validate = values => {
-    return { email: email({ msg: t(FORM_MSG.form_email_invalid) })(values.email) }
+    const errors = {}
+    const emailError = email({ msg: t(FORM_MSG.form_email_invalid) })(values.email)
+    if (emailError) errors.email = emailError
+    return errors
   }
 
   return (
