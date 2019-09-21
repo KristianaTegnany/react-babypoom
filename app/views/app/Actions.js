@@ -12,7 +12,7 @@ export const sendCardByEmail = (uuid, email) =>
   api({
     path: `/birth_app/cards/send-by-email/${uuid}`,
     method: 'GET',
-    data: { email }
+    data: { email },
   })
 
 export const saveMsg = (uuid, guest_book_msg) =>
@@ -37,11 +37,11 @@ export const saveMangopayAccount = mangopay_account =>
     data: { mangopay_account },
   })
 
-export const saveMangopayPayment = mangopay_payment =>
+export const saveMangopayPayment = (uuid, mangopay_payment) =>
   api({
     path: `/birth_app/mangopay_payments`,
     method: 'POST',
-    data: { mangopay_payment },
+    data: { uuid, mangopay_payment },
   })
 
 export const updateStep = (steps, callback) => dispatch => {

@@ -54,8 +54,7 @@ let PotForm = ({ bpoom, intl, flash, onSave, onCancel, saveMangopayAccount, save
             cardType: 'CB_VISA_MASTERCARD',
           },
           res => {
-            saveMangopayPayment({
-              uuid: bpoom.uuid,
+            saveMangopayPayment(bpoom.uuid, {
               mangopay_card_id: res.CardId,
               mangopay_account_id: json.mpaid,
               sumcent: json.sumcent,
