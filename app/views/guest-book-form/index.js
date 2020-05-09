@@ -33,15 +33,15 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
 
   const scrollElt = useScrollToTop()
 
-  const onUploadBtnClick = setFieldValue => {
+  const onUploadBtnClick = (setFieldValue) => {
     let uuid = bpoom.uuid
     new MSUploader({
       uploader: {
         url: config.s3UploadUrl,
-        getSignature: success => api({ path: `/aws/s3_signature/bpooms/${uuid}`, success }),
+        getSignature: (success) => api({ path: `/aws/s3_signature/bpooms/${uuid}`, success }),
         onStart: () => setUploading(true),
-        onProgress: p => setProgress(Math.floor(p)),
-        onDone: xhr => {
+        onProgress: (p) => setProgress(Math.floor(p)),
+        onDone: (xhr) => {
           setProgress(null)
           setUploading(false)
           const url = decodeURIComponent(xhr.responseXML.getElementsByTagName('Location')[0].innerHTML)
@@ -63,12 +63,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
         resizeToWidth: 1000,
         webpIfSupported: true,
       },
-      facebook: {
-        appId: config.fbAppId,
-        locale: bpoom.locale,
-      },
       googlePhotos: config.googleClientID ? { oAuthClientID: config.googleClientID } : null,
-      instagram: config.instClientID ? { clientID: config.instClientID } : null,
     })
   }
 
@@ -161,10 +156,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
   )
 }
 
-export default connect(
-  mapStateToProps,
-  { api, saveMsg, flash },
-)(GuestBookForm)
+export default connect(mapStateToProps, { api, saveMsg, flash })(GuestBookForm)
 
 function mapStateToProps(state) {
   const {
