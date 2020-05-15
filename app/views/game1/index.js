@@ -12,7 +12,9 @@ import BubbleSay from '../../components/bubble-say'
 import BubblePic from '../../components/bubble-pic'
 import BpoomImg from '../../components/bpoom-img'
 import GameWin from '../game-win'
-
+import { Prompt } from 'react-router'
+import useToggle from '../../hooks/toggle'
+import imgPath from '../../../lib/img-path'
 // i18n
 import t from '../../i18n/i18n'
 
@@ -41,6 +43,8 @@ function uniqChars(str) {
 
 let EXPERIMENTAL = 'undefined' !== typeof window && 'experimental' === (window.location.hash || '').substr(1)
 
+const LOGO = imgPath('/corporate/logo.png')
+
 let Game1 = ({
   bpoom,
   desktop,
@@ -55,7 +59,6 @@ let Game1 = ({
 }) => {
   let babyName = bpoom.babyNameFormatted
   let letters = uniqChars(babyName)
-
   const [lastChar, setLastChar] = useState(null)
   const [picture, setPicture] = useState(null)
 
@@ -94,7 +97,7 @@ let Game1 = ({
     }
   }
 
-  const handleClick = e => {
+  const handleClick = (e) => {
     timeTracker.start() // Will only start if it's not already started
 
     let elt = e.currentTarget
@@ -104,12 +107,12 @@ let Game1 = ({
   }
 
   const renderGame = () => {
-    let charset = (bpoom.game_charset || []).map(c => c.toUpperCase())
+    let charset = (bpoom.game_charset || []).map((c) => c.toUpperCase())
     let nameChars = Array.from(babyName)
     let asciiName = ascii(babyName)
     let asciiNameChars = Array.from(asciiName)
     if (charset.length)
-      asciiNameChars.forEach(c => {
+      asciiNameChars.forEach((c) => {
         if (charset.indexOf(c) < 0) charset.push(c)
       })
 
@@ -132,6 +135,14 @@ let Game1 = ({
             {bubbleText}
           </BubblePic>
         )}
+        <Prompt
+          when={letters != guessedOkCount}
+          message={(location) => {
+            return location.pathname.endsWith('/my-info')
+              ? `Es-tu sûr de vouloir continuer sans deviner mon prénom ?`
+              : true
+          }}
+        />
         <div styleName="game">
           {desktop ? <BpoomImg style={style} imgSrc={pic} /> : ''}
           <div styleName="panel">
@@ -145,7 +156,7 @@ let Game1 = ({
               })}
             </div>
             <div styleName="charset">
-              {charset.map(c => {
+              {charset.map((c) => {
                 let played = Boolean(guessed[c]) === guessed[c]
                 return (
                   <div
@@ -178,10 +189,7 @@ let Game1 = ({
   return win ? <GameWin /> : renderGame()
 }
 
-export default connect(
-  mapStateToProps,
-  { updateGuessed, gameOver },
-)(Game1)
+export default connect(mapStateToProps, { updateGuessed, gameOver })(Game1)
 
 function mapStateToProps(state) {
   const {
@@ -207,6 +215,14 @@ const MSG = defineMessages({
   message: {
     id: 'game1.message',
     defaultMessage: 'Devine mon prénom et tu verras apparaître progressivement ma première photo...',
+  },
+  guessed_before_next_step_header: {
+    id: 'game1.guessed_before_next_step_header',
+    defaultMessage: 'Attention',
+  },
+  guessed_before_next_step_body: {
+    id: 'game1.guessed_before_next_step_body',
+    defaultMessage: 'Es-tu sûr de vouloir continuer sans deviner mon prénom ?',
   },
   guessed_ok: {
     id: 'game1.guessed.ok',
