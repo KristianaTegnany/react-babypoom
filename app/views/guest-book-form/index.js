@@ -21,6 +21,7 @@ import Ahoy from '../../../lib/ahoy-custom'
 import imgPath from '../../../lib/img-path'
 import api from '../../api'
 import './styles.scss'
+import { Prompt } from 'react-router'
 
 // TODO: deleteFlash when going back to view (cancel or message saved)
 
@@ -142,6 +143,14 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
               </div>
             </div>
             <div styleName="actions">
+              <Prompt
+                when={!isSubmitting}
+                message={(location) => {
+                  return location.pathname.endsWith('/pot') || location.pathname.endsWith('/souvenir')
+                    ? `Es-tu sûr de vouloir continuer sans valider ton message :/ ?`
+                    : true
+                }}
+              />
               <Button color="neutral-app" onClick={() => onCancel && onCancel()}>
                 {t(FORM_MSG.form_cancel)}
               </Button>
