@@ -19,7 +19,6 @@ import { InputField, CheckField } from '../../../lib/redux-form-input'
 import { extractParams } from '../../../lib/params'
 import Ahoy from '../../../lib/ahoy-custom'
 import imgPath from '../../../lib/img-path'
-import { Prompt } from 'react-router'
 import api from '../../api'
 import './styles.scss'
 
@@ -34,15 +33,15 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
 
   const scrollElt = useScrollToTop()
 
-  const onUploadBtnClick = setFieldValue => {
+  const onUploadBtnClick = (setFieldValue) => {
     let uuid = bpoom.uuid
     new MSUploader({
       uploader: {
         url: config.s3UploadUrl,
-        getSignature: success => api({ path: `/aws/s3_signature/bpooms/${uuid}`, success }),
+        getSignature: (success) => api({ path: `/aws/s3_signature/bpooms/${uuid}`, success }),
         onStart: () => setUploading(true),
-        onProgress: p => setProgress(Math.floor(p)),
-        onDone: xhr => {
+        onProgress: (p) => setProgress(Math.floor(p)),
+        onDone: (xhr) => {
           setProgress(null)
           setUploading(false)
           const url = decodeURIComponent(xhr.responseXML.getElementsByTagName('Location')[0].innerHTML)
@@ -64,12 +63,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
         resizeToWidth: 1000,
         webpIfSupported: true,
       },
-      facebook: {
-        appId: config.fbAppId,
-        locale: bpoom.locale,
-      },
       googlePhotos: config.googleClientID ? { oAuthClientID: config.googleClientID } : null,
-      instagram: config.instClientID ? { clientID: config.instClientID } : null,
     })
   }
 
@@ -148,14 +142,6 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
               </div>
             </div>
             <div styleName="actions">
-              <Prompt
-                when={!isSubmitting}
-                message={(location) => {
-                  return location.pathname.endsWith('/pot') || location.pathname.endsWith('/souvenir')
-                    ? `Es-tu sûr de vouloir continuer sans valider ton message :/ ?`
-                    : true
-                }}
-              />
               <Button color="neutral-app" onClick={() => onCancel && onCancel()}>
                 {t(FORM_MSG.form_cancel)}
               </Button>
@@ -170,10 +156,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
   )
 }
 
-export default connect(
-  mapStateToProps,
-  { api, saveMsg, flash },
-)(GuestBookForm)
+export default connect(mapStateToProps, { api, saveMsg, flash })(GuestBookForm)
 
 function mapStateToProps(state) {
   const {
