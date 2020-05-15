@@ -18,6 +18,7 @@ import { visaMastercardNum, cardDate, int } from '../../../lib/normalizer'
 import FaSpinner from 'react-icons/lib/fa/spinner'
 import imgPath from '../../../lib/img-path'
 import styles from './styles.scss'
+import { Prompt } from 'react-router'
 
 const MANGOPAY_ACCOUNT_FIELDS = ['email', 'first_name', 'last_name', 'last_sumcent']
 const MANGOPAY_REGISTRATION_FIELDS = ['cardRegistrationURL', 'preregistrationData', 'accessKey', 'Id']
@@ -36,7 +37,7 @@ let PotForm = ({ bpoom, intl, flash, onSave, onCancel, saveMangopayAccount, save
   const onSubmit = (values, actions) => {
     let mangopayAccountParams = extractParams(values, { only: MANGOPAY_ACCOUNT_FIELDS })
     return saveMangopayAccount(mangopayAccountParams)
-      .then(json => {
+      .then((json) => {
         if (json.error) throw new Error('FAIL')
 
         let cardRegistration = mangoPay.cardRegistration
@@ -53,13 +54,13 @@ let PotForm = ({ bpoom, intl, flash, onSave, onCancel, saveMangopayAccount, save
             cardCvx: int(values.card_cvx),
             cardType: 'CB_VISA_MASTERCARD',
           },
-          res => {
+          (res) => {
             saveMangopayPayment(bpoom.uuid, {
               mangopay_card_id: res.CardId,
               mangopay_account_id: json.mpaid,
               sumcent: json.sumcent,
             })
-              .then(json => {
+              .then((json) => {
                 if (json.error) throw new Error('FAIL')
 
                 onSave && onSave()
@@ -68,7 +69,7 @@ let PotForm = ({ bpoom, intl, flash, onSave, onCancel, saveMangopayAccount, save
               })
               .catch(() => actions.setSubmitting(false))
           },
-          res => {
+          (res) => {
             actions.setSubmitting(false)
             flash('danger', MP_MSG[`error_${res.ResultCode}`] || MP_MSG.error_default)
           },
@@ -96,7 +97,10 @@ let PotForm = ({ bpoom, intl, flash, onSave, onCancel, saveMangopayAccount, save
               name="last_sumcent"
               label={t(FORM_MSG.form_last_sumcent)}
               component={SelectField}
-              options={[10, 20, 30, 50, 100].map(x => [{ ...MSG.charity_form_amount, values: { amount: x } }, x * 100])}
+              options={[10, 20, 30, 50, 100].map((x) => [
+                { ...MSG.charity_form_amount, values: { amount: x } },
+                x * 100,
+              ])}
               i18n="true"
               includeBlank="--"
               validate={required({ msg: t(FORM_MSG.form_last_sumcent_required) })}
@@ -177,6 +181,14 @@ let PotForm = ({ bpoom, intl, flash, onSave, onCancel, saveMangopayAccount, save
             <img styleName="powered-by" src={imgPath('/payments/powered-by-mangopay.png')} alt="Powered by Mangopay" />
 
             <div styleName="actions">
+              <Prompt
+                when={!isSubmitting}
+                message={(location) => {
+                  return location.pathname.endsWith('/souvenir')
+                    ? `Es-tu sûr de vouloir continuer sans valider ton cadeau?`
+                    : true
+                }}
+              />
               <Button disabled={isSubmitting} color="neutral-app" onClick={() => onCancel && onCancel()}>
                 {t(FORM_MSG.form_cancel)}
               </Button>
@@ -192,12 +204,7 @@ let PotForm = ({ bpoom, intl, flash, onSave, onCancel, saveMangopayAccount, save
   )
 }
 
-export default injectIntl(
-  connect(
-    mapStateToProps,
-    { saveMangopayAccount, saveMangopayPayment, flash },
-  )(PotForm),
-)
+export default injectIntl(connect(mapStateToProps, { saveMangopayAccount, saveMangopayPayment, flash })(PotForm))
 
 function mapStateToProps(state) {
   const {
