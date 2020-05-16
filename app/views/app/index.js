@@ -29,7 +29,7 @@ import './styles.scss'
 
 let UNIQ = 0
 
-const MIN_PAGES = 24
+const MIN_PAGES = 25
 
 // Sync it with css
 const KITE_SPINE_WIDTH = {
