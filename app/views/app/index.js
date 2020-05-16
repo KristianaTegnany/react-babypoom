@@ -29,7 +29,7 @@ import './styles.scss'
 
 let UNIQ = 0
 
-const MIN_PAGES = 25
+const MIN_PAGES = 24
 
 // Sync it with css
 const KITE_SPINE_WIDTH = {
@@ -43,7 +43,7 @@ const KITE_SPINE_WIDTH = {
 
 function kitePageRange(totalPages) {
   totalPages -= 2 // Cover
-  return Object.keys(KITE_SPINE_WIDTH).find(r => {
+  return Object.keys(KITE_SPINE_WIDTH).find((r) => {
     const [low, high] = r.split('-').map(Number)
     return low <= totalPages && totalPages <= high
   })
@@ -60,11 +60,11 @@ function getThemeName(bpoom) {
 
 function debounce(func, wait) {
   let timeout
-  let later = function() {
+  let later = function () {
     timeout = null
     func()
   }
-  return function() {
+  return function () {
     clearTimeout(timeout)
     timeout = setTimeout(later, wait)
   }
@@ -114,9 +114,9 @@ class App extends Component {
     if (!this.props.bpoom.uuid) {
       this.props
         .fetchBpoom(this.props.match.params.uuid)
-        .then(bpoom => {
+        .then((bpoom) => {
           loadIntl([bpoom.locale], () => {
-            localeDataLoader(bpoom.locale).then(json => {
+            localeDataLoader(bpoom.locale).then((json) => {
               this.props.updateLocale({ locale: bpoom.locale, localeData: json.data, messages: json.messages })
               setLocaleData(json.data)
               this.domLoaded()
@@ -141,7 +141,7 @@ class App extends Component {
 
   updatePreviewScale(css, container) {
     let transformProp =
-      't WebkitT MozT OT msT KhtmlT'.split(' ').find(p => null != document.body.style[`${p}ransform`]) + 'ransform'
+      't WebkitT MozT OT msT KhtmlT'.split(' ').find((p) => null != document.body.style[`${p}ransform`]) + 'ransform'
     transformProp = transformProp.replace(/([A-Z])/g, '-$1').toLowerCase()
 
     let width = 1124 * 2
@@ -246,7 +246,7 @@ class App extends Component {
 
     let lastClick
     // Avoid triggering zoom on mobile
-    controls.addEventListener('touchstart', e => {
+    controls.addEventListener('touchstart', (e) => {
       if (lastClick && Date.now() - lastClick < 500) {
         e.preventDefault()
       } else {
@@ -280,7 +280,7 @@ class App extends Component {
       turn.page(Math.max(1, Math.min(+page.value || 1, totalPages)))
     })
     if (volumeOn && volumeOff) {
-      let volume = mute => {
+      let volume = (mute) => {
         soundActive = !mute
         volumeOn.hidden = mute
         volumeOff.hidden = !mute
@@ -327,26 +327,33 @@ class App extends Component {
       return <NotFound />
     }
 
-    let { bpoom: { guest_book_msgs = [], trip_events = [] } = {} } = this.props
-
+    let {
+      bpoom: { guest_book_msgs = [], trip_events = [], parent_1_reaction = '', parent_2_reaction = '' } = {},
+    } = this.props
+    let parents_reactions = parent_1_reaction && parent_2_reaction ? 1 : 0
     let totalPages =
       1 /* Cover */ +
       2 /* Intro */ +
       2 /* Arrival */ +
       Trip.cntPages(trip_events) /* Trip */ +
       Guestbook.cntPages(guest_book_msgs) /* Guest-book */ +
-      2 /* Parents & stats */ +
+      parents_reactions /* Parents */ +
+      1 /* stats */ +
       1 /* Back Cover */
 
+    console.log('TOTAL TRIP PAGE=' + Trip.cntPages(trip_events))
+    console.log('TOTAL GEST BOOK PAGE=' + Guestbook.cntPages(guest_book_msgs))
+    console.log('TOTAL PAGE=' + totalPages)
     const kiteCover = params.hd && params.kiteCover
     const kitePages = params.hd && params.kitePages
 
     const minPages = kitePages ? 20 : MIN_PAGES
 
     let blankPages = params.hd ? Math.max(0, minPages - totalPages) : 0
+    console.log('BLANK PAGE=' + blankPages)
     // Pages need to be pair in any case scenario
     if ((totalPages + blankPages) % 2) ++blankPages
-
+    console.log('BLANK PAGE 2=' + blankPages)
     let missingPages = []
     for (let i = 0; i < blankPages; ++i) missingPages.push(<Page key={`missing-${i}`} />)
 
@@ -434,12 +441,7 @@ class App extends Component {
   }
 }
 
-export default injectIntl(
-  connect(
-    mapStateToProps,
-    { fetchBpoom, updateLocale, deleteFlash },
-  )(App),
-)
+export default injectIntl(connect(mapStateToProps, { fetchBpoom, updateLocale, deleteFlash })(App))
 
 function mapStateToProps(state) {
   const {
