@@ -331,6 +331,11 @@ class App extends Component {
       bpoom: { guest_book_msgs = [], trip_events = [], parent_1_reaction = '', parent_2_reaction = '' } = {},
     } = this.props
     let parents_reactions = parent_1_reaction && parent_2_reaction ? 1 : 0
+    //console.log('parent_1_reaction: ' + parent_1_reaction)
+    //console.log('parent_2_reaction: ' + parent_2_reaction)
+    //console.log('parents_reactions: ' + parents_reactions)
+    //console.log('trip nb pages: ' + Trip.cntPages(trip_events))
+    //console.log('book nb pages: ' + Guestbook.cntPages(guest_book_msgs))
     let totalPages =
       1 /* Cover */ +
       2 /* Intro */ +
@@ -341,19 +346,17 @@ class App extends Component {
       1 /* stats */ +
       1 /* Back Cover */
 
-    console.log('TOTAL TRIP PAGE=' + Trip.cntPages(trip_events))
-    console.log('TOTAL GEST BOOK PAGE=' + Guestbook.cntPages(guest_book_msgs))
-    console.log('TOTAL PAGE=' + totalPages)
     const kiteCover = params.hd && params.kiteCover
     const kitePages = params.hd && params.kitePages
 
     const minPages = kitePages ? 20 : MIN_PAGES
 
     let blankPages = params.hd ? Math.max(0, minPages - totalPages) : 0
-    console.log('BLANK PAGE=' + blankPages)
     // Pages need to be pair in any case scenario
+    //console.log('TOTAL PAGE: ' + totalPages)
+    //console.log('BLANK PAGE before modulo: ' + blankPages)
     if ((totalPages + blankPages) % 2) ++blankPages
-    console.log('BLANK PAGE 2=' + blankPages)
+    //console.log('BLANK PAGE after modulo: ' + blankPages)
     let missingPages = []
     for (let i = 0; i < blankPages; ++i) missingPages.push(<Page key={`missing-${i}`} />)
 

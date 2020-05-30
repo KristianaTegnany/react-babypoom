@@ -29,10 +29,13 @@ class Trip extends Component {
     return [events.splice(0, 2)].concat(groupBy(events, 4))
   }
   static cntPages(events) {
+    if (this.pages(events.slice(0)).length == 1) {
+      return 0
+    }
     return this.pages(events.slice(0)).length
   }
 
-  formatDate = tripEvent => {
+  formatDate = (tripEvent) => {
     let { intl } = this.props
     let date = new Date(tripEvent.date_event)
     date = new Date(date.getTime() + new Date().getTimezoneOffset() * 60000)
