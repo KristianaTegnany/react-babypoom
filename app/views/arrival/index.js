@@ -34,7 +34,7 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
         src: [getPhoto(bpoom.parent_2_photo_urls, 'normal'), getPhoto(bpoom.parent_2_photo_urls, 'thumbnail')],
         description: bpoom.parent_2_reaction,
       },
-    ].filter(x => x.src),
+    ].filter((x) => x.src),
   )
 
   const renderBubbleMsg = (pic, msg, side, index) =>
@@ -62,9 +62,9 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
     ['weight', bpoom.weight && bpoom.weight_unit ? `${bpoom.weight} ${bpoom.weight_unit}` : ''],
     ['size', bpoom.size && bpoom.size_unit ? `${bpoom.size} ${bpoom.size_unit}` : ''],
     ['zodiac', getText(bpoom, 'zodiac_sign', 'zodiac')],
-    ['hair_color', getText(bpoom, 'hair_color', 'hair')],
-    ['eyes_color', getText(bpoom, 'eyes_color', 'eye')],
-  ].filter(pair => pair[1])
+    ['hair_color', bpoom.hair_color == 'undefined' ? '' : getText(bpoom, 'hair_color', 'hair')],
+    ['eyes_color', bpoom.eyes_color == 'undefined' ? '' : getText(bpoom, 'eyes_color', 'eye')],
+  ].filter((pair) => pair[1])
 
   let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
   return (
@@ -74,7 +74,7 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
         <div styleName="info">
           <table>
             <tbody>
-              {info.map(pair => {
+              {info.map((pair) => {
                 return (
                   <tr key={pair[0]}>
                     <th>{t(MSG[`title_${pair[0]}`], pair[2])}</th>
@@ -106,10 +106,7 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
   )
 }
 
-export default connect(
-  mapStateToProps,
-  { loadSlideshow, openSlideshow },
-)(Arrival)
+export default connect(mapStateToProps, { loadSlideshow, openSlideshow })(Arrival)
 
 function birthday(date) {
   if (!date) return ''
