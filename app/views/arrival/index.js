@@ -90,13 +90,13 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
       )}
       {bpoom.parent_1_reaction && bpoom.parent_2_reaction ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
       {renderBubbleMsg(
-        getPhoto(bpoom.parent_1_photo_urls, 'thumbnail') || imgPath('/avatars/parent_1.svg'),
+        getPhoto(bpoom.parent_1_photo_urls, 'thumbnail') || imgPath('/avatars/parent-1.svg'),
         bpoom.parent_1_reaction,
         'left',
         0,
       )}
       {renderBubbleMsg(
-        getPhoto(bpoom.parent_2_photo_urls, 'thumbnail') || imgPath('/avatars/parent_2.svg'),
+        getPhoto(bpoom.parent_2_photo_urls, 'thumbnail') || imgPath('/avatars/parent-2.svg'),
         bpoom.parent_2_reaction,
         'right',
         1,
