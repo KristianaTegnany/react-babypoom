@@ -57,7 +57,7 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
     ['last_name', (bpoom.last_name || '').trim()],
     ['birthday', birthday(bpoom.birthday), { gender: bpoom.gender || 'M' }],
     ['location_hospital', (bpoom.location_hospital || '').trim()],
-    ['location_country', (bpoom.country || '').trim()],
+    ['location_country', (bpoom.location_country || '').trim()],
     ['location_state', (bpoom.state || '').trim()],
     ['weight', bpoom.weight && bpoom.weight_unit ? `${bpoom.weight} ${bpoom.weight_unit}` : ''],
     ['size', bpoom.size && bpoom.size_unit ? `${bpoom.size} ${bpoom.size_unit}` : ''],
