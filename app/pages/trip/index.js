@@ -61,7 +61,7 @@ class Trip extends Component {
           backgroundImage: `url(${getPhoto(tripEvent.photo_urls, this.props.params.hd) || defaultPhoto})`,
         }}
       />
-      <div styleName="quote">{tripEvent.message}</div>
+      {tripEvent.message && <div styleName="quote">{tripEvent.message}</div>}
       <div styleName="date">
         <time>{this.formatDate(tripEvent)}</time>
       </div>
