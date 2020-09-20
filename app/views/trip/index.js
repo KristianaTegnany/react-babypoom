@@ -9,8 +9,9 @@ import BubbleSay from '../../components/bubble-say'
 import BpoomImg from '../../components/bpoom-img'
 import Transition from '../../components/transition'
 import getPhoto from '../../../lib/get-photo'
-import './styles.scss'
 import imgPath from '../../../lib/img-path'
+import BABY_IMAGES from '../../../lib/baby-img'
+import './styles.scss'
 
 const defaultPhoto = imgPath('/avatars/default.png')
 
@@ -18,7 +19,7 @@ let Trip = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow }) => {
   let tripEvents = bpoom.trip_events || []
 
   useSlideshow(bpoom, loadSlideshow, () =>
-    tripEvents.map(event => ({
+    tripEvents.map((event) => ({
       src: [
         getPhoto(event.photo_urls, 'normal') || defaultPhoto,
         getPhoto(event.photo_urls, 'thumbnail') || defaultPhoto,
@@ -28,7 +29,7 @@ let Trip = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow }) => {
     })),
   )
 
-  let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
+  let photo = getPhoto(bpoom.photo_urls, 'thumbnail') || BABY_IMAGES.default
   return (
     <div>
       <div>
@@ -72,12 +73,7 @@ let Trip = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow }) => {
   )
 }
 
-export default injectIntl(
-  connect(
-    mapStateToProps,
-    { loadSlideshow, openSlideshow },
-  )(Trip),
-)
+export default injectIntl(connect(mapStateToProps, { loadSlideshow, openSlideshow })(Trip))
 
 function formatDate(intl, tripEvent) {
   let date = new Date(tripEvent.date_event)

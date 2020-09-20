@@ -21,6 +21,7 @@ import Transition from '../../components/transition'
 
 // Lib
 import getPhoto from '../../../lib/get-photo'
+import BABY_IMAGES from '../../../lib/baby-img'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -44,7 +45,7 @@ let Pot = ({ desktop, noNav, bpoom }) => {
   if (form.visible) return <GiftCharityForm onSave={form.hide} onCancel={form.hide} />
 
   let charity = bpoom.charity || {}
-  let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
+  let photo = getPhoto(bpoom.photo_urls, 'thumbnail') || BABY_IMAGES.default
   let image = getPhoto(charity.image_urls, 'normal')
 
   return (

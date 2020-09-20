@@ -15,6 +15,7 @@ import Transition from '../../components/transition'
 
 // Lib
 import getPhoto from '../../../lib/get-photo'
+import BABY_IMAGES from '../../../lib/baby-img'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -62,11 +63,11 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
     ['weight', bpoom.weight && bpoom.weight_unit ? `${bpoom.weight} ${bpoom.weight_unit}` : ''],
     ['size', bpoom.size && bpoom.size_unit ? `${bpoom.size} ${bpoom.size_unit}` : ''],
     ['zodiac', getText(bpoom, 'zodiac_sign', 'zodiac')],
-    ['hair_color', bpoom.hair_color == 'undefined' ? '' : getText(bpoom, 'hair_color', 'hair')],
-    ['eyes_color', bpoom.eyes_color == 'undefined' ? '' : getText(bpoom, 'eyes_color', 'eye')],
+    ['hair_color', getText(bpoom, 'hair_color', 'hair')],
+    ['eyes_color', getText(bpoom, 'eyes_color', 'eye')],
   ].filter((pair) => pair[1])
 
-  let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
+  let photo = getPhoto(bpoom.photo_urls, 'thumbnail') || BABY_IMAGES.default
   return (
     <div styleName="arrival-container">
       {renderBubbleMsg(photo, bpoom.arrival_message, 'left')}
@@ -122,7 +123,7 @@ function getText(info, attrName, msgName) {
   let attr = info[attrName]
   if (!attr) return ''
   let msg = MSG[`${msgName || attrName}_${attr}`]
-  return msg ? t(msg) : attr
+  return msg ? t(msg) : ''
 }
 
 function mapStateToProps(state) {

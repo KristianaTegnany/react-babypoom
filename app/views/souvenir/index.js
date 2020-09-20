@@ -16,6 +16,7 @@ import FormFeedback from 'reactstrap/lib/FormFeedback'
 import { Field, Form, Formik } from 'formik'
 import { email } from 'redux-form-validators'
 import { sendCardByEmail } from '../app/Actions'
+import BABY_IMAGES from '../../../lib/baby-img'
 import './styles.scss'
 
 let Souvenir = ({ bpoom, desktop, sendCardByEmail }) => {
@@ -30,7 +31,7 @@ let Souvenir = ({ bpoom, desktop, sendCardByEmail }) => {
       .catch(() => actions.setSubmitting(false))
   }
 
-  const validate = values => {
+  const validate = (values) => {
     const errors = {}
     const emailError = email({ msg: t(FORM_MSG.form_email_invalid) })(values.email)
     if (emailError) errors.email = emailError
@@ -41,7 +42,10 @@ let Souvenir = ({ bpoom, desktop, sendCardByEmail }) => {
     <div styleName="souvenir-container">
       {bpoom.card_url && (
         <React.Fragment>
-          <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={getPhoto(bpoom.photo_urls, 'thumbnail')}>
+          <BubbleSay
+            speechDir={desktop ? 'left' : 'top'}
+            imgSrc={getPhoto(bpoom.photo_urls, 'thumbnail') || BABY_IMAGES.default}
+          >
             {bpoom.souvenir_message}
           </BubbleSay>
           <Panel title={t(MSG.souvenir_title)}>
@@ -87,10 +91,7 @@ let Souvenir = ({ bpoom, desktop, sendCardByEmail }) => {
   )
 }
 
-export default connect(
-  mapStateToProps,
-  { sendCardByEmail },
-)(Souvenir)
+export default connect(mapStateToProps, { sendCardByEmail })(Souvenir)
 
 function mapStateToProps(state) {
   const {

@@ -18,6 +18,8 @@ import t from '../../i18n/i18n'
 import FaPencil from 'react-icons/lib/fa/pencil'
 import useToggle from '../../hooks/toggle'
 import imgPath from '../../../lib/img-path'
+import BABY_IMAGES from '../../../lib/baby-img'
+
 import styles from './styles.scss'
 
 const defaultPhoto = imgPath('/avatars/default.png')
@@ -26,7 +28,7 @@ let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, de
   let guestBookMsgs = bpoom.guest_book_msgs || []
 
   useSlideshow(bpoom, loadSlideshow, () =>
-    guestBookMsgs.map(msg => ({
+    guestBookMsgs.map((msg) => ({
       src: [getPhoto(msg.photo_urls, 'normal') || defaultPhoto, getPhoto(msg.photo_urls, 'thumbnail') || defaultPhoto],
       title: msg.created_at ? `${formatDate(intl, msg.created_at)} - ${msg.name || ''}` : `${msg.name || ''}`,
       description: msg.message || '',
@@ -49,7 +51,7 @@ let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, de
   if (form.visible) return <GuestBookForm onSave={() => (form.hide(), setScrollToBottom(true))} onCancel={form.hide} />
 
   let visitorId = Ahoy.getVisitorId()
-  let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
+  let photo = getPhoto(bpoom.photo_urls, 'thumbnail') || BABY_IMAGES.default
   return (
     <div ref={scrollableElt} styleName="guest-book-container">
       <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={photo}>
@@ -78,7 +80,7 @@ let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, de
                   visitorId === msg.uuid
                     ? () => {
                         if (window.confirm(intl.formatMessage(MSG.delete_message_confirm))) {
-                          deleteMsg(msg.id, msg.uuid).then(dispatch => {
+                          deleteMsg(msg.id, msg.uuid).then((dispatch) => {
                             flash('info', MSG.message_deleted)
                             setScrollToBottom(true)
                           })
@@ -116,12 +118,7 @@ let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, de
   )
 }
 
-export default injectIntl(
-  connect(
-    mapStateToProps,
-    { loadSlideshow, openSlideshow, deleteMsg, flash },
-  )(GuestBook),
-)
+export default injectIntl(connect(mapStateToProps, { loadSlideshow, openSlideshow, deleteMsg, flash })(GuestBook))
 
 function formatDate(intl, date) {
   return date

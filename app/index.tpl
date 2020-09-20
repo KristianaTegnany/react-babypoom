@@ -15,14 +15,6 @@
   <meta property="og:url" content="http://hello.babypoom.com/{{uuid}}" />
   <meta property="og:site_name" content="Babypoom" />
   <% htmlWebpackPlugin.files.css.forEach(css => { %><link rel="stylesheet" href="<%= css %>" /><% }) %>
-  <script type='text/javascript'>
-    window.smartlook||(function(d) {
-      var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
-      var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
-      c.charset='utf-8';c.src='https://rec.smartlook.com/recorder.js';h.appendChild(c);
-      })(document);
-      smartlook('init', 'cfa58644854321ca8c98d25e0d79507d0bc545e9');
-  </script>
 </head>
 <body>
   <div id="root">{{html}}</div>
@@ -33,6 +25,14 @@
     link.href = "//fonts.googleapis.com/css?family=Amatic+SC|Raleway";
     link.rel = "stylesheet";
     setTimeout(function() { document.body.appendChild(link) }, 0);
+  </script>
+  <script>
+    window.smartlook||(function(d) {
+      var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
+      var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
+      c.charset='utf-8';c.src='https://rec.smartlook.com/recorder.js';h.appendChild(c);
+      })(document);
+      smartlook('init', 'cfa58644854321ca8c98d25e0d79507d0bc545e9');
   </script>
 </body>
 </html>
