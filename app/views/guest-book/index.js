@@ -51,7 +51,7 @@ let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, de
   if (form.visible) return <GuestBookForm onSave={() => (form.hide(), setScrollToBottom(true))} onCancel={form.hide} />
 
   let visitorId = Ahoy.getVisitorId()
-  let photo = getPhoto(bpoom.photo_urls, 'thumbnail') || BABY_IMAGES.default
+  let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
   return (
     <div ref={scrollableElt} styleName="guest-book-container">
       <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={photo}>

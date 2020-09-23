@@ -45,7 +45,7 @@ let Pot = ({ desktop, noNav, bpoom }) => {
   if (form.visible) return <GiftCharityForm onSave={form.hide} onCancel={form.hide} />
 
   let charity = bpoom.charity || {}
-  let photo = getPhoto(bpoom.photo_urls, 'thumbnail') || BABY_IMAGES.default
+  let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
   let image = getPhoto(charity.image_urls, 'normal')
 
   return (

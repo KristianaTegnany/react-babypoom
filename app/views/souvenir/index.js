@@ -42,10 +42,7 @@ let Souvenir = ({ bpoom, desktop, sendCardByEmail }) => {
     <div styleName="souvenir-container">
       {bpoom.card_url && (
         <React.Fragment>
-          <BubbleSay
-            speechDir={desktop ? 'left' : 'top'}
-            imgSrc={getPhoto(bpoom.photo_urls, 'thumbnail') || BABY_IMAGES.default}
-          >
+          <BubbleSay speechDir={desktop ? 'left' : 'top'} imgSrc={getPhoto(bpoom.photo_urls, 'thumbnail')}>
             {bpoom.souvenir_message}
           </BubbleSay>
           <Panel title={t(MSG.souvenir_title)}>

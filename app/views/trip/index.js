@@ -29,7 +29,7 @@ let Trip = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow }) => {
     })),
   )
 
-  let photo = getPhoto(bpoom.photo_urls, 'thumbnail') || BABY_IMAGES.default
+  let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
   return (
     <div>
       <div>

@@ -67,7 +67,7 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
     ['eyes_color', getText(bpoom, 'eyes_color', 'eye')],
   ].filter((pair) => pair[1])
 
-  let photo = getPhoto(bpoom.photo_urls, 'thumbnail') || BABY_IMAGES.default
+  let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
   return (
     <div styleName="arrival-container">
       {renderBubbleMsg(photo, bpoom.arrival_message, 'left')}
