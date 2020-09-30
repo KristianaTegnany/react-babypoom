@@ -25,7 +25,7 @@ import { Prompt } from 'react-router'
 
 // TODO: deleteFlash when going back to view (cancel or message saved)
 
-const defaultPhoto = imgPath('/avatars/selfie.svg')
+const DEFAULT_PHOTO = imgPath('/avatars/selfie.svg' + config.avatarBackgroundQuerystring)
 
 let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel }) => {
   const [imgSrc, setImgSrc] = useState('')
@@ -124,7 +124,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
             <Field name="private" type="checkbox" label={t(FORM_MSG.form_private)} component={CheckField} />
 
             <div styleName="upload-img">
-              <BpoomImg imgSrc={imgSrc || defaultPhoto} />
+              <BpoomImg imgSrc={imgSrc || DEFAULT_PHOTO} />
               <div styleName="upload-desc">
                 <div>{t(MSG.photo_incentive)}</div>
                 <Button color={btnColor || 'secondary'} onClick={() => onUploadBtnClick(setFieldValue)}>

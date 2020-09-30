@@ -10,10 +10,10 @@ import BpoomImg from '../../components/bpoom-img'
 import Transition from '../../components/transition'
 import getPhoto from '../../../lib/get-photo'
 import imgPath from '../../../lib/img-path'
-import BABY_IMAGES from '../../../lib/baby-img'
+import config from '../../../config'
 import './styles.scss'
 
-const defaultPhoto = imgPath('/avatars/default.png')
+const DEFAULT_PHOTO = imgPath('/avatars/default.png' + config.avatarBackgroundQuerystring)
 
 let Trip = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow }) => {
   let tripEvents = bpoom.trip_events || []
@@ -21,8 +21,8 @@ let Trip = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow }) => {
   useSlideshow(bpoom, loadSlideshow, () =>
     tripEvents.map((event) => ({
       src: [
-        getPhoto(event.photo_urls, 'normal') || defaultPhoto,
-        getPhoto(event.photo_urls, 'thumbnail') || defaultPhoto,
+        getPhoto(event.photo_urls, 'normal') || DEFAULT_PHOTO,
+        getPhoto(event.photo_urls, 'thumbnail') || DEFAULT_PHOTO,
       ],
       title: formatDate(intl, event),
       description: event.message || '',
@@ -44,7 +44,7 @@ let Trip = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow }) => {
               <div />
               <div styleName="img">
                 <BpoomImg
-                  imgSrc={getPhoto(event.photo_urls, 'thumbnail') || defaultPhoto}
+                  imgSrc={getPhoto(event.photo_urls, 'thumbnail') || DEFAULT_PHOTO}
                   imgText={formatDate(intl, event)}
                   onClick={() => openSlideshow(i)}
                 />

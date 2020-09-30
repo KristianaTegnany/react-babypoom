@@ -18,18 +18,17 @@ import t from '../../i18n/i18n'
 import FaPencil from 'react-icons/lib/fa/pencil'
 import useToggle from '../../hooks/toggle'
 import imgPath from '../../../lib/img-path'
-import BABY_IMAGES from '../../../lib/baby-img'
+import config from '../../../config'
+import './styles.scss'
 
-import styles from './styles.scss'
-
-const defaultPhoto = imgPath('/avatars/default.png')
+const DEFAULT_PHOTO = imgPath('/avatars/default.png' + config.avatarBackgroundQuerystring)
 
 let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, deleteMsg, flash }) => {
   let guestBookMsgs = bpoom.guest_book_msgs || []
 
   useSlideshow(bpoom, loadSlideshow, () =>
     guestBookMsgs.map((msg) => ({
-      src: [getPhoto(msg.photo_urls, 'normal') || defaultPhoto, getPhoto(msg.photo_urls, 'thumbnail') || defaultPhoto],
+      src: [getPhoto(msg.photo_urls, 'normal'), getPhoto(msg.photo_urls, 'thumbnail')],
       title: msg.created_at ? `${formatDate(intl, msg.created_at)} - ${msg.name || ''}` : `${msg.name || ''}`,
       description: msg.message || '',
     })),
@@ -71,7 +70,7 @@ let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, de
           return (
             <div key={i}>
               <Message
-                imgSrc={getPhoto(msg.photo_urls, 'thumbnail') || defaultPhoto}
+                imgSrc={getPhoto(msg.photo_urls, 'thumbnail') || DEFAULT_PHOTO}
                 message={msg.message}
                 date={formatDate(intl, msg.created_at)}
                 name={msg.name}

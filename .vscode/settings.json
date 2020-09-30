@@ -20,7 +20,6 @@
   },
   "javascript.format.enable": false,
   // Prettier & ESLint
-  "prettier.eslintIntegration": true,
   "prettier.singleQuote": true,
   "prettier.trailingComma": "all",
   "prettier.semi": false,

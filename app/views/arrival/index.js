@@ -1,41 +1,39 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { defineMessages, FormattedDate } from 'react-intl'
-
 import { loadSlideshow, openSlideshow } from '../../components/slideshow/Actions'
-
-// Hooks
 import useSlideshow from '../../hooks/slide-show'
-
-// Components
 import BubblePic from '../../components/bubble-pic'
 import BubbleSay from '../../components/bubble-say'
 import BpoomTitle from '../../components/bpoom-title'
 import Transition from '../../components/transition'
-
-// Lib
 import getPhoto from '../../../lib/get-photo'
-import BABY_IMAGES from '../../../lib/baby-img'
-
-// i18n
 import t from '../../i18n/i18n'
-
-// CSS
-import styles from './styles.scss'
 import imgPath from '../../../lib/img-path'
+import config from '../../../config'
+import './styles.scss'
+
+const DEFAULT_PHOTO_PARENT_1 = imgPath('/avatars/parent-1.svg' + config.avatarBackgroundQuerystring)
+const DEFAULT_PHOTO_PARENT_2 = imgPath('/avatars/parent-2.svg' + config.avatarBackgroundQuerystring)
 
 let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
   useSlideshow(bpoom, loadSlideshow, () =>
     [
       {
-        src: [getPhoto(bpoom.parent_1_photo_urls, 'normal'), getPhoto(bpoom.parent_1_photo_urls, 'thumbnail')],
+        src: [
+          getPhoto(bpoom.parent_1_photo_urls, 'normal') || DEFAULT_PHOTO_PARENT_1,
+          getPhoto(bpoom.parent_1_photo_urls, 'thumbnail') || DEFAULT_PHOTO_PARENT_1,
+        ],
         description: bpoom.parent_1_reaction,
       },
       {
-        src: [getPhoto(bpoom.parent_2_photo_urls, 'normal'), getPhoto(bpoom.parent_2_photo_urls, 'thumbnail')],
+        src: [
+          getPhoto(bpoom.parent_2_photo_urls, 'normal') || DEFAULT_PHOTO_PARENT_2,
+          getPhoto(bpoom.parent_2_photo_urls, 'thumbnail') || DEFAULT_PHOTO_PARENT_2,
+        ],
         description: bpoom.parent_2_reaction,
       },
-    ].filter((x) => x.src),
+    ].filter((x) => x.description),
   )
 
   const renderBubbleMsg = (pic, msg, side, index) =>
@@ -91,13 +89,13 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
       )}
       {bpoom.parent_1_reaction && bpoom.parent_2_reaction ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
       {renderBubbleMsg(
-        getPhoto(bpoom.parent_1_photo_urls, 'thumbnail') || imgPath('/avatars/parent-1.svg'),
+        getPhoto(bpoom.parent_1_photo_urls, 'thumbnail') || DEFAULT_PHOTO_PARENT_1,
         bpoom.parent_1_reaction,
         'left',
         0,
       )}
       {renderBubbleMsg(
-        getPhoto(bpoom.parent_2_photo_urls, 'thumbnail') || imgPath('/avatars/parent-2.svg'),
+        getPhoto(bpoom.parent_2_photo_urls, 'thumbnail') || DEFAULT_PHOTO_PARENT_2,
         bpoom.parent_2_reaction,
         'right',
         1,
