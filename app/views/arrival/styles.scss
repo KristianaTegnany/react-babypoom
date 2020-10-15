@@ -1,8 +1,13 @@
 @import '../../../config/bootstrap/bootstrap-var';
 
 .arrival-container {
-  & > div + div {
+  &>div+div {
     margin-top: $main-padding * 1.25;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
   }
 }
 
@@ -32,18 +37,18 @@
     color: var(--neutral-secondary-F);
   }
 
-  tr + tr {
+  tr+tr {
     border-top: 1px solid var(--brand-secondary-B);
   }
 }
 
 @media (min-width: map-get($grid-breakpoints, md)) {
   .arrival-container {
-    & > div + div {
+    &>div+div {
       margin-top: $main-padding * 2 * 1.25;
     }
 
-    & > :global(.bp-bubble-say .bp-bubble) {
+    &> :global(.bp-bubble-say .bp-bubble) {
       margin-bottom: $main-padding * 2 * 1.25;
     }
   }
@@ -53,7 +58,7 @@
     margin-left: 190px;
     margin-top: 0 !important; //$main-padding * 1.25 !important;
 
-    & + * {
+    &+* {
       margin-top: $main-padding * 3 * 1.25 !important;
     }
   }

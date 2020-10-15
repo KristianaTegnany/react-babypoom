@@ -65,6 +65,28 @@ let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, de
         </Button>
       </div>
       <div styleName="guest-book-msgs">
+        {bpoom.parent_1_reaction && (
+          <div key="parent_1_reaction">
+            <Message
+              imgSrc={getPhoto(bpoom.parent_1_photo_urls, 'thumbnail') || DEFAULT_PHOTO}
+              message={bpoom.parent_1_reaction}
+              date={formatDate(intl, bpoom.created_at)}
+              name={bpoom.parent_1_name}
+              onClick={() => openSlideshow('parent_1_reaction')}
+            />
+          </div>
+        )}
+        {bpoom.parent_2_reaction && (
+          <div key="parent_2_reaction">
+            <Message
+              imgSrc={getPhoto(bpoom.parent_2_photo_urls, 'thumbnail') || DEFAULT_PHOTO}
+              message={bpoom.parent_2_reaction}
+              date={formatDate(intl, bpoom.created_at)}
+              name={bpoom.parent_2_name}
+              onClick={() => openSlideshow('parent_2_reaction')}
+            />
+          </div>
+        )}
         {guestBookMsgs.map((msg, i) => {
           if (msg.private && visitorId !== msg.uuid) return ''
           return (

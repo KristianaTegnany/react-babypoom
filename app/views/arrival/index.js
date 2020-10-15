@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { defineMessages, FormattedDate } from 'react-intl'
 import { loadSlideshow, openSlideshow } from '../../components/slideshow/Actions'
@@ -6,17 +6,26 @@ import useSlideshow from '../../hooks/slide-show'
 import BubblePic from '../../components/bubble-pic'
 import BubbleSay from '../../components/bubble-say'
 import BpoomTitle from '../../components/bpoom-title'
+import { Field, Form, Formik } from 'formik'
+import InputGroup from 'reactstrap/lib/InputGroup'
+import Input from 'reactstrap/lib/Input'
+import InputGroupAddon from 'reactstrap/lib/InputGroupAddon'
+import Button from 'reactstrap/lib/Button'
 import Transition from '../../components/transition'
 import getPhoto from '../../../lib/get-photo'
 import t from '../../i18n/i18n'
 import imgPath from '../../../lib/img-path'
 import config from '../../../config'
+import Panel from '../../components/panel'
+import { sendCardByEmail } from '../app/Actions'
+import FaEnvelope from 'react-icons/lib/fa/envelope'
+import useToggle from '../../hooks/toggle'
 import './styles.scss'
 
 const DEFAULT_PHOTO_PARENT_1 = imgPath('/avatars/parent-1.svg' + config.avatarBackgroundQuerystring)
 const DEFAULT_PHOTO_PARENT_2 = imgPath('/avatars/parent-2.svg' + config.avatarBackgroundQuerystring)
 
-let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
+let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow, sendCardByEmail }) => {
   useSlideshow(bpoom, loadSlideshow, () =>
     [
       {
@@ -66,9 +75,72 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
   ].filter((pair) => pair[1])
 
   let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
+  const [sent, setSent] = useState(false)
+  const form = useToggle(false)
+
+  function onSubmit(values, actions) {
+    sendCardByEmail(bpoom.uuid, values.email)
+      .then(() => {
+        setSent(true)
+        actions.setSubmitting(false)
+      })
+      .catch(() => actions.setSubmitting(false))
+  }
+
+  const validate = (values) => {
+    const errors = {}
+    const emailError = email({ msg: t(FORM_MSG.form_email_invalid) })(values.email)
+    if (emailError) errors.email = emailError
+    return errors
+  }
+
   return (
     <div styleName="arrival-container">
       {renderBubbleMsg(photo, bpoom.arrival_message, 'left')}
+      <Panel title={t(MSG.souvenir_title)}>
+        <img src="https://card.babypoom.com/bpooms/1/4/thumbnail/card-1.jpg?cache=2592002" />
+
+        <div styleName="action">
+          {sent ? (
+            <div styleName="sent">{t(MSG.sent)}</div>
+          ) : (
+            <React.Fragment>
+              {!form.visible && (
+                <Button block color="app" onClick={form.show}>
+                  <i styleName="icon">
+                    <FaEnvelope />
+                  </i>{' '}
+                  {t(MSG.souvenir_button)}
+                </Button>
+              )}
+              {form.visible && (
+                <Formik validate={validate} onSubmit={onSubmit} initialValues={{ email: '' }}>
+                  {({ isSubmitting, errors }) => (
+                    <Form noValidate>
+                      {t(MSG.send_by_email)}
+                      <InputGroup>
+                        <Field
+                          name="email"
+                          type="email"
+                          label={null}
+                          render={({ field }) => <Input invalid={!!errors.email} {...field} />}
+                        />
+                        <InputGroupAddon addonType="append">
+                          <Button disabled={isSubmitting} type="submit" color="app">
+                            {t(MSG.ok)}
+                          </Button>
+                        </InputGroupAddon>
+                        {errors.email && <FormFeedback>{errors.email}</FormFeedback>}
+                      </InputGroup>
+                    </Form>
+                  )}
+                </Formik>
+              )}
+            </React.Fragment>
+          )}
+        </div>
+      </Panel>
+      {bpoom.parent_1_reaction && bpoom.parent_2_reaction ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
       {info.length ? (
         <div styleName="info">
           <table>
@@ -87,25 +159,13 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
       ) : (
         ''
       )}
-      {bpoom.parent_1_reaction && bpoom.parent_2_reaction ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
-      {renderBubbleMsg(
-        getPhoto(bpoom.parent_1_photo_urls, 'thumbnail') || DEFAULT_PHOTO_PARENT_1,
-        bpoom.parent_1_reaction,
-        'left',
-        0,
-      )}
-      {renderBubbleMsg(
-        getPhoto(bpoom.parent_2_photo_urls, 'thumbnail') || DEFAULT_PHOTO_PARENT_2,
-        bpoom.parent_2_reaction,
-        'right',
-        1,
-      )}
+
       {noNav ? '' : renderBubbleMsg(photo, <Transition />, 'left')}
     </div>
   )
 }
 
-export default connect(mapStateToProps, { loadSlideshow, openSlideshow })(Arrival)
+export default connect(mapStateToProps, { loadSlideshow, openSlideshow, sendCardByEmail })(Arrival)
 
 function birthday(date) {
   if (!date) return ''
@@ -133,9 +193,34 @@ function mapStateToProps(state) {
 }
 
 const MSG = defineMessages({
+  souvenir_title: {
+    id: 'souvenir.souvenir_title',
+    defaultMessage: 'Mon faire-part souvenir',
+  },
+  souvenir_description: {
+    id: 'souvenir.souvenir_description',
+    defaultMessage:
+      'Mes parents sont heureux de t’offrir ce faire-part à télécharger, qui regroupe toutes les informations de ma naissance.',
+  },
+  souvenir_button: {
+    id: 'souvenir.souvenir_button',
+    defaultMessage: 'Recevez ce souvenir par mail',
+  },
   parent_reaction: {
     id: 'arrival.parent_reaction',
-    defaultMessage: 'La réaction des parents',
+    defaultMessage: 'Le détail de mon arrivée',
+  },
+  send_by_email: {
+    id: 'souvenir.send_by_email',
+    defaultMessage: 'Envoyez-moi le faire-part par email',
+  },
+  sent: {
+    id: 'souvenir.sent',
+    defaultMessage: 'Faire-part envoyé !',
+  },
+  ok: {
+    id: 'souvenir.ok',
+    defaultMessage: 'Ok',
   },
   title_gender: {
     id: 'arrival.title_gender',
