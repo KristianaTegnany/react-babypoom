@@ -349,7 +349,7 @@ class App extends Component {
     const kiteCover = params.hd && params.kiteCover
     const kitePages = params.hd && params.kitePages
 
-    const minPages = kitePages ? 20 : MIN_PAGES
+    const minPages = kitePages ? 22 : MIN_PAGES
 
     let blankPages = params.hd ? Math.max(0, minPages - totalPages) : 0
     // Pages need to be pair in any case scenario
