@@ -119,11 +119,11 @@ let App = ({
     if (bpoom.uuid) {
       callback(bpoom, i18n.localeData)
     } else {
-      fetchBpoom(uuid, { queryParams: queryParams(location.search) })
+      fetchBpoom(uuid, queryParams(location.search))
         .catch(() => {})
-        .then(bpoom => {
+        .then((bpoom) => {
           loadIntl([bpoom.locale], () => {
-            localeDataLoader(bpoom.locale).then(json => {
+            localeDataLoader(bpoom.locale).then((json) => {
               updateLocale({ locale: bpoom.locale, localeData: json.data, messages: json.messages })
               callback(bpoom, json.data)
             })
@@ -159,8 +159,8 @@ let App = ({
     lazyLoad(getPhoto(bpoom.photo_urls, photoType))
     lazyLoad(getPhoto(bpoom.parent_1_photo_urls, photoType))
     lazyLoad(getPhoto(bpoom.parent_2_photo_urls, photoType))
-    ;(bpoom.trip_events || []).forEach(e => lazyLoad(getPhoto(e.photo_urls, photoType)))
-    ;(bpoom.guest_book_msgs || []).forEach(e => lazyLoad(getPhoto(e.photo_urls, photoType)))
+    ;(bpoom.trip_events || []).forEach((e) => lazyLoad(getPhoto(e.photo_urls, photoType)))
+    ;(bpoom.guest_book_msgs || []).forEach((e) => lazyLoad(getPhoto(e.photo_urls, photoType)))
     lazyLoad(bpoom.card_url)
   }
 
@@ -213,18 +213,15 @@ let App = ({
 App.fetchData = (store, params, qParams, canEdit) => store.dispatch(fetchBpoom(params.uuid, qParams, canEdit))
 
 export default injectIntl(
-  connect(
-    mapStateToProps,
-    {
-      fetchBpoom,
-      updateStep,
-      updateNoNav,
-      changeSlideshowIndex,
-      closeSlideshow,
-      deleteFlash,
-      updateLocale,
-    },
-  )(App),
+  connect(mapStateToProps, {
+    fetchBpoom,
+    updateStep,
+    updateNoNav,
+    changeSlideshowIndex,
+    closeSlideshow,
+    deleteFlash,
+    updateLocale,
+  })(App),
 )
 
 function mapStateToProps(state) {
