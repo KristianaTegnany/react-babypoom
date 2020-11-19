@@ -97,49 +97,51 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow, sendCardBy
   return (
     <div styleName="arrival-container">
       {renderBubbleMsg(photo, bpoom.arrival_message, 'left')}
-      <Panel title={t(MSG.souvenir_title)}>
-        <img src="https://card.babypoom.com/bpooms/1/4/thumbnail/card-1.jpg?cache=2592002" />
+      {!bpoom.souvenir_disabled && bpoom.card_url && (
+        <Panel title={t(MSG.souvenir_title)}>
+          <img src={bpoom.card_url} />
 
-        <div styleName="action">
-          {sent ? (
-            <div styleName="sent">{t(MSG.sent)}</div>
-          ) : (
-            <React.Fragment>
-              {!form.visible && (
-                <Button block color="app" onClick={form.show}>
-                  <i styleName="icon">
-                    <FaEnvelope />
-                  </i>{' '}
-                  {t(MSG.souvenir_button)}
-                </Button>
-              )}
-              {form.visible && (
-                <Formik validate={validate} onSubmit={onSubmit} initialValues={{ email: '' }}>
-                  {({ isSubmitting, errors }) => (
-                    <Form noValidate>
-                      {t(MSG.send_by_email)}
-                      <InputGroup>
-                        <Field
-                          name="email"
-                          type="email"
-                          label={null}
-                          render={({ field }) => <Input invalid={!!errors.email} {...field} />}
-                        />
-                        <InputGroupAddon addonType="append">
-                          <Button disabled={isSubmitting} type="submit" color="app">
-                            {t(MSG.ok)}
-                          </Button>
-                        </InputGroupAddon>
-                        {errors.email && <FormFeedback>{errors.email}</FormFeedback>}
-                      </InputGroup>
-                    </Form>
-                  )}
-                </Formik>
-              )}
-            </React.Fragment>
-          )}
-        </div>
-      </Panel>
+          <div styleName="action">
+            {sent ? (
+              <div styleName="sent">{t(MSG.sent)}</div>
+            ) : (
+              <React.Fragment>
+                {!form.visible && (
+                  <Button block color="app" onClick={form.show}>
+                    <i styleName="icon">
+                      <FaEnvelope />
+                    </i>{' '}
+                    {t(MSG.souvenir_button)}
+                  </Button>
+                )}
+                {form.visible && (
+                  <Formik validate={validate} onSubmit={onSubmit} initialValues={{ email: '' }}>
+                    {({ isSubmitting, errors }) => (
+                      <Form noValidate>
+                        {t(MSG.send_by_email)}
+                        <InputGroup>
+                          <Field
+                            name="email"
+                            type="email"
+                            label={null}
+                            render={({ field }) => <Input invalid={!!errors.email} {...field} />}
+                          />
+                          <InputGroupAddon addonType="append">
+                            <Button disabled={isSubmitting} type="submit" color="app">
+                              {t(MSG.ok)}
+                            </Button>
+                          </InputGroupAddon>
+                          {errors.email && <FormFeedback>{errors.email}</FormFeedback>}
+                        </InputGroup>
+                      </Form>
+                    )}
+                  </Formik>
+                )}
+              </React.Fragment>
+            )}
+          </div>
+        </Panel>
+      )}
       {bpoom.parent_1_reaction && bpoom.parent_2_reaction ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
       {info.length ? (
         <div styleName="info">

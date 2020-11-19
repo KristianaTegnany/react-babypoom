@@ -47,7 +47,7 @@ export default defineMessages({
   },
   to_pot: {
     id: 'step.to_pot',
-    defaultMessage: `Désormais tu peux accéder à l'étape suivante pour voir toutes les possibilités de cadeaux Babypoom.`,
+    defaultMessage: `Cela m'a vraiment fait plaisir de faire connaissance avec toi ...J'espère te revoir très bientôt`,
   },
   to_souvenir: {
     id: 'step.to_souvenir',
