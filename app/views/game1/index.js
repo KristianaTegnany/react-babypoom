@@ -43,8 +43,6 @@ function uniqChars(str) {
 
 let EXPERIMENTAL = 'undefined' !== typeof window && 'experimental' === (window.location.hash || '').substr(1)
 
-const LOGO = imgPath('/corporate/logo.png')
-
 let Game1 = ({
   bpoom,
   desktop,
