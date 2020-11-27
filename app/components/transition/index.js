@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { defineMessages } from 'react-intl'
 import ReactGA from 'react-ga'
-
+import { FacebookProvider, Page } from 'react-facebook'
 import ReactFBLike from 'react-fb-like'
 import Button from 'reactstrap/lib/Button'
 
@@ -21,7 +21,7 @@ let Transition = ({ bpoom, steps }) => {
   useEffect(() => {
     if ('undefined' !== typeof FB) {
       FB.XFBML.parse()
-      FB.Event.subscribe('edge.create', function(trackUrl) {
+      FB.Event.subscribe('edge.create', function (trackUrl) {
         ReactGA.ga('send', 'fb-like', trackUrl)
       })
     }
@@ -58,16 +58,9 @@ let Transition = ({ bpoom, steps }) => {
               </Button>
             </span>
 
-            <ReactFBLike
-              language="fr_FR"
-              appId={config.fbAppId}
-              layout="button"
-              action="like"
-              size="large"
-              showFaces="false"
-              share="true"
-              version="v2.9"
-            />
+            <FacebookProvider appId={config.fbAppId}>
+              <Page href="https://www.facebook.com/babypoom" />
+            </FacebookProvider>
           </div>
         ),
       })
