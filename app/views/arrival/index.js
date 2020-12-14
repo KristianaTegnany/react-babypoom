@@ -142,22 +142,24 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow, sendCardBy
           </div>
         </Panel>
       )}
-      {bpoom.parent_1_reaction && bpoom.parent_2_reaction ? <BpoomTitle>{t(MSG.parent_reaction)}</BpoomTitle> : ''}
       {info.length ? (
-        <div styleName="info">
-          <table>
-            <tbody>
-              {info.map((pair) => {
-                return (
-                  <tr key={pair[0]}>
-                    <th>{t(MSG[`title_${pair[0]}`], pair[2])}</th>
-                    <td>{pair[1]}</td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
+        <>
+          <BpoomTitle>{t(MSG.infos_details_title)}</BpoomTitle>
+          <div styleName="info">
+            <table>
+              <tbody>
+                {info.map((pair) => {
+                  return (
+                    <tr key={pair[0]}>
+                      <th>{t(MSG[`title_${pair[0]}`], pair[2])}</th>
+                      <td>{pair[1]}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </>
       ) : (
         ''
       )}
@@ -208,8 +210,8 @@ const MSG = defineMessages({
     id: 'souvenir.souvenir_button',
     defaultMessage: 'Recevez ce souvenir par mail',
   },
-  parent_reaction: {
-    id: 'arrival.parent_reaction',
+  infos_details_title: {
+    id: 'arrival.infos_details_title',
     defaultMessage: 'Le détail de mon arrivée',
   },
   send_by_email: {

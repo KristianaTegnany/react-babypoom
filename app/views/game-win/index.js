@@ -77,10 +77,7 @@ let GameWin = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
   )
 }
 
-export default connect(
-  mapStateToProps,
-  { loadSlideshow, openSlideshow },
-)(GameWin)
+export default connect(mapStateToProps, { loadSlideshow, openSlideshow })(GameWin)
 
 function mapStateToProps(state) {
   const {
