@@ -16,6 +16,7 @@
   "dependencies": {
     "babel-plugin-react-css-modules": "5.2.6",
     "babel-runtime": "6.26.0",
+    "babypoom-common": "git+https://335750f5ec9714ab74ad02a86b7411f3a7f38018:x-oauth-basic@github.com/Babypoom/babypoom-common.git#1.4.0",
     "core-js": "2.6.5",
     "formik": "1.5.7",
     "isomorphic-fetch": "2.2.1",
