@@ -22,6 +22,7 @@ import Transition from '../../components/transition'
 // Lib
 import getPhoto from '../../../lib/get-photo'
 import BABY_IMAGES from '../../../lib/baby-img'
+import imgPath from '../../../lib/img-path'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -32,6 +33,7 @@ import './styles.scss'
 let Pot = ({ desktop, noNav, bpoom }) => {
   const modal = useToggle(false)
   const form = useToggle(false)
+  const GIFT = imgPath('/payments/gift-list.png')
 
   const showForm = () => {
     form.show()
@@ -55,6 +57,7 @@ let Pot = ({ desktop, noNav, bpoom }) => {
       </div>
       <div styleName="panel-container">
         <Panel title={t(MSG.baby_pot_title)} imgType="piggy-bank">
+          <img styleName="gift" src={GIFT} />
           {t(MSG.baby_pot_block, {
             fees: bpoom.charity_fees,
             link: (
