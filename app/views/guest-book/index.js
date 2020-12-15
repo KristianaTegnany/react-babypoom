@@ -22,17 +22,50 @@ import config from '../../../config'
 import './styles.scss'
 
 const DEFAULT_PHOTO = imgPath('/avatars/default.png' + config.avatarBackgroundQuerystring)
+const DEFAULT_PHOTO_PARENT_1 = imgPath('/avatars/parent-1.svg' + config.avatarBackgroundQuerystring)
+const DEFAULT_PHOTO_PARENT_2 = imgPath('/avatars/parent-2.svg' + config.avatarBackgroundQuerystring)
 
 let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, deleteMsg, flash }) => {
   let guestBookMsgs = bpoom.guest_book_msgs || []
 
-  useSlideshow(bpoom, loadSlideshow, () =>
-    guestBookMsgs.map((msg) => ({
-      src: [getPhoto(msg.photo_urls, 'normal'), getPhoto(msg.photo_urls, 'thumbnail')],
-      title: msg.created_at ? `${formatDate(intl, msg.created_at)} - ${msg.name || ''}` : `${msg.name || ''}`,
-      description: msg.message || '',
-    })),
-  )
+  let all_imgs = guestBookMsgs.map((msg) => ({
+    src: [getPhoto(msg.photo_urls, 'normal'), getPhoto(msg.photo_urls, 'thumbnail')],
+    title: msg.created_at ? `${formatDate(intl, msg.created_at)} - ${msg.name || ''}` : `${msg.name || ''}`,
+    description: msg.message || '',
+  }))
+
+  if (bpoom.parent_2_reaction) {
+    all_imgs.unshift({
+      src: [
+        getPhoto(bpoom.parent_2_photo_urls, 'normal') || DEFAULT_PHOTO_PARENT_2,
+        getPhoto(bpoom.parent_2_photo_urls, 'thumbnail') || DEFAULT_PHOTO_PARENT_2,
+      ],
+      description: bpoom.parent_2_reaction,
+    })
+  }
+  if (bpoom.parent_1_reaction) {
+    all_imgs.unshift({
+      src: [
+        getPhoto(bpoom.parent_1_photo_urls, 'normal') || DEFAULT_PHOTO_PARENT_1,
+        getPhoto(bpoom.parent_1_photo_urls, 'thumbnail') || DEFAULT_PHOTO_PARENT_1,
+      ],
+      description: bpoom.parent_1_reaction,
+    })
+  }
+  useSlideshow(bpoom, loadSlideshow, () => all_imgs)
+
+  function showPhoto(index) {
+    if (bpoom.parent_1_reaction && bpoom.parent_2_reaction) {
+      openSlideshow(index + 2)
+    } else if (
+      (bpoom.parent_1_reaction && !bpoom.parent_2_reaction) ||
+      (!bpoom.parent_1_reaction && bpoom.parent_2_reaction)
+    ) {
+      openSlideshow(index + 1)
+    } else {
+      openSlideshow(index)
+    }
+  }
 
   const form = useToggle(false)
 
@@ -72,7 +105,7 @@ let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, de
               message={bpoom.parent_1_reaction}
               date={formatDate(intl, bpoom.created_at)}
               name={bpoom.parent_1_name}
-              onClick={() => openSlideshow('parent_1_reaction')}
+              onClick={() => openSlideshow(0)}
             />
           </div>
         )}
@@ -83,7 +116,7 @@ let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, de
               message={bpoom.parent_2_reaction}
               date={formatDate(intl, bpoom.created_at)}
               name={bpoom.parent_2_name}
-              onClick={() => openSlideshow('parent_2_reaction')}
+              onClick={() => openSlideshow(1)}
             />
           </div>
         )}
@@ -96,7 +129,7 @@ let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, de
                 message={msg.message}
                 date={formatDate(intl, msg.created_at)}
                 name={msg.name}
-                onClick={() => openSlideshow(i)}
+                onClick={() => showPhoto(i)}
                 onDelete={
                   visitorId === msg.uuid
                     ? () => {

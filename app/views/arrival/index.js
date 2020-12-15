@@ -26,24 +26,7 @@ const DEFAULT_PHOTO_PARENT_1 = imgPath('/avatars/parent-1.svg' + config.avatarBa
 const DEFAULT_PHOTO_PARENT_2 = imgPath('/avatars/parent-2.svg' + config.avatarBackgroundQuerystring)
 
 let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow, sendCardByEmail }) => {
-  useSlideshow(bpoom, loadSlideshow, () =>
-    [
-      {
-        src: [
-          getPhoto(bpoom.parent_1_photo_urls, 'normal') || DEFAULT_PHOTO_PARENT_1,
-          getPhoto(bpoom.parent_1_photo_urls, 'thumbnail') || DEFAULT_PHOTO_PARENT_1,
-        ],
-        description: bpoom.parent_1_reaction,
-      },
-      {
-        src: [
-          getPhoto(bpoom.parent_2_photo_urls, 'normal') || DEFAULT_PHOTO_PARENT_2,
-          getPhoto(bpoom.parent_2_photo_urls, 'thumbnail') || DEFAULT_PHOTO_PARENT_2,
-        ],
-        description: bpoom.parent_2_reaction,
-      },
-    ].filter((x) => x.description),
-  )
+  useSlideshow(bpoom, loadSlideshow, () => [{ src: [bpoom.card_url, bpoom.card_url] }])
 
   const renderBubbleMsg = (pic, msg, side, index) =>
     !msg ? (
@@ -99,7 +82,7 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow, sendCardBy
       {renderBubbleMsg(photo, bpoom.arrival_message, 'left')}
       {!bpoom.souvenir_disabled && bpoom.card_url && (
         <Panel title={t(MSG.souvenir_title)}>
-          <img src={bpoom.card_url} />
+          <img onClick={openSlideshow} src={bpoom.card_url} />
 
           <div styleName="action">
             {sent ? (
