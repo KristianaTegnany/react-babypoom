@@ -1,11 +1,9 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-
 import express from 'express'
 import createLocaleMiddleware from 'express-locale'
 import path from 'path'
 import favicon from 'serve-favicon'
 
-import shrinkRay from 'shrink-ray-current'
+import expressStaticGzip from 'express-static-gzip'
 import fs from 'fs'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
@@ -40,25 +38,31 @@ var ALL_LOCALES = [availableLocales.defaultLocale].concat(availableLocales)
 var app = express()
 app.disable('x-powered-by')
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
-app.use(shrinkRay()) // must be first!
+app.use(
+  '/',
+  expressStaticGzip('public/', {
+    enableBrotli: true,
+    orderPreference: ['br', 'gz'],
+    setHeaders: (res, path) => {
+      res.setHeader('Cache-Control', 'public, max-age=31536000')
+    },
+  }),
+) // must be first!
 app.use(createLocaleMiddleware()) // detect locale
 
 // serve our static stuff like index.css
 app.use(express.static(path.join(__dirname, 'public')))
 
-var compileString = (function() {
+var compileString = (function () {
   var REG_D_QUOTES = /"/g,
     REG_EOL = /(\n)/gm,
     REG_INTERPOLATE = /([^\{])\{\{([^\{\}]*)\}\}([^\}])/gm
 
-  return function(str) {
+  return function (str) {
     return new Function(
       'd',
       'return "' +
-        str
-          .replace(REG_EOL, '\\n')
-          .replace(REG_D_QUOTES, '\\"')
-          .replace(REG_INTERPOLATE, '$1"+(d.$2 || "")+"$3') +
+        str.replace(REG_EOL, '\\n').replace(REG_D_QUOTES, '\\"').replace(REG_INTERPOLATE, '$1"+(d.$2 || "")+"$3') +
         '"',
     )
   }
@@ -83,16 +87,16 @@ let BROWSER
   })
 })()
 
-const generatePdf = async function(url, path, params) {
+const generatePdf = async function (url, path, params) {
   const page = await BROWSER.newPage()
-  page.emulateMedia('screen')
+  page.emulateMediaType('screen')
   await page.goto(url, { waitUntil: 'networkidle2' })
   await page.addStyleTag({ content: 'html, body { background: white; }' })
 
   let errors = 0
 
   if (params.kiteCover) {
-    let kiteSpineWidth = await page.$$eval('.puppeteer-pdf-margin', div => +div[0].innerText.trim())
+    let kiteSpineWidth = await page.$$eval('.puppeteer-pdf-margin', (div) => +div[0].innerText.trim())
 
     await page
       .pdf({
@@ -108,7 +112,7 @@ const generatePdf = async function(url, path, params) {
         },
         printBackground: true,
       })
-      .catch(err => {
+      .catch((err) => {
         ++errors
         console.error(err)
       })
@@ -118,7 +122,7 @@ const generatePdf = async function(url, path, params) {
     deleteFiles([path.lock])
     if (errors && fileExists(path.pages)) return deleteFiles([path.pages])
   } else {
-    let totalPages = await page.$$eval('.pdf-page', pages => pages.length)
+    let totalPages = await page.$$eval('.pdf-page', (pages) => pages.length)
     const pagePaths = []
     const pdfId = uuid()
 
@@ -141,7 +145,7 @@ const generatePdf = async function(url, path, params) {
             : void 0,
           printBackground: true,
         })
-        .catch(err => {
+        .catch((err) => {
           ++errors
           console.error(err)
         })
@@ -150,13 +154,13 @@ const generatePdf = async function(url, path, params) {
 
     if (errors || fileExists(path.pages)) return deleteFiles(pagePaths.concat(path.lock))
 
-    merge(pagePaths, path.pages, { maxHeap: '3072m' }, err => {
+    merge(pagePaths, path.pages, { maxHeap: '3072m' }, (err) => {
       if (err) console.error(err)
       deleteFiles(pagePaths.concat(path.lock))
     })
   }
 }
-process.on('exit', async function() {
+process.on('exit', async function () {
   await BROWSER.close()
 })
 
@@ -239,7 +243,7 @@ app.get('*', (req, res) => {
 
     component
       .fetchData(store, match.params)
-      .then(bpoom => {
+      .then((bpoom) => {
         let locale = bpoom.locale
         let msgs = messages[locale]
         updateLocale({ locale, localeData: localeData[locale], messages: msgs })(store.dispatch)
@@ -257,7 +261,7 @@ app.get('*', (req, res) => {
         })
         res.send(content)
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('ERROR:', err, (match || {}).params)
         res.send(PAGE_CACHE({ uuid: match.params.uuid }))
       })
@@ -286,7 +290,7 @@ app.get('*', (req, res) => {
 //   return meta
 // }
 
-let listener = app.listen(PORT, function() {
+let listener = app.listen(PORT, function () {
   console.log('Production Express server running at localhost:' + PORT)
 })
 
@@ -300,7 +304,7 @@ function fileExists(path) {
 }
 
 function deleteFiles(files) {
-  files.forEach(filepath => {
-    fs.unlink(filepath, err => err && console.error(err))
+  files.forEach((filepath) => {
+    fs.unlink(filepath, (err) => err && console.error(err))
   })
 }
