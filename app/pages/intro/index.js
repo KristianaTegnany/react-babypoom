@@ -47,7 +47,7 @@ const MSG = defineMessages({
     defaultMessage: `Voici mon joli album de naissance à
 parcourir avec le sourire ! Tu y trouveras
 tous les petits évènements qui ont
-marqués mon arrivée dans notre monde.`,
+marqué mon arrivée dans notre monde.`,
   },
   arrival: {
     id: 'intro.arrival',
