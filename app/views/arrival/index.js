@@ -239,7 +239,7 @@ const MSG = defineMessages({
   },
   title_location_state: {
     id: 'arrival.title_location_state',
-    defaultMessage: 'État',
+    defaultMessage: 'Ville',
   },
   title_weight: {
     id: 'arrival.title_weight',
