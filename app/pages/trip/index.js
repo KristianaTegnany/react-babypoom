@@ -6,6 +6,7 @@ import Title from '../../components/title'
 import PresentationPanel from '../../components/presentation-panel'
 import ContentPanel from '../../components/content-panel'
 import BorderBgBox from '../../components/border-bg-box'
+import TruncatedMessage from '../../components/truncated-message'
 
 import getPhoto from '../../../lib/get-photo'
 
@@ -61,7 +62,7 @@ class Trip extends Component {
           backgroundImage: `url(${getPhoto(tripEvent.photo_urls, this.props.params.hd) || defaultPhoto})`,
         }}
       />
-      {tripEvent.message && <div styleName="quote">{tripEvent.message}</div>}
+      {tripEvent.message && <div styleName="quote"><TruncatedMessage message={tripEvent.message} /></div>}
       <div styleName="date">
         <time>{this.formatDate(tripEvent)}</time>
       </div>

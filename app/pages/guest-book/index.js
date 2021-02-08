@@ -16,6 +16,7 @@ import t from '../../i18n/i18n'
 import { defineMessages, injectIntl } from 'react-intl'
 
 import logo from '../../images/logo-bp.png'
+import TruncatedMessage from '../../components/truncated-message'
 
 class Guestbook extends Component {
   static pages(arr) {
@@ -40,7 +41,7 @@ class Guestbook extends Component {
       />
       <div styleName="quote-container">
         <p>
-          {msg.message}
+          <TruncatedMessage message={msg.message} />
           <br />-<br />
           {msg.name}
         </p>

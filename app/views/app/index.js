@@ -183,7 +183,6 @@ class App extends Component {
 
     if (this.props.params.hd) return
 
-    let uuid = this.props.bpoom.uuid
     let container = document.querySelector('.preview')
     let flipbook = container.querySelector('.flipbook')
     let controls = container.querySelector('.preview-controls')
@@ -191,18 +190,7 @@ class App extends Component {
     let current = controls.querySelector('.current')
     let volumeOn = controls.querySelector('.volume-on')
     let volumeOff = controls.querySelector('.volume-off')
-    let warning = container.querySelector('.limited-preview')
-    let close = warning && warning.querySelector('.close')
-    let storage = window.sessionStorage || {}
     let soundActive = true
-
-    let closeWarning = () => {
-      if (warning) {
-        warning.parentNode.removeChild(warning)
-        warning = null
-        storage[uuid] = +(storage[uuid] || 0) + 1
-      }
-    }
 
     let css = document.createElement('style')
     document.body.appendChild(css)
@@ -216,7 +204,6 @@ class App extends Component {
         when: {
           turning: () => {
             if (this.state.audioSupport && soundActive) FLIP_SOUND.play()
-            closeWarning()
           },
         },
       }),
@@ -269,7 +256,6 @@ class App extends Component {
       turn.page(totalPages)
       update()
     })
-    if (close) close.addEventListener('click', closeWarning)
     if (Fullscreen.support)
       controls.querySelector('.fullscreen').addEventListener('click', () => {
         Fullscreen.toggle(document.body)
@@ -292,11 +278,6 @@ class App extends Component {
     container.querySelector('.loading-preview').style.display = 'none'
     flipbook.style.visibility = 'visible'
     controls.style.display = 'flex'
-    if (+storage[uuid] > 1) {
-      closeWarning()
-    } else if (warning) {
-      warning.style.display = 'flex'
-    }
     turn.peel('br')
     setTimeout(() => flipbook.classList.add('flipbook-transition'), 50)
     if (iOsSafari())
@@ -393,16 +374,6 @@ class App extends Component {
               <div className="loading-preview" styleName="loading-preview">
                 <div />
               </div>
-              {!params.full && (
-                <div className="limited-preview">
-                  <div>
-                    {t(MSG.preview_limit)}
-                    <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">×</span>
-                    </button>
-                  </div>
-                </div>
-              )}
               <div className="order">
                 <a href={config.orderLink.replace('{{id}}', bpoom.id)}>{t(MSG.order)}</a>
               </div>
@@ -456,10 +427,6 @@ function mapStateToProps(state) {
 }
 
 const MSG = defineMessages({
-  preview_limit: {
-    id: 'app.preview_limit',
-    defaultMessage: `Attention : cet affichage est un aperçu et ne présente qu’un extrait de votre album final`,
-  },
   rotate_device: {
     id: 'app.rotate_device',
     defaultMessage: `Tournez votre appareil pour un meilleur rendu`,

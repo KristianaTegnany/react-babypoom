@@ -263,57 +263,6 @@
     }
   }
 
-  .limited-preview + .order {
-    display: none;
-  }
-
-  .limited-preview {
-    display: none;
-    position: absolute;
-    z-index: 1000;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    // display: flex;
-    justify-content: center;
-    text-align: center;
-    opacity: 0.8;
-
-    > div {
-      padding: 12px 64px 12px 20px;
-      color: #856404;
-      background-color: #fff3cd;
-      border: 1px solid #ffeeba;
-      border-radius: 3px;
-      position: relative;
-      line-height: 1.5;
-      font-size: 16px;
-    }
-
-    .close {
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 12px 20px;
-      color: inherit;
-      border: 0;
-      cursor: pointer;
-      font-size: 24px;
-      font-weight: bold;
-      opacity: 0.5;
-      background-color: transparent;
-
-      &:hover {
-        opacity: 1;
-      }
-
-      span {
-        position: relative;
-        top: -3px;
-      }
-    }
-  }
-
   @media screen and (max-height: 500px) {
     .preview {
       padding-bottom: 45px;
