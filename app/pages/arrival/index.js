@@ -42,7 +42,7 @@ class Arrival extends Component {
     let attr = info[attrName]
     if (!attr) return ''
     let msg = MSG[`${msgName || attrName}_${attr}`]
-    return msg ? t(msg) : attr
+    return msg ? t(msg) : ''
   }
 
   getDim = (info, attrName) => {
