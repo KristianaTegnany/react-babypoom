@@ -12,9 +12,42 @@
   }
 
   .icon {
-    margin-right: 5px;
+    margin: 0;
+    font-size: 200%;
+    position: static;
+  }
+}
+
+.fixed-btn {
+  margin-bottom: $main-padding;
+
+  .icon {
     position: relative;
+    margin-right: 5px;
     top: -2px;
+    font-size: inherit;
+  }
+}
+
+.button-container {
+  position: sticky;
+  top: 20px;
+  z-index: 1;
+
+  & > button {
+    width: auto;
+    position: absolute;
+    top: -20px;
+    right: -10px;
+    white-space: normal;
+    border-radius: 50px;
+    padding: 14px;
+    cursor: pointer;
+    box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.15);
+
+    & > span {
+      display: none;
+    }
   }
 }
 
@@ -34,34 +67,20 @@
 }
 
 @media (min-width: map-get($grid-breakpoints, md)) {
-  .guest-book-container {
-    .button-container {
-      position: sticky;
-      top: 30px;
-      z-index: 1;
+  .button-container {
+    top: 30px;
+    right: auto;
 
-      & > button {
-        margin: ($main-padding * 2) 0 0;
-        width: auto;
-        position: absolute;
-        right: -$main-padding * 2;
-        white-space: normal;
-        border-radius: 50px;
-        padding: 14px;
-        cursor: pointer;
-        box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.15);
-
-        & > span {
-          display: none;
-        }
-      }
+    & > button {
+      margin: ($main-padding * 2) 0 0;
+      right: -$main-padding * 2;
     }
+  }
 
-    .icon {
-      margin: 0;
-      font-size: 200%;
-      position: static;
-    }
+  .fixed-btn {
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .guest-book-msgs {
