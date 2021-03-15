@@ -24,7 +24,10 @@
   line-height: normal;
   padding-top: 34mm;
   width: 100%;
-  background: transparent url('../../images/bg-pages/bg-resume-back.svg') top center/auto no-repeat;
+  transform: scale(1.3);
+  margin-top: -95px;
+  background: transparent url('../../images/bg-pages/bg-resume-back.svg') top
+    center/auto no-repeat;
 }
 
 .border-box,
@@ -84,7 +87,9 @@ body .border-box {
     right: -36mm;
     width: 41mm;
     height: 41mm;
-    background: transparent url('../../images/bg-pages/bg-resume-front-right.svg') left top/auto no-repeat;
+    background: transparent
+      url('../../images/bg-pages/bg-resume-front-right.svg') left top/auto
+      no-repeat;
   }
   &::after {
     left: -11mm;
@@ -93,7 +98,8 @@ body .border-box {
     height: 65mm;
     box-sizing: content-box;
     padding: 0 15mm;
-    background: transparent url('../../images/bg-pages/bg-resume-front.svg') center/auto no-repeat;
+    background: transparent url('../../images/bg-pages/bg-resume-front.svg')
+      center/auto no-repeat;
   }
 
   hr {
