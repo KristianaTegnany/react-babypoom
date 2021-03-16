@@ -10,7 +10,7 @@
   <meta http-equiv='cache-control' content='no-cache'>
   <meta http-equiv='expires' content='0'>
   <meta http-equiv='pragma' content='no-cache'>
-  <% htmlWebpackPlugin.files.css.forEach(css => { %><link rel="stylesheet" href="<%= css %>" /><% }) %>
+  <% htmlWebpackPlugin.files.css.forEach(css => { %><link rel="stylesheet" href="<%= css %>?version=2.0" /><% }) %>
 </head>
 <body>
   <div id="root">{{html}}</div>
