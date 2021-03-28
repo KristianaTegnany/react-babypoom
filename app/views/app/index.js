@@ -12,6 +12,7 @@ import Cover from '../../pages/cover'
 import Intro from '../../pages/intro'
 import Arrival from '../../pages/arrival'
 import Trip from '../../pages/trip'
+import Card from '../../pages/card'
 import Guestbook from '../../pages/guest-book'
 import ParentsAndStats from '../../pages/parents-and-stats'
 import BackCover from '../../pages/back-cover'
@@ -312,15 +313,12 @@ class App extends Component {
       bpoom: { guest_book_msgs = [], trip_events = [], parent_1_reaction = '', parent_2_reaction = '' } = {},
     } = this.props
     let parents_reactions = parent_1_reaction && parent_2_reaction ? 1 : 0
-    //console.log('parent_1_reaction: ' + parent_1_reaction)
-    //console.log('parent_2_reaction: ' + parent_2_reaction)
-    //console.log('parents_reactions: ' + parents_reactions)
-    //console.log('trip nb pages: ' + Trip.cntPages(trip_events))
-    //console.log('book nb pages: ' + Guestbook.cntPages(guest_book_msgs))
+
     let totalPages =
       1 /* Cover */ +
       2 /* Intro */ +
       2 /* Arrival */ +
+      1 /* Card */ +
       Trip.cntPages(trip_events) /* Trip */ +
       Guestbook.cntPages(guest_book_msgs) /* Guest-book */ +
       parents_reactions /* Parents */ +
@@ -362,6 +360,7 @@ class App extends Component {
                 <Intro />
                 <Arrival />
                 <Trip />
+                {bpoom.card_id && <Card />}
                 <Guestbook />
                 <ParentsAndStats />
                 {missingPages}

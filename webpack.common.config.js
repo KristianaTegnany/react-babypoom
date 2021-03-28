@@ -131,7 +131,7 @@ module.exports = function({
         // es6 files
         {
           test: /\.(es6|js|jsx)$/,
-          exclude: /(node_modules|vendor)/,
+          exclude: /node_modules(?!\/babypoom-common)/,
           use: {
             loader: 'babel-loader',
             query: {

@@ -9,8 +9,8 @@ import BorderBgBox from '../../components/border-bg-box'
 
 import getPhoto from '../../../lib/get-photo'
 
-import styles from './styles.scss'
 import defaultPhoto from '../../images/default.jpeg'
+import styles from './styles.scss'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -55,7 +55,7 @@ class Arrival extends Component {
 
   renderAttribute = ([name, value]) => (
     <p key={name} styleName={`baby-info-line ${name}`}>
-      <i key="" />
+      <i />
       <span>{value}</span>
     </p>
   )
