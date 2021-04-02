@@ -25,6 +25,7 @@ let Intro = () => [
           <ol styleName="list">
             <li>{t(MSG.arrival)}</li>
             <li>{t(MSG.trip)}</li>
+            <li>{t(MSG.souvenir)}</li>
             <li>{t(MSG.guestbook)}</li>
             <li>{t(MSG.reaction)}</li>
             <li>{t(MSG.results)}</li>
@@ -56,6 +57,10 @@ marqué mon arrivée dans notre monde.`,
   trip: {
     id: 'intro.trip',
     defaultMessage: `Mon voyage`,
+  },
+  souvenir: {
+    id: 'intro.souvenir',
+    defaultMessage: `Mon faire-part`,
   },
   guestbook: {
     id: 'intro.guestbook',
