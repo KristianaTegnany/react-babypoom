@@ -110,7 +110,12 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow, sendCardBy
                             render={({ field }) => <Input invalid={!!errors.email} {...field} />}
                           />
                           <InputGroupAddon addonType="append">
-                            <Button disabled={isSubmitting} type="submit" color="app">
+                            <Button
+                              disabled={isSubmitting}
+                              type="submit"
+                              color="app"
+                              id="action-bt-friend-asked-souvenir"
+                            >
                               {t(MSG.ok)}
                             </Button>
                           </InputGroupAddon>
