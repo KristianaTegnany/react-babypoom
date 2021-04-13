@@ -148,12 +148,14 @@ let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, de
         })}
       </div>
       {guestBookMsgs.length > 2 ? (
-        <Button block color="app" onClick={form.show}>
-          <i styleName="icon">
-            <FaPencil />
-          </i>{' '}
-          {t(MSG.leave_message)}
-        </Button>
+        <div styleName="fixed-btn">
+          <Button block color="app" onClick={form.show}>
+            <i styleName="icon">
+              <FaPencil />
+            </i>{' '}
+            {t(MSG.leave_message)}
+          </Button>
+        </div>
       ) : (
         ''
       )}

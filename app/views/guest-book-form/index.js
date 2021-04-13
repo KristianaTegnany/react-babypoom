@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { defineMessages } from 'react-intl'
 import { Formik, Form, Field } from 'formik'
@@ -31,6 +31,12 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
   const [imgSrc, setImgSrc] = useState('')
   const [uploading, setUploading] = useState(false)
   const [progress, setProgress] = useState(null)
+
+  useEffect(() => {
+    const className = document.body.className
+    document.body.className = 'no-bars'
+    return () => document.body.className = className
+  }, [])
 
   const scrollElt = useScrollToTop()
 
@@ -75,6 +81,10 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
 
     return saveMsg(bpoom.uuid, extractParams(values))
       .then(() => {
+        if (window.localStorage) {
+          delete window.localStorage.babypoomGuestBookMessage
+          delete window.localStorage.babypoomGuestBookMessageTS
+        }
         actions.setSubmitting(false)
         onSave && onSave()
         flash('info', MSG.form_thanks)
@@ -83,17 +93,29 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
       .catch(() => actions.setSubmitting(false))
   }
 
+  const saveMessage = (event) => {
+    if (window.localStorage) {
+      window.localStorage.babypoomGuestBookMessage = event.target.value
+      window.localStorage.babypoomGuestBookMessageTS = new Date().getTime()
+    }
+  }
+
   const initialValues = {
     name: '',
     email: '',
     message: '',
     photo: '',
   }
+  if (window.localStorage && window.localStorage.babypoomGuestBookMessageTS) {
+    if (new Date().getTime() - window.localStorage.babypoomGuestBookMessageTS < 24 * 60 * 60 * 1000) {
+      initialValues.message = window.localStorage.babypoomGuestBookMessage
+    }
+  }
 
   return (
     <div ref={scrollElt} styleName="guest-book-form">
-      <Formik onSubmit={onSubmit} initialValues={initialValues}>
-        {({ isSubmitting, setFieldValue }) => (
+      <Formik onSubmit={onSubmit} enableReinitialize={true} initialValues={initialValues}>
+        {({ isSubmitting, setFieldValue, handleChange }) => (
           <Form noValidate>
             <Field
               name="name"
@@ -116,6 +138,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
             <Field
               name="message"
               type="textarea"
+              onChange={(e) => { handleChange(e); saveMessage(e) }}
               label={t(FORM_MSG.form_message)}
               component={InputField}
               maxLength="500"

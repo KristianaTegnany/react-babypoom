@@ -1,5 +1,11 @@
 @import '../../../config/bootstrap/bootstrap-var';
 
+:global {
+  body.no-bars {
+    header, footer { display: none; }
+  }
+}
+
 .guest-book-form {
   form {
     padding: $main-padding;
