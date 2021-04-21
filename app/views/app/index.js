@@ -173,7 +173,7 @@ let App = ({
       //flash = null;//{ message: { id: 'Error' } };
     }
     return (
-      <Alert key={++UNIQ} toggle={null} color={flash.color}>
+      <Alert key={++UNIQ} color={flash.color}>
         {t(flash.message)}
       </Alert>
     )

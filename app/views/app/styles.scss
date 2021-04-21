@@ -43,7 +43,7 @@
     z-index: 90000;
     border-radius: 0;
     animation-name: slideDownUp;
-    animation-duration: 3s;
+    animation-duration: 10s;
     animation-timing-function: linear;
     transform: translate(0, -100%);
     white-space: pre-wrap;
@@ -63,7 +63,11 @@ main {
   flex: 1 0 auto; /* 2 */
   width: 100%;
   background: var(--brand-secondary-C);
-  background: linear-gradient(to bottom, var(--brand-secondary-A), var(--brand-secondary-C));
+  background: linear-gradient(
+    to bottom,
+    var(--brand-secondary-A),
+    var(--brand-secondary-C)
+  );
   display: flex;
   flex-direction: column;
   position: relative;

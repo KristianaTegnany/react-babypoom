@@ -35,7 +35,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
   useEffect(() => {
     const className = document.body.className
     document.body.className = 'no-bars'
-    return () => document.body.className = className
+    return () => (document.body.className = className)
   }, [])
 
   const scrollElt = useScrollToTop()
@@ -138,7 +138,10 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
             <Field
               name="message"
               type="textarea"
-              onChange={(e) => { handleChange(e); saveMessage(e) }}
+              onChange={(e) => {
+                handleChange(e)
+                saveMessage(e)
+              }}
               label={t(FORM_MSG.form_message)}
               component={InputField}
               maxLength="500"
@@ -201,7 +204,7 @@ function mapStateToProps(state) {
 const MSG = defineMessages({
   form_thanks: {
     id: 'guest_book.form.thanks',
-    defaultMessage: 'Merci pour ton petit message =)',
+    defaultMessage: 'Merci beaucoup pour ton petit message 💕 ',
   },
   photo_incentive: {
     id: 'guest_book.form.photo_incentive',

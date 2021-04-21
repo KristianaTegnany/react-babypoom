@@ -75,14 +75,12 @@ let Pot = ({ desktop, noNav, bpoom }) => {
       </div>
       {noNav ? (
         ''
-      ) : desktop ? (
-        <BubbleSay speechDir="left" imgSrc={photo}>
-          <Transition />
-        </BubbleSay>
       ) : (
-        <BubblePic imgSrc={photo}>
-          <Transition />
-        </BubblePic>
+        <div styleName="mascot-direction">
+          <Bubble dir={desktop ? 'left' : null}>
+            <Transition />
+          </Bubble>
+        </div>
       )}
 
       <Modal size="lg" isOpen={modal.visible} toggle={modal.hide}>

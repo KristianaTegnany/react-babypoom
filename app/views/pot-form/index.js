@@ -224,6 +224,6 @@ const MSG = defineMessages({
   thanks: {
     id: 'charity.thanks',
     defaultMessage:
-      'Paiement bien effectué.\nVous avez reçu un mail de confirmation. Merci beaucoup pour cette attention 🙏🏼',
+      "Paiement bien effectué!\nMerci beaucoup pour cette attention 🙏🏼  Un mail de confirmation vous a été envoyé ainsi qu'aux parents de bébé.",
   },
 })
