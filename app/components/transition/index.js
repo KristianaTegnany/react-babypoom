@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { defineMessages } from 'react-intl'
 import ReactGA from 'react-ga'
-import { FacebookProvider, Page } from 'react-facebook'
+import { FacebookProvider, Page, Like } from 'react-facebook'
 import ReactFBLike from 'react-fb-like'
 import Button from 'reactstrap/lib/Button'
 
@@ -57,10 +57,11 @@ let Transition = ({ bpoom, steps }) => {
                 {t(MSG.share)}
               </Button>
             </span>
-
-            <FacebookProvider appId={config.fbAppId}>
-              <Page href="https://www.facebook.com/babypoom" />
-            </FacebookProvider>
+            <div styleName="facebook-container">
+              <FacebookProvider appId={config.fbAppId}>
+                <Page href="https://www.facebook.com/babypoom" />
+              </FacebookProvider>
+            </div>
           </div>
         ),
       })
