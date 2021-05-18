@@ -11,7 +11,7 @@ class Cover extends Component {
     if (!date) return ''
     let attrs = {
       year: 'numeric',
-      month: 'short',
+      month: 'long',
       day: 'numeric',
       timeZone: 'UTC',
     }
@@ -27,8 +27,7 @@ class Cover extends Component {
             <div styleName="decoration-box">
               <BorderBgBox styleName="border-box">
                 <div styleName="box-content">
-                  <span styleName="first-name">{bpoom.baby_name}</span>
-                  <span styleName="last-name">{bpoom.last_name}</span>
+                  <span styleName="last-name">{bpoom.baby_name}</span>
                   <hr />
                   <time styleName="birthdate">{this.birthday(bpoom.birthday)}</time>
                 </div>

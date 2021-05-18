@@ -1,0 +1,41 @@
+.item-list {
+  list-style-type: none;
+  margin: 0 0 30px;
+  padding: 0;
+  align-self: baseline;
+
+  li {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  svg {
+    flex: 0 0 auto;
+    font-size: 14px;
+    fill: #7fb5b4;
+    margin: 5px 10px 0 0;
+  }
+}
+
+.disabled {
+  svg {
+    fill: gray;
+  }
+
+  .title {
+    text-decoration: line-through;
+  }
+}
+
+.with-description {
+  .title {
+    font-weight: bold;
+  }
+}
+
+.description {
+  font-style: italic;
+}

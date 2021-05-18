@@ -21,7 +21,7 @@ class Arrival extends Component {
     if (!date) return ''
     return intl.formatDate(date, {
       year: 'numeric',
-      month: 'short',
+      month: 'long',
       day: 'numeric',
       timeZone: 'UTC',
     })

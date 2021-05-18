@@ -1,0 +1,153 @@
+.lp-container {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  font-size: 15px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row !important;
+  &.boys{
+    background: linear-gradient(180deg, #7cbde9 0%, #ecd24f 100%)
+  }
+  &.girls{
+    background: linear-gradient(180deg, #fbbdb2 0%, #ecd24f 100%);
+  }
+}
+
+.lp-slogan {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  color: white;
+}
+
+.lp-title {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #7fb5b4;
+}
+
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  font-size: 20px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row !important;
+  background: white;
+}
+
+.wrapper {
+  display: inline-block;
+  margin: auto 0;
+  position: relative;
+  top: -10%;
+}
+
+.html-code {
+  font-size: 40px;
+  padding-right: 1em;
+  margin-right: 1em;
+  border-right: 1px solid black;
+}
+
+.responsive-album {
+  width: 100%;
+  height: auto;
+}
+
+.button-preview {
+  z-index: 1000;
+  top: 5px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+
+  > a {
+    padding: 8px 30px;
+    color: white;
+    background-color: #efc45c;
+    border: 2px solid white;
+    border-radius: 3px;
+    font-size: 16px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 1);
+	  //transform: scale(1);
+	  //animation: pulse 2s infinite;
+
+    &:hover {
+      position: relative;
+      transform: translate(1px, 1px);
+    }
+  }
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+	}
+
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 10px rgba(255, 255, 255,0);
+	}
+
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(255, 255, 255,0);
+	}
+}
+
+.button-order {
+  z-index: 1000;
+  top: 5px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  > a {
+    padding: 8px 30px;
+    color: white;
+    background-color: #7fb5b4;
+    border: 1px solid lightsteelblue;
+    border-radius: 3px;
+    font-size: 16px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 1);
+    //transform: scale(1);
+	  //animation: pulse 2s infinite;
+
+    &:hover {
+      position: relative;
+      transform: translate(1px, 1px);
+    }
+  }
+}
+
+.lp-coupon-title{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+
+.lp-coupon{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: #646781;
+  border-style: dotted;
+}
+
+.lp-coupon-image{
+  margin: auto;
+}
