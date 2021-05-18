@@ -52,14 +52,12 @@ class LandingPage extends Component {
             localeDataLoader(bpoom.locale).then((json) => {
               this.props.updateLocale({ locale: bpoom.locale, localeData: json.data, messages: json.messages })
               setLocaleData(json.data)
-              this.domLoaded()
             })
           })
         })
         .catch(() => {})
     } else {
       setLocaleData(i18n.localeData)
-      this.domLoaded()
     }
   }
 

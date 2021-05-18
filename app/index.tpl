@@ -8,7 +8,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/node_modules/react-responsive-carousel/lib/styles/carousel.min.css"/>
-  <% htmlWebpackPlugin.files.css.forEach(css => { %><link rel="stylesheet" href="<%= css %>?version=2.2" /><% }) %>
+  <% htmlWebpackPlugin.files.css.forEach(css => { %><link rel="stylesheet" href="<%= css %>?version=2.3" /><% }) %>
 </head>
 <body>
   <div id="root">{{html}}</div>
