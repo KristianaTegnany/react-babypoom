@@ -164,6 +164,7 @@ module.exports = function({
                     {
                       generateScopedName,
                       handleMissingStyleName: 'ignore',
+                      autoResolveMultipleImports: true,
                       filetypes: {
                         '.scss': {
                           syntax: 'postcss-scss',

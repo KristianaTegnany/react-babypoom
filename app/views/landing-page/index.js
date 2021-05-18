@@ -15,6 +15,7 @@ import imgPath from "../../../lib/img-path"
 import loadIntl from '../../../lib/intl-detection'
 import { updateLocale } from '../../i18n/hot-intl-provider/HotIntlProviderActions'
 import { Column, Row } from "simple-flexbox";
+import styles from 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import './styles.scss'
 
