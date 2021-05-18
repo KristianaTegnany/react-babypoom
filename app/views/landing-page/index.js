@@ -306,7 +306,7 @@ const MSG = defineMessages({
   album_description: {
     id: 'app.album_description',
     defaultMessage: `Il s’agit tout simplement de l’un des meilleurs moyens d’immortaliser tous ces moments liés à la naissance d'un enfant. Vos proches vous ont certainement aussi gratifié de jolies messages à l'arrivé de bébé... Gardez ces précieux souvenirs dans un album photo qui sera le trésor de ces moments incroyables en famille. C'est un objet à la valeur affective inégalable qui se transmet de génération en
-    génération, un concentré d’amour que votre bébé {babyname} découvrira quand il sera plus grand.`,
+    génération, un concentré d’amour que votre trésor {babyname} découvrira quand il sera plus grand.`,
   },
   order: {
     id: 'app.order',
