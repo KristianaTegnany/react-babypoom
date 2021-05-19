@@ -149,11 +149,7 @@ class LandingPage extends Component {
                   >
                     <h3 styleName="lp-title">{t(MSG.album_description_title)}</h3>
                     <span>
-                      {t(MSG.album_description, {
-                        babyname: (
-                          bpoom.baby_name
-                        ),
-                      })}
+                      {t(MSG.album_description)}
                     </span>
                     <h3 styleName="lp-title"> {t(MSG.album_argument_2_title)} </h3>
                     <ItemList
@@ -305,8 +301,8 @@ const MSG = defineMessages({
   },
   album_description: {
     id: 'app.album_description',
-    defaultMessage: `Il s’agit tout simplement de l’un des meilleurs moyens d’immortaliser tous ces moments liés à la naissance d'un enfant. Vos proches vous ont certainement aussi gratifié de jolies messages à l'arrivé de bébé... Gardez ces précieux souvenirs dans un album photo qui sera le trésor de ces moments incroyables en famille. C'est un objet à la valeur affective inégalable qui se transmet de génération en
-    génération, un concentré d’amour que votre trésor {babyname} découvrira quand il sera plus grand.`,
+    defaultMessage: `Il s’agit tout simplement de l’un des meilleurs moyens d’immortaliser tous ces moments liés à la naissance d'un enfant. Vos proches vous ont certainement aussi gratifié de jolis messages à l'arrivé de bébé... Gardez ces précieux souvenirs dans un album photo qui sera le trésor de ces moments incroyables en famille. C'est un objet à la valeur affective inégalable qui se transmet de génération en
+    génération, un concentré d’amour que votre bébé découvrira quand il sera plus grand.`,
   },
   order: {
     id: 'app.order',
