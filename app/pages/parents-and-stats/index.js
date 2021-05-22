@@ -70,7 +70,7 @@ class ParentsAndStats extends Component {
             <ul styleName="list">
               {[
                 ['tries', bpoom.game_tries_avg, t(MSG.stat_tries)],
-                ['time', t({ ...MSG.time_in_sec, values: { seconds: bpoom.game_time_avg } }), t(MSG.stat_time)],
+                ['time', t(MSG.time_in_sec, { seconds: (bpoom.game_time_avg) }), t(MSG.stat_time)],
                 ['visits', bpoom.visit_count, t(MSG.stat_visits)],
                 ['messages', bpoom.message_count, t(MSG.stat_messages)],
               ].map(([type, metric, text]) => (
