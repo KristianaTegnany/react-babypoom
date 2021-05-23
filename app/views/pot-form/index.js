@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect,useState} from 'react'
 import { connect } from 'react-redux'
 import { defineMessages, injectIntl } from 'react-intl'
 import { Formik, Form, Field } from 'formik'
@@ -31,8 +31,21 @@ const visaMC = addValidator({
 let PotForm = ({ bpoom, intl, flash, onSave, onCancel, saveMangopayAccount, saveMangopayPayment }) => {
   const scrollElt = useScrollToTop()
 
+  const [userIp, setUserIp] = useState({})
+  useEffect(() => {
+    async function getUserIp() {
+      let response = await fetch('https://api.ipify.org?format=json')
+      response = await response.json()
+      setUserIp(response)
+    }
+    getUserIp()
+  }, [])
+
   let format = intl.formatMessage(FORM_MSG.form_card_expiration_date_format)
   let ymd = intl.formatMessage(FORM_MSG.form_card_expiration_date_ymd)
+
+
+
 
   const onSubmit = (values, actions) => {
     let mangopayAccountParams = extractParams(values, { only: MANGOPAY_ACCOUNT_FIELDS })
@@ -55,10 +68,24 @@ let PotForm = ({ bpoom, intl, flash, onSave, onCancel, saveMangopayAccount, save
             cardType: 'CB_VISA_MASTERCARD',
           },
           (res) => {
+            var browserInfo = {
+              AcceptHeader: "*/*",
+              TimeZoneOffset: new Date().getTimezoneOffset().toString(),
+              UserAgent: navigator.userAgent,
+              Language: navigator.language,
+              JavaEnabled: navigator.javaEnabled(),
+              ScreenWidth: window.screen.width,
+              ScreenHeight: window.screen.height,
+              ColorDepth: window.screen.colorDepth,
+              JavascriptEnabled: true,
+            }
+
             saveMangopayPayment(bpoom.uuid, {
               mangopay_card_id: res.CardId,
               mangopay_account_id: json.mpaid,
               sumcent: json.sumcent,
+              browser_info: JSON.stringify(browserInfo),
+              ip_address: userIp.ip,
             })
               .then((json) => {
                 if (json.error) {
