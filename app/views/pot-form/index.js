@@ -31,6 +31,12 @@ const visaMC = addValidator({
 let PotForm = ({ bpoom, intl, flash, onSave, onCancel, saveMangopayAccount, saveMangopayPayment }) => {
   const scrollElt = useScrollToTop()
 
+  useEffect(() => {
+    const className = document.body.className
+    document.body.className = 'no-bars'
+    return () => document.body.className = className
+  }, [])
+
   const [userIp, setUserIp] = useState({})
   useEffect(() => {
     async function getUserIp() {

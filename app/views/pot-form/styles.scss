@@ -1,9 +1,17 @@
 @import '../../../config/bootstrap/bootstrap-var';
 
+
+:global {
+  body.no-bars {
+    header, footer { display: none; }
+  }
+}
+
 .pot-form {
   form {
     padding: $main-padding;
     background: var(--neutral-primary-D);
+    border-radius: 15px;
   }
 
   label {
@@ -13,6 +21,14 @@
     z-index: 1;
     left: $main-padding / 2;
     text-shadow: -3px 0 3px white, 0 3px 3px white, 3px 0 3px white, 0 -3px 3px white;
+  }
+
+  input {
+    height: 50px !important;
+  }
+
+  select {
+    height: 50px !important;
   }
 }
 

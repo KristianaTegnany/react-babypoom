@@ -144,7 +144,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
               }}
               label={t(FORM_MSG.form_message)}
               component={InputField}
-              maxLength="500"
+              maxLength="700"
               validate={required({ msg: t(FORM_MSG.form_message_required) })}
             />
             <Field name="private" type="checkbox" label={t(FORM_MSG.form_private)} component={CheckField} />
@@ -152,7 +152,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
             <div styleName="upload-img">
               <BpoomImg imgSrc={imgSrc || DEFAULT_PHOTO} />
               <div styleName="upload-desc">
-                <div>{t(MSG.photo_incentive)}</div>
+                <div styleName="incentive">{t(MSG.photo_incentive)}</div>
                 <Button color={btnColor || 'secondary'} onClick={() => onUploadBtnClick(setFieldValue)}>
                   {t(FORM_MSG.form_import)}
                 </Button>
