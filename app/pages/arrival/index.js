@@ -35,7 +35,7 @@ class Arrival extends Component {
       timeZone: 'UTC',
     })
 
-    return t({ ...MSG.hour, values: { hour } })
+    return t(MSG.hour, {hour: hour })
   }
 
   getText = (info, attrName, msgName) => {
