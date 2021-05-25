@@ -144,7 +144,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
               }}
               label={t(FORM_MSG.form_message)}
               component={InputField}
-              maxLength="700"
+              maxLength="500"
               validate={required({ msg: t(FORM_MSG.form_message_required) })}
             />
             <Field name="private" type="checkbox" label={t(FORM_MSG.form_private)} component={CheckField} />
