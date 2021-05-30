@@ -14,7 +14,8 @@ import FaHeart from '../../icons/heart'
 // TODO: button disabled until bpoom loaded
 let Footer = ({ bpoom, desktop, steps, resetStars }) => {
   useEffect(() => {
-    if (bpoom.id!=1) return
+    // temp feature for the best Inna friend
+    if (bpoom.id!=14839) return
   }, [resetStars])
   return (
     <footer>

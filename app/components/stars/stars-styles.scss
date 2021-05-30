@@ -1,0 +1,28 @@
+.star {
+  animation: glitter 3.5s linear 0s infinite normal;
+  position: absolute;
+  z-index: 9999;
+}
+
+@keyframes glitter {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

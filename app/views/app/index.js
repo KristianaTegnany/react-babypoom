@@ -180,6 +180,7 @@ let App = ({
     )
   }
 
+  // TODO: temp feature for the best Inna friend, it's show animated Stars
   const [resetStars, setResetStars] = useState(0)
   const onComplete = () => {
     setResetStars((state) => state + 1)
@@ -199,8 +200,7 @@ let App = ({
         <div key={stepName}>
           <Step />
         </div>
-
-        {bpoom.id===1 && steps.index === 0 && <Stars />}
+        {bpoom.id===14839 && steps.index === 0 && <Stars />}
 
         <Cloud styleName="cloud" />
         <Slideshow
