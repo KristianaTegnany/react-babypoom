@@ -26,6 +26,7 @@ import t from '../../i18n/i18n'
 import { updateLocale } from '../../i18n/hot-intl-provider/HotIntlProviderActions'
 import Cloud from 'svg-react-loader?name=Cloud!../../images/cloud.svg'
 import lazyLoad from '../../../lib/image-loader'
+import Stars from '../../components/stars'
 import './styles.scss'
 
 let UNIQ = 0
@@ -179,6 +180,11 @@ let App = ({
     )
   }
 
+  const [resetStars, setResetStars] = useState(0)
+  const onComplete = () => {
+    setResetStars((state) => state + 1)
+  }
+
   if (bpoom.not_found) return <StaticMessage />
   if (bpoom.disabled) return <StaticMessage msg="disabled" />
 
@@ -193,6 +199,9 @@ let App = ({
         <div key={stepName}>
           <Step />
         </div>
+
+        {bpoom.id===1 && steps.index === 0 && <Stars />}
+
         <Cloud styleName="cloud" />
         <Slideshow
           open={slideshow.isOpen}
