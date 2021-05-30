@@ -213,7 +213,7 @@ let App = ({
           getImageSize={getImageSize}
         />
       </main>
-      {noNav ? '' : <Footer />}
+      {noNav ? '' : <Footer resetStars={resetStars} />}
       <MediaQueries />
     </CSSVariableApplicator>
   )

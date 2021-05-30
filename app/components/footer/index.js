@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { defineMessages } from 'react-intl'
@@ -12,7 +12,10 @@ import './styles.scss'
 import FaHeart from '../../icons/heart'
 
 // TODO: button disabled until bpoom loaded
-let Footer = ({ bpoom, desktop, steps }) => {
+let Footer = ({ bpoom, desktop, steps, resetStars }) => {
+  useEffect(() => {
+    if (bpoom.id!=1) return
+  }, [resetStars])
   return (
     <footer>
       <div styleName="nav">
