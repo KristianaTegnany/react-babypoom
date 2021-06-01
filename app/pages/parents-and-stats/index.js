@@ -10,7 +10,7 @@ import { defineMessages } from 'react-intl'
 import range from '../../../lib/range'
 import parent1Default from '../../images/parent-1.svg'
 import parent2Default from '../../images/parent-2.svg'
-import './styles.scss'
+import './styles.theme-BP_ALBUM_THEME.scss'
 
 const defaulPhotos = {
   1: parent1Default,

@@ -1,0 +1,14 @@
+:global(.hd) {
+  .background {
+    background-image: url('../../images/hd-page-bg.png');
+  }
+}
+
+.background {
+  background: var(--color-bg) url('../../images/page-bg.png') left top/1000px auto repeat;
+}
+
+.centered {
+  text-align: center;
+  line-height: var(--page-height);
+}

@@ -6,6 +6,8 @@ var CopyPlugin = require('copy-webpack-plugin')
 var availableLocales = require('./available-locales')
 
 var NODE_ENV = process.env.NODE_ENV || 'development'
+var BP_ALBUM_THEME = process.env.BP_ALBUM_THEME || '1'
+
 
 var cleanUpObj = obj => {
   Object.keys(obj).forEach(key => obj[key] == null && delete obj[key])
@@ -30,7 +32,6 @@ module.exports = function({
 }) {
   return {
     mode,
-    optimization,
     stats,
     devtool: 'source-map',
     entry: (entry || []).concat([path.join(__dirname, 'app', 'index.js')]),
@@ -42,6 +43,25 @@ module.exports = function({
       devtoolFallbackModuleFilenameTemplate: '[resourcePath]?[hash]',
       pathinfo: pathinfo || false,
     },
+    optimization, //: {
+    //   ...optimization,
+    //   splitChunks: {
+    //     cacheGroups: {
+    //       style: {
+    //         name: 'styles',
+    //         test: /styles\.scss$/,
+    //         chunks: 'all',
+    //         enforce: true,
+    //       },
+    //       'theme-2': {
+    //         name: 'theme-2',
+    //         test: /theme-2\.scss$/,
+    //         chunks: 'all',
+    //         enforce: true,
+    //       },
+    //     },
+    //   },
+    // },
     plugins: (prependPlugins || []).concat(
       [
         new CopyPlugin([{ from: 'app/favicon.ico', to: path.join(__dirname, '/public/') }]),
@@ -51,8 +71,10 @@ module.exports = function({
         new HtmlWebpackPlugin({
           inject: false,
           template: './app/index.tpl',
+          templateParameters: {
+            publicPath: path.join(__dirname, 'public')
+          },
           filename: process.env.NODE_ENV === 'production' ? 'index.tpl' : 'index.html',
-          locales: availableLocales,
         }),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.ModuleConcatenationPlugin(),
@@ -116,7 +138,7 @@ module.exports = function({
         // Images
         {
           test: /\.(jpe?g|png|gif)$/i,
-          use: ['url-loader?limit=10000', 'img-loader?progressive=true'],
+          use: 'file-loader',
         },
         // Sounds
         {
@@ -147,6 +169,12 @@ module.exports = function({
               ],
               plugins: (prependBabelPlugins || []).concat(
                 [
+                  [
+                    require('./babel-plugin-transform-imports'), {
+                      test: /BP_ALBUM_THEME\.s?css$/,
+                      rename: (path) => path.replace(/BP_ALBUM_THEME/, BP_ALBUM_THEME)
+                    }
+                  ],
                   [
                     'react-intl',
                     {

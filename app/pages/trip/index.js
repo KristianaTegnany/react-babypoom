@@ -1,23 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
 import Page from '../../components/page'
 import Title from '../../components/title'
 import PresentationPanel from '../../components/presentation-panel'
 import ContentPanel from '../../components/content-panel'
-import BorderBgBox from '../../components/border-bg-box'
 import TruncatedMessage from '../../components/truncated-message'
-
 import getPhoto from '../../../lib/get-photo'
-
-import styles from './styles.scss'
 import defaultPhoto from '../../images/default.jpeg'
-
-// i18n
 import t from '../../i18n/i18n'
 import { defineMessages, injectIntl } from 'react-intl'
-
-import logo from '../../images/logo-bp.png'
+import './styles.theme-BP_ALBUM_THEME.scss'
 
 function groupBy(arr, n) {
   var group = []

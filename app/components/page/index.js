@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
 import cx from '../../../lib/cx'
-
-import styles from './styles.scss'
+import './styles.theme-BP_ALBUM_THEME.scss'
 
 class Page extends Component {
   render() {

@@ -60,7 +60,7 @@ var config = require('./webpack.common.config.js')({
       threshold: 10240,
       minRatio: 0.7,
     }),
-    new MiniCssExtractPlugin('app-[hash].min.css'),
+    new MiniCssExtractPlugin({ filename: `theme-${process.env.BP_ALBUM_THEME || '1'}-[hash].min.css` }),
     new OptimizeCssAssetsPlugin({
       cssProcessorPluginOptions: {
         preset: ['default', { discardComments: { removeAll: true } }],

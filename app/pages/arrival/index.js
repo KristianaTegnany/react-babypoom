@@ -1,20 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
 import Page from '../../components/page'
 import Title from '../../components/title'
 import PresentationPanel from '../../components/presentation-panel'
 import ContentPanel from '../../components/content-panel'
 import BorderBgBox from '../../components/border-bg-box'
-
 import getPhoto from '../../../lib/get-photo'
-
 import defaultPhoto from '../../images/default.jpeg'
-import styles from './styles.scss'
-
-// i18n
 import t from '../../i18n/i18n'
 import { injectIntl, defineMessages } from 'react-intl'
+import './styles.theme-BP_ALBUM_THEME.scss'
 
 class Arrival extends Component {
   birthday = (intl, date) => {

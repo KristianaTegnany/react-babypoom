@@ -1,16 +1,12 @@
 import React from 'react'
-
 import Page from '../../components/page'
 import Title from '../../components/title'
 import PresentationPanel from '../../components/presentation-panel'
 import ContentPanel from '../../components/content-panel'
 import BorderBgBox from '../../components/border-bg-box'
-
-// i18n
 import t from '../../i18n/i18n'
 import { defineMessages } from 'react-intl'
-
-import styles from './styles.scss'
+import './styles.theme-BP_ALBUM_THEME.scss'
 
 let Intro = () => [
   <Page key="intro-blank" />, // Blank page

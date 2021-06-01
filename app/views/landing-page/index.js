@@ -293,11 +293,11 @@ function mapStateToProps(state) {
 const MSG = defineMessages({
   lp_slogan: {
     id: 'app.lp_slogan',
-    defaultMessage: `Offrez à {babyname} un souvenir inoubliable!`,
+    defaultMessage: `Offrez à {babyname} un souvenir inoubliable !`,
   },
   album_description_title: {
     id: 'app.album_description_title',
-    defaultMessage: `Un album de naissance, pourquoi faire?`,
+    defaultMessage: `Un album de naissance, pourquoi faire ?`,
   },
   album_description: {
     id: 'app.album_description',
@@ -326,7 +326,7 @@ const MSG = defineMessages({
   },
   album_argument_2_title: {
     id: 'app.album_argument_2_title',
-    defaultMessage: `Que contient votre album Babypoom?`,
+    defaultMessage: `Que contient votre album Babypoom ?`,
   },
   album_argument_2_1: {
     id: 'app.album_argument_2_1',
@@ -358,7 +358,7 @@ const MSG = defineMessages({
   },
   album_argument_3_title: {
     id: 'app.album_argument_3_title',
-    defaultMessage: `À quoi ressemble votre album?`,
+    defaultMessage: `À quoi ressemble votre album ?`,
   },
   album_argument_3_1: {
     id: 'app.album_argument_3_1',
