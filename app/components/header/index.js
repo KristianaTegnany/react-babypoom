@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { defineMessages } from 'react-intl'
@@ -16,7 +16,10 @@ import DropdownToggle from 'reactstrap/lib/DropdownToggle'
 import Modal from 'reactstrap/lib/Modal'
 import ModalHeader from 'reactstrap/lib/ModalHeader'
 import ModalBody from 'reactstrap/lib/ModalBody'
-
+import ReactAudioPlayer from 'react-audio-player'
+import ReactPlayer from 'react-player';
+import CircleControls from 'react-player-circle-controls';
+import 'react-player-circle-controls/dist/styles.css';
 import { stepPath, rootPath } from '../../views/app/steps'
 
 // Config
@@ -65,6 +68,21 @@ let Header = ({ bpoom, desktop, steps }) => {
 
   let stepText = steps.ok ? t(stepMsg[steps.current]) : ''
   let root = rootPath(bpoom)
+  let theme = bpoom.theme || config.theme
+  let sound = bpoom.sound || {}
+
+  const player = useRef(null);
+  const [playing, setPlaying] = useState(true);
+  const [playerState, setPlayerState] = useState({
+    played: 0,
+    loaded: 0
+  });
+
+  const onSeek = amount => {
+    if (player.current) {
+      player.current.seekTo(amount, 'fraction');
+    }
+  };
 
   let mainNav = (
     <div styleName="styles.main-nav">
@@ -125,11 +143,35 @@ let Header = ({ bpoom, desktop, steps }) => {
         ) : (
           ''
         )}
-        <span>
-          <NavbarBrand styleName="styles.nav-brand" tag={Link} to={root}>
-            <img src={LOGO} />
-          </NavbarBrand>
-        </span>
+        {!bpoom.sound_disabled ? (
+          <span>
+            <ReactPlayer
+              ref={player}
+              url={sound.url}
+              playing={playing}
+              height="0"
+              width="0"
+              onProgress={setPlayerState}
+              onEnded={() => setPlaying(false)}
+            />
+            <CircleControls
+              played={playerState.played}
+              loaded={playerState.loaded}
+              playing={playing}
+              onSeek={onSeek}
+              size="68"
+              color={theme.color_1}
+              onTogglePlaying={() => setPlaying(!playing)}
+            />
+          </span>
+        ) : (
+          <span>
+            <NavbarBrand styleName="styles.nav-brand" tag={Link} to={root}>
+              <img src={LOGO} />
+            </NavbarBrand>
+          </span>
+
+        )}
         {desktop ? mainNav : ''}
         <Button
           color="primary"
