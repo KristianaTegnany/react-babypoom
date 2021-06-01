@@ -159,7 +159,7 @@ let Header = ({ bpoom, desktop, steps }) => {
               loaded={playerState.loaded}
               playing={playing}
               onSeek={onSeek}
-              size="68"
+              size="50"
               color={theme.color_1}
               onTogglePlaying={() => setPlaying(!playing)}
             />
