@@ -110,4 +110,20 @@ export default defineMessages({
     id: 'form.card_cvx',
     defaultMessage: 'Code de sécurité',
   },
+  login_name: {
+    id: 'login.name',
+    defaultMessage: 'Quel est ton petit nom?',
+  },
+  login_pwd: {
+    id: 'login.pwd',
+    defaultMessage: 'Le mot de passe',
+  },
+  login_pwd_desc: {
+    id: 'login.desc',
+    defaultMessage: '(reçu avec ce lien)',
+  },
+  login_pwd_error: {
+    id: 'login.error',
+    defaultMessage: 'Petite erreur sur le mot de passe, vérifie bien ou contacte nous.',
+  },
 })

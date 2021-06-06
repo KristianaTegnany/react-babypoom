@@ -1,0 +1,63 @@
+@import '../../../config/bootstrap/bootstrap-var';
+
+.container {
+  align-items: center;
+  justify-content: center;
+  flex-direction: row !important;
+}
+
+.wrapper {
+  flex: 1 0 auto;
+  max-width: map-get($grid-breakpoints, sm) !important;
+  padding: $main-padding;
+  margin: auto 0;
+  position: relative;
+  top: -10%;
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .wrapper {
+    padding: $main-padding * 2;
+  }
+}
+
+.login-form {
+  margin-top: 20px;
+  form {
+    padding: $main-padding;
+    background: var(--neutral-primary-D);
+    border-radius: 15px;
+  }
+
+  label {
+    position: absolute;
+    top: 1px;
+    margin: 0;
+    z-index: 1;
+    left: $main-padding / 2;
+    text-shadow: -3px 0 3px white, 0 3px 3px white, 3px 0 3px white, 0 -3px 3px white;
+  }
+
+  textarea {
+    min-height: 170px;
+  }
+
+  input {
+    height: 50px !important;
+  }
+}
+
+.actions {
+  display: block;
+  text-align: center;
+  margin-top: $main-padding;
+
+  button {
+    width: 50%;
+    margin-left: $main-padding;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}

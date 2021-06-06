@@ -7,6 +7,7 @@ import { fetchBpoom, updateStep, updateNoNav } from './Actions'
 import Slideshow from '../../components/slideshow'
 import { changeSlideshowIndex, closeSlideshow } from '../../components/slideshow/Actions'
 import StaticMessage from '../static-message'
+import LoginPage from '../login-page'
 import Alert from '../../components/alert/Alert'
 import Header from '../../components/header'
 import Footer from '../../components/footer'
@@ -61,6 +62,10 @@ let App = ({
   closeSlideshow,
 }) => {
   const [pathname, setPathname] = useState(location.pathname)
+  const [pwd, setPwd] = useState()
+  const [msg, setMsg] = useState()
+  const [photo, setPhoto] = useState()
+  const [loginActivated, setLoginActivated] = useState(false)
 
   // No nav
   useEffect(() => {
@@ -109,12 +114,21 @@ let App = ({
       setSteps(bpoom)
 
       Ahoy.trackView()
-      Ahoy.updateVisit({ bpoom_id: bpoom.id })
+      if (window.localStorage && window.localStorage.user) {
+        Ahoy.updateVisit({ bpoom_id: bpoom.id, name: window.localStorage.user  })
+      } else{
+        Ahoy.updateVisit({ bpoom_id: bpoom.id})
+      }
 
       // Preload images
       let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
       if (photo) pixelate({ src: photo })
       lazyLoadAllImages(bpoom, 'thumbnail')
+      setPwd(bpoom.login_pwd)
+      setMsg(bpoom.login_message)
+      setPhoto(bpoom.parents_photo_urls)
+      // Loading is more fluid if we inverse have login default boolean to false
+      setLoginActivated(!bpoom.login_disabled)
       // lazyLoadAllImages(bpoom, 'normal')
     }
     if (bpoom.uuid) {
@@ -186,12 +200,24 @@ let App = ({
     setResetStars((state) => state + 1)
   }
 
+  function check_login() {
+    if (window.localStorage && window.localStorage.pwd === pwd) {
+      return true
+    }else{
+      return false
+    }
+  }
+
+  let theme = bpoom.theme || config.theme
+
   if (bpoom.not_found) return <StaticMessage />
   if (bpoom.disabled) return <StaticMessage msg="disabled" />
+  if (loginActivated && !check_login())  return <LoginPage bpoom_pwd={pwd} msg={msg} parents_photo={photo} color_1={theme.color_1} color_2={theme.color_2}/>
 
   let Step = stepComponent(steps.current, bpoom)
   let stepName = steps.current || ''
-  let theme = bpoom.theme || config.theme
+
+
   return (
     <CSSVariableApplicator data-variables={computeThemeColors(theme.color_1, theme.color_2)}>
       {noNav ? '' : <Header />}
