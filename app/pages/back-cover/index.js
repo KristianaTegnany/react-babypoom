@@ -30,3 +30,4 @@ const MSG = defineMessages({
 sur Babypoom.com`,
   },
 })
+

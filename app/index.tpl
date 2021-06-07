@@ -2,9 +2,9 @@
 // Keep track of themes
 var fs = require('fs');
 var themeManifest = []
-try { themeManifest = JSON.parse(fs.readFileSync('theme-manifest.json', 'utf8')); } catch(e) {}
+try { themeManifest = JSON.parse(fs.readFileSync('theme-manifest.json', 'utf8')) } catch(e) {}
 themeManifest = themeManifest.concat(htmlWebpackPlugin.files.css.filter(file => file.slice(1).startsWith('theme-')))
-fs.writeFileSync('theme-manifest.json', JSON.stringify(themeManifest));
+if (useThemeManifest) fs.writeFileSync('theme-manifest.json', JSON.stringify(themeManifest));
 
 %><!doctype html>
 <html>
@@ -34,6 +34,7 @@ fs.writeFileSync('theme-manifest.json', JSON.stringify(themeManifest));
       }
     })()
   </script>
+  <% htmlWebpackPlugin.files.css.filter(file => !file.slice(1).startsWith('theme-')).forEach(css => { %><link rel="stylesheet" href="<%= css %>" /><% }) %>
 </head>
 <body>
   <div id="root">{{html}}</div>

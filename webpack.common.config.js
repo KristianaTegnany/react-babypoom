@@ -6,7 +6,6 @@ var CopyPlugin = require('copy-webpack-plugin')
 var availableLocales = require('./available-locales')
 
 var NODE_ENV = process.env.NODE_ENV || 'development'
-var BP_ALBUM_THEME = process.env.BP_ALBUM_THEME || '1'
 
 
 var cleanUpObj = obj => {
@@ -72,7 +71,7 @@ module.exports = function({
           inject: false,
           template: './app/index.tpl',
           templateParameters: {
-            publicPath: path.join(__dirname, 'public')
+            useThemeManifest: NODE_ENV === 'production' || process.env.THEME_MANIFEST === 'ok'
           },
           filename: process.env.NODE_ENV === 'production' ? 'index.tpl' : 'index.html',
         }),
@@ -172,7 +171,7 @@ module.exports = function({
                   [
                     require('./babel-plugin-transform-imports'), {
                       test: /BP_ALBUM_THEME\.s?css$/,
-                      rename: (path) => path.replace(/BP_ALBUM_THEME/, BP_ALBUM_THEME)
+                      rename: (path) => path.replace(/BP_ALBUM_THEME/, process.env.BP_ALBUM_THEME || '1')
                     }
                   ],
                   [

@@ -10,7 +10,6 @@ import defaultPhoto from '../../images/default.jpeg'
 import t from '../../i18n/i18n'
 import { injectIntl, defineMessages } from 'react-intl'
 import './styles.theme-BP_ALBUM_THEME.scss'
-
 class Arrival extends Component {
   birthday = (intl, date) => {
     if (!date) return ''
@@ -248,3 +247,9 @@ const MSG = defineMessages({
     defaultMessage: 'Blanc',
   },
 })
+
+
+
+
+
+
