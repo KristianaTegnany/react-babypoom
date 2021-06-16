@@ -122,6 +122,11 @@ main::after {
   }
 }
 
+.pattern{
+  background: var(--background-pattern);
+  background-size: auto;
+}
+
 @media (min-width: map-get($grid-breakpoints, md)) {
   main > div:first-child {
     padding: 0;

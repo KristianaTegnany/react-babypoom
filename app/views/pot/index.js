@@ -48,7 +48,7 @@ let Pot = ({ desktop, noNav, bpoom }) => {
 
   let charity = bpoom.charity || {}
   let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
-  let image = getPhoto(charity.image_urls, 'normal')
+  let image = charity.image
 
   return (
     <div styleName="pot-container">
@@ -88,8 +88,10 @@ let Pot = ({ desktop, noNav, bpoom }) => {
           {charity.name}
         </ModalHeader>
         <ModalBody>
-          {image ? <img src={image} styleName="charity-modal-img" alt="" /> : ''}
-          {charity.description}
+          {charity.image ? <img src={charity.image} styleName="charity-modal-img" alt="" /> : ''}
+          {charity.description.split('\n').map(str => <p>{str}</p>)}
+          {charity.logo_image ? <img src={charity.logo_image} styleName="charity-modal-img" alt="" /> : ''}
+          {charity.url}
         </ModalBody>
       </Modal>
     </div>

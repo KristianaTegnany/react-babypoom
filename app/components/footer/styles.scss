@@ -12,6 +12,7 @@ footer {
   justify-content: center;
   user-drag: none;
   user-select: none;
+  //margin-top: 10px; #for wave style
 
   a {
     text-decoration: none;
@@ -50,7 +51,6 @@ footer {
     color: red;
   }
 }
-
 @media (min-width: map-get($grid-breakpoints, md)) {
   footer {
     background: var(--neutral-primary-E);
@@ -85,4 +85,34 @@ footer {
   .made-with {
     margin-top: 5px;
   }
+}
+
+.wave {
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  &::before,
+  &::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: auto;
+  top: 0;
+  right: 0;
+  background-repeat: repeat-x;
+  }
+
+  &::before {
+    height: 10px;
+    background-size: 20px 20px;
+    background-image: radial-gradient(circle at 10px 15px, transparent 12px, var(--brand-secondary-C) 13px);
+  }
+
+  &::after {
+    height: 3px;
+    background-size: 40px 20px;
+    background-image: radial-gradient(circle at 10px 0, var(--brand-secondary-C) 12px, transparent 13px);
+  }
+
 }

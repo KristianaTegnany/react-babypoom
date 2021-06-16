@@ -147,6 +147,9 @@ header {
   .main-nav {
     @include menu();
   }
+  .wave {
+    height: 60px;
+  }
 }
 
 // Desktop version
@@ -499,6 +502,53 @@ header {
   .nav-brand {
     img {
       transform: scale(1.7);
+    }
+  }
+}
+
+.wave {
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  &::before,
+  &::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-repeat: repeat-x;
+  }
+
+  &::before {
+    height: 10px;
+    background-size: 20px 20px;
+    background-image: radial-gradient(circle at 10px -5px, transparent 12px, var(--brand-secondary-A) 13px);
+  }
+
+  &::after {
+    //height: 15px;
+    background-size: 40px 20px;
+    background-image: radial-gradient(circle at 10px 15px, var(--brand-secondary-A) 12px, transparent 13px);
+  }
+
+  &--top {
+    background: linear-gradient(to top, sandybrown, chocolate);
+
+    &::before,
+    &::after {
+      // to take place in top instead of bottom
+      bottom: auto;
+      top: 0;
+    }
+
+    &::before {
+      background-image: radial-gradient(circle at 10px 15px, transparent 12px, white 13px);
+    }
+
+  &::after {
+    background-image: radial-gradient(circle at 10px 0, white 12px, transparent 13px);
     }
   }
 }

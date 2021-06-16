@@ -217,13 +217,12 @@ let App = ({
   let Step = stepComponent(steps.current, bpoom)
   let stepName = steps.current || ''
 
-
   return (
-    <CSSVariableApplicator data-variables={computeThemeColors(theme.color_1, theme.color_2)}>
+    <CSSVariableApplicator data-variables={computeThemeColors(theme.color_1, theme.color_2, theme.pattern)}>
       {noNav ? '' : <Header />}
       <div styleName="flash">{renderFlash()}</div>
       <main styleName={`${stepName}${'game' === stepName ? ` ${stepName}${bpoom.game_type}` : ''}`}>
-        <div key={stepName}>
+        <div key={stepName} styleName={theme.pattern ? 'pattern' : ''}>
           <Step />
         </div>
         {bpoom.id===14839 && steps.index === 0 && <Stars />}
