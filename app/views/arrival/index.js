@@ -13,6 +13,7 @@ import InputGroupAddon from 'reactstrap/lib/InputGroupAddon'
 import Button from 'reactstrap/lib/Button'
 import Transition from '../../components/transition'
 import getPhoto from '../../../lib/get-photo'
+import Tracking from '../../../lib/tracking'
 import t from '../../i18n/i18n'
 import imgPath from '../../../lib/img-path'
 import config from '../../../config'
@@ -66,6 +67,7 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow, sendCardBy
       .then(() => {
         setSent(true)
         actions.setSubmitting(false)
+        Tracking.track("SouvenirCard_sent_by_email", {bpoom_id: bpoom.id})
       })
       .catch(() => actions.setSubmitting(false))
   }

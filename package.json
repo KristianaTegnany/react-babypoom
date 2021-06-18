@@ -21,6 +21,7 @@
     "formik": "1.5.7",
     "isomorphic-fetch": "2.2.1",
     "mangopay-cardregistration-js-kit": "1.2.2",
+    "mixpanel-browser": "^2.41.0",
     "multiple-sources-uploader": "1.1.2",
     "prop-types": "15.7.2",
     "react": "16.8.6",

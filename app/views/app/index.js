@@ -21,6 +21,7 @@ import Cookie from '../../../lib/cookie'
 import { queryParams, hasParam } from '../../../lib/url-params'
 import getPhoto from '../../../lib/get-photo'
 import loadIntl from '../../../lib/intl-detection'
+import Tracking from '../../../lib/tracking'
 import CSSVariableApplicator from '../../components/css-var'
 import MediaQueries from '../../components/media-queries'
 import t from '../../i18n/i18n'
@@ -102,6 +103,7 @@ let App = ({
     Ahoy.trackView()
     ReactGA.pageview(location.pathname)
 
+    Tracking.track(location.pathname.split('/')[2] ? location.pathname.split('/')[2] : 'home', { bpoom_id: bpoom.id, bpoom_uuid: bpoom.uuid, premium: bpoom.premium, pot_disabled: bpoom.pot_disabled})
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname])
 

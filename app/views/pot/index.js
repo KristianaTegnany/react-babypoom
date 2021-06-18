@@ -23,6 +23,7 @@ import Transition from '../../components/transition'
 import getPhoto from '../../../lib/get-photo'
 import BABY_IMAGES from '../../../lib/baby-img'
 import imgPath from '../../../lib/img-path'
+import Tracking from '../../../lib/tracking'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -38,10 +39,12 @@ let Pot = ({ desktop, noNav, bpoom }) => {
   const showForm = () => {
     form.show()
     ReactGA.ga('send', 'popup-charity-form')
+    Tracking.track("Pot_ShowForm_Click", {bpoom_id: bpoom.id})
   }
   const showModal = () => {
     modal.show()
     ReactGA.ga('send', 'popup-charity-description')
+    Tracking.track("Pot_CharityDescription_Click", {bpoom_id: bpoom.id})
   }
 
   if (form.visible) return <GiftCharityForm onSave={form.hide} onCancel={form.hide} />

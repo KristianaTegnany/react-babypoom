@@ -14,6 +14,7 @@ import FORM_MSG from '../../i18n/messages/form'
 import MP_MSG from '../../i18n/messages/mangopay'
 import { InputField, SelectField } from '../../../lib/redux-form-input'
 import { extractParams } from '../../../lib/params'
+import Tracking from '../../../lib/tracking'
 import { visaMastercardNum, cardDate, int } from '../../../lib/normalizer'
 import FaSpinner from 'react-icons/lib/fa/spinner'
 import imgPath from '../../../lib/img-path'
@@ -102,6 +103,7 @@ let PotForm = ({ bpoom, intl, flash, onSave, onCancel, saveMangopayAccount, save
                 onSave && onSave()
                 flash('info', MSG.thanks)
                 ReactGA.ga('send', 'charity-gift')
+                Tracking.track("Pot_Form_Success", {bpoom_id: bpoom.id})
               })
               .catch(() => actions.setSubmitting(false))
           },

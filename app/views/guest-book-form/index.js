@@ -19,6 +19,7 @@ import { InputField, CheckField } from '../../../lib/redux-form-input'
 import { extractParams } from '../../../lib/params'
 import Ahoy from '../../../lib/ahoy-custom'
 import imgPath from '../../../lib/img-path'
+import Tracking from '../../../lib/tracking'
 import api from '../../api'
 import './styles.scss'
 import { Prompt } from 'react-router'
@@ -41,6 +42,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
   const scrollElt = useScrollToTop()
 
   const onUploadBtnClick = (setFieldValue) => {
+    Tracking.track("GuestbookForm_UploadPhoto_Click", {bpoom_id: bpoom.id})
     let uuid = bpoom.uuid
     new MSUploader({
       uploader: {
@@ -58,6 +60,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
               .replace('/original/', '/thumbnail/')}.jpg`,
           )
           setFieldValue('photo', url.replace(`${config.s3UploadUrl}/`, ''))
+          Tracking.track("GuestbookForm_UploadPhoto_Success", {bpoom_id: bpoom.id})
         },
         onError: () => {
           setUploading(false)
@@ -89,6 +92,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
         onSave && onSave()
         flash('info', MSG.form_thanks)
         ReactGA.ga('send', 'guestbook-message')
+        Tracking.track("Guestbook_Form_Success", {bpoom_id: bpoom.id})
       })
       .catch(() => actions.setSubmitting(false))
   }
