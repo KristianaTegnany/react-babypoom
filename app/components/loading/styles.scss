@@ -1,0 +1,41 @@
+.heading {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: rgb(243, 146, 146);
+  font-size: x-large;
+  text-align: center;
+}
+
+.font-sansita {
+  font-family: 'Raleway', 'sans-serif';
+}
+
+.modalBody div {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.popup {
+  position: relative;
+  background: white;
+  width: 100%;
+  max-width: 520px;
+  border-radius: 4px;
+  padding: 30px;
+  margin: auto;
+  outline: none;
+}

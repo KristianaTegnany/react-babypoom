@@ -18,7 +18,7 @@ import BubblePic from '../../components/bubble-pic'
 import BubbleSay from '../../components/bubble-say'
 import Panel from '../../components/panel'
 import Transition from '../../components/transition'
-import { flash } from '../../components/flash/Actions'
+import Loading from '../../components/loading'
 
 // Lib
 import getPhoto from '../../../lib/get-photo'
@@ -41,6 +41,7 @@ let Pot = ({ desktop, noNav, bpoom, validMangopayPayment }) => {
   const modal = useToggle(false)
   const result = useToggle(false)
   const potFailed = useToggle(false)
+  const potLoading = useToggle(false)
   const form = useToggle(false)
   const GIFT = imgPath('/payments/gift-list.png')
 
@@ -69,9 +70,10 @@ let Pot = ({ desktop, noNav, bpoom, validMangopayPayment }) => {
     if (hasParam(location.search, '3ds')){
       let url= window.location.href
       let transactionId = /transactionId=([^&]+)/.exec(url)[1]
+      potLoading.show()
       validMangopayPayment(transactionId)
         .then((json) => {
-          console.log(json)
+          potLoading.hide()
           if (json.error) {
             showFailed()
           }
@@ -137,8 +139,8 @@ let Pot = ({ desktop, noNav, bpoom, validMangopayPayment }) => {
       </Modal>
 
       <Modal size="lg" isOpen={result.visible} toggle={result.hide}>
-        <ModalHeader className="modal-primary" toggle={result.hide}>
-          {t(MSG.thanks_title)}
+        <ModalHeader className="modal-danger" toggle={potFailed.hide}>
+          {t(MSG.pot_failed_title)}
         </ModalHeader>
         <ModalBody>
           <img src={imgPath('/mascot/love.png')} styleName="thanks-modal-img" alt="" />
@@ -153,6 +155,14 @@ let Pot = ({ desktop, noNav, bpoom, validMangopayPayment }) => {
         <ModalBody>
           <img src={imgPath('/mascot/danger.png')} styleName="thanks-modal-img" alt="" />
           {t(MSG.pot_failed)}
+        </ModalBody>
+      </Modal>
+
+      <Modal size="sm" isOpen={potLoading.visible} toggle={potLoading.hide}>
+        <ModalHeader toggle={potLoading.hide}>
+        </ModalHeader>
+        <ModalBody>
+          <Loading show={potLoading.visible} />
         </ModalBody>
       </Modal>
     </div>
@@ -217,6 +227,6 @@ const MSG = defineMessages({
   pot_failed: {
     id: 'pot.pot_failed',
     defaultMessage:
-      "Malheureusement, votre paiement a échoué avec cette carte.",
+      "Malheureusement votre paiement a échoué avec cette carte.",
   },
 })
