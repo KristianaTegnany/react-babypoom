@@ -100,6 +100,10 @@ let PotForm = ({ bpoom, intl, flash, onSave, onCancel, saveMangopayAccount, save
                   flash('danger', MP_MSG.error_default)
                   throw new Error('FAIL')
                 }
+                if (json.redirect) {
+                  actions.setSubmitting(false)
+                  document.location.href=json.redirect
+                }
                 onSave && onSave()
                 flash('info', MSG.thanks)
                 ReactGA.ga('send', 'charity-gift')

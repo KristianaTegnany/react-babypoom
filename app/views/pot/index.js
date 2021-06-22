@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 import { defineMessages } from 'react-intl'
 import ReactGA from 'react-ga'
@@ -24,6 +24,7 @@ import getPhoto from '../../../lib/get-photo'
 import BABY_IMAGES from '../../../lib/baby-img'
 import imgPath from '../../../lib/img-path'
 import Tracking from '../../../lib/tracking'
+import { hasParam } from '../../../lib/url-params'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -46,6 +47,12 @@ let Pot = ({ desktop, noNav, bpoom }) => {
     ReactGA.ga('send', 'popup-charity-description')
     Tracking.track("Pot_CharityDescription_Click", {bpoom_id: bpoom.id})
   }
+
+  useEffect(() => {
+    if (hasParam(location.search, 'payin2')){
+      modal.show()
+    }
+  }, [])
 
   if (form.visible) return <GiftCharityForm onSave={form.hide} onCancel={form.hide} />
 
