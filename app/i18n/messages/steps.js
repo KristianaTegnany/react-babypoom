@@ -23,7 +23,7 @@ export default defineMessages({
   },
   pot: {
     id: 'step.pot',
-    defaultMessage: `Fin`,
+    defaultMessage: `Cadeaux`,
   },
   souvenir: {
     id: 'step.souvenir',
