@@ -104,10 +104,12 @@ let PotForm = ({ bpoom, intl, flash, onSave, onCancel, saveMangopayAccount, save
                   actions.setSubmitting(false)
                   document.location.href=json.redirect
                 }
-                onSave && onSave()
-                flash('info', MSG.thanks)
-                ReactGA.ga('send', 'charity-gift')
-                Tracking.track("Pot_Form_Success", {bpoom_id: bpoom.id})
+                if (json.success) {
+                  onSave && onSave()
+                  flash('info', MSG.thanks)
+                  ReactGA.ga('send', 'charity-gift')
+                  Tracking.track("Pot_Form_Success", {bpoom_id: bpoom.id})
+                }
               })
               .catch(() => actions.setSubmitting(false))
           },
@@ -121,7 +123,7 @@ let PotForm = ({ bpoom, intl, flash, onSave, onCancel, saveMangopayAccount, save
   }
 
   const initialValues = {
-    last_sumcent: 10,
+    last_sumcent: 1000,
     first_name: '',
     last_name: '',
     email: '',
@@ -139,7 +141,7 @@ let PotForm = ({ bpoom, intl, flash, onSave, onCancel, saveMangopayAccount, save
               name="last_sumcent"
               label={t(FORM_MSG.form_last_sumcent)}
               component={SelectField}
-              options={[10, 20, 30, 50, 100].map((x) => [
+              options={[10, 20, 30, 50, 100, 150, 200].map((x) => [
                 { ...MSG.charity_form_amount, values: { amount: x } },
                 x * 100,
               ])}

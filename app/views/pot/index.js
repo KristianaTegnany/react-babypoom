@@ -18,6 +18,7 @@ import BubblePic from '../../components/bubble-pic'
 import BubbleSay from '../../components/bubble-say'
 import Panel from '../../components/panel'
 import Transition from '../../components/transition'
+import { flash } from '../../components/flash/Actions'
 
 // Lib
 import getPhoto from '../../../lib/get-photo'
@@ -26,14 +27,20 @@ import imgPath from '../../../lib/img-path'
 import Tracking from '../../../lib/tracking'
 import { hasParam } from '../../../lib/url-params'
 
+import { validMangopayPayment } from '../app/Actions'
+
+
 // i18n
 import t from '../../i18n/i18n'
+import MP_MSG from '../../i18n/messages/mangopay'
 
 // CSS
 import './styles.scss'
 
-let Pot = ({ desktop, noNav, bpoom }) => {
+let Pot = ({ desktop, noNav, bpoom, validMangopayPayment }) => {
   const modal = useToggle(false)
+  const result = useToggle(false)
+  const potFailed = useToggle(false)
   const form = useToggle(false)
   const GIFT = imgPath('/payments/gift-list.png')
 
@@ -47,10 +54,34 @@ let Pot = ({ desktop, noNav, bpoom }) => {
     ReactGA.ga('send', 'popup-charity-description')
     Tracking.track("Pot_CharityDescription_Click", {bpoom_id: bpoom.id})
   }
+  const showSuccess = () => {
+    result.show()
+    ReactGA.ga('send', 'action_pot_success')
+    Tracking.track("action_pot_success", {bpoom_id: bpoom.id})
+  }
+  const showFailed = () => {
+    potFailed.show()
+    ReactGA.ga('send', 'popup-potFailed-show')
+    Tracking.track("Pot_Failed_Show", {bpoom_id: bpoom.id})
+  }
 
   useEffect(() => {
-    if (hasParam(location.search, 'payin2')){
-      modal.show()
+    if (hasParam(location.search, '3ds')){
+      let url= window.location.href
+      let transactionId = /transactionId=([^&]+)/.exec(url)[1]
+      validMangopayPayment(transactionId)
+        .then((json) => {
+          console.log(json)
+          if (json.error) {
+            showFailed()
+          }
+          if (json.success) {
+            showSuccess()
+          }
+        })
+        .catch(() => {
+          showFailed()
+        })
     }
   }, [])
 
@@ -104,11 +135,31 @@ let Pot = ({ desktop, noNav, bpoom }) => {
           {charity.url}
         </ModalBody>
       </Modal>
+
+      <Modal size="lg" isOpen={result.visible} toggle={result.hide}>
+        <ModalHeader className="modal-primary" toggle={result.hide}>
+          {t(MSG.thanks_title)}
+        </ModalHeader>
+        <ModalBody>
+          <img src={imgPath('/mascot/love.png')} styleName="thanks-modal-img" alt="" />
+          {t(MSG.thanks)}
+        </ModalBody>
+      </Modal>
+
+      <Modal size="lg" isOpen={potFailed.visible} toggle={potFailed.hide}>
+        <ModalHeader className="modal-danger" toggle={potFailed.hide}>
+          {t(MSG.pot_failed_title)}
+        </ModalHeader>
+        <ModalBody>
+          <img src={imgPath('/mascot/danger.png')} styleName="thanks-modal-img" alt="" />
+          {t(MSG.pot_failed)}
+        </ModalBody>
+      </Modal>
     </div>
   )
 }
 
-export default connect(mapStateToProps)(Pot)
+export default connect(mapStateToProps, {validMangopayPayment})(Pot)
 
 function mapStateToProps(state) {
   const {
@@ -147,5 +198,25 @@ const MSG = defineMessages({
   find_pot_btn: {
     id: 'pot.find.btn',
     defaultMessage: 'Accéder à la boutique',
+  },
+  thanks: {
+    id: 'pot.thanks',
+    defaultMessage:
+      "Paiement bien effectué!\nMerci beaucoup pour cette attention 🙏🏼  Un mail de confirmation vous a été envoyé ainsi qu'aux parents de bébé.",
+  },
+  thanks_title: {
+    id: 'pot.thanks_title',
+    defaultMessage:
+      "Merci",
+  },
+  pot_failed_title: {
+    id: 'pot.pot_failed_title',
+    defaultMessage:
+      "Erreur",
+  },
+  pot_failed: {
+    id: 'pot.pot_failed',
+    defaultMessage:
+      "Malheureusement, votre paiement a échoué avec cette carte.",
   },
 })
