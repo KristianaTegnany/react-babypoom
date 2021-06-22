@@ -90,6 +90,14 @@
       color: var(--neutral-secondary-E);
     }
   }
+  &.modal-danger {
+    background-color: lightcoral;
+
+    &,
+    .close {
+      color: white;
+    }
+  }
 }
 
 .modal-header,

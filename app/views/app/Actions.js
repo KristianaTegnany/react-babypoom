@@ -44,6 +44,13 @@ export const saveMangopayPayment = (uuid, mangopay_payment) =>
     data: { uuid, mangopay_payment },
   })
 
+export const validMangopayPayment = (id_transaction) =>
+  api({
+    path: `/birth_app/mangopay_payments/validate/${id_transaction}`,
+    method: 'GET',
+    data: { id_transaction },
+  })
+
 export const updateStep = (steps, callback) => dispatch => {
   dispatch({ type: STEPS, steps })
   callback && callback(dispatch)
