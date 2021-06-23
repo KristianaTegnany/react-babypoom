@@ -139,8 +139,8 @@ let Pot = ({ desktop, noNav, bpoom, validMangopayPayment }) => {
       </Modal>
 
       <Modal size="lg" isOpen={result.visible} toggle={result.hide}>
-        <ModalHeader className="modal-danger" toggle={potFailed.hide}>
-          {t(MSG.pot_failed_title)}
+        <ModalHeader className="modal-primary" toggle={result.hide}>
+          {t(MSG.thanks_title)}
         </ModalHeader>
         <ModalBody>
           <img src={imgPath('/mascot/love.png')} styleName="thanks-modal-img" alt="" />
