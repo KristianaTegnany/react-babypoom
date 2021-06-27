@@ -4,11 +4,12 @@
     "test": "",
     "postinstall": "if-env NODE_ENV=production && rimraf public && npm run build || echo ''",
     "dev": "npm run build:locale-data && node webpack-dev-server.js",
-    "start:prod": "rimraf public && npm run build && node server.bundle.js",
+    "start:prod": "rimraf public && THEME_MANIFEST=ok npm run build && node server.bundle.js",
     "build:locale-data": "node generate-locale-data.js",
+    "build:all-client": "BP_ALBUM_THEME=1 npm run build:client && BP_ALBUM_THEME=2 npm run build:client",
     "build:client": "webpack --config webpack.production.config.js --progress --profile --colors",
     "build:server": "webpack --config webpack.server.config.js",
-    "build": "npm run build:locale-data && npm run build:client && npm run build:server",
+    "build": "npm run build:locale-data && cat /dev/null > theme-manifest.json && npm run build:all-client && npm run build:server",
     "manage:i18n": "node ./translationRunner.js",
     "eslint": "eslint .",
     "ssh": "ssh root@165.22.23.26"
@@ -31,7 +32,7 @@
     "redux": "4.0.1",
     "redux-thunk": "2.3.0",
     "simple-flexbox": "^2.3.2",
-    "twemoji": "13.0.1"
+    "twemoji": "13.1.0"
   },
   "devDependencies": {
     "@babel/cli": "7.4.4",
@@ -66,11 +67,11 @@
     "express-locale": "1.2.0",
     "express-static-gzip": "^2.1.0",
     "file-loader": "4.0.0",
-    "html-webpack-plugin": "3.2.0",
+    "html-webpack-plugin": "^4.5.2",
     "if-env": "1.0.4",
-    "img-loader": "3.0.1",
+    "img-loader": "4.0.0",
     "lodash": "4.17.11",
-    "mini-css-extract-plugin": "0.7.0",
+    "mini-css-extract-plugin": "1.0.0",
     "node-pre-gyp": "0.13.0",
     "node-sass": "4.12.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
@@ -90,7 +91,7 @@
     "terser-webpack-plugin": "1.2.4",
     "tosource-polyfill": "0.3.1",
     "url-loader": "2.0.1",
-    "webpack": "4.28.4",
+    "webpack": "4.39.0",
     "webpack-cli": "3.3.5",
     "webpack-dev-server": "3.4.1",
     "webpack-notifier": "1.8.0"

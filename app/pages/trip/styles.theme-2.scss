@@ -1,0 +1,296 @@
+// First page and last page
+.first-page .presentation-panel::before,
+.last-page .presentation-panel::before,
+.first-page.last-page .content-panel::after, // Only one page
+.with-3-events .content-panel::after, // Only last page can have 3 events
+.last-page.with-4-events .content-panel::after // First page can't have 4 events
+{
+  content: '';
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 18mm;
+  height: 22mm;
+  margin-top: -75px;
+  background: transparent
+    url('../../images/pictos-pages/sprite-timeline-flags.svg') left top/35mm
+    auto no-repeat;
+}
+
+.last-page .presentation-panel::before,
+.first-page.last-page .content-panel::after,
+.with-3-events .content-panel::after,
+.last-page.with-4-events .content-panel::after {
+  background-position: -18mm top;
+}
+
+.first-page.last-page .content-panel::after,
+.with-3-events .content-panel::after,
+.last-page.with-4-events .content-panel::after {
+  right: 4mm;
+}
+
+.first-page.last-page .content-panel::after {
+  right: 3mm;
+}
+
+.first-page.last-page,
+.first-page.with-1-events,
+.last-page.with-1-events {
+  .trip-events-container::before {
+    width: 65%;
+  }
+}
+
+.first-page,
+.last-page.with-1-events,
+.last-page.with-2-events {
+  .content-panel::before {
+    width: 95%;
+  }
+}
+
+// Gradient line
+.first-page.last-page .content-panel::before {
+  width: 84%;
+  right: 11%;
+  background: linear-gradient(
+    to right,
+    #bceefb 30%,
+    #ffadbf 30%,
+    #ffadbf 75%,
+    #ff5c70 75%
+  );
+}
+
+.with-1-events .content-panel::before {
+  background: linear-gradient(to right, #98d0f4 35%, #bceefb 35%, #bceefb 65%);
+}
+
+// First page
+// /!\ Must be after first page & last page section (for priorities purposes)
+.first-page {
+  .presentation-panel {
+    width: 40%;
+    background-image: url('../../images/bg-pages/bg-timeline.svg');
+
+    &::before {
+      right: -26mm;
+      background-position: 0 0;
+    }
+  }
+  .content-panel {
+    width: 60%;
+
+    &::before {
+      left: auto;
+      right: 0;
+      background: linear-gradient(
+        to right,
+        #bceefb 25%,
+        #ffadbf 25%,
+        #ffadbf 65%,
+        #ff5c70 65%
+      );
+    }
+  }
+}
+
+// Last page
+:global(.hd) {
+  .last-page:not(.first-page) {
+    .presentation-panel {
+      background-image: url('../../images/hd-page-bg.png');
+    }
+  }
+}
+
+.last-page:not(.first-page) {
+  &.with-3-events,
+  &.with-4-events {
+    .content-panel::before {
+      width: 93%;
+      background: linear-gradient(
+        to right,
+        #98d0f4 15%,
+        #bceefb 15%,
+        #bceefb 40%,
+        #ffadbf 40%,
+        #ffadbf 65%,
+        #ff5c70 65%,
+        #ff5c70 90%,
+        #98d0f4 90%
+      );
+    }
+    .trip-events-container::before {
+      background-repeat: no-repeat;
+    }
+  }
+
+  .content-panel {
+    .trip-events-container::before {
+      left: 27mm;
+    }
+
+    &::before {
+      background: linear-gradient(
+        to right,
+        #bceefb 35%,
+        #ffadbf 35%,
+        #ffadbf 75%,
+        #ff5c70 75%
+      );
+    }
+  }
+
+  .presentation-panel {
+    background: var(--color-bg) url('../../images/page-bg.png') left top/1000px
+      auto repeat;
+
+    &::before {
+      left: -10.5mm;
+    }
+  }
+
+  &.with-1-events,
+  &.with-3-events {
+    .trip-events-container {
+      margin-left: -67.5mm;
+    }
+  }
+
+  &.with-3-events .content-panel::before {
+    background: linear-gradient(
+      to right,
+      #98d0f4 15%,
+      #bceefb 15%,
+      #bceefb 40%,
+      #ffadbf 40%,
+      #ffadbf 65%,
+      #ff5c70 65%,
+      #ff5c70 85%
+    );
+  }
+}
+
+// Content
+.trip-events-container {
+  &::before {
+    content: '';
+    position: absolute;
+    left: 15mm;
+    top: 50%;
+    z-index: 0;
+    width: 100%;
+    height: 16mm;
+    margin-top: -7mm;
+    background-image: url('../../images/pictos-pages/timeline-pictos.svg');
+    background-repeat: repeat-x;
+    background-position: left center;
+    background-size: auto 100%;
+  }
+
+  .trip-event:first-child {
+    margin-left: 0;
+  }
+}
+
+.content-panel {
+  text-align: center;
+  line-height: var(--page-height);
+
+  & > * {
+    display: inline-block;
+    line-height: normal;
+    text-align: left;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    z-index: 0;
+    width: 100%;
+    height: 1.3mm;
+    background: linear-gradient(
+      to right,
+      #98d0f4 15%,
+      #bceefb 15%,
+      #bceefb 40%,
+      #ffadbf 40%,
+      #ffadbf 60%,
+      #ff5c70 60%,
+      #ff5c70 85%,
+      #98d0f4 85%
+    );
+  }
+}
+
+.trip-event {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  text-align: center;
+  width: 53mm;
+  margin-left: 14.5mm;
+  margin-top: -89mm;
+
+  &:nth-child(even) {
+    margin-top: inherit;
+    margin-bottom: -89mm;
+  }
+  &:nth-child(even) .date {
+    bottom: auto;
+    top: -21mm;
+  }
+  &:nth-child(even) .quote {
+    top: auto;
+    right: auto;
+    bottom: -12mm;
+    left: -59.5mm;
+  }
+}
+
+.image-container {
+  width: 73mm;
+  height: 73mm;
+  border-radius: 5mm;
+  background: #f5f5f5 none center/cover no-repeat;
+}
+
+.quote {
+  position: absolute;
+  z-index: 2;
+  top: -12mm;
+  right: -78.5mm;
+  padding: 4mm;
+  width: 61mm;
+  font-size: 11px;
+  text-align: left;
+  color: #757678;
+  border: 0.5mm solid var(--color-border);
+  background: white;
+  border-radius: 0.8mm;
+  word-wrap: break-word;
+}
+
+.date {
+  position: absolute;
+  z-index: 2;
+  left: 35%;
+  bottom: -21mm;
+  width: 16mm;
+  height: 16mm;
+  line-height: 16mm;
+  text-align: center;
+  background: #f3ed8e;
+  border-radius: 50%;
+
+  time {
+    display: inline-block;
+    line-height: normal;
+    font-size: 11px;
+    max-width: 90%;
+  }
+}

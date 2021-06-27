@@ -1,0 +1,46 @@
+body {
+  counter-reset: page-numbers;
+}
+
+.title-container {
+  margin-top: -40mm;
+  display: inline-block;
+  line-height: normal;
+  text-align: left;
+
+  &::before {
+    counter-increment: page-numbers;
+    content: counter(page-numbers);
+    display: block;
+    margin: -15mm auto 55mm;
+    font-size: 18px;
+    font-weight: bold;
+    width: 8mm;
+    height: 8mm;
+    text-align: center;
+    line-height: 8mm;
+    border-radius: 50%;
+    transform: rotate(-15deg);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+}
+
+.title {
+  width: 41mm;
+  margin: 0 auto;
+  text-align: center;
+  transform: rotate(-16deg);
+  white-space: pre-line;
+}
+
+.description-container {
+  width: 53mm;
+  margin-top: 10.5mm;
+  font-size: 10px;
+  color: var(--page-color-gray);
+
+  > * {
+    padding: 5mm;
+  }
+}

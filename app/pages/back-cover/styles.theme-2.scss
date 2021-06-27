@@ -1,0 +1,27 @@
+:global(.kite-cover) {
+  .panel {
+    padding-left: 20mm;
+  }
+}
+
+.box {
+  line-height: normal;
+  display: inline-block;
+  width: 58mm;
+  padding: 10.5mm 5mm 10.5mm;
+  background: white;
+  border-radius: 2.5mm;
+}
+
+.logo {
+  width: 30.5mm;
+  height: auto;
+  margin: 0 auto 2.5mm;
+}
+
+.text {
+  display: inline-block;
+  font-size: 9px;
+  width: 25mm;
+  color: var(--page-color-gray);
+}

@@ -2,6 +2,7 @@ var path = require('path')
 var fs = require('fs')
 
 var CACHE_FILENAME = 'css-modules-scoped-names.cache.json'
+var THEME_REG = /\.theme-\d+(\.scss)$/
 
 var HAS_PROP = {}.hasOwnProperty
 var DICTIONNARY = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789-'
@@ -25,6 +26,7 @@ ShortClassNameGenerator.prototype.importData = function(dir) {
 }
 
 ShortClassNameGenerator.prototype.next = function(filepath, name) {
+  filepath = filepath.replace(THEME_REG, '$1')
   var key = JSON.stringify([filepath, name])
   if (HAS_PROP.call(this.hash, key)) return this.hash[key]
 

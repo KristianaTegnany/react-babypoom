@@ -1,8 +1,7 @@
 import React from 'react'
+import './styles.theme-BP_ALBUM_THEME.scss'
 
-import styles from './styles.scss'
-
-let PresentationPanel = ({ children, className, ...props }) => {
+export default function PresentationPanel({ children, className }) {
   return (
     <div styleName="panel" className={className}>
       {children}
@@ -10,4 +9,3 @@ let PresentationPanel = ({ children, className, ...props }) => {
   )
 }
 
-export default PresentationPanel

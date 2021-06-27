@@ -1,10 +1,8 @@
 import React from 'react'
-
 import BorderBgBox from '../border-bg-box'
+import './styles.theme-BP_ALBUM_THEME.scss'
 
-import styles from './styles.scss'
-
-let Title = ({ general, label, description, className, ...props }) => {
+export default function Title({ general, label, description, className }) {
   return general ? (
     <h1 styleName="title" className={className}>
       {label}
@@ -16,5 +14,3 @@ let Title = ({ general, label, description, className, ...props }) => {
     </div>
   )
 }
-
-export default Title

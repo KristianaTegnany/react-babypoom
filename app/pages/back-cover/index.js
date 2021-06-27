@@ -1,15 +1,10 @@
 import React, { Component } from 'react'
-
 import Page from '../../components/page'
 import ContentPanel from '../../components/content-panel'
-
-import './styles.scss'
-
-// i18n
 import t from '../../i18n/i18n'
 import { defineMessages } from 'react-intl'
-
 import logo from '../../images/logo-bp.png'
+import './styles.theme-BP_ALBUM_THEME.scss'
 
 class BackCover extends Component {
   render() {
@@ -35,3 +30,4 @@ const MSG = defineMessages({
 sur Babypoom.com`,
   },
 })
+
