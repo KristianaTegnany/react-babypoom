@@ -227,9 +227,9 @@ class LandingPage extends Component {
                     {bpoom.coupon_album && (
                       <div styleName="lp-coupon-container">
                         <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon)}</span>
-                        <h3 styleName="lp-coupon">{bpoom.coupon_album.code}</h3>
+                        <h3 styleName="lp-coupon">{t(MSG.album_coupon_code)}</h3>
                         <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon_expiration)}</span>
-                        <img styleName="lp-coupon-image" src={bpoom.coupon_album.link} />
+                        <img styleName="lp-coupon-image" src="http://i.countdownmail.com/14bkmc.gif" />
                       </div>
                     )}
                     <div styleName="button-order">
@@ -384,9 +384,13 @@ const MSG = defineMessages({
     id: 'app.album_pricing',
     defaultMessage: `49€`,
   },
+  album_coupon_code: {
+    id: 'app.album_coupon_code',
+    defaultMessage: `LAST-CHANCE-10`,
+  },
   album_pricing_coupon: {
     id: 'app.album_pricing_coupon',
-    defaultMessage: `Et parce qu'une bonne nouvelle n'arrive jamais seule, nous vous offrons les frais de livraison et ce code promo qui vous permettra de bénéficier de 5 euros de réduction immédiate sur votre commande.`,
+    defaultMessage: `Et parce qu'une bonne nouvelle n'arrive jamais seule, nous vous offrons les frais de livraison et ce code promo qui vous permettra de bénéficier de 10 euros de réduction immédiate sur votre commande.`,
   },
   album_pricing_coupon_expiration: {
     id: 'app.album_pricing_coupon_expiration',
