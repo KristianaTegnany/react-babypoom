@@ -15,7 +15,7 @@ import FaHeart from '../../icons/heart'
 let Footer = ({ bpoom, desktop, steps, resetStars }) => {
   useEffect(() => {
     // temp feature for the best Inna friend
-    if (bpoom.id!=14839) return
+    if (bpoom.id!=13158) return
   }, [resetStars])
   return (
     <footer>

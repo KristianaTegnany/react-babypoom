@@ -227,7 +227,7 @@ let App = ({
         <div key={stepName} styleName={theme.pattern ? 'pattern' : ''}>
           <Step />
         </div>
-        {bpoom.id===14839 && steps.index === 0 && <Stars />}
+        {bpoom.id===13158 && steps.index === 0 && <Stars />}
 
         <Cloud styleName="cloud" />
         <Slideshow

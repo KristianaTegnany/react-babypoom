@@ -114,6 +114,7 @@ app.get('*', (req, res) => {
               bpoom,
             ),
             ogImage:
+              (bpoom.parents_photo_urls || {}).thumbnail ||
               (bpoom.parent_1_photo_urls || {}).thumbnail ||
               (bpoom.parent_2_photo_urls || {}).thumbnail ||
               imgPath('/corporate/logo-for-metas.png'),
