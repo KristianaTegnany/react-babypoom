@@ -65,6 +65,7 @@ let App = ({
   const [pathname, setPathname] = useState(location.pathname)
   const [pwd, setPwd] = useState()
   const [msg, setMsg] = useState()
+  const [notfound, setNotfound] = useState(false)
   const [photo, setPhoto] = useState()
   const [loginActivated, setLoginActivated] = useState(false)
 
@@ -137,7 +138,6 @@ let App = ({
       callback(bpoom, i18n.localeData)
     } else {
       fetchBpoom(uuid, queryParams(location.search))
-        .catch(() => {})
         .then((bpoom) => {
           loadIntl([bpoom.locale], () => {
             localeDataLoader(bpoom.locale).then((json) => {
@@ -146,6 +146,7 @@ let App = ({
             })
           })
         })
+        .catch(() => {setNotfound(true)})
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match.params.uuid])
@@ -211,9 +212,7 @@ let App = ({
   }
 
   let theme = bpoom.theme || config.theme
-
-  if (bpoom.not_found) return <StaticMessage />
-  if (bpoom.disabled) return <StaticMessage msg="disabled" />
+  if (notfound) return <StaticMessage msg="disabled" />
   if (loginActivated && !check_login())  return <LoginPage bpoom_pwd={pwd} msg={msg} parents_photo={photo} color_1={theme.color_1} color_2={theme.color_2}/>
 
   let Step = stepComponent(steps.current, bpoom)
