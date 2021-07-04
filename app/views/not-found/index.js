@@ -39,6 +39,6 @@ export default class NotFound extends Component {
 const MSG = defineMessages({
   not_found: {
     id: 'app.not_found',
-    defaultMessage: "Désolé, cette page n'existe pas.",
+    defaultMessage: "Désolé, cette page n'existe plus.",
   },
 })

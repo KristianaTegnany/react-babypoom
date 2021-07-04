@@ -56,7 +56,9 @@ class LandingPage extends Component {
             })
           })
         })
-        .catch(() => {})
+        .catch(() => {
+          this.props.history.push('/not-found')
+        })
     } else {
       setLocaleData(i18n.localeData)
     }
@@ -80,7 +82,7 @@ class LandingPage extends Component {
       return ''
     }
     return (
-      <div styleName={`alert alert-${flash.color}`} key={`alert-${++UNIQ}`}>
+      <div styleName={`alert alert-${flash.color}`} key={`alert-0`}>
         {i18n(flash.message)}
       </div>
     )

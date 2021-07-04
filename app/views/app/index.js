@@ -124,7 +124,9 @@ class App extends Component {
             })
           })
         })
-        .catch(() => {})
+        .catch(() => {
+          this.props.history.push('/not-found')
+        })
     } else {
       setLocaleData(i18n.localeData)
       this.domLoaded()

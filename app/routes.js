@@ -5,6 +5,10 @@ import LandingPage from './views/landing-page'
 
 const routes = [
   {
+    path: '/not-found',
+    component: NotFound,
+  },
+  {
     path: '/:uuid/lp',
     component: LandingPage,
   },
