@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef} from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { defineMessages } from 'react-intl'
@@ -21,6 +21,7 @@ import ReactPlayer from 'react-player';
 import CircleControls from 'react-player-circle-controls';
 import 'react-player-circle-controls/dist/styles.css';
 import { stepPath, rootPath } from '../../views/app/steps'
+
 
 // Config
 import config from '../../../config'
@@ -46,6 +47,9 @@ import FaGift from '../../icons/gift'
 import FaImage from '../../icons/picture'
 import useToggle from '../../hooks/toggle'
 import imgPath from '../../../lib/img-path'
+import FaPlay from '../../icons/play'
+
+import canAutoPlay from 'can-autoplay'
 
 const ICONS = {
   welcome: FaBirthdayCake,
@@ -61,6 +65,7 @@ const LOGO = imgPath('/corporate/logo.png')
 
 let Header = ({ bpoom, desktop, steps }) => {
   const modal = useToggle(false)
+  const soundModal = useToggle(false)
   const [menus, setMenus] = useState({
     isDropdownOpen: false,
     isBurgerOpen: false,
@@ -78,11 +83,30 @@ let Header = ({ bpoom, desktop, steps }) => {
     loaded: 0
   });
 
+
   const onSeek = amount => {
     if (player.current) {
       player.current.seekTo(amount, 'fraction');
     }
-  };
+  }
+
+  const playSound = () => {
+    setPlaying(true)
+    soundModal.hide()
+  }
+
+  const canPlaySound = () => {
+    canAutoPlay.audio({inline: true, timeout: 1300}).then(({result}) => {
+      if (result === true) {
+        // Can autoplay
+      } else {
+        // Can not autoplay
+        setPlaying(false)
+        soundModal.show()
+      }
+    })
+  }
+
 
   let mainNav = (
     <div styleName="styles.main-nav">
@@ -153,6 +177,8 @@ let Header = ({ bpoom, desktop, steps }) => {
               width="0"
               onProgress={setPlayerState}
               onEnded={() => setPlaying(false)}
+              onReady={() => canPlaySound()}
+
             />
             <CircleControls
               played={playerState.played}
@@ -213,6 +239,17 @@ let Header = ({ bpoom, desktop, steps }) => {
           {t(MSG.what_is_babypoom_desc)}
         </ModalBody>
       </Modal>
+      <Modal isOpen={soundModal.visible} toggle={soundModal.hide}>
+        <ModalHeader styleName="bs.modal-primary" toggle={soundModal.hide}>
+          {t(MSG.ask_play_sound)}
+        </ModalHeader>
+        <ModalBody styleName="styles.pre-wrap">
+          {t(MSG.ask_play_sound_desk)}
+          <div styleName="styles.modal-play-sound">
+            <FaPlay onClick={() => playSound()} />
+          </div>
+        </ModalBody>
+      </Modal>
     </header>
   )
 }
@@ -245,5 +282,13 @@ C'est une application innovante conçue pour permettre aux parents de transmettr
   share: {
     id: 'header.share',
     defaultMessage: `Partager votre avis`,
+  },
+  ask_play_sound: {
+    id: 'header.ask_play_sound',
+    defaultMessage: `Activation de la mélodie`,
+  },
+  ask_play_sound_desk: {
+    id: 'header.ask_play_sound_desk',
+    defaultMessage: `Cette annonce comporte une mélodie soigneusement choisie par les parents de bébé, appuyez ici pour l'écouter`,
   },
 })

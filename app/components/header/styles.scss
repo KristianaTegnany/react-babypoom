@@ -142,6 +142,13 @@ header {
   margin-bottom: $main-padding;
 }
 
+.modal-play-sound {
+  text-align: center;
+  margin-bottom: $main-padding;
+  color: var(--brand-primary);
+  font-size: 100px;
+}
+
 // Only mobile
 @media (max-width: map-get($grid-breakpoints, md) - 1px) {
   .main-nav {
@@ -164,6 +171,10 @@ header {
   }
 
   .modal-logo {
+    margin-bottom: $main-padding * 2;
+  }
+
+  .modal-play-sound {
     margin-bottom: $main-padding * 2;
   }
 
