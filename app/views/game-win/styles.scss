@@ -46,6 +46,8 @@
     border: 1px solid var(--neutral-secondary-F);
     border-radius: 10px;
     padding: 0 10px;
+    background-color: var(--neutral-secondary-B);
+    opacity: 0.7;
 
     & > div {
       font-size: 30px;

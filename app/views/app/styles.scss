@@ -122,9 +122,14 @@ main::after {
   }
 }
 
-.pattern{
+.pattern-cover{
   background: var(--background-pattern);
-  background-size: auto;
+  background-size: cover;
+}
+
+.pattern-repeat{
+  background: var(--background-pattern);
+  background-repeat: repeat;
 }
 
 @media (min-width: map-get($grid-breakpoints, md)) {

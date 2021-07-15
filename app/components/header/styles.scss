@@ -1,6 +1,6 @@
 @import '../../../config/bootstrap/bootstrap-var';
 
-$header-bg: var(--neutral-primary-E);
+$header-bg: var(--brand-header);
 
 @mixin menu() {
   & > div {

@@ -211,6 +211,10 @@ let App = ({
     }
   }
 
+  function contains(str, substring) {
+    return str.indexOf(substring) !== -1;
+  }
+
   let theme = bpoom.theme || config.theme
   if (notfound) return <StaticMessage msg="disabled" />
   if (loginActivated && !check_login())  return <LoginPage bpoom_pwd={pwd} msg={msg} parents_photo={photo} color_1={theme.color_1} color_2={theme.color_2}/>
@@ -219,11 +223,11 @@ let App = ({
   let stepName = steps.current || ''
 
   return (
-    <CSSVariableApplicator data-variables={computeThemeColors(theme.color_1, theme.color_2, theme.pattern)}>
+    <CSSVariableApplicator data-variables={computeThemeColors(theme.color_1, theme.color_2, theme.pattern, theme.color_3,theme.color_4)}>
       {noNav ? '' : <Header />}
       <div styleName="flash">{renderFlash()}</div>
       <main styleName={`${stepName}${'game' === stepName ? ` ${stepName}${bpoom.game_type}` : ''}`}>
-        <div key={stepName} styleName={theme.pattern ? 'pattern' : ''}>
+        <div key={stepName} styleName={theme.pattern ? contains(theme.pattern,'-cover') ? 'pattern-cover' : 'pattern-repeat' : ''}>
           <Step />
         </div>
         {bpoom.id===13158 && steps.index === 0 && <Stars />}

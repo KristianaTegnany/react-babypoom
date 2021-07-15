@@ -3,7 +3,7 @@
 
 footer {
   // background: var(--brand-secondary-B);
-  background: var(--neutral-primary-E);
+  background: var(--brand-footer);
   color: var(--neutral-primary-B);
 }
 
@@ -53,7 +53,6 @@ footer {
 }
 @media (min-width: map-get($grid-breakpoints, md)) {
   footer {
-    background: var(--neutral-primary-E);
     color: var(--neutral-primary-B);
     text-align: center;
     padding: 15px 15px 10px;
