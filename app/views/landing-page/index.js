@@ -226,7 +226,7 @@ class LandingPage extends Component {
                       {t(MSG.album_pricing_description)}
                     </span>
                     <h1 styleName="lp-title">{t(MSG.album_pricing)}</h1>
-                    {bpoom.coupon_album && (
+                    {bpoom.birthday <= '2020-12-31' && (
                       <div styleName="lp-coupon-container">
                         <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon)}</span>
                         <h3 styleName="lp-coupon">{t(MSG.album_coupon_code)}</h3>
