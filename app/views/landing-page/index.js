@@ -231,7 +231,7 @@ class LandingPage extends Component {
                         <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon)}</span>
                         <h3 styleName="lp-coupon">{t(MSG.album_coupon_code)}</h3>
                         <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon_expiration)}</span>
-                        <img styleName="lp-coupon-image" src="http://i.countdownmail.com/14ph31.gif" />
+                        <img styleName="lp-coupon-image" src="http://i.countdownmail.com/15kjxv.gif" />
                       </div>
                     )}
                     <div styleName="button-order">
