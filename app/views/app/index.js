@@ -344,7 +344,7 @@ class App extends Component {
     return (
       <CSSVariableApplicator data-variables={THEMES[this.state.theme]}>
         {this.renderFlash()}
-        <div className={params.hd ? 'hd' : 'preview'}>
+        <div className={`${params.hd ? 'hd' : 'preview'} ${(bpoom.gender=='M' && !params.nopurchase) ? 'boys': ''} ${(bpoom.gender=='F' && !params.nopurchase) ? 'girls': ''}`}>
           <div className="flipbook">
             {kiteCover ? (
               <React.Fragment>
@@ -376,9 +376,12 @@ class App extends Component {
                 <div />
               </div>
               {!params.nopurchase && (
+                <>
                 <div className="order">
                   <a href={config.orderLink.replace('{{id}}', bpoom.id)}>{t(MSG.order)}</a>
+                  <a href={config.orderLink.replace('{{id}}', bpoom.id)} className="update">{t(MSG.update)}</a>
                 </div>
+                </>
               )}
               <div styleName="rotate-device">
                 <RotateDeviceIcon />
@@ -437,5 +440,9 @@ const MSG = defineMessages({
   order: {
     id: 'app.order',
     defaultMessage: `Commander`,
+  },
+  update: {
+    id: 'app.update',
+    defaultMessage: `Modifier`,
   },
 })

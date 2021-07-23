@@ -150,6 +150,12 @@
     align-items: center;
     justify-content: center;
     background: linear-gradient(180deg, #5995ed, #b749f8);
+    &.boys{
+      background: linear-gradient(180deg, #7cbde9 0%, #ecd24f 100%)
+    }
+    &.girls{
+      background: linear-gradient(180deg, #fbbdb2 0%, #ecd24f 100%);
+    }
 
     .flipbook {
       visibility: hidden;
@@ -245,23 +251,32 @@
     display: flex;
     justify-content: center;
     text-align: center;
+    margin-left: 5px;
 
     > a {
       padding: 8px 30px;
       color: #333;
       background-color: #efc45c;
-      border: 1px solid #b46f4e;
+      border: 1px solid #ecbc61;
       border-radius: 3px;
       font-size: 16px;
       text-decoration: none;
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+      margin: 5px;
 
       &:hover {
         position: relative;
         transform: translate(1px, 1px);
       }
     }
+
+    .update{
+      background-color: #7fb5b4;
+      border: 1px solid #88a8b0;
+    }
+
   }
+
 
   @media screen and (max-height: 500px) {
     .preview {

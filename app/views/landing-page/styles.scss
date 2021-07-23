@@ -134,6 +134,34 @@
   }
 }
 
+.button-update-order {
+  z-index: 1000;
+  top: 5px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  > a {
+    padding: 8px 30px;
+    color: white;
+    background-color: #ecd24f;
+    border: 1px solid rgb(202, 179, 75);
+    border-radius: 3px;
+    font-size: 16px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 1);
+    //transform: scale(1);
+	  //animation: pulse 2s infinite;
+
+    &:hover {
+      position: relative;
+      transform: translate(1px, 1px);
+    }
+  }
+}
+
 .lp-coupon-title{
   margin-top: 5px;
   margin-bottom: 5px;

@@ -243,6 +243,18 @@ class LandingPage extends Component {
                         })}
                       </a>
                     </div>
+                    <span>
+                      {t(MSG.update_infos)}
+                    </span>
+                    <div styleName="button-update-order">
+                      <a href={config.orderLink.replace('{{id}}', bpoom.id)}>
+                        {t(MSG.album_update_order, {
+                          babyname: (
+                            bpoom.baby_name
+                          ),
+                        })}
+                      </a>
+                    </div>
                   </Column>
                 </Row>
 
@@ -400,11 +412,19 @@ const MSG = defineMessages({
   },
   album_preview: {
     id: 'app.album_preview',
-    defaultMessage: `Feuilletez l'album de {babyname}`,
+    defaultMessage: `Feuilleter l'album de {babyname}`,
   },
   album_order: {
     id: 'app.album_order',
-    defaultMessage: `Commandez l'album pour {babyname}`,
+    defaultMessage: `Commander l'album pour {babyname}`,
+  },
+  album_update_order: {
+    id: 'app.album_update_order',
+    defaultMessage: `Modifier l'album de {babyname}`,
+  },
+  update_infos: {
+    id: 'app.update_infos',
+    defaultMessage: `⚠️ Sachez que vous pouvez encore modifier votre album avant de le commander (ajouter de nouvelles photos, modifier des textes...)`,
   },
   album_gallery_title: {
     id: 'app.album_gallery_title',
