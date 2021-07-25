@@ -318,7 +318,7 @@ class App extends Component {
 
     let totalPages =
       1 /* Cover */ +
-      1 /* Intro */ +
+      2 /* Intro */ +
       2 /* Arrival */ +
       1 /* Card */ +
       Trip.cntPages(trip_events) /* Trip */ +
@@ -359,6 +359,7 @@ class App extends Component {
             ) : (
               <React.Fragment>
                 {!kitePages && <Cover />}
+                {kitePages && <Page key={`after-cover`} />}
                 <Intro />
                 <Arrival />
                 <Trip />
