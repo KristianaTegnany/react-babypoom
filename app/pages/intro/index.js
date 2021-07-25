@@ -9,7 +9,7 @@ import { defineMessages } from 'react-intl'
 import './styles.theme-BP_ALBUM_THEME.scss'
 
 let Intro = () => [
-  <Page key="intro-blank" />, // Blank page
+  //<Page key="intro-blank" />, // Blank page
   <Page key="intro" styleName="page">
     <PresentationPanel styleName="presentation-panel">
       <Title general label={t(MSG.my_photo_album)} />
