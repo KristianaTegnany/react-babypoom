@@ -318,7 +318,7 @@ class App extends Component {
 
     let totalPages =
       1 /* Cover */ +
-      2 /* Intro */ +
+      3 /* 1 blank page recto/verso + Intro */ +
       2 /* Arrival */ +
       1 /* Card */ +
       Trip.cntPages(trip_events) /* Trip */ +
