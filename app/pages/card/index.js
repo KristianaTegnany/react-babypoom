@@ -12,7 +12,7 @@ class Card extends Component {
   render() {
     let { bpoom, params } = this.props
 
-    const cardURL = params.hd ? cardHdURL : cardThumbnailURL
+    const cardURL = params.hd ? cardThumbnailURL : cardThumbnailURL
 
     return (
       <Page>
