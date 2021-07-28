@@ -12,7 +12,7 @@ class Card extends Component {
   render() {
     let { bpoom, params } = this.props
 
-    const cardURL = params.hd ? cardHdURL : cardThumbnailURL
+    //const cardURL = params.hd ? cardHdURL : cardThumbnailURL
 
     return (
       <Page>
@@ -20,7 +20,7 @@ class Card extends Component {
           <Title label={t(MSG.card)} />
         </PresentationPanel>
         <ContentPanel styleName="content-panel" background centered>
-          <img styleName="img" src={cardURL({ cardId: bpoom.card_id, bpoomUuid: bpoom.uuid })} />
+          <img styleName="img" src={params.hd ? bpoom.card_url_for_pdf : bpoom.card_url_for_html} />
         </ContentPanel>
       </Page>
     )
