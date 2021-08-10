@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { defineMessages } from 'react-intl'
+import { defineMessages, injectIntl } from 'react-intl'
 import { Formik, Form, Field } from 'formik'
 import ReactGA from 'react-ga'
 import required from 'redux-form-validators/lib/presence'
@@ -28,7 +28,7 @@ import { Prompt } from 'react-router'
 
 const DEFAULT_PHOTO = imgPath('/avatars/selfie.svg' + config.avatarBackgroundQuerystring)
 
-let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel }) => {
+let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, intl }) => {
   const [imgSrc, setImgSrc] = useState('')
   const [uploading, setUploading] = useState(false)
   const [progress, setProgress] = useState(null)
@@ -82,7 +82,10 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
     // Tracking
     let visitorId = Ahoy.getVisitorId()
     if (visitorId) values.uuid = visitorId
-
+    if (!imgSrc && !window.confirm(intl.formatMessage(MSG.photo_incentive_question)))
+    {
+      return actions.setSubmitting(false)
+    }
     return saveMsg(bpoom.uuid, extractParams(values))
       .then(() => {
         if (window.localStorage) {
@@ -175,10 +178,10 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
             </div>
             <div styleName="actions">
               <Prompt
-                when={!isSubmitting}
-                message={(location) => {
-                  return location.pathname.endsWith('/pot') || location.pathname.endsWith('/souvenir')
-                    ? `Es-tu sûr de vouloir continuer sans valider ton message :/ ?`
+                when={isSubmitting}
+                message={() => {
+                  return !imgSrc
+                    ? `Es-tu sûr de vouloir continuer sans photo :/ ?`
                     : true
                 }}
               />
@@ -196,7 +199,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
   )
 }
 
-export default connect(mapStateToProps, { api, saveMsg, flash })(GuestBookForm)
+export default injectIntl(connect(mapStateToProps, { api, saveMsg, flash })(GuestBookForm))
 
 function mapStateToProps(state) {
   const {
@@ -214,5 +217,9 @@ const MSG = defineMessages({
   photo_incentive: {
     id: 'guest_book.form.photo_incentive',
     defaultMessage: 'L’ajout d’une photo fait 5 fois plus plaisir à bébé :)',
+  },
+  photo_incentive_question: {
+    id: 'guest_book.form.photo_incentive_question',
+    defaultMessage: 'Une petite photo pour illustrer ton joli message me ferait vraiment plaisir ! Es-tu sûr de vouloir continuer sans photo ?',
   },
 })
