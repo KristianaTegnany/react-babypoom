@@ -62,14 +62,15 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel })
           setFieldValue('photo', url.replace(`${config.s3UploadUrl}/`, ''))
           Tracking.track("GuestbookForm_UploadPhoto_Success", {bpoom_id: bpoom.id})
         },
-        onError: () => {
+        onError: (e) => {
           setUploading(false)
           flash('danger', FORM_MSG.form_upload_error)
+          this.airbrake.notify(e)
         },
       },
       cropper: {
         ratio: { v: 1, h: 1 },
-        minWidth: 480,
+        minWidth: 280,
         resizeToWidth: 1000,
         webpIfSupported: true,
       },

@@ -31,7 +31,7 @@ export default defineMessages({
   },
   to_game: {
     id: 'step.to_game',
-    defaultMessage: `Je vous montre ma photo ? Pour ça il va falloir deviner mon joli prénom.`,
+    defaultMessage: `Je vous montre ma photo ? Pour ça il va falloir relever avant un petit challenge... :)`,
   },
   to_arrival: {
     id: 'step.to_arrival',
