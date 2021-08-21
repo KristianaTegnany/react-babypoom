@@ -28,7 +28,7 @@ import { queryParams } from './lib/url-params'
 import template from './lib/template'
 import Bootstrap from './config/bootstrap/bootstrap.scss'
 import { setGlobalCssModule } from 'reactstrap/lib/utils'
-import { PATH_TO_STEP_MAP } from './app/views/app/steps'
+import { PATH_TO_STEP_MAP,NAMES_TO_PATHS } from './app/views/app/steps'
 import imgPath from './lib/img-path'
 setGlobalCssModule(Bootstrap)
 

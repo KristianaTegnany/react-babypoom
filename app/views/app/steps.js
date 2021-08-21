@@ -26,7 +26,7 @@ export const PATH_TO_STEP_MAP = nameToPaths.reduce((h, entry) => {
 
 const DEFAULT = nameToPaths[0][1]
 
-const NAMES_TO_PATHS = new Map(nameToPaths)
+export const NAMES_TO_PATHS = new Map(nameToPaths)
 
 export const stepPath = (name, bpoom) => _stepInfo(name, bpoom, true)
 
