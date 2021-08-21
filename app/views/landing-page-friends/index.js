@@ -308,7 +308,7 @@ class LandingPageFriends extends Component {
                     <span styleName="dedicace">
                       {t(MSG.album_friend_custom_name_dedicace, {donor: this.state.donor})}
                     </span>
-                    <img styleName="responsive-album" src={this.state.donor ? "https://card.babypoom.com/bpooms/1/216/albumteaser/card-1?BN="+this.state.donor : imgPath("/album/friend_custom_name_teaser.jpg")} />
+                    <img styleName="responsive-album" src={this.state.donor ? imgPath("/album/friend_custom_name_teaser.jpg") : imgPath("/album/friend_custom_name_teaser.jpg")} />
                     <hr styleName="little-separation"/>
                     <h3 styleName="lp-title"> {t(MSG.album_friend_custom_name_form_intro)} </h3>
                     <div styleName="form-custom">
@@ -340,7 +340,7 @@ class LandingPageFriends extends Component {
                       {t(MSG.album_pricing_description)}
                     </span>
                     <h1 styleName="lp-title">{t(MSG.album_pricing)}</h1>
-                    {bpoom.birthday <= '2020-12-31' && (
+                    {false && (
                       <div styleName="lp-coupon-container">
                         <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon)}</span>
                         <h3 styleName="lp-coupon">{t(MSG.album_coupon_code)}</h3>
