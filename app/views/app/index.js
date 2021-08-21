@@ -224,7 +224,6 @@ let App = ({
   let stepName = steps.current || ''
 
   return (
-    <ErrorBoundary>
     <CSSVariableApplicator data-variables={computeThemeColors(theme.color_1, theme.color_2, theme.pattern, theme.color_3,theme.color_4)}>
       {noNav ? '' : <Header />}
       <div styleName="flash">{renderFlash()}</div>
@@ -248,7 +247,6 @@ let App = ({
       {noNav ? '' : <Footer resetStars={resetStars} />}
       <MediaQueries />
     </CSSVariableApplicator>
-    </ErrorBoundary>
   )
 }
 

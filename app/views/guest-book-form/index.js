@@ -65,7 +65,6 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
         onError: (e) => {
           setUploading(false)
           flash('danger', FORM_MSG.form_upload_error)
-          this.airbrake.notify(e)
         },
       },
       cropper: {
