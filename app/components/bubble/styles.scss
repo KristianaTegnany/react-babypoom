@@ -1,0 +1,141 @@
+$main-padding: 14px;
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;
+
+$bpoom-img-width: 70px;
+$bpoom-img-height: 80px;
+
+$bpoom-lg-img-width: 70px;
+$bpoom-lg-img-height: 80px;
+
+$bubble-padding: 5px;
+
+.bubble {
+  background: lightgrey;
+  border-radius: 10px;
+  min-height: 55px;
+  padding: $bubble-padding;
+  position: relative;
+  flex: 1;
+}
+
+.content {
+  padding: 5px 10px;
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .bubble {
+    padding: ($main-padding * 2 - 5px) ($main-padding * 2 - 10px);
+  }
+  .content {
+    max-height: 350px;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: auto;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, md) - 1px) {
+  .scrollable {
+    .content {
+      position: absolute;
+      top: $bubble-padding;
+      left: $bubble-padding;
+      right: $bubble-padding;
+      bottom: $bubble-padding;
+      overflow: scroll;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: auto;
+    }
+
+    // white gradient
+    &::after {
+      content: '';
+      position: absolute;
+      left: $bubble-padding + 10px;
+      right: $bubble-padding + 10px;
+      bottom: 0;
+      z-index: 1;
+      height: $bubble-padding + 15px;
+      background: green;
+      background: linear-gradient(to top, lightgrey, lightgrey 6px, rgba(255, 255, 255, 0.001));
+    }
+  }
+}
+
+// bubble arrow
+.top,
+.left,
+.right,
+.bottom {
+  &::before {
+    content: '';
+    position: absolute;
+    border: 0;
+    border-style: solid;
+    border-color: transparent lightgrey;
+  }
+}
+
+.top {
+  &::before {
+    top: -24px;
+    border-top-width: 30px;
+    transform: rotate(25deg);
+  }
+}
+
+.bottom {
+  &::before {
+    bottom: -24px;
+    border-bottom-width: 30px;
+    transform: rotate(-25deg);
+  }
+}
+
+.top,
+.bottom {
+  &::before {
+    left: 50%;
+    margin-left: -30px;
+    height: 30px;
+    width: 0;
+    border-right-width: 20px;
+  }
+}
+
+.left {
+  &::before {
+    left: -24px;
+    border-right-width: 30px;
+    transform: rotate(-10deg);
+  }
+}
+
+.right {
+  &::before {
+    right: -24px;
+    border-left-width: 30px;
+    transform: rotate(10deg);
+  }
+}
+
+.left,
+.right {
+  &::before {
+    top: 50%;
+    margin-top: -20px;
+    height: 0;
+    width: 30px;
+    border-top-width: 20px;
+  }
+}

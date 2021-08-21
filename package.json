@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@meronex/icons": "^4.0.0",
+    "@stripe/stripe-js": "^1.17.0",
     "babel-plugin-react-css-modules": "5.2.6",
     "babel-runtime": "6.26.0",
     "babypoom-common": "git+https://335750f5ec9714ab74ad02a86b7411f3a7f38018:x-oauth-basic@github.com/Babypoom/babypoom-common.git#3.1.0",
@@ -24,14 +25,17 @@
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "react-intl": "2.9.0",
+    "react-modal": "^3.14.3",
     "react-redux": "7.1.0",
     "react-responsive-carousel": "^3.2.18",
     "react-router": "5.0.1",
     "react-router-config": "5.0.1",
     "react-router-dom": "5.0.1",
+    "react-stripe-checkout": "^2.6.3",
     "redux": "4.0.1",
     "redux-thunk": "2.3.0",
     "simple-flexbox": "^2.3.2",
+    "stripe": "^8.169.0",
     "twemoji": "13.1.0"
   },
   "devDependencies": {

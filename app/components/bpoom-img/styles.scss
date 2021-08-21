@@ -1,0 +1,71 @@
+$main-padding: 14px;
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;
+
+$bpoom-img-width: 70px;
+$bpoom-img-height: 80px;
+
+$bpoom-lg-img-width: 70px;
+$bpoom-lg-img-height: 80px;
+
+.img {
+  background: white none center no-repeat;
+  background-size: cover;
+  width: $bpoom-img-width;
+  height: $bpoom-img-height;
+}
+
+.img-container {
+  display: inline-block;
+}
+
+.img-border {
+  padding: 5px;
+  background-color: lightgrey; // Color Ok
+  transform: rotate(1.8deg);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+}
+
+.clickable {
+  cursor: pointer;
+
+  &:hover a {
+    text-decoration: underline;
+  }
+}
+
+.img-text {
+  display: block;
+  margin-top: 5px;
+  line-height: 20px;
+  min-height: 20px;
+  text-align: center;
+  max-width: $bpoom-img-width;
+  text-overflow: ellipsis;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  $bpoom-lg-img-width: 140px;
+  $bpoom-lg-img-height: 160px;
+
+  .img {
+    width: $bpoom-lg-img-width;
+    height: $bpoom-lg-img-height;
+  }
+  .img-border {
+    padding: 10px;
+  }
+  .img-text {
+    margin-top: 10px;
+    max-width: $bpoom-lg-img-width;
+    font-size: xx-large;
+    font-weight: bold;
+  }
+}

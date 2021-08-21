@@ -8,3 +8,9 @@ export const fetchBpoom = uuid =>
   })
 
 export const updateParams = params => dispatch => dispatch({ type: PARAMS, params })
+
+export const fetchStripeSession = () =>
+  api({
+    path: `/album/stripe`,
+    success: (bpoom, dispatch) => dispatch({ type: BPOOM, bpoom }),
+  })
