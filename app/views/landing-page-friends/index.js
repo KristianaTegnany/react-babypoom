@@ -522,7 +522,7 @@ const MSG = defineMessages({
   },
   album_argument_2_3: {
     id: 'app.album_argument_2_3',
-    defaultMessage: `Les moments forts de la grossesse et des premiers moments de bébé`,
+    defaultMessage: `Les moments forts de la grossesse et les premiers instants de bébé`,
   },
   album_argument_2_4: {
     id: 'app.album_argument_2_4',
@@ -542,7 +542,7 @@ const MSG = defineMessages({
   },
   album_argument_2_8: {
     id: 'app.album_argument_2_8',
-    defaultMessage: `Une mention à la fin du donnateur`,
+    defaultMessage: `Votre dédicace en fin de livre`,
   },
   album_argument_3_title: {
     id: 'app.album_argument_3_title',
