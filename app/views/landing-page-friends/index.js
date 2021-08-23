@@ -275,6 +275,14 @@ class LandingPageFriends extends Component {
                         },
                       ]}
                     />
+                    <h3 styleName="lp-title"> {t(MSG.album_argument_4_title)} </h3>
+                    <ItemList
+                      items={[
+                        {
+                          title: t(MSG.album_argument_4),
+                        },
+                      ]}
+                    />
                     <h3 styleName="lp-title"> {t(MSG.album_gallery_title)} </h3>
                     <Carousel>
                         <div>
@@ -559,6 +567,14 @@ const MSG = defineMessages({
   album_argument_3_3: {
     id: 'app.album_argument_3_3',
     defaultMessage: `Papier glacé de haute qualité (200 g)`,
+  },
+  album_argument_4_title: {
+    id: 'app.album_argument_4_title',
+    defaultMessage: `Mais aussi...`,
+  },
+  album_argument_4: {
+    id: 'app.album_argument_4',
+    defaultMessage: `En offrant ce souvenir vous encouragez aussi une société française et son équipe qui a fait le choix assumé de ne pas utiliser la pub et la vente de données pour se financer 🙏🏼`,
   },
   album_pricing_title: {
     id: 'app.album_pricing_title',
