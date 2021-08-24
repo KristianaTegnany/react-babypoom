@@ -59,6 +59,7 @@ let Transition = ({ bpoom, steps }) => {
                 tag={ReactGA.OutboundLink}
                 eventLabel={config.shareLink}
                 color="app"
+                className={styles['gift-link']}
                 to={giftLink}
                 target="_blank"
               >
