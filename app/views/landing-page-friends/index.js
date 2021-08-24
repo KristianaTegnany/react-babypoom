@@ -294,6 +294,12 @@ class LandingPageFriends extends Component {
                         <div>
                             <img src={imgPath("/album/album-teaser-3-opti.jpg")} />
                         </div>
+                        <div>
+                            <img src={imgPath("/album/album-with-mum.jpg")} />
+                        </div>
+                        <div>
+                            <img src={imgPath("/album/album-with-mum-2.jpg")} />
+                        </div>
                     </Carousel>
                   </Column>
                 </Row>
