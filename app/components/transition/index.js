@@ -53,7 +53,7 @@ let Transition = ({ bpoom, steps }) => {
         share: (
           <div styleName="share-container">
             <span styleName="share">
-              {(window.localStorage && window.localStorage.showGiftOffer) ? (
+              {(!bpoom.album_paid && window.localStorage && window.localStorage.showGiftOffer) ? (
               <Button
                 size="sm"
                 tag={ReactGA.OutboundLink}

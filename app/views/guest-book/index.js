@@ -26,7 +26,7 @@ const DEFAULT_PHOTO = imgPath('/avatars/default.png' + config.avatarBackgroundQu
 const DEFAULT_PHOTO_PARENT_1 = imgPath('/avatars/parent-1.svg' + config.avatarBackgroundQuerystring)
 const DEFAULT_PHOTO_PARENT_2 = imgPath('/avatars/parent-2.svg' + config.avatarBackgroundQuerystring)
 
-let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, deleteMsg, flash }) => {
+let GuestBook = ({ bpoom, desktop, noNav, steps, intl, loadSlideshow, openSlideshow, deleteMsg, flash }) => {
   let guestBookMsgs = bpoom.guest_book_msgs || []
 
   let all_imgs = guestBookMsgs.map((msg) => ({
@@ -162,12 +162,10 @@ let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, de
       )}
       {noNav ? (
         ''
-      ) : desktop ? (
-        <div styleName="mascot-direction">
-          <Bubble dir={desktop ? 'left' : null}>
-            <Transition />
-          </Bubble>
-        </div>
+      ) : steps.ok && steps.next ? (
+        <BubblePic speechDir={desktop ? 'left' : null} imgSrc={photo}>
+          <Transition />
+        </BubblePic>
       ) : (
         <div styleName="mascot-direction">
           <Bubble dir={desktop ? 'left' : null}>
@@ -195,10 +193,10 @@ function formatDate(intl, date) {
 
 function mapStateToProps(state) {
   const {
-    app: { bpoom, noNav },
+    app: { bpoom, noNav, steps },
     mediaQueries: { desktop },
   } = state
-  return { bpoom, noNav, desktop }
+  return { bpoom, noNav, steps, desktop }
 }
 
 const MSG = defineMessages({
