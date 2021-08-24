@@ -26,7 +26,7 @@ let Souvenir = ({ bpoom, desktop, sendCardByEmail }) => {
     sendCardByEmail(bpoom.uuid, values.email)
       .then(() => {
         setSent(true)
-        if (values.email != bpoom.email){
+        if (bpoom.shared_by_visits && values.email != bpoom.email){
           window.localStorage.showGiftOffer = true
         }
         actions.setSubmitting(false)
