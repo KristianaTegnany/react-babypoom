@@ -9,6 +9,7 @@ import useSlideshow from '../../hooks/slide-show'
 import GuestBookForm from '../guest-book-form'
 import BubblePic from '../../components/bubble-pic'
 import BubbleSay from '../../components/bubble-say'
+import Bubble from '../../components/bubble'
 import Message from '../../components/message'
 import Transition from '../../components/transition'
 import Button from 'reactstrap/lib/Button'
@@ -162,13 +163,17 @@ let GuestBook = ({ bpoom, desktop, noNav, intl, loadSlideshow, openSlideshow, de
       {noNav ? (
         ''
       ) : desktop ? (
-        <BubbleSay speechDir="left" imgSrc={photo}>
-          <Transition />
-        </BubbleSay>
+        <div styleName="mascot-direction">
+          <Bubble dir={desktop ? 'left' : null}>
+            <Transition />
+          </Bubble>
+        </div>
       ) : (
-        <BubblePic imgSrc={photo}>
-          <Transition />
-        </BubblePic>
+        <div styleName="mascot-direction">
+          <Bubble dir={desktop ? 'left' : null}>
+            <Transition />
+          </Bubble>
+        </div>
       )}
     </div>
   )

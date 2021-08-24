@@ -1,4 +1,5 @@
 @import '../../../config/bootstrap/bootstrap-var';
+@import '../../components/bubble/styles.scss';
 
 .guest-book-container {
   & > button,
@@ -66,6 +67,33 @@
   }
 }
 
+.mascot-direction {
+  padding-left: 60px;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    z-index: 1;
+    background: transparent img-url('/mascot/poom-direction.png') left center
+      no-repeat;
+    background-size: contain;
+  }
+}
+
+
+@media (max-width: map-get($grid-breakpoints, md) - 1px) {
+  .mascot-direction {
+    & > :first-child {
+      padding-left: 15px + $bubble-padding;
+    }
+  }
+}
+
 @media (min-width: map-get($grid-breakpoints, md)) {
   .button-container {
     top: 30px;
@@ -99,6 +127,21 @@
 
     & > :last-child {
       margin-bottom: $main-padding * 3;
+    }
+  }
+
+  .mascot-direction,
+  .panel-container + * {
+    max-width: map-get($grid-breakpoints, md);
+    margin: 0 auto;
+  }
+
+  .mascot-direction {
+    padding-left: 180px;
+
+    &::before {
+      width: 140px;
+      background-position: right center;
     }
   }
 }

@@ -36,6 +36,13 @@ let Transition = ({ bpoom, steps }) => {
   let hackMsg = HACK_MSG[`${transitionId}_${bpoom.uuid}`]
   if (hackMsg) return <span dangerouslySetInnerHTML={{ __html: hackMsg }} />
 
+  let friendName = ''
+  if (window.localStorage && window.localStorage.friendName) {
+    friendName = window.localStorage.friendName
+  }
+
+  let giftLink = `https://album.babypoom.com/${bpoom.uuid}/gift?donor=${friendName}`
+
   return msg
     ? t(msg, {
         link: (
@@ -46,7 +53,19 @@ let Transition = ({ bpoom, steps }) => {
         share: (
           <div styleName="share-container">
             <span styleName="share">
+              {(window.localStorage && window.localStorage.showGiftOffer) ? (
               <Button
+                size="sm"
+                tag={ReactGA.OutboundLink}
+                eventLabel={config.shareLink}
+                color="app"
+                to={giftLink}
+                target="_blank"
+              >
+                {t(MSG.giftOffer)}
+              </Button>
+              ) : (
+                <Button
                 size="sm"
                 tag={ReactGA.OutboundLink}
                 eventLabel={config.shareLink}
@@ -56,6 +75,8 @@ let Transition = ({ bpoom, steps }) => {
               >
                 {t(MSG.share)}
               </Button>
+              )
+              }
             </span>
             <div styleName="facebook-container">
               <FacebookProvider appId={config.fbAppId}>
@@ -81,6 +102,10 @@ const MSG = defineMessages({
   share: {
     id: 'transition.share',
     defaultMessage: `Je donne mon avis`,
+  },
+  giftOffer: {
+    id: 'transition.giftOffer',
+    defaultMessage: `Envie d'offrir un cadeau original à bébé ? 🎁 `,
   },
 })
 

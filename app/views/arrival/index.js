@@ -67,6 +67,9 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow, sendCardBy
       .then(() => {
         setSent(true)
         actions.setSubmitting(false)
+        if (window.localStorage && values.email != bpoom.email){
+          window.localStorage.showGiftOffer = true
+        }
         Tracking.track("SouvenirCard_sent_by_email", {bpoom_id: bpoom.id})
       })
       .catch(() => actions.setSubmitting(false))

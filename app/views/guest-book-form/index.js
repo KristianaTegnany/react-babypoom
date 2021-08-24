@@ -90,6 +90,10 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
         if (window.localStorage) {
           delete window.localStorage.babypoomGuestBookMessage
           delete window.localStorage.babypoomGuestBookMessageTS
+          if (values.email != bpoom.email){
+            window.localStorage.friendName = values.name
+            window.localStorage.showGiftOffer = true
+          }
         }
         actions.setSubmitting(false)
         onSave && onSave()
