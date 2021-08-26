@@ -4,7 +4,7 @@ import config from '../../../config'
 import './styles.scss'
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe("pk_live_hTxRErhREu6F4pyzUVceR1ay");
+const stripePromise = loadStripe(config.STRIPE_KEY);
 const API_URL = `${config.SERVER_URL}/api/v2/album/stripe`
 
 function StripeCheckoutComponent({label,bpoomId,paymentType, donor}) {

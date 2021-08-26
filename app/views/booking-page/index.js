@@ -17,6 +17,8 @@ import { updateLocale } from '../../i18n/hot-intl-provider/HotIntlProviderAction
 import { Column, Row } from "simple-flexbox";
 import styles from 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
+import StripeCheckoutComponent from '../../components/stripe'
+import Modal from 'react-modal'
 import './styles.scss'
 
 function setLocaleData(localeData) {
@@ -29,7 +31,7 @@ function getThemeName(bpoom) {
 }
 
 
-class LandingPage extends Component {
+class BookingPage extends Component {
   constructor(props) {
     super(props)
   }
@@ -88,6 +90,52 @@ class LandingPage extends Component {
     )
   }
 
+  successModal(bpoom,params) {
+    if (!params.success){
+      return
+    }
+
+    return (
+      <Modal
+        isOpen={true}
+        contentLabel="Example Modal"
+      >
+        <Column flexGrow={1}>
+          <Row horizontal="center">
+            <h1 styleName="stripe-success">
+              {t(MSG.success_album_order, {
+                  babyname: (
+                    bpoom.baby_name
+                  ),
+              })}
+            </h1>
+          </Row>
+          <Row wrap vertical="center">
+            <Column flexGrow={1} horizontal="center"
+              style={{
+                backgroundColor: "white",
+                maxWidth: 650,
+                padding: 12,
+                color: "#E0E0E0",
+                borderRadius:"15px",
+                margin: 30,
+              }}
+            >
+              <img styleName="success-mascot" src={imgPath("/mascot/stork-sitting-on-branch.png")}></img>
+            </Column>
+          </Row>
+          <Row horizontal="center">
+            <div styleName="button-order">
+              <a onClick={()=>window.location = window.location.href.split("?")[0]}>
+                {t(MSG.close)}
+              </a>
+            </div>
+          </Row>
+        </Column>
+      </Modal>
+    )
+  }
+
   render() {
     let { bpoom, params } = this.props
     if (bpoom.not_found) {
@@ -97,6 +145,7 @@ class LandingPage extends Component {
     return (
       <CSSVariableApplicator data-variables={THEMES[this.state.theme]}>
         {this.renderFlash()}
+        {this.successModal(bpoom, params)}
         <div styleName={`lp-container ${bpoom.gender=='M' ? 'boys': 'girls'}`}>
           {!params.hd && (
             <div>
@@ -127,17 +176,6 @@ class LandingPage extends Component {
                     <img styleName="responsive-album" src={bpoom.album_teaser_url}></img>
                   </Column>
                 </Row>
-                <Row horizontal="center">
-                  <div styleName="button-preview">
-                    <a href={config.previewLink.replace('{{uuid}}', bpoom.uuid)}>
-                      {t(MSG.album_preview, {
-                        babyname: (
-                          bpoom.baby_name
-                        ),
-                      })}
-                    </a>
-                  </div>
-                </Row>
                 <Row vertical="center">
                   <Column flexGrow={1} horizontal="center"
                     style={{
@@ -151,34 +189,13 @@ class LandingPage extends Component {
                   >
                     <h3 styleName="lp-title">{t(MSG.album_description_title)}</h3>
                     <span>
-                      {t(MSG.album_description)}
+                      {t(MSG.album_description,
+                        {
+                          babyname: (
+                            bpoom.baby_name
+                          ),
+                        })}
                     </span>
-                    <h3 styleName="lp-title"> {t(MSG.album_argument_2_title)} </h3>
-                    <ItemList
-                      items={[
-                        {
-                          title: t(MSG.album_argument_2_1),
-                        },
-                        {
-                          title: t(MSG.album_argument_2_2),
-                        },
-                        {
-                          title: t(MSG.album_argument_2_3),
-                        },
-                        {
-                          title: t(MSG.album_argument_2_4),
-                        },
-                        {
-                          title: t(MSG.album_argument_2_5),
-                        },
-                        {
-                          title: t(MSG.album_argument_2_6),
-                        },
-                        {
-                          title: t(MSG.album_argument_2_7),
-                        }
-                      ]}
-                    />
                     <h3 styleName="lp-title"> {t(MSG.album_argument_1_title)} </h3>
                     <ItemList
                       items={[
@@ -191,27 +208,11 @@ class LandingPage extends Component {
                         {
                           title: t(MSG.album_argument_1_3),
                         },
-                      ]}
-                    />
-                    <h3 styleName="lp-title"> {t(MSG.album_argument_3_title)} </h3>
-                    <ItemList
-                      items={[
                         {
-                          title: t(MSG.album_argument_3_1),
+                          title: t(MSG.album_argument_1_4),
                         },
                         {
-                          title: t(MSG.album_argument_3_2),
-                        },
-                        {
-                          title: t(MSG.album_argument_3_3),
-                        },
-                      ]}
-                    />
-                    <h3 styleName="lp-title"> {t(MSG.album_argument_4_title)} </h3>
-                    <ItemList
-                      items={[
-                        {
-                          title: t(MSG.album_argument_4),
+                          title: t(MSG.album_argument_1_5),
                         },
                       ]}
                     />
@@ -234,43 +235,25 @@ class LandingPage extends Component {
                       {t(MSG.album_pricing_description)}
                     </span>
                     <h1 styleName="lp-title">{t(MSG.album_pricing)}</h1>
-                    {bpoom.birthday <= '2020-12-31' && (
-                      <div styleName="lp-coupon-container">
-                        <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon)}</span>
-                        <h3 styleName="lp-coupon">{t(MSG.album_coupon_code)}</h3>
-                        <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon_expiration)}</span>
-                        <img styleName="lp-coupon-image" src="http://i.countdownmail.com/15kjxv.gif" />
-                      </div>
-                    )}
-                    <div styleName="button-order">
-                      <a href={config.orderLink.replace('{{id}}', bpoom.id)}>
-                        {t(MSG.album_order, {
-                          babyname: (
-                            bpoom.baby_name
-                          ),
-                        })}
-                      </a>
-                    </div>
-                    <span>
-                      {t(MSG.update_infos)}
-                    </span>
                     <div styleName="button-update-order">
-                      <a href={config.orderLink.replace('{{id}}', bpoom.id)}>
-                        {t(MSG.album_update_order, {
-                          babyname: (
-                            bpoom.baby_name
-                          ),
-                        })}
-                      </a>
+                      <div styleName="order first">
+                      {!bpoom.album_paid && (
+                      <StripeCheckoutComponent
+                      label={t(MSG.album_order, {
+                        babyname: (
+                          bpoom.baby_name
+                        ),
+                      })}
+                      bpoomId={bpoom.id}
+                      paymentType="BOOKING_ALBUM_PARENT"
+                     />
+                      )}
+                      </div>
                     </div>
                     <span>
-                      {t(MSG.booking_infos)}
+                      {bpoom.album_paid ? t(MSG.to_late_infos) : t(MSG.update_infos)}
                     </span>
-                    <div styleName="button-booking-order">
-                      <a href={`/${bpoom.uuid}/booking`}>
-                        {t(MSG.album_booking_order)}
-                      </a>
-                    </div>
+
                   </Column>
                 </Row>
 
@@ -280,7 +263,7 @@ class LandingPage extends Component {
                       backgroundColor: "white",
                       maxWidth: 650,
                       padding: 12,
-                      color: "#E0E0E0",
+                      color: "#646781",
                       borderRadius:"15px",
                       margin: 30,
                     }}
@@ -303,6 +286,18 @@ class LandingPage extends Component {
                             <img src={imgPath("/album/album-with-mum-2.jpg")} />
                         </div>
                     </Carousel>
+                    <span>
+                      {t(MSG.album_order_now)}
+                    </span>
+                    <div styleName="button-update-order">
+                      <a href={config.orderLink.replace('{{id}}', bpoom.id)}>
+                        {t(MSG.album_order_now_bt, {
+                          babyname: (
+                            bpoom.baby_name
+                          ),
+                        })}
+                      </a>
+                    </div>
                   </Column>
                 </Row>
 
@@ -315,7 +310,7 @@ class LandingPage extends Component {
   }
 }
 
-export default injectIntl(connect(mapStateToProps, { fetchBpoom, updateLocale, deleteFlash })(LandingPage))
+export default injectIntl(connect(mapStateToProps, { fetchBpoom, updateLocale, deleteFlash })(BookingPage))
 
 function mapStateToProps(state) {
   const {
@@ -329,16 +324,15 @@ function mapStateToProps(state) {
 const MSG = defineMessages({
   lp_slogan: {
     id: 'app.lp_slogan',
-    defaultMessage: `Offrez à {babyname} un souvenir inoubliable !`,
+    defaultMessage: `Réservez l'album de {babyname}`,
   },
   album_description_title: {
     id: 'app.album_description_title',
-    defaultMessage: `Un album de naissance, pourquoi faire ?`,
+    defaultMessage: `A quoi sert la réservation ?`,
   },
   album_description: {
     id: 'app.album_description',
-    defaultMessage: `Il s’agit tout simplement de l’un des meilleurs moyens d’immortaliser tous ces moments liés à la naissance d'un enfant. Vos proches vous ont certainement aussi gratifié de jolis messages à l'arrivé de bébé... Gardez ces précieux souvenirs dans un album photo qui sera le trésor de ces moments incroyables en famille. C'est un objet à la valeur affective inégalable qui se transmet de génération en
-    génération, un concentré d’amour que votre bébé découvrira quand il sera plus grand.`,
+    defaultMessage: `Vous souhaitez recevoir l'album souvenir de {babyname} mais vous n'avez pas eu le temps de le peaufiner à votre guise ? Pas de problème, nous savons bien que le temps se fait rare avec l'arrivée d'un bout de chou, c'est pourquoi nous vous proposons une solution de réservation de votre album.`,
   },
   order: {
     id: 'app.order',
@@ -346,27 +340,27 @@ const MSG = defineMessages({
   },
   album_argument_1_title: {
     id: 'app.album_argument_1_title',
-    defaultMessage: `Des petits plus qui font toute la différence`,
+    defaultMessage: `Les avantages de la réservation`,
   },
   album_argument_1_1: {
     id: 'app.album_argument_1_1',
-    defaultMessage: `Un gain de temps : votre album est prêt en un clic! Fini les albums achetés en magasin que l'on ne remplit jamais totalement`,
+    defaultMessage: `Pas de précipitation, l'expiration de votre album est suspendue`,
   },
   album_argument_1_2: {
     id: 'app.album_argument_1_2',
-    defaultMessage: `Plus de confort : vous le recevez directement chez vous`,
+    defaultMessage: `Vous avez tout le temps pour ajouter, modifier vos textes et vos photos des moments importants de bébé ou demander à vos proches d'ajouter une photo à leur message du livre d'or`,
   },
   album_argument_1_3: {
     id: 'app.album_argument_1_3',
-    defaultMessage: `Un plaisir accessible : votre album personnalisé est 5 fois moins cher que ceux proposés par les photographes`,
+    defaultMessage: `Pas de surplus à payer! Lorsque vous êtes prêt à commander votre album, vous renseignez votre adresse de livraison et le prix de cette réservation est automatiquement déduit du prix de l'album`,
   },
-  album_argument_2_title: {
-    id: 'app.album_argument_2_title',
-    defaultMessage: `Que contient votre album Babypoom ?`,
+  album_argument_1_4: {
+    id: 'app.album_argument_1_4',
+    defaultMessage: `Si vous avez un code promo, vous pourrez encore l'utiliser sur le reste à payer`,
   },
-  album_argument_2_1: {
-    id: 'app.album_argument_2_1',
-    defaultMessage: `L'ensemble des messages et photos laissé par vos proches`,
+  album_argument_1_5: {
+    id: 'app.album_argument_1_5',
+    defaultMessage: `Souriez! vous êtes livré à domicile d'un album intemporel qui correspond parfaitement à vos attentes`,
   },
   album_argument_2_2: {
     id: 'app.album_argument_2_2',
@@ -414,7 +408,7 @@ const MSG = defineMessages({
   },
   album_argument_4: {
     id: 'app.album_argument_4',
-    defaultMessage: `En vous offrant ce souvenir vous encouragez aussi une société française et son équipe qui a fait le choix assumé de ne pas utiliser la pub et la vente de données pour se financer 🙏🏼`,
+    defaultMessage: `En réservant ce souvenir vous encouragez aussi une société française et son équipe qui a fait le choix assumé de ne pas utiliser la pub et la vente de données pour se financer 🙏🏼`,
   },
   album_pricing_title: {
     id: 'app.album_pricing_title',
@@ -422,11 +416,11 @@ const MSG = defineMessages({
   },
   album_pricing_description: {
     id: 'app.album_pricing_description',
-    defaultMessage: `Recevez votre album de naissance personnalisé dans votre boite aux lettres pour seulement`,
+    defaultMessage: `Prenez votre temps et réserver votre album de naissance personnalisé pour`,
   },
   album_pricing: {
     id: 'app.album_pricing',
-    defaultMessage: `49€`,
+    defaultMessage: `20€`,
   },
   album_coupon_code: {
     id: 'app.album_coupon_code',
@@ -446,26 +440,34 @@ const MSG = defineMessages({
   },
   album_order: {
     id: 'app.album_order',
-    defaultMessage: `Commander l'album pour {babyname}`,
+    defaultMessage: `Réserver l'album de {babyname}`,
   },
-  album_update_order: {
+  album_order_now: {
     id: 'app.album_update_order',
-    defaultMessage: `Modifier l'album de {babyname}`,
+    defaultMessage: `Bien évidemment, si votre album semble déjà à votre goût, pas besoin de réservation, vous pouvez le recevoir directement.`,
   },
-  album_booking_order: {
-    id: 'app.album_booking_order',
-    defaultMessage: `En savoir plus sur la réservation`,
+  album_order_now_bt: {
+    id: 'app.album_order_now_bt',
+    defaultMessage: `Commander l'album de {babyname}`,
   },
   update_infos: {
     id: 'app.update_infos',
-    defaultMessage: `⚠️ Sachez que vous pouvez encore modifier votre album avant de le commander (ajouter de nouvelles photos, modifier des textes...)`,
-  },
-  booking_infos: {
-    id: 'app.booking_infos',
-    defaultMessage: `🔒 Vous êtes intéressé(e) par ce souvenir mais vous avez besoin encore de temps pour le peaufiner ? Réservez le et prenez le temps qu'il vous faut, l'expiration sera suspendue.`,
+    defaultMessage: `⚠️ Sachez que ce n'est pas un surplus à payer. Lorsque vous serez prêt à commander votre album final, cette somme sera automatiquement déduite du prix final de votre album.`,
   },
   album_gallery_title: {
     id: 'app.album_gallery_title',
     defaultMessage: `Quelques autres photos de l'album Babypoom`,
+  },
+  success_album_order: {
+    id: 'app.success_album_order',
+    defaultMessage: `Félicitations votre réservation a bien été reçue ✅`,
+  },
+  close: {
+    id: 'app.close',
+    defaultMessage: `Fermer`,
+  },
+  to_late_infos: {
+    id: 'app.to_late_infos',
+    defaultMessage: `⚠️ Désolé cet album a déjà été payé.`,
   },
 })

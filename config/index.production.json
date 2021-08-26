@@ -1,3 +1,4 @@
 {
-  "SERVER_URL": "https://api.babypoom.com"
+  "SERVER_URL": "https://api.babypoom.com",
+  "STRIPE_KEY": "pk_live_hTxRErhREu6F4pyzUVceR1ay"
 }

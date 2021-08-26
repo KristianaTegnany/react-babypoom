@@ -180,32 +180,16 @@
   margin: auto;
 }
 
-.button-booking-order {
-  z-index: 1000;
-  top: 5px;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  margin-top: 20px;
+.stripe-success {
+  margin-top: 40px;
   margin-bottom: 20px;
-
-  > a {
-    padding: 8px 30px;
-    color: white;
-    background-color: #fbbdb2;
-    border: 1px solid #d5797b;
-    border-radius: 3px;
-    font-size: 16px;
-    text-decoration: none;
-    box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 1);
-    //transform: scale(1);
-	  //animation: pulse 2s infinite;
-
-    &:hover {
-      position: relative;
-      transform: translate(1px, 1px);
-    }
-  }
+  margin-left: 20px;
+  margin-right: 20px;
+  color: #7fb5b4;
 }
 
+.success-mascot {
+  width: 100px;
+  height: auto;
+}
 

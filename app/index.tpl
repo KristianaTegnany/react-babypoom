@@ -46,5 +46,6 @@ if (useThemeManifest) fs.writeFileSync('theme-manifest.json', JSON.stringify(the
     link.rel = "stylesheet";
     setTimeout(function () { document.body.appendChild(link) }, 0);
   </script>
+  <!-- Wheelio App --> <script type="text/javascript"> var shopID = "db365854-dcd7-405a-c73d-08d93593aba3"; var url = "https://wheelioapp.azureedge.net/app/index.min.js?v=" + new Date().getTime(); var wheelio_script = document.createElement("script"); wheelio_script.setAttribute("src", url); document.body.appendChild(wheelio_script); </script>
 </body>
 </html>

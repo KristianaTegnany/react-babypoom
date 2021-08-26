@@ -381,6 +381,7 @@ class App extends Component {
                 <div className="order">
                   <a href={config.orderLink.replace('{{id}}', bpoom.id)}>{t(MSG.order)}</a>
                   <a href={config.orderLink.replace('{{id}}', bpoom.id)} className="update">{t(MSG.update)}</a>
+                  <a href={`${bpoom.uuid}/booking`} className="booking">{t(MSG.booking)}</a>
                 </div>
                 </>
               )}
@@ -445,5 +446,9 @@ const MSG = defineMessages({
   update: {
     id: 'app.update',
     defaultMessage: `Modifier`,
+  },
+  booking: {
+    id: 'app.booking',
+    defaultMessage: `Réserver`,
   },
 })
