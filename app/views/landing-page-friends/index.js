@@ -284,7 +284,13 @@ class LandingPageFriends extends Component {
                       ]}
                     />
                     <h3 styleName="lp-title"> {t(MSG.album_gallery_title)} </h3>
-                    <Carousel>
+                    <Carousel showThumbs={false} showStatus={false}>
+                        <div>
+                            <img src={imgPath("/album/album-with-mum.jpg")} />
+                        </div>
+                        <div>
+                            <img src={imgPath("/album/album-with-mum-2.jpg")} />
+                        </div>
                         <div>
                             <img src={bpoom.album_teaser2_url} />
                         </div>
@@ -294,12 +300,7 @@ class LandingPageFriends extends Component {
                         <div>
                             <img src={imgPath("/album/album-teaser-3-opti.jpg")} />
                         </div>
-                        <div>
-                            <img src={imgPath("/album/album-with-mum.jpg")} />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-with-mum-2.jpg")} />
-                        </div>
+
                     </Carousel>
                   </Column>
                 </Row>

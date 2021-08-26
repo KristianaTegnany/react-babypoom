@@ -286,7 +286,7 @@ class LandingPage extends Component {
                     }}
                   >
                     <h3 styleName="lp-title"> {t(MSG.album_gallery_title)} </h3>
-                    <Carousel>
+                    <Carousel showThumbs={false} showStatus={false}>
                         <div>
                             <img src={bpoom.album_teaser2_url} />
                         </div>
