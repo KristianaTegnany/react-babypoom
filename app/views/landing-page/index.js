@@ -531,7 +531,7 @@ const MSG = defineMessages({
   },
   feedbacks_title: {
     id: 'app.feedbacks_title',
-    defaultMessage: `Qu'en pense les parents qui l'ont déjà reçu ?`,
+    defaultMessage: `Qu'en pensent les parents qui l'ont déjà reçu ?`,
   },
   feedbacks_description: {
     id: 'app.feedbacks_description',
