@@ -124,7 +124,7 @@ class LandingPage extends Component {
                       margin: 30,
                     }}
                   >
-                    <img styleName="responsive-album" src={bpoom.album_teaser_url}></img>
+                    <img id="#wheelio" styleName="responsive-album" src={bpoom.album_teaser_url}></img>
                   </Column>
                 </Row>
                 <Row horizontal="center">
@@ -190,6 +190,9 @@ class LandingPage extends Component {
                         },
                         {
                           title: t(MSG.album_argument_1_3),
+                        },
+                        {
+                          title: t(MSG.album_argument_1_4),
                         },
                       ]}
                     />
@@ -263,6 +266,8 @@ class LandingPage extends Component {
                         })}
                       </a>
                     </div>
+                    {bpoom.expiration_countdown && (
+                    <>
                     <span>
                       {t(MSG.booking_infos)}
                     </span>
@@ -271,8 +276,27 @@ class LandingPage extends Component {
                         {t(MSG.album_booking_order)}
                       </a>
                     </div>
+                    </>
+                    )}
                   </Column>
                 </Row>
+
+                {bpoom.expiration_countdown && (<Row wrap vertical="center">
+                  <Column flexGrow={1} horizontal="center"
+                    style={{
+                      backgroundColor: "white",
+                      maxWidth: 650,
+                      padding: 12,
+                      color: "#E0E0E0",
+                      borderRadius:"15px",
+                      margin: 30,
+                    }}
+                  >
+                    <h3 styleName="lp-title expiration-title"> {t(MSG.expiration_title)} </h3>
+                    <table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td align="center"><img src={bpoom.expiration_countdown} style={{display:"inline-block !important", width: "90% !important", maxWidth: "304px !important"}}/></td></tr></tbody></table>
+                  </Column>
+                </Row>
+                )}
 
                 <Row wrap vertical="center">
                   <Column flexGrow={1} horizontal="center"
@@ -288,6 +312,12 @@ class LandingPage extends Component {
                     <h3 styleName="lp-title"> {t(MSG.album_gallery_title)} </h3>
                     <Carousel showThumbs={false} showStatus={false}>
                         <div>
+                            <img src={imgPath("/album/album-with-mum-2.jpg")} />
+                        </div>
+                        <div>
+                            <img src={imgPath("/album/album-with-mum.jpg")} />
+                        </div>
+                        <div>
                             <img src={bpoom.album_teaser2_url} />
                         </div>
                         <div>
@@ -295,12 +325,6 @@ class LandingPage extends Component {
                         </div>
                         <div>
                             <img src={imgPath("/album/album-teaser-3-opti.jpg")} />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-with-mum.jpg")} />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-with-mum-2.jpg")} />
                         </div>
                     </Carousel>
                   </Column>
@@ -359,6 +383,10 @@ const MSG = defineMessages({
   album_argument_1_3: {
     id: 'app.album_argument_1_3',
     defaultMessage: `Un plaisir accessible : votre album personnalisé est 5 fois moins cher que ceux proposés par les photographes`,
+  },
+  album_argument_1_4: {
+    id: 'app.album_argument_1_4',
+    defaultMessage: `Votre Babypoom n'expire plus et reste accessible sur votre dashboard`,
   },
   album_argument_2_title: {
     id: 'app.album_argument_2_title',
@@ -454,7 +482,7 @@ const MSG = defineMessages({
   },
   album_booking_order: {
     id: 'app.album_booking_order',
-    defaultMessage: `En savoir plus sur la réservation`,
+    defaultMessage: `Réserver votre album`,
   },
   update_infos: {
     id: 'app.update_infos',
@@ -467,5 +495,9 @@ const MSG = defineMessages({
   album_gallery_title: {
     id: 'app.album_gallery_title',
     defaultMessage: `Quelques autres photos de l'album Babypoom`,
+  },
+  expiration_title: {
+    id: 'app.expiration_title',
+    defaultMessage: `Votre Babypoom expirera dans`,
   },
 })

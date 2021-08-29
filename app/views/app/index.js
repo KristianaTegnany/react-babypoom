@@ -367,6 +367,7 @@ class App extends Component {
                 <Guestbook />
                 <ParentsAndStats />
                 {missingPages}
+                {!kitePages && <Page key={`before-backcover`} />}
                 {!kitePages && <BackCover />}
               </React.Fragment>
             )}

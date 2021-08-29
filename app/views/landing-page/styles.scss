@@ -145,8 +145,8 @@
 
   > a {
     padding: 8px 30px;
-    color: white;
-    background-color: #ecd24f;
+    color: #646781;
+    background-color: white;
     border: 1px solid rgb(202, 179, 75);
     border-radius: 3px;
     font-size: 16px;
@@ -180,6 +180,10 @@
   margin: auto;
 }
 
+.expiration-title{
+  margin-bottom: 20px;
+}
+
 .button-booking-order {
   z-index: 1000;
   top: 5px;
@@ -191,8 +195,8 @@
 
   > a {
     padding: 8px 30px;
-    color: white;
-    background-color: #fbbdb2;
+    color: #646781;
+    background-color: white;
     border: 1px solid #d5797b;
     border-radius: 3px;
     font-size: 16px;
