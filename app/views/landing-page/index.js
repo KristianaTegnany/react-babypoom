@@ -330,6 +330,35 @@ class LandingPage extends Component {
                   </Column>
                 </Row>
 
+                <Row wrap vertical="center">
+                  <Column flexGrow={1} horizontal="center"
+                    style={{
+                      backgroundColor: "white",
+                      maxWidth: 650,
+                      padding: 12,
+                      color: "#646781",
+                      borderRadius:"15px",
+                      margin: 30,
+                    }}
+                  >
+                    <h3 styleName="lp-title expiration-title"> {t(MSG.feedbacks_title)} </h3>
+                    <span>
+                      {t(MSG.feedbacks_description)}
+                    </span>
+                    <iframe src="https://babypoom.typeform.com/report/UK7ptO7j/kWKZZYr9hmES2wox"
+                    style={{
+                      marginTop: "15px",
+                      backgroundColor: "white",
+                      width: "100%",
+                      height: "350px",
+                      border:"4px solid #b5ceca",
+                      mozBorderRadius: "15px",
+                      borderRadius: "15px",
+                      overflow: "hidden",
+                    }} />
+                  </Column>
+                </Row>
+
               </Column>
             </div>
           )}
@@ -499,5 +528,17 @@ const MSG = defineMessages({
   expiration_title: {
     id: 'app.expiration_title',
     defaultMessage: `Votre Babypoom expirera dans`,
+  },
+  feedbacks_title: {
+    id: 'app.feedbacks_title',
+    defaultMessage: `Qu'en pense les parents qui l'ont déjà reçu ?`,
+  },
+  feedbacks_description: {
+    id: 'app.feedbacks_description',
+    defaultMessage: `La qualité de nos produits est au coeur de nos préoccupations chez Babypoom, c'est pourquoi nous faisons régulièrement des sondages auprès des parents qui nous ont fait confiance. Nous vous partageons ici en toute transparence et sans filtre les résultats de notre dernier sondage.`,
+  },
+  feedbacks_link: {
+    id: 'app.feedbacks_link',
+    defaultMessage: `Voir les résultats du dernier sondage`,
   },
 })
