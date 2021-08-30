@@ -339,7 +339,8 @@ class App extends Component {
     if ((totalPages + blankPages) % 2) ++blankPages
     //console.log('BLANK PAGE after modulo: ' + blankPages)
     let missingPages = []
-    for (let i = 0; i < blankPages+1; ++i) missingPages.push(<Page key={`missing-${i}`} />)
+    blankPages = kitePages ? blankPages : blankPages+1 // to fix album preview html end
+    for (let i = 0; i < blankPages; ++i) missingPages.push(<Page key={`missing-${i}`} />)
 
     return (
       <CSSVariableApplicator data-variables={THEMES[this.state.theme]}>
