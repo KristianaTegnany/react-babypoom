@@ -13,6 +13,7 @@ import config from '../../../config'
 import t from '../../i18n/i18n'
 import imgPath from "../../../lib/img-path"
 import loadIntl from '../../../lib/intl-detection'
+import Tracking from '../../../lib/tracking'
 import { updateLocale } from '../../i18n/hot-intl-provider/HotIntlProviderActions'
 import { Column, Row } from "simple-flexbox";
 import styles from 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -57,6 +58,7 @@ class BookingPage extends Component {
               setLocaleData(json.data)
             })
           })
+          Tracking.track("ParentAlbumBookingLandingPage_Visited", {bpoom_id: bpoom.id})
         })
         .catch(() => {
           this.props.history.push('/not-found')

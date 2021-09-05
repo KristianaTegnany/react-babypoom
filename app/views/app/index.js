@@ -19,6 +19,7 @@ import BackCover from '../../pages/back-cover'
 import i18n from '../../i18n/i18n'
 import Turn from '../../../lib/turn'
 import Fullscreen from '../../../lib/fullscreen'
+import Tracking from '../../../lib/tracking'
 import config from '../../../config'
 import t from '../../i18n/i18n'
 import flipSound from '../../sounds/flip-sound.mp3'
@@ -123,6 +124,7 @@ class App extends Component {
               this.domLoaded()
             })
           })
+          Tracking.track("ParentAlbumPreview_Visited", {bpoom_id: bpoom.id})
         })
         .catch(() => {
           this.props.history.push('/not-found')
