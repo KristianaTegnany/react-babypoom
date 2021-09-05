@@ -6,7 +6,7 @@ import ReactGA from 'react-ga'
 import { FacebookProvider, Page, Like } from 'react-facebook'
 import ReactFBLike from 'react-fb-like'
 import Button from 'reactstrap/lib/Button'
-
+import Tracking from '../../../lib/tracking'
 // Config
 import config from '../../../config'
 
@@ -43,6 +43,10 @@ let Transition = ({ bpoom, steps }) => {
 
   let giftLink = `https://album.babypoom.com/${bpoom.uuid}/gift?donor=${friendName}`
 
+  function goToAlbumOffer() {
+    Tracking.track("FriendAlbumOfferBt_Clicked", {bpoom_id: bpoom.id})
+  }
+
   return msg
     ? t(msg, {
         link: (
@@ -60,6 +64,7 @@ let Transition = ({ bpoom, steps }) => {
                 eventLabel={config.shareLink}
                 color="app"
                 className={styles['gift-link']}
+                onClick={()=>goToAlbumOffer()}
                 to={giftLink}
                 target="_blank"
               >
