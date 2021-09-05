@@ -20,6 +20,7 @@ import { extractParams } from '../../../lib/params'
 import Ahoy from '../../../lib/ahoy-custom'
 import imgPath from '../../../lib/img-path'
 import Tracking from '../../../lib/tracking'
+import getPhoto from '../../../lib/get-photo'
 import api from '../../api'
 import './styles.scss'
 import { Prompt } from 'react-router'
@@ -28,12 +29,15 @@ import { Prompt } from 'react-router'
 
 const DEFAULT_PHOTO = imgPath('/avatars/selfie.svg' + config.avatarBackgroundQuerystring)
 
-let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, intl }) => {
+let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, intl, msg }) => {
   const [imgSrc, setImgSrc] = useState('')
   const [uploading, setUploading] = useState(false)
   const [progress, setProgress] = useState(null)
 
   useEffect(() => {
+    if (msg){
+      setImgSrc(getPhoto(msg.photo_urls, 'thumbnail') || DEFAULT_PHOTO)
+    }
     const className = document.body.className
     document.body.className = 'no-bars'
     return () => (document.body.className = className)
@@ -111,7 +115,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
     }
   }
 
-  const initialValues = {
+  const initialValues = msg || {
     name: '',
     email: '',
     message: '',
@@ -159,7 +163,7 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
               validate={required({ msg: t(FORM_MSG.form_message_required) })}
             />
             <Field name="private" type="checkbox" label={t(FORM_MSG.form_private)} component={CheckField} />
-
+            <Field name="id" component="input" type="hidden" />
             <div styleName="upload-img">
               <BpoomImg imgSrc={imgSrc || DEFAULT_PHOTO} />
               <div styleName="upload-desc">

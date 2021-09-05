@@ -20,6 +20,7 @@ import FaPencil from 'react-icons/lib/fa/pencil'
 import useToggle from '../../hooks/toggle'
 import imgPath from '../../../lib/img-path'
 import config from '../../../config'
+import { hasParam } from '../../../lib/url-params'
 import './styles.scss'
 
 const DEFAULT_PHOTO = imgPath('/avatars/default.png' + config.avatarBackgroundQuerystring)
@@ -27,6 +28,7 @@ const DEFAULT_PHOTO_PARENT_1 = imgPath('/avatars/parent-1.svg' + config.avatarBa
 const DEFAULT_PHOTO_PARENT_2 = imgPath('/avatars/parent-2.svg' + config.avatarBackgroundQuerystring)
 
 let GuestBook = ({ bpoom, desktop, noNav, steps, intl, loadSlideshow, openSlideshow, deleteMsg, flash }) => {
+  const [msgId, setMsgId] = useState()
   let guestBookMsgs = bpoom.guest_book_msgs || []
 
   let all_imgs = guestBookMsgs.map((msg) => ({
@@ -34,6 +36,12 @@ let GuestBook = ({ bpoom, desktop, noNav, steps, intl, loadSlideshow, openSlides
     title: msg.created_at ? `${formatDate(intl, msg.created_at)} - ${msg.name || ''}` : `${msg.name || ''}`,
     description: msg.message || '',
   }))
+
+  function getByValue(arr, value) {
+    for (var i=0, iLen=arr.length; i<iLen; i++) {
+      if (arr[i].id == value) return arr[i];
+    }
+  }
 
   if (bpoom.parent_2_reaction) {
     all_imgs.unshift({
@@ -68,7 +76,26 @@ let GuestBook = ({ bpoom, desktop, noNav, steps, intl, loadSlideshow, openSlides
     }
   }
 
+  function validateMsg() {
+    if (hasParam(location.search, "msg")){
+      alert(intl.formatMessage(MSG.message_updated))
+      // TODO Durty method to update the message list page without complexity of redux (only for updated message)
+      window.location.assign(window.location.href.split("?")[0])
+    }else{
+      form.hide()
+      setScrollToBottom(true)
+    }
+  }
+
   const form = useToggle(false)
+
+  useEffect(() => {
+    let url= window.location.href
+    if (hasParam(location.search, "msg")){
+      setMsgId(/msg=([^&]+)/.exec(url)[1])
+      form.show()
+    }
+  }, [])
 
   // Scroll to bottom
   const [scrollToBottom, setScrollToBottom] = useState(false)
@@ -79,9 +106,10 @@ let GuestBook = ({ bpoom, desktop, noNav, steps, intl, loadSlideshow, openSlides
       let parent = scrollableElt.current.parentNode
       parent.scrollTop = parent.scrollHeight
     }
+    //setMsgId(166)
   }, [scrollToBottom])
 
-  if (form.visible) return <GuestBookForm onSave={() => (form.hide(), setScrollToBottom(true))} onCancel={form.hide} />
+  if (form.visible) return <GuestBookForm onSave={() => (validateMsg())} onCancel={form.hide} msg={getByValue(guestBookMsgs,msgId)} />
 
   let visitorId = Ahoy.getVisitorId()
   let photo = getPhoto(bpoom.photo_urls, 'thumbnail')
@@ -207,6 +235,10 @@ const MSG = defineMessages({
   message_deleted: {
     id: 'guest_book.message_deleted',
     defaultMessage: 'Votre message a bien été supprimé',
+  },
+  message_updated: {
+    id: 'guest_book.message_updated',
+    defaultMessage: 'Votre message a bien été modifié ;)',
   },
   delete_message_confirm: {
     id: 'guest_book.delete_message_confirm',
