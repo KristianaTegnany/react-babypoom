@@ -69,9 +69,7 @@ class LandingPageFriends extends Component {
               setLocaleData(json.data)
             })
           })
-          console.log("********CALLL MIXPANEL**********")
-          Tracking.track("FriendAlbumLandingPage_Visited", {bpoom_id: bpoom.id})
-          console.log("********CALLL MIXPANEL END**********")
+
         })
         .catch(() => {
           this.props.history.push('/not-found')
@@ -169,6 +167,10 @@ class LandingPageFriends extends Component {
     if (bpoom.not_found) {
       return <NotFound />
     }
+
+    console.log("********CALLL MIXPANEL**********")
+    Tracking.track("FriendAlbumLandingPage_Visited", {bpoom_id: bpoom.id})
+    console.log("********CALLL MIXPANEL END**********")
 
     return (
       <CSSVariableApplicator data-variables={THEMES[this.state.theme]}>
