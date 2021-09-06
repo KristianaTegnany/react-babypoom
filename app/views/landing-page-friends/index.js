@@ -168,9 +168,7 @@ class LandingPageFriends extends Component {
       return <NotFound />
     }
 
-    console.log("********CALLL MIXPANEL**********")
     Tracking.track("FriendAlbumLandingPage_Visited", {bpoom_id: bpoom.id})
-    console.log("********CALLL MIXPANEL END**********")
 
     return (
       <CSSVariableApplicator data-variables={THEMES[this.state.theme]}>

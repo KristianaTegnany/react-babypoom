@@ -58,7 +58,6 @@ class BookingPage extends Component {
               setLocaleData(json.data)
             })
           })
-          Tracking.track("ParentAlbumBookingLandingPage_Visited", {bpoom_id: bpoom.id})
         })
         .catch(() => {
           this.props.history.push('/not-found')
@@ -143,6 +142,7 @@ class BookingPage extends Component {
     if (bpoom.not_found) {
       return <NotFound />
     }
+    Tracking.track("ParentAlbumBookingLandingPage_Visited", {bpoom_id: bpoom.id})
 
     return (
       <CSSVariableApplicator data-variables={THEMES[this.state.theme]}>

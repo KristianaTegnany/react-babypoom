@@ -124,7 +124,6 @@ class App extends Component {
               this.domLoaded()
             })
           })
-          Tracking.track("ParentAlbumPreview_Visited", {bpoom_id: bpoom.id})
         })
         .catch(() => {
           this.props.history.push('/not-found')
@@ -312,6 +311,8 @@ class App extends Component {
     if (bpoom.not_found) {
       return <NotFound />
     }
+
+    Tracking.track("ParentAlbumPreview_Visited", {bpoom_id: bpoom.id})
 
     let {
       bpoom: { guest_book_msgs = [], trip_events = [], parent_1_reaction = '', parent_2_reaction = '' } = {},
