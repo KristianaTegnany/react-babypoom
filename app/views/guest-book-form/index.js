@@ -92,6 +92,10 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
     return saveMsg(bpoom.uuid, extractParams(values))
       .then(() => {
         if (window.localStorage) {
+          delete window.localStorage.babypoomFriendName
+          delete window.localStorage.babypoomFriendNameTS
+          delete window.localStorage.babypoomFriendEmail
+          delete window.localStorage.babypoomFriendEmailTS
           delete window.localStorage.babypoomGuestBookMessage
           delete window.localStorage.babypoomGuestBookMessageTS
           if (bpoom.shared_by_visits && values.email != bpoom.email){
@@ -108,6 +112,20 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
       .catch(() => actions.setSubmitting(false))
   }
 
+  const saveFriendName = (event) => {
+    if (window.localStorage) {
+      window.localStorage.babypoomFriendName = event.target.value
+      window.localStorage.babypoomFriendNameTS = new Date().getTime()
+    }
+  }
+
+  const saveFriendEmail = (event) => {
+    if (window.localStorage) {
+      window.localStorage.babypoomFriendEmail = event.target.value
+      window.localStorage.babypoomFriendEmailTS = new Date().getTime()
+    }
+  }
+
   const saveMessage = (event) => {
     if (window.localStorage) {
       window.localStorage.babypoomGuestBookMessage = event.target.value
@@ -120,6 +138,16 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
     email: '',
     message: '',
     photo: '',
+  }
+  if (window.localStorage && window.localStorage.babypoomFriendNameTS) {
+    if (new Date().getTime() - window.localStorage.babypoomFriendNameTS < 24 * 60 * 60 * 1000) {
+      initialValues.name = window.localStorage.babypoomFriendName
+    }
+  }
+  if (window.localStorage && window.localStorage.babypoomFriendEmailTS) {
+    if (new Date().getTime() - window.localStorage.babypoomFriendEmailTS < 24 * 60 * 60 * 1000) {
+      initialValues.email = window.localStorage.babypoomFriendEmail
+    }
   }
   if (window.localStorage && window.localStorage.babypoomGuestBookMessageTS) {
     if (new Date().getTime() - window.localStorage.babypoomGuestBookMessageTS < 24 * 60 * 60 * 1000) {
@@ -135,6 +163,10 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
             <Field
               name="name"
               label={t(FORM_MSG.form_name)}
+              onChange={(e) => {
+                handleChange(e)
+                saveFriendName(e)
+              }}
               component={InputField}
               autoFocus={true}
               validate={required({ msg: t(FORM_MSG.form_name_required) })}
@@ -142,6 +174,10 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
             <Field
               name="email"
               type="email"
+              onChange={(e) => {
+                handleChange(e)
+                saveFriendEmail(e)
+              }}
               label={
                 <span>
                   {t(FORM_MSG.form_email)} <small>{t(FORM_MSG.form_email_desc)}</small>
