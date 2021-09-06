@@ -69,7 +69,9 @@ class LandingPageFriends extends Component {
               setLocaleData(json.data)
             })
           })
+          console.log("********CALLL MIXPANEL**********")
           Tracking.track("FriendAlbumLandingPage_Visited", {bpoom_id: bpoom.id})
+          console.log("********CALLL MIXPANEL END**********")
         })
         .catch(() => {
           this.props.history.push('/not-found')
