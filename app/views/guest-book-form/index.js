@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import { defineMessages, injectIntl } from 'react-intl'
 import { Formik, Form, Field } from 'formik'
@@ -22,7 +22,9 @@ import imgPath from '../../../lib/img-path'
 import Tracking from '../../../lib/tracking'
 import getPhoto from '../../../lib/get-photo'
 import api from '../../api'
-import './styles.scss'
+import SweetAlert from 'sweetalert-react';
+import 'sweetalert/dist/sweetalert.css';
+import styles from './styles.scss'
 import { Prompt } from 'react-router'
 
 // TODO: deleteFlash when going back to view (cancel or message saved)
@@ -33,6 +35,9 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
   const [imgSrc, setImgSrc] = useState('')
   const [uploading, setUploading] = useState(false)
   const [progress, setProgress] = useState(null)
+  const [photoConfirmation, setPhotoConfirmation] = useState(false)
+  const [uploadWithoutPhoto, setUploadWithoutPhoto] = useState(false)
+  const formRef = useRef()
 
   useEffect(() => {
     if (msg){
@@ -85,8 +90,9 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
     // Tracking
     let visitorId = Ahoy.getVisitorId()
     if (visitorId) values.uuid = visitorId
-    if (!imgSrc && !window.confirm(intl.formatMessage(MSG.photo_incentive_question)))
+    if (!imgSrc && !uploadWithoutPhoto)
     {
+      setPhotoConfirmation(true)
       return actions.setSubmitting(false)
     }
     return saveMsg(bpoom.uuid, extractParams(values))
@@ -110,6 +116,18 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
         Tracking.track("Guestbook_Form_Success", {bpoom_id: bpoom.id})
       })
       .catch(() => actions.setSubmitting(false))
+  }
+
+  function submitWithoutPhoto(){
+    setUploadWithoutPhoto(true)
+    handleSubmit()
+    setPhotoConfirmation(false)
+  }
+
+  const handleSubmit = () => {
+    if (formRef.current) {
+      formRef.current.handleSubmit()
+    }
   }
 
   const saveFriendName = (event) => {
@@ -156,8 +174,8 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
   }
 
   return (
-    <div ref={scrollElt} styleName="guest-book-form">
-      <Formik onSubmit={onSubmit} enableReinitialize={true} initialValues={initialValues}>
+    <div ref={scrollElt} styleName="styles.guest-book-form">
+      <Formik onSubmit={onSubmit} ref={formRef} enableReinitialize={true} initialValues={initialValues}>
         {({ isSubmitting, setFieldValue, handleChange }) => (
           <Form noValidate>
             <Field
@@ -200,10 +218,10 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
             />
             <Field name="private" type="checkbox" label={t(FORM_MSG.form_private)} component={CheckField} />
             <Field name="id" component="input" type="hidden" />
-            <div styleName="upload-img">
+            <div styleName="styles.upload-img">
               <BpoomImg imgSrc={imgSrc || DEFAULT_PHOTO} />
-              <div styleName="upload-desc">
-                <div styleName="incentive">{t(MSG.photo_incentive)}</div>
+              <div styleName="styles.upload-desc">
+                <div styleName="styles.incentive">{t(MSG.photo_incentive)}</div>
                 <Button color={btnColor || 'secondary'} onClick={() => onUploadBtnClick(setFieldValue)}>
                   {t(FORM_MSG.form_import)}
                 </Button>
@@ -212,14 +230,14 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
                     <small>{t(FORM_MSG.form_import_formats)}</small>
                   </div>
                 ) : (
-                  <Progress styleName="progress" value={progress}>
+                  <Progress styleName="styles.progress" value={progress}>
                     {progress}%
                   </Progress>
                 )}
                 <Field name="photo" component="input" type="hidden" />
               </div>
             </div>
-            <div styleName="actions">
+            <div styleName="styles.actions">
               <Prompt
                 when={isSubmitting}
                 message={() => {
@@ -235,9 +253,24 @@ let GuestBookForm = ({ bpoom, btnColor, flash, api, saveMsg, onSave, onCancel, i
                 {t(FORM_MSG.form_submit)}
               </Button>
             </div>
+            <SweetAlert
+              show={photoConfirmation}
+              title="Une photo ?"
+              confirmButtonText="Je valide sans photo"
+              cancelButtonText="J'ajoute une photo"
+              imageUrl={getPhoto(bpoom.photo_urls, 'thumbnail')}
+              showCancelButton
+              success
+              showLoaderOnConfirm
+              text={intl.formatMessage(MSG.photo_incentive_question)}
+              onConfirm={() => submitWithoutPhoto()}
+              onCancel={() => setPhotoConfirmation(false)}
+            />
           </Form>
         )}
+
       </Formik>
+
     </div>
   )
 }

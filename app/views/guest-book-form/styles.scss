@@ -4,6 +4,14 @@
   body.no-bars {
     header, footer { display: none; }
   }
+
+  .sweet-alert button {
+    background-color: var(--brand-primary) !important;
+  }
+
+  .sweet-alert button.cancel {
+    background-color: var(--brand-secondary-A) !important;
+  }
 }
 
 .guest-book-form {
@@ -75,4 +83,8 @@
   .upload-img {
     margin-top: $main-padding * 2;
   }
+}
+
+.sweet-alert button.cancel:hover {
+  background-color: red !important;
 }
