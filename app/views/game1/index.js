@@ -15,8 +15,6 @@ import GameWin from '../game-win'
 import { Prompt } from 'react-router'
 import useToggle from '../../hooks/toggle'
 import imgPath from '../../../lib/img-path'
-import SweetAlert from 'sweetalert-react'
-import 'sweetalert/dist/sweetalert.css'
 // i18n
 import t from '../../i18n/i18n'
 
