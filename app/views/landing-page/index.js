@@ -429,7 +429,7 @@ const MSG = defineMessages({
   },
   album_argument_1_4: {
     id: 'app.album_argument_1_4',
-    defaultMessage: `Votre Babypoom n'expire plus et reste accessible sur votre dashboard`,
+    defaultMessage: `Votre Babypoom n'expire plus et reste accessible dans votre application`,
   },
   album_argument_2_title: {
     id: 'app.album_argument_2_title',
