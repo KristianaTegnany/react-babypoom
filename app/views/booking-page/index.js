@@ -272,20 +272,23 @@ class BookingPage extends Component {
                   >
                     <h3 styleName="lp-title"> {t(MSG.album_gallery_title)} </h3>
                     <Carousel showThumbs={false} showStatus={false}>
-                        <div>
+                       <div>
                             <img src={bpoom.album_teaser2_url} />
+                        </div>
+                        <div>
+                            <img src={bpoom.gender=='M' ? imgPath("/album/album-visitorbook-teaser-boy.jpg") : imgPath("/album/album-visitorbook-teaser-girl.jpg")} />
+                        </div>
+                        <div>
+                            <img src={imgPath("/album/album-with-mum-2.jpg")} />
+                        </div>
+                        <div>
+                            <img src={imgPath("/album/album-with-mum.jpg")} />
                         </div>
                         <div>
                             <img src={imgPath("/album/album-teaser-4-opti.jpg")} />
                         </div>
                         <div>
                             <img src={imgPath("/album/album-teaser-3-opti.jpg")} />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-with-mum.jpg")} />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-with-mum-2.jpg")} />
                         </div>
                     </Carousel>
                     <span>

@@ -24,6 +24,46 @@
   color: white;
 }
 
+.lp-coupon-background{
+  background-color: #ffc1b7;
+  border-radius: 5px;
+}
+
+.lp-coupon-old-price-container{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  del {
+    color: gray;
+  }
+}
+
+.lp-coupon-old-price-discount {
+  margin: 10px;
+  padding: 3px 0;
+  background-color: #7fb5b4;
+  outline: 2px solid #7fb5b4;
+  color: white;
+  font-weight: bold;
+  font-size: x-large;
+}
+
+.lp-coupon-old-price-before {
+  margin-right: 5px;
+  font-size: x-large;
+  color: #7fb5b4;
+}
+
+.lp-coupon-old-price-middle {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.lp-coupon-old-price-after {
+  margin-left: 5px;
+  font-size: x-large;
+  color: #7fb5b4;
+}
+
 .lp-title {
   margin-top: 20px;
   margin-bottom: 10px;

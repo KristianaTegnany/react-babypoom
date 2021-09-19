@@ -126,7 +126,7 @@ class LandingPage extends Component {
                       margin: 30,
                     }}
                   >
-                    <img id="#wheelio" styleName="responsive-album" src={bpoom.album_teaser_url}></img>
+                    <img styleName="responsive-album" src={bpoom.album_teaser_url}></img>
                   </Column>
                 </Row>
                 <Row horizontal="center">
@@ -239,12 +239,21 @@ class LandingPage extends Component {
                       {t(MSG.album_pricing_description)}
                     </span>
                     <h1 styleName="lp-title">{t(MSG.album_pricing)}</h1>
-                    {bpoom.birthday <= '2020-12-31' && (
+                    {bpoom.coupon_album && (
                       <div styleName="lp-coupon-container">
-                        <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon)}</span>
-                        <h3 styleName="lp-coupon">{t(MSG.album_coupon_code)}</h3>
+                        <div styleName="lp-coupon-background">
+                          <span styleName="lp-coupon-old-price">{t(MSG.album_pricing_coupon)}</span>
+                          <div styleName="lp-coupon-old-price-container">
+                            <span styleName="lp-coupon-old-price-discount">{t(MSG.album_pricing_coupon_discount)}</span>
+                            <span styleName="lp-coupon-old-price-before"><del>{t(MSG.album_pricing)}</del></span>
+                            <span styleName="lp-coupon-old-price-after">{t(MSG.album_pricing_coupon_new)}</span>
+                          </div>
+
+                        <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon_intro)}</span>
+                        <h3 styleName="lp-coupon">{bpoom.coupon_album.code}</h3>
+                        </div>
                         <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon_expiration)}</span>
-                        <img styleName="lp-coupon-image" src="http://i.countdownmail.com/15kjxv.gif" />
+                        <img styleName="lp-coupon-image" src={bpoom.coupon_album.link} />
                       </div>
                     )}
                     <div styleName="button-order">
@@ -314,13 +323,16 @@ class LandingPage extends Component {
                     <h3 styleName="lp-title"> {t(MSG.album_gallery_title)} </h3>
                     <Carousel showThumbs={false} showStatus={false}>
                         <div>
+                            <img src={bpoom.album_teaser2_url} />
+                        </div>
+                        <div>
+                            <img src={bpoom.gender=='M' ? imgPath("/album/album-visitorbook-teaser-boy.jpg") : imgPath("/album/album-visitorbook-teaser-girl.jpg")} />
+                        </div>
+                        <div>
                             <img src={imgPath("/album/album-with-mum-2.jpg")} />
                         </div>
                         <div>
                             <img src={imgPath("/album/album-with-mum.jpg")} />
-                        </div>
-                        <div>
-                            <img src={bpoom.album_teaser2_url} />
                         </div>
                         <div>
                             <img src={imgPath("/album/album-teaser-4-opti.jpg")} />
@@ -332,7 +344,7 @@ class LandingPage extends Component {
                   </Column>
                 </Row>
 
-                <Row wrap vertical="center">
+                {false && (<Row wrap vertical="center">
                   <Column flexGrow={1} horizontal="center"
                     style={{
                       backgroundColor: "white",
@@ -360,7 +372,7 @@ class LandingPage extends Component {
                     }} />
                   </Column>
                 </Row>
-
+                )}
               </Column>
             </div>
           )}
@@ -405,7 +417,7 @@ const MSG = defineMessages({
   },
   album_argument_1_1: {
     id: 'app.album_argument_1_1',
-    defaultMessage: `Un gain de temps : votre album est prêt en un clic! Fini les albums achetés en magasin que l'on ne remplit jamais totalement`,
+    defaultMessage: `Simplicité ! Votre album est prêt en un clic! Fini les albums achetés en magasin que l'on ne remplit jamais totalement`,
   },
   album_argument_1_2: {
     id: 'app.album_argument_1_2',
@@ -493,11 +505,23 @@ const MSG = defineMessages({
   },
   album_pricing_coupon: {
     id: 'app.album_pricing_coupon',
-    defaultMessage: `Et parce qu'une bonne nouvelle n'arrive jamais seule, nous vous offrons les frais de livraison et ce code promo qui vous permettra de bénéficier de 10 euros de réduction immédiate sur votre commande.`,
+    defaultMessage: `Et parce qu'une bonne nouvelle n'arrive jamais seule, nous vous offrons une exceptionnelle réduction de -10€ sur votre album.`,
+  },
+  album_pricing_coupon_new: {
+    id: 'app.album_pricing_coupon_new',
+    defaultMessage: `39€`,
+  },
+  album_pricing_coupon_discount: {
+    id: 'app.album_pricing_coupon_discount',
+    defaultMessage: `-10€`,
+  },
+  album_pricing_coupon_intro: {
+    id: 'app.album_pricing_coupon_intro',
+    defaultMessage: `en utilisant le code`,
   },
   album_pricing_coupon_expiration: {
     id: 'app.album_pricing_coupon_expiration',
-    defaultMessage: `Ce coupon disparaîtra et ne sera plus valable dans:`,
+    defaultMessage: `Offre valable uniquement pendant`,
   },
   album_preview: {
     id: 'app.album_preview',
