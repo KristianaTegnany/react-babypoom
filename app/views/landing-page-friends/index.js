@@ -220,9 +220,6 @@ class LandingPageFriends extends Component {
                     </span>
                     <h3 styleName="lp-title">{t(MSG.album_description_title)}</h3>
                     <span styleName="lp-description">
-                      {t(MSG.album_description, {babyname: bpoom.baby_name})}
-                    </span>
-                    <span styleName="lp-description">
                       {t(MSG.album_description_2, {babyname: bpoom.baby_name})}
                     </span>
                     <h3 styleName="lp-title"> {t(MSG.album_argument_2_title)} </h3>
@@ -258,39 +255,11 @@ class LandingPageFriends extends Component {
                     <ItemList
                       items={[
                         {
-                          title: t(MSG.album_argument_1_1),
-                        },
-                        {
-                          title: t(MSG.album_argument_1_2),
-                        },
-                        {
-                          title: t(MSG.album_argument_1_3),
+                          title: t(MSG.album_argument_1_1, {babyname: bpoom.baby_name}),
                         },
                       ]}
                     />
                     <h3 styleName="lp-title"> {t(MSG.album_argument_3_title)} </h3>
-                    <ItemList
-                      items={[
-                        {
-                          title: t(MSG.album_argument_3_1),
-                        },
-                        {
-                          title: t(MSG.album_argument_3_2),
-                        },
-                        {
-                          title: t(MSG.album_argument_3_3),
-                        },
-                      ]}
-                    />
-                    <h3 styleName="lp-title"> {t(MSG.album_argument_4_title)} </h3>
-                    <ItemList
-                      items={[
-                        {
-                          title: t(MSG.album_argument_4),
-                        },
-                      ]}
-                    />
-                    <h3 styleName="lp-title"> {t(MSG.album_gallery_title)} </h3>
                     <Carousel showThumbs={false} showStatus={false}>
                         <div>
                             <img src={bpoom.gender=='M' ? imgPath("/album/album-visitorbook-teaser-boy.jpg") : imgPath("/album/album-visitorbook-teaser-girl.jpg")} />
@@ -311,6 +280,14 @@ class LandingPageFriends extends Component {
                             <img src={imgPath("/album/album-teaser-3-opti.jpg")} />
                         </div>
                     </Carousel>
+                    <h3 styleName="lp-title"> {t(MSG.album_argument_4_title)} </h3>
+                    <ItemList
+                      items={[
+                        {
+                          title: t(MSG.album_argument_4),
+                        },
+                      ]}
+                    />
                   </Column>
                 </Row>
 
@@ -334,7 +311,7 @@ class LandingPageFriends extends Component {
                     </span>
                     <img styleName="responsive-album" src={this.state.donor ? imgPath("/album/friend_custom_name_teaser.jpg") : imgPath("/album/friend_custom_name_teaser.jpg")} />
                     <hr styleName="little-separation"/>
-                    <h3 styleName="lp-title"> {t(MSG.album_friend_custom_name_form_intro)} </h3>
+                    <h3 styleName="lp-title"> {t(MSG.album_friend_custom_name_form_intro, {babyname: bpoom.baby_name, gender_pronoun: 'M' === bpoom.gender ? t(MSG.gender_pronoun_male) : t(MSG.gender_pronoun_female) })} </h3>
                     <div styleName="form-custom">
                       <form onSubmit={this.handleSubmit}>
                         <label>{t(MSG.album_friend_custom_name_form)}</label>
@@ -501,11 +478,11 @@ const MSG = defineMessages({
   },
   album_friend_intro: {
     id: 'app.album_friend_intro',
-    defaultMessage: `Envie de faire un cadeau original à {babyname} ? Un cadeau intemporel qui a coup sur fera plaisir à toute la famille. Offrez lui son album de naissance 100% personnalisé.`,
+    defaultMessage: `Envie de faire un cadeau original à {babyname} ? Un cadeau intemporel qui a coup sur fera plaisir à toute la famille. Offrez lui son album de naissance 100% personnalisé. Soyez celle ou celui qui immortalisera pour {babyname} ses plus beaux souvenirs de naissance.`,
   },
   album_description_title: {
     id: 'app.album_description_title',
-    defaultMessage: `Un album de naissance, pourquoi faire ?`,
+    defaultMessage: `Pourquoi offrir l'album de naissance ?`,
   },
   album_description: {
     id: 'app.album_description',
@@ -513,8 +490,7 @@ const MSG = defineMessages({
   },
   album_description_2: {
     id: 'app.album_description_2',
-    defaultMessage: `Offrez ces précieux souvenirs dans un album photo qui sera le trésor de ces moments incroyables en famille. C'est un objet magique à la valeur affective inégalable qui se transmet de génération en
-    génération, un concentré d’amour que bébé {babyname} découvrira quand il sera plus grand.`,
+    defaultMessage: `Vous permettrez ainsi à {babyname} de s'émouvoir quand il sera plus grand en feuilletant son album Babypoom personnalisé, avec votre dédicace. C'est un souvenir riche en émotions qu'il consultera tout au long de sa vie.`,
   },
   order: {
     id: 'app.order',
@@ -522,19 +498,15 @@ const MSG = defineMessages({
   },
   album_argument_1_title: {
     id: 'app.album_argument_1_title',
-    defaultMessage: `Des petits plus qui font toute la différence`,
+    defaultMessage: `Simplifiez la vie des parents`,
   },
   album_argument_1_1: {
     id: 'app.album_argument_1_1',
-    defaultMessage: `Un gain de temps : l'album est prêt en un clic! Fini les albums achetés en magasin que les parents ne remplissent jamais totalement`,
+    defaultMessage: `Un gain de temps : Fini les albums achetés en magasin que les parents ne remplissent jamais totalement. L'album est prêt en un clic, ce sera donc une démarche facile pour les parents de {babyname}`,
   },
   album_argument_1_2: {
     id: 'app.album_argument_1_2',
     defaultMessage: `Plus de confort : l'album sera directement envoyé à l'adresse des parents (c'est eux qui renseigneront leur adresse)`,
-  },
-  album_argument_1_3: {
-    id: 'app.album_argument_1_3',
-    defaultMessage: `Un plaisir accessible : l'album personnalisé est 5 fois moins cher que ceux proposés par les photographes`,
   },
   album_argument_2_title: {
     id: 'app.album_argument_2_title',
@@ -542,7 +514,7 @@ const MSG = defineMessages({
   },
   album_argument_2_1: {
     id: 'app.album_argument_2_1',
-    defaultMessage: `L'ensemble des messages et photos laissé par les proches dans le livre d'or`,
+    defaultMessage: `L'ensemble des messages et photos laissés par les proches dans le livre d'or`,
   },
   album_argument_2_2: {
     id: 'app.album_argument_2_2',
@@ -570,7 +542,7 @@ const MSG = defineMessages({
   },
   album_argument_2_8: {
     id: 'app.album_argument_2_8',
-    defaultMessage: `Votre dédicace en fin de livre`,
+    defaultMessage: `Votre dédicace au dos du livre`,
   },
   album_argument_3_title: {
     id: 'app.album_argument_3_title',
@@ -598,7 +570,7 @@ const MSG = defineMessages({
   },
   album_pricing_title: {
     id: 'app.album_pricing_title',
-    defaultMessage: `Tarifs`,
+    defaultMessage: `Prix`,
   },
   album_pricing_description: {
     id: 'app.album_pricing_description',
@@ -658,15 +630,15 @@ const MSG = defineMessages({
   },
   album_gift_process_1: {
     id: 'app.album_gift_process_1',
-    defaultMessage: `1- Vous passez commande d'un album de naissance personnalisé pour {babyname}`,
+    defaultMessage: `1- Vous commandez l'album personnalisé de {babyname}`,
   },
   album_gift_process_2: {
     id: 'app.album_gift_process_2',
-    defaultMessage: `2- Nous notifions (sms, email et push) les parents ({parent1Name}, {parent2Name}) que vous avez offert l'album de naissance de {babyname}. Nous retirons ensuite l'album de la vente pour éviter les doublons.`,
+    defaultMessage: `2- Nous prévenons {parent1Name} et {parent2Name} que vous avez offert son album de naissance à PRENOM et le retirons de la vente pour éviter les doublons.`,
   },
   album_gift_process_3: {
     id: 'app.album_gift_process_3',
-    defaultMessage: `3- L'album est automatiquement remplit mais s'ils le souhaitent, les parents peuvent encore le modifier (ajouter des photos, textes...). Ils renseignent ensuite juste leur adresse postale et recoivent dans leur boite aux lettres votre cadeau dédicacé.`,
+    defaultMessage: `3- L'album est automatiquement rempli mais s'ils le souhaitent, les parents peuvent encore le modifier (ajouter des photos, textes...). Après avoir saisi leur adresse postale, ils recevront ensuite votre cadeau dédicacé directement dans leur boite aux lettres`,
   },
   album_friend_custom_name: {
     id: 'app.album_friend_custom_name',
@@ -674,7 +646,7 @@ const MSG = defineMessages({
   },
   album_friend_custom_name_form_description: {
     id: 'app.album_friend_custom_name_form_description',
-    defaultMessage: `Au dos de votre cadeau sera affichée la petite dédicace suivante :`,
+    defaultMessage: `Au dos de l'album sera affichée votre dédicace`,
   },
   album_friend_custom_name_dedicace: {
     id: 'app.album_friend_custom_name_dedicace',
@@ -682,7 +654,7 @@ const MSG = defineMessages({
   },
   album_friend_custom_name_form_intro: {
     id: 'app.album_friend_custom_name_form_intro',
-    defaultMessage: `Vous pouvez ici modifier le nom qui apparaîtra à la fin de l'album`,
+    defaultMessage: `Faites savoir à {babyname} que vous avez pensé à {gender_pronoun}`,
   },
   album_friend_custom_name_form: {
     id: 'app.album_friend_custom_name_form',
@@ -691,5 +663,13 @@ const MSG = defineMessages({
   album_friend_custom_name_form_bt: {
     id: 'app.album_friend_custom_name_form_bt',
     defaultMessage: `Dédicacer`,
+  },
+  gender_pronoun_male: {
+    id: 'app.gender_pronoun_male',
+    defaultMessage: `lui`,
+  },
+  gender_pronoun_female: {
+    id: 'app.gender_pronoun_female',
+    defaultMessage: `elle`,
   },
 })

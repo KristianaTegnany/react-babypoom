@@ -153,7 +153,11 @@ class LandingPage extends Component {
                   >
                     <h3 styleName="lp-title">{t(MSG.album_description_title)}</h3>
                     <span>
-                      {t(MSG.album_description)}
+                      {t(MSG.album_description,{
+                          babyname: (
+                            bpoom.baby_name
+                          ),
+                        })}
                     </span>
                     <h3 styleName="lp-title"> {t(MSG.album_argument_2_title)} </h3>
                     <ItemList
@@ -191,27 +195,34 @@ class LandingPage extends Component {
                           title: t(MSG.album_argument_1_2),
                         },
                         {
-                          title: t(MSG.album_argument_1_3),
-                        },
-                        {
                           title: t(MSG.album_argument_1_4),
                         },
                       ]}
                     />
                     <h3 styleName="lp-title"> {t(MSG.album_argument_3_title)} </h3>
-                    <ItemList
-                      items={[
-                        {
-                          title: t(MSG.album_argument_3_1),
-                        },
-                        {
-                          title: t(MSG.album_argument_3_2),
-                        },
-                        {
-                          title: t(MSG.album_argument_3_3),
-                        },
-                      ]}
-                    />
+                    <Carousel showThumbs={false} showStatus={false}>
+                        <div>
+                            <img src={bpoom.album_teaser2_url} />
+                        </div>
+                        <div>
+                            <img src={bpoom.gender=='M' ? imgPath("/album/album-visitorbook-teaser-boy.jpg") : imgPath("/album/album-visitorbook-teaser-girl.jpg")} />
+                        </div>
+                        <div>
+                            <img src={imgPath("/album/album-with-mum-2.jpg")} />
+                        </div>
+                        <div>
+                            <img src={imgPath("/album/album-with-mum.jpg")} />
+                        </div>
+                        <div>
+                            <img src={imgPath("/album/album-teaser-4-opti.jpg")} />
+                        </div>
+                        <div>
+                            <img src={imgPath("/album/album-teaser-3-opti.jpg")} />
+                        </div>
+                    </Carousel>
+                    <span>
+                      {t(MSG.album_photos_description)}
+                    </span>
                     <h3 styleName="lp-title"> {t(MSG.album_argument_4_title)} </h3>
                     <ItemList
                       items={[
@@ -309,40 +320,7 @@ class LandingPage extends Component {
                 </Row>
                 )}
 
-                <Row wrap vertical="center">
-                  <Column flexGrow={1} horizontal="center"
-                    style={{
-                      backgroundColor: "white",
-                      maxWidth: 650,
-                      padding: 12,
-                      color: "#E0E0E0",
-                      borderRadius:"15px",
-                      margin: 30,
-                    }}
-                  >
-                    <h3 styleName="lp-title"> {t(MSG.album_gallery_title)} </h3>
-                    <Carousel showThumbs={false} showStatus={false}>
-                        <div>
-                            <img src={bpoom.album_teaser2_url} />
-                        </div>
-                        <div>
-                            <img src={bpoom.gender=='M' ? imgPath("/album/album-visitorbook-teaser-boy.jpg") : imgPath("/album/album-visitorbook-teaser-girl.jpg")} />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-with-mum-2.jpg")} />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-with-mum.jpg")} />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-teaser-4-opti.jpg")} />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-teaser-3-opti.jpg")} />
-                        </div>
-                    </Carousel>
-                  </Column>
-                </Row>
+
 
                 {false && (<Row wrap vertical="center">
                   <Column flexGrow={1} horizontal="center"
@@ -400,12 +378,15 @@ const MSG = defineMessages({
   },
   album_description_title: {
     id: 'app.album_description_title',
-    defaultMessage: `Un album de naissance, pourquoi faire ?`,
+    defaultMessage: `Pourquoi un album de naissance ?`,
   },
   album_description: {
     id: 'app.album_description',
-    defaultMessage: `Il s’agit tout simplement de l’un des meilleurs moyens d’immortaliser tous ces moments liés à la naissance d'un enfant. Vos proches vous ont certainement aussi gratifié de jolis messages à l'arrivé de bébé... Gardez ces précieux souvenirs dans un album photo qui sera le trésor de ces moments incroyables en famille. C'est un objet à la valeur affective inégalable qui se transmet de génération en
-    génération, un concentré d’amour que votre bébé découvrira quand il sera plus grand.`,
+    defaultMessage: `L'album de naissance est la meilleure façon d'immortaliser les premiers moments si précieux avec {babyname} et les réactions de vos proches au moment de l'annonce. L'album Babypoom personnalisé de {babyname} est un véritable concentré d'amour, offrez lui la chance de le feuilleter dans quelques années et de pouvoir ainsi revivre les émotions de son arrivée dans la famille.`,
+  },
+  album_photos_description: {
+    id: 'app.album_photos_description',
+    defaultMessage: `Couverture cartonnée personnalisée - Papier glacé 200g`,
   },
   order: {
     id: 'app.order',
@@ -417,15 +398,11 @@ const MSG = defineMessages({
   },
   album_argument_1_1: {
     id: 'app.album_argument_1_1',
-    defaultMessage: `Simplicité ! Votre album est prêt en un clic! Fini les albums achetés en magasin que l'on ne remplit jamais totalement`,
+    defaultMessage: `Simplifiez-vous la vie ! L'album est pré-rempli, vous pouvez le commander si vous le souhaitez en un clic! Fini les albums achetés en magasin que l'on ne remplit jamais totalement`,
   },
   album_argument_1_2: {
     id: 'app.album_argument_1_2',
     defaultMessage: `Plus de confort : vous le recevez directement chez vous`,
-  },
-  album_argument_1_3: {
-    id: 'app.album_argument_1_3',
-    defaultMessage: `Un plaisir accessible : votre album personnalisé est 5 fois moins cher que ceux proposés par les photographes`,
   },
   album_argument_1_4: {
     id: 'app.album_argument_1_4',
@@ -437,7 +414,7 @@ const MSG = defineMessages({
   },
   album_argument_2_1: {
     id: 'app.album_argument_2_1',
-    defaultMessage: `L'ensemble des messages et photos laissé par vos proches`,
+    defaultMessage: `L'ensemble des messages et photos laissés par vos proches`,
   },
   album_argument_2_2: {
     id: 'app.album_argument_2_2',
@@ -489,11 +466,11 @@ const MSG = defineMessages({
   },
   album_pricing_title: {
     id: 'app.album_pricing_title',
-    defaultMessage: `Tarifs`,
+    defaultMessage: `Prix`,
   },
   album_pricing_description: {
     id: 'app.album_pricing_description',
-    defaultMessage: `Recevez votre album de naissance personnalisé dans votre boite aux lettres pour seulement`,
+    defaultMessage: `L'album dans votre boite aux lettres pour seulement`,
   },
   album_pricing: {
     id: 'app.album_pricing',

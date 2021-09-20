@@ -211,9 +211,6 @@ class BookingPage extends Component {
                           title: t(MSG.album_argument_1_3),
                         },
                         {
-                          title: t(MSG.album_argument_1_4),
-                        },
-                        {
                           title: t(MSG.album_argument_1_5),
                         },
                       ]}
@@ -236,7 +233,6 @@ class BookingPage extends Component {
                     <span>
                       {t(MSG.album_pricing_description)}
                     </span>
-                    <h1 styleName="lp-title">{t(MSG.album_pricing)}</h1>
                     <div styleName="button-update-order">
                       <div styleName="order first">
                       {!bpoom.album_paid && (
@@ -353,15 +349,11 @@ const MSG = defineMessages({
   },
   album_argument_1_2: {
     id: 'app.album_argument_1_2',
-    defaultMessage: `Vous avez tout le temps pour ajouter, modifier vos textes et vos photos des moments importants de bébé ou demander à vos proches d'ajouter une photo à leur message du livre d'or`,
+    defaultMessage: `Vous avez le temps d'ajouter et/ou modifier vos textes et photos. Vous pouvez aussi solliciter vos proches s'il le faut pour qu'ils ajoutent leur photo à leur petit mot du livre d'or.`,
   },
   album_argument_1_3: {
     id: 'app.album_argument_1_3',
-    defaultMessage: `Pas de surplus à payer! Lorsque vous êtes prêt à commander votre album, vous renseignez votre adresse de livraison et le prix de cette réservation est automatiquement déduit du prix de l'album`,
-  },
-  album_argument_1_4: {
-    id: 'app.album_argument_1_4',
-    defaultMessage: `Si vous avez un code promo, vous pourrez encore l'utiliser sur le reste à payer`,
+    defaultMessage: `C'est gratuit : le prix de la réservation sera déduit de celui de l'album au moment de votre commande`,
   },
   album_argument_1_5: {
     id: 'app.album_argument_1_5',
@@ -417,11 +409,11 @@ const MSG = defineMessages({
   },
   album_pricing_title: {
     id: 'app.album_pricing_title',
-    defaultMessage: `Tarifs`,
+    defaultMessage: `Prix`,
   },
   album_pricing_description: {
     id: 'app.album_pricing_description',
-    defaultMessage: `Prenez votre temps et réserver votre album de naissance personnalisé pour`,
+    defaultMessage: `Prenez votre temps en réservant votre album pour 20€`,
   },
   album_pricing: {
     id: 'app.album_pricing',
@@ -449,7 +441,7 @@ const MSG = defineMessages({
   },
   album_order_now: {
     id: 'app.album_update_order',
-    defaultMessage: `Bien évidemment, si votre album semble déjà à votre goût, pas besoin de réservation, vous pouvez le recevoir directement.`,
+    defaultMessage: `Et si l'album est déjà à votre goût, pas besoin de modifications ni de réservation : vous pouvez le commander dès aujourd'hui'`,
   },
   album_order_now_bt: {
     id: 'app.album_order_now_bt',
@@ -457,7 +449,7 @@ const MSG = defineMessages({
   },
   update_infos: {
     id: 'app.update_infos',
-    defaultMessage: `⚠️ Sachez que ce n'est pas un surplus à payer. Lorsque vous serez prêt à commander votre album final, cette somme sera automatiquement déduite du prix final de votre album.`,
+    defaultMessage: `⚠️ Cette somme n'est pas un surcoût. Elle sera déduite du prix de l'album au moment de sa commande. L'album vous reviendra donc au prix total de 49€, le même prix que si vous le commandiez aujourd'hui.`,
   },
   album_gallery_title: {
     id: 'app.album_gallery_title',
