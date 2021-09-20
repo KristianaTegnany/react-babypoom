@@ -12,6 +12,10 @@
   .sweet-alert button.cancel {
     background-color: var(--brand-secondary-A) !important;
   }
+
+  .sweet-alert .sa-icon.sa-custom {
+    border-radius: 10%;
+  }
 }
 
 .guest-book-form {

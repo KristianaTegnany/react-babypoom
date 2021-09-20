@@ -45,6 +45,7 @@ let Transition = ({ bpoom, steps }) => {
 
   function goToAlbumOffer() {
     Tracking.track("FriendAlbumOfferBt_Clicked", {bpoom_id: bpoom.id})
+    window.open(giftLink)
   }
 
   return msg
@@ -58,19 +59,11 @@ let Transition = ({ bpoom, steps }) => {
           <div styleName="share-container">
             <span styleName="share">
               {(!bpoom.album_paid && window.localStorage && window.localStorage.showGiftOffer) ? (
-              <Button
-                size="sm"
-                tag={ReactGA.OutboundLink}
-                eventLabel={config.shareLink}
-                color="app"
-                className={styles['gift-link']}
-                onClick={()=>goToAlbumOffer()}
-                to={giftLink}
-                target="_blank"
-              >
-                {t(MSG.giftOffer)}
-              </Button>
+                <div styleName="offer-container" onClick={()=>goToAlbumOffer()}>
+                  <p styleName="shine-me"></p>
+                </div>
               ) : (
+                <>
                 <Button
                 size="sm"
                 tag={ReactGA.OutboundLink}
@@ -81,14 +74,15 @@ let Transition = ({ bpoom, steps }) => {
               >
                 {t(MSG.share)}
               </Button>
+              <div styleName="facebook-container">
+                <FacebookProvider appId={config.fbAppId}>
+                  <Page href="https://www.facebook.com/babypoom" />
+                </FacebookProvider>
+              </div>
+              </>
               )
               }
             </span>
-            <div styleName="facebook-container">
-              <FacebookProvider appId={config.fbAppId}>
-                <Page href="https://www.facebook.com/babypoom" />
-              </FacebookProvider>
-            </div>
           </div>
         ),
       })

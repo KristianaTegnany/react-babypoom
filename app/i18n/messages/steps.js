@@ -57,7 +57,7 @@ export default defineMessages({
     id: 'step.to_finish',
     defaultMessage: `Le parcours que tu viens d'effectuer a été créé avec émotions sur {link}
 
-Si tu as aimé ce nouveau moyen d'annoncer la naissance, n'hésite pas à liker ou partager notre page.
+Si tu as aimé ce nouveau moyen d'annoncer la naissance, n'hésite pas à partager notre service.
 
 A bientôt ;)
 {share}`,
