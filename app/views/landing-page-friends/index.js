@@ -219,8 +219,11 @@ class LandingPageFriends extends Component {
                       {t(MSG.album_friend_intro, {babyname: bpoom.baby_name})}
                     </span>
                     <h3 styleName="lp-title">{t(MSG.album_description_title)}</h3>
-                    <span>
+                    <span styleName="lp-description">
                       {t(MSG.album_description, {babyname: bpoom.baby_name})}
+                    </span>
+                    <span styleName="lp-description">
+                      {t(MSG.album_description_2, {babyname: bpoom.baby_name})}
                     </span>
                     <h3 styleName="lp-title"> {t(MSG.album_argument_2_title)} </h3>
                     <ItemList
@@ -290,10 +293,10 @@ class LandingPageFriends extends Component {
                     <h3 styleName="lp-title"> {t(MSG.album_gallery_title)} </h3>
                     <Carousel showThumbs={false} showStatus={false}>
                         <div>
-                            <img src={bpoom.album_teaser2_url} />
+                            <img src={bpoom.gender=='M' ? imgPath("/album/album-visitorbook-teaser-boy.jpg") : imgPath("/album/album-visitorbook-teaser-girl.jpg")} />
                         </div>
                         <div>
-                            <img src={bpoom.gender=='M' ? imgPath("/album/album-visitorbook-teaser-boy.jpg") : imgPath("/album/album-visitorbook-teaser-girl.jpg")} />
+                            <img src={bpoom.album_teaser2_url} />
                         </div>
                         <div>
                             <img src={imgPath("/album/album-with-mum-2.jpg")} />
@@ -498,7 +501,7 @@ const MSG = defineMessages({
   },
   album_friend_intro: {
     id: 'app.album_friend_intro',
-    defaultMessage: `Envie de faire un cadeau original à {babyname} ? Un cadeau intemporel qui a coup sur fera plaisir à toute la famille. Offrez lui un magnifique album de naissance 100% personnalisé.`,
+    defaultMessage: `Envie de faire un cadeau original à {babyname} ? Un cadeau intemporel qui a coup sur fera plaisir à toute la famille. Offrez lui son album de naissance 100% personnalisé.`,
   },
   album_description_title: {
     id: 'app.album_description_title',
@@ -506,7 +509,11 @@ const MSG = defineMessages({
   },
   album_description: {
     id: 'app.album_description',
-    defaultMessage: `Il s’agit tout simplement de l’un des meilleurs moyens d’immortaliser tous ces moments liés à la naissance d'un enfant. En plus des informations de naissance et photos de naissance, tous les messages des proches laissés sur le livre d'or seront automatiquement intégrés dans l'album... Offrez ces précieux souvenirs dans un album photo qui sera le trésor de ces moments incroyables en famille. C'est un objet à la valeur affective inégalable qui se transmet de génération en
+    defaultMessage: `Il s’agit tout simplement de l’un des meilleurs moyens d’immortaliser tous ces moments liés à la naissance d'un enfant. En plus des informations de naissance et photos de naissance, l'album Babypoom contient automatiquement tous les messages et photos des proches laissés sur le livre d'or...`,
+  },
+  album_description_2: {
+    id: 'app.album_description_2',
+    defaultMessage: `Offrez ces précieux souvenirs dans un album photo qui sera le trésor de ces moments incroyables en famille. C'est un objet magique à la valeur affective inégalable qui se transmet de génération en
     génération, un concentré d’amour que bébé {babyname} découvrira quand il sera plus grand.`,
   },
   order: {
@@ -627,7 +634,7 @@ const MSG = defineMessages({
   },
   update_infos: {
     id: 'app.update_infos',
-    defaultMessage: `⚠️ Attention, pour éviter les doublons, il n'y aura qu'une seule personne qui pourra offrir ce cadeau. Une fois la commande passée, il ne sera plus possible de le commander pour les autres. Les parents seront notifiés de votre cadeau et pourront encore modifier l'album à souhait avant de le recevoir (ajouter de nouvelles photos, modifier des textes...)`,
+    defaultMessage: `⚠️ Attention, pour éviter les doublons, il n'y aura qu'une seule personne qui pourra offrir ce cadeau ! Une fois la première commande passée, l'album ne sera plus disponible.`,
   },
   to_late_infos: {
     id: 'app.to_late_infos',
