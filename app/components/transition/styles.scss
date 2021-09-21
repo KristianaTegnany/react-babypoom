@@ -29,8 +29,8 @@
 }
 
 .offer-container {
-  width: 260px !important;
-  height: 130px;
+  width: 240px !important;
+  height: 120px;
   background-image: url(./album_friend_offer_final.png);
   background-size: contain;
   border-radius: 10px;
@@ -38,8 +38,8 @@
 }
 
 .shine-me {
-  width:260px; /*Make sure the animation is over the whole element*/
-  height:130px;
+  width:240px; /*Make sure the animation is over the whole element*/
+  height:120px;
   -webkit-animation-name: ShineAnimation;
   -webkit-animation-duration: 8s;
   -webkit-animation-iteration-count: infinite;
