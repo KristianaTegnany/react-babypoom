@@ -220,7 +220,7 @@ class LandingPageFriends extends Component {
                     </span>
                     <h3 styleName="lp-title">{t(MSG.album_description_title)}</h3>
                     <span styleName="lp-description">
-                      {t(MSG.album_description_2, {babyname: bpoom.baby_name})}
+                      {t(MSG.album_description_2, {babyname: bpoom.baby_name, gender_pronoun: 'M' === bpoom.gender ? t(MSG.gender_pronoun_male_2) : t(MSG.gender_pronoun_female)})}
                     </span>
                     <h3 styleName="lp-title"> {t(MSG.album_argument_2_title)} </h3>
                     <ItemList
@@ -280,6 +280,9 @@ class LandingPageFriends extends Component {
                             <img src={imgPath("/album/album-teaser-3-opti.jpg")} />
                         </div>
                     </Carousel>
+                    <span>
+                      {t(MSG.album_photos_description)}
+                    </span>
                     <h3 styleName="lp-title"> {t(MSG.album_argument_4_title)} </h3>
                     <ItemList
                       items={[
@@ -451,6 +454,32 @@ class LandingPageFriends extends Component {
                   </Column>
                 </Row>
 
+                <Row wrap vertical="center">
+                  <Column flexGrow={1} horizontal="center"
+                    style={{
+                      backgroundColor: "white",
+                      maxWidth: 650,
+                      padding: 12,
+                      color: "#646781",
+                      borderRadius:"15px",
+                      margin: 30,
+                    }}
+                  >
+                    <h3 styleName="lp-title"> {t(MSG.babypoom_presentation_title)} </h3>
+                    <span>
+                      {t(MSG.babypoom_presentation_description, {
+                            parent1Name: (
+                              bpoom.parent_1_name
+                            ),
+                            parent2Name: (
+                              bpoom.parent_2_name
+                            ),
+                            })}
+                    </span>
+                    <img styleName="logo-img" src={imgPath("/corporate/logo-and-brand.png")} />
+                  </Column>
+                </Row>
+
               </Column>
             </div>
           )}
@@ -478,7 +507,7 @@ const MSG = defineMessages({
   },
   album_friend_intro: {
     id: 'app.album_friend_intro',
-    defaultMessage: `Envie de faire un cadeau original à {babyname} ? Un cadeau intemporel qui a coup sur fera plaisir à toute la famille. Offrez lui son album de naissance 100% personnalisé. Soyez celle ou celui qui immortalisera pour {babyname} ses plus beaux souvenirs de naissance.`,
+    defaultMessage: `Envie de faire un cadeau original à {babyname} ? Un cadeau intemporel qui a coup sur fera plaisir à toute la famille. Soyez celle ou celui qui immortalisera pour {babyname} ses plus beaux souvenirs de naissance. Offrez lui son album de naissance 100% personnalisé. `,
   },
   album_description_title: {
     id: 'app.album_description_title',
@@ -490,7 +519,7 @@ const MSG = defineMessages({
   },
   album_description_2: {
     id: 'app.album_description_2',
-    defaultMessage: `Vous permettrez ainsi à {babyname} de s'émouvoir quand il sera plus grand en feuilletant son album Babypoom personnalisé, avec votre dédicace. C'est un souvenir riche en émotions qu'il consultera tout au long de sa vie.`,
+    defaultMessage: `Vous permettrez ainsi à {babyname} de s'émouvoir quand {gender_pronoun} sera plus grand en feuilletant son album Babypoom personnalisé, avec votre dédicace. C'est un souvenir riche en émotions qu'{gender_pronoun} consultera tout au long de sa vie.`,
   },
   order: {
     id: 'app.order',
@@ -568,6 +597,10 @@ const MSG = defineMessages({
     id: 'app.album_argument_4',
     defaultMessage: `En offrant ce souvenir vous encouragez aussi une société française et son équipe qui a fait le choix assumé de ne pas utiliser la pub et la vente de données pour se financer 🙏🏼`,
   },
+  album_photos_description: {
+    id: 'app.album_photos_description',
+    defaultMessage: `Couverture cartonnée personnalisée - Papier glacé 200g`,
+  },
   album_pricing_title: {
     id: 'app.album_pricing_title',
     defaultMessage: `Prix`,
@@ -634,7 +667,7 @@ const MSG = defineMessages({
   },
   album_gift_process_2: {
     id: 'app.album_gift_process_2',
-    defaultMessage: `2- Nous prévenons {parent1Name} et {parent2Name} que vous avez offert son album de naissance à PRENOM et le retirons de la vente pour éviter les doublons.`,
+    defaultMessage: `2- Nous prévenons {parent1Name} et {parent2Name} que vous avez offert son album de naissance à {babyname} et le retirons de la vente pour éviter les doublons.`,
   },
   album_gift_process_3: {
     id: 'app.album_gift_process_3',
@@ -668,8 +701,20 @@ const MSG = defineMessages({
     id: 'app.gender_pronoun_male',
     defaultMessage: `lui`,
   },
+  gender_pronoun_male_2: {
+    id: 'app.gender_pronoun_male_2',
+    defaultMessage: `il`,
+  },
   gender_pronoun_female: {
     id: 'app.gender_pronoun_female',
     defaultMessage: `elle`,
+  },
+  babypoom_presentation_title: {
+    id: 'app.babypoom_presentation_title',
+    defaultMessage: `Qui sommes nous ?`,
+  },
+  babypoom_presentation_description: {
+    id: 'app.babypoom_presentation_description',
+    defaultMessage: `Babypoom revisite le concept de faire-part de naissance de façon ludique et originale. Comme {parent1Name} et {parent2Name}, de nombreux parents nous font aujourd'hui confiance pour célébrer l'arrivée de leur bout de chou.`,
   },
 })

@@ -18,6 +18,7 @@ $bpoom-lg-img-height: 80px;
   background-size: cover;
   width: $bpoom-img-width;
   height: $bpoom-img-height;
+  padding: 10px;
 }
 
 .img-container {
@@ -52,8 +53,8 @@ $bpoom-lg-img-height: 80px;
 }
 
 @media (min-width: map-get($grid-breakpoints, md)) {
-  $bpoom-lg-img-width: 140px;
-  $bpoom-lg-img-height: 160px;
+  $bpoom-lg-img-width: 100px;
+  $bpoom-lg-img-height: 100px;
 
   .img {
     width: $bpoom-lg-img-width;
