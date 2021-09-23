@@ -272,7 +272,7 @@ class BookingPage extends Component {
                             <img src={bpoom.album_teaser2_url} />
                         </div>
                         <div>
-                            <img src={bpoom.gender=='M' ? imgPath("/album/album-visitorbook-teaser-boy.jpg") : imgPath("/album/album-visitorbook-teaser-girl.jpg")} />
+                            <img src={bpoom.gender=='F' ? imgPath("/album/album-visitorbook-teaser-girl.jpg") : imgPath("/album/album-visitorbook-teaser-boy.jpg")} />
                         </div>
                         <div>
                             <img src={imgPath("/album/album-with-mum-2.jpg")} />
