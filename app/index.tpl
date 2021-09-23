@@ -47,6 +47,5 @@ if (useThemeManifest) fs.writeFileSync('theme-manifest.json', JSON.stringify(the
     setTimeout(function () { document.body.appendChild(link) }, 0);
   </script>
   <!-- Wheelio App  <script type="text/javascript"> var shopID = "db365854-dcd7-405a-c73d-08d93593aba3"; var url = "https://wheelioapp.azureedge.net/app/index.min.js?v=" + new Date().getTime(); var wheelio_script = document.createElement("script"); wheelio_script.setAttribute("src", url); document.body.appendChild(wheelio_script); </script>-->
-  <script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script>
 </body>
 </html>
