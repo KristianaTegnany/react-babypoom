@@ -77,6 +77,7 @@ class LandingPageFriends extends Component {
     } else {
       setLocaleData(i18n.localeData)
     }
+    window.Beacon('init', 'af38003f-5b40-4549-95a4-f5399b41abbd')
   }
 
   componentDidUpdate(prevProps) {
