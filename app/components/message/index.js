@@ -13,7 +13,7 @@ import styles from './styles.scss'
 // Icon
 import FaTrashO from 'react-icons/lib/fa/trash-o'
 
-export default ({ imgSrc, date, name, message, onClick, onDelete }) => (
+export default ({ imgSrc, date, name, message, onClick, onDelete, onGift }) => (
   <div styleName="message-container">
     <div styleName="content">
       <BpoomImg imgSrc={imgSrc} onClick={onClick} />
@@ -21,6 +21,11 @@ export default ({ imgSrc, date, name, message, onClick, onDelete }) => (
         {date && <div styleName="title">{date}</div>}
         <div styleName="title">{name}</div>
         <div styleName="message">{message}</div>
+        {onGift && (
+          <div styleName="offer-container" onClick={onGift}>
+            <p styleName="shine-me"></p>
+          </div>
+        )}
       </div>
     </div>
     <div styleName="actions">

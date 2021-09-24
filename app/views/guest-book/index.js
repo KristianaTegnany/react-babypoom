@@ -21,6 +21,7 @@ import useToggle from '../../hooks/toggle'
 import imgPath from '../../../lib/img-path'
 import config from '../../../config'
 import { hasParam } from '../../../lib/url-params'
+import Tracking from '../../../lib/tracking'
 import './styles.scss'
 
 const DEFAULT_PHOTO = imgPath('/avatars/default.png' + config.avatarBackgroundQuerystring)
@@ -41,6 +42,18 @@ let GuestBook = ({ bpoom, desktop, noNav, steps, intl, loadSlideshow, openSlides
     for (var i=0, iLen=arr.length; i<iLen; i++) {
       if (arr[i].id == value) return arr[i];
     }
+  }
+
+  let friendName = ''
+  if (window.localStorage && window.localStorage.friendName) {
+    friendName = window.localStorage.friendName
+  }
+
+  let giftLink = `https://album.babypoom.com/${bpoom.uuid}/gift?donor=${friendName}`
+
+  function goToAlbumOffer() {
+    Tracking.track("FriendAlbumOfferBt_Clicked", {bpoom_id: bpoom.id})
+    window.open(giftLink)
   }
 
   if (bpoom.parent_2_reaction) {
@@ -171,7 +184,16 @@ let GuestBook = ({ bpoom, desktop, noNav, steps, intl, loadSlideshow, openSlides
                       }
                     : null
                 }
+                onGift={visitorId === msg.uuid
+                  ? () => goToAlbumOffer()
+                  : null
+                }
               />
+              {(!bpoom.album_paid && window.localStorage && window.localStorage.showGiftOffer && visitorId === msg.uuid) && (
+                <div styleName="offer-container" onClick={()=>goToAlbumOffer()}>
+                  <p styleName="shine-me"></p>
+                </div>
+              )}
             </div>
           )
         })}

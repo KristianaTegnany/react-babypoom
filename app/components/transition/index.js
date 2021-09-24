@@ -58,7 +58,7 @@ let Transition = ({ bpoom, steps }) => {
         share: (
           <div styleName="share-container">
             <span styleName="share">
-              {(!bpoom.album_paid && window.localStorage && window.localStorage.showGiftOffer) ? (
+              {false ? (
                 <div styleName="offer-container" onClick={()=>goToAlbumOffer()}>
                   <p styleName="shine-me"></p>
                 </div>
