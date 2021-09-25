@@ -374,7 +374,7 @@ function mapStateToProps(state) {
 const MSG = defineMessages({
   lp_slogan: {
     id: 'app.lp_slogan',
-    defaultMessage: `Offrez à {babyname} un souvenir inoubliable !`,
+    defaultMessage: `Offrez un souvenir inoubliable à {babyname} !`,
   },
   album_description_title: {
     id: 'app.album_description_title',
