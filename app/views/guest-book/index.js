@@ -184,16 +184,11 @@ let GuestBook = ({ bpoom, desktop, noNav, steps, intl, loadSlideshow, openSlides
                       }
                     : null
                 }
-                onGift={visitorId === msg.uuid
+                onGift={(bpoom.shared_by_visits && !bpoom.album_paid && visitorId === msg.uuid)
                   ? () => goToAlbumOffer()
                   : null
                 }
               />
-              {(!bpoom.album_paid && window.localStorage && window.localStorage.showGiftOffer && visitorId === msg.uuid) && (
-                <div styleName="offer-container" onClick={()=>goToAlbumOffer()}>
-                  <p styleName="shine-me"></p>
-                </div>
-              )}
             </div>
           )
         })}
