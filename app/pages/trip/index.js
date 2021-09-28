@@ -31,13 +31,14 @@ class Trip extends Component {
   formatDate = (tripEvent) => {
     let { intl } = this.props
     let date = new Date(tripEvent.date_event)
-    date = new Date(date.getTime() + new Date().getTimezoneOffset() * 60000)
+    //date = new Date(date.getTime() + new Date().getTimezoneOffset() * 60000)
 
     if (null == tripEvent.period_type) {
       return intl.formatDate(date, {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
+        timeZone: "UTC",
       })
     }
     return intl.formatMessage(MSG[`type_period_${tripEvent.period_type}`], {
