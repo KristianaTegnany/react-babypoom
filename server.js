@@ -83,6 +83,8 @@ let BROWSER
       '--disable-default-apps',
       '--mute-audio',
       '--no-first-run',
+      '--font-render-hinting=none',
+      '--force-color-profile=srgb',
     ],
   })
 })()
@@ -90,6 +92,7 @@ let BROWSER
 const generatePdf = async function (url, path, params) {
   const page = await BROWSER.newPage()
   page.emulateMediaType('screen')
+  await page.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36")
   await page.goto(url, { waitUntil: 'networkidle2' })
   await page.addStyleTag({ content: 'html, body { background: white; }' })
 
