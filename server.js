@@ -95,6 +95,7 @@ const generatePdf = async function (url, path, params) {
   await page.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36")
   await page.goto(url, { waitUntil: 'networkidle2' })
   await page.addStyleTag({ content: 'html, body { background: white; }' })
+  await page.evaluateHandle('document.fonts.ready');
 
   let errors = 0
 
