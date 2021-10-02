@@ -323,7 +323,7 @@ class App extends Component {
       1 /* Cover */ +
       3 /* 1 blank page recto/verso + Intro */ +
       2 /* Arrival */ +
-      1 /* Card */ +
+      (bpoom.card_id ? 1 : 0) /* Card */ +
       Trip.cntPages(trip_events) /* Trip */ +
       Guestbook.cntPages(guest_book_msgs) /* Guest-book */ +
       parents_reactions /* Parents */ +
@@ -348,7 +348,7 @@ class App extends Component {
     return (
       <CSSVariableApplicator data-variables={THEMES[this.state.theme]}>
         {this.renderFlash()}
-        <div className={`${params.hd ? 'hd' : 'preview'} ${(bpoom.gender=='M' && !params.nopurchase) ? 'boys': ''} ${(bpoom.gender=='F' && !params.nopurchase) ? 'girls': ''}`}>
+        <div className={`${params.hd ? 'high-definition' : 'preview'} ${(bpoom.gender=='M' && !params.nopurchase) ? 'boys': ''} ${(bpoom.gender=='F' && !params.nopurchase) ? 'girls': ''}`}>
           <div className="flipbook">
             {kiteCover ? (
               <React.Fragment>

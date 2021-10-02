@@ -6,7 +6,8 @@ var THEME_REG = /\.theme-\d+(\.scss)$/
 
 var HAS_PROP = {}.hasOwnProperty
 var DICTIONNARY = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789-'
-var CANT_START_WITH = '0123456789-_'
+var CANT_START_WITH = 'Z0123456789-_'
+var PREFIX = 'Z__'
 
 function ShortClassNameGenerator() {
   this.index = 0
@@ -41,7 +42,7 @@ ShortClassNameGenerator.prototype.next = function(filepath, name) {
     number = (number / DICTIONNARY.length) >> 0 // quick `floor`
     number -= 1
   } while (number >= 0)
-  return (this.hash[key] = styleName)
+  return (this.hash[key] = PREFIX + styleName)
 }
 
 module.exports = ShortClassNameGenerator

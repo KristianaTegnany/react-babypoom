@@ -1,5 +1,5 @@
 .presentation-panel {
-  background-image: url('../../images/bg-pages/bg-guestbook.svg');
+  background-image: url("../../images/bg-pages/bg-guestbook.svg");
 }
 
 .message-container {
@@ -72,7 +72,7 @@
   word-wrap: break-word;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     left: -4.5mm;
     top: 10%;
@@ -102,14 +102,14 @@
   }
 }
 
-:global(.hd) {
+:global(.high-definition) {
   .content-panel {
-    background-image: url('../../images/hd-page-bg.png');
+    background-image: url("../../images/hd-page-bg.png");
   }
 }
 
 .content-panel {
-  background: var(--color-bg) url('../../images/page-bg.png') left top/1000px auto repeat;
+  background: var(--color-bg) url("../../images/page-bg.png") left top/1000px auto repeat;
 }
 
 .right-panel {
@@ -193,24 +193,24 @@
 }
 
 // Right page
-:global(.hd) {
+:global(.high-definition) {
   .right-panel {
     &::before {
-      background-image: url('../../images/hd-page-bg.png');
+      background-image: url("../../images/hd-page-bg.png");
     }
   }
 }
 
 .right-panel {
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     z-index: 0;
     left: 0;
     top: 0;
     width: 50%;
     height: 100%;
-    background: var(--color-bg) url('../../images/page-bg.png') left top/1000px auto repeat;
+    background: var(--color-bg) url("../../images/page-bg.png") left top/1000px auto repeat;
   }
   .message {
     display: block;
