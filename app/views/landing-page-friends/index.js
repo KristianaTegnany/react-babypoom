@@ -343,7 +343,12 @@ class LandingPageFriends extends Component {
                     <span>
                       {t(MSG.album_pricing_description)}
                     </span>
-                    <h1 styleName="lp-title">{t(MSG.album_pricing)}</h1>
+                    <div styleName="pricing">
+                      <span styleName="pricing-old"><del>{t(MSG.album_pricing_old)}</del></span><span styleName="pricing-new">{t(MSG.album_pricing)}</span>
+                    </div>
+                    <span>
+                      {t(MSG.album_pricing_shipping_free)}
+                    </span>
                     {false && (
                       <div styleName="lp-coupon-container">
                         <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon)}</span>
@@ -367,10 +372,23 @@ class LandingPageFriends extends Component {
                       )}
                       </div>
                     </div>
-                    <span>
-                      {bpoom.album_paid ? t(MSG.to_late_infos) : t(MSG.update_infos)}
-                    </span>
-
+                    {bpoom.album_paid ?
+                    (<span>
+                       t(MSG.to_late_infos) : t(MSG.update_infos_1)}
+                    </span>)
+                    : (
+                      <>
+                      <span>
+                       {t(MSG.update_infos_1)}
+                      </span>
+                      <span>
+                      {t(MSG.update_infos_2)}
+                      </span>
+                      <span styleName="available-offer">
+                      {t(MSG.update_infos_3)}
+                      </span>
+                      </>
+                    )}
                   </Column>
                 </Row>
 
@@ -477,6 +495,17 @@ class LandingPageFriends extends Component {
                             })}
                     </span>
                     <img styleName="logo-img" src={imgPath("/corporate/logo-and-brand.png")} />
+                    <iframe src="https://api.babypoom.com/reviews.html"
+                    style={{
+                      marginTop: "15px",
+                      backgroundColor: "white",
+                      width: "100%",
+                      height: "350px",
+                      border:"4px solid #b5ceca",
+                      mozBorderRadius: "15px",
+                      borderRadius: "15px",
+                      overflow: "hidden",
+                    }} />
                   </Column>
                 </Row>
 
@@ -507,7 +536,7 @@ const MSG = defineMessages({
   },
   album_friend_intro: {
     id: 'app.album_friend_intro',
-    defaultMessage: `Envie de faire un cadeau original à {babyname} ? Un cadeau intemporel qui a coup sur fera plaisir à toute la famille. Soyez celle ou celui qui immortalisera pour {babyname} ses plus beaux souvenirs de naissance. Offrez lui son album de naissance 100% personnalisé. `,
+    defaultMessage: `Vous cherchez une idée cadeau originale à offrir à {babyname} ? Un cadeau intemporel qui a coup sur fera plaisir à toute la famille. Soyez celle ou celui qui immortalisera pour {babyname} ses plus beaux souvenirs de naissance. Offrez lui son album de naissance 100% personnalisé. `,
   },
   album_description_title: {
     id: 'app.album_description_title',
@@ -609,6 +638,14 @@ const MSG = defineMessages({
     id: 'app.album_pricing_description',
     defaultMessage: `Offrez l'album de naissance personnalisé pour seulement`,
   },
+  album_pricing_shipping_free: {
+    id: 'app.album_pricing_shipping_free',
+    defaultMessage: `Profitez des frais de livraison offerts en ce moment !`,
+  },
+  album_pricing_old: {
+    id: 'app.album_pricing_old',
+    defaultMessage: `56€`,
+  },
   album_pricing: {
     id: 'app.album_pricing',
     defaultMessage: `49€`,
@@ -637,13 +674,21 @@ const MSG = defineMessages({
     id: 'app.album_update_order',
     defaultMessage: `Modifier l'album de {babyname}`,
   },
-  update_infos: {
-    id: 'app.update_infos',
-    defaultMessage: `⚠️ Attention, pour éviter les doublons, il n'y aura qu'une seule personne qui pourra offrir ce cadeau ! Une fois la première commande passée, l'album ne sera plus disponible.`,
+  update_infos_1: {
+    id: 'app.update_infos_1',
+    defaultMessage: `⚠️ Attention, si cette idée cadeau vous plaît, soyez le premier ou la première à l'offrir après il sera trop tard.`,
+  },
+  update_infos_2: {
+    id: 'app.update_infos_2',
+    defaultMessage: `Pour éviter les doublons, il n'y aura qu'une seule personne qui pourra offrir ce cadeau unique !`,
+  },
+  update_infos_3: {
+    id: 'app.update_infos_3',
+    defaultMessage: `✅ album disponible`,
   },
   to_late_infos: {
     id: 'app.to_late_infos',
-    defaultMessage: `⚠️ Désolé cet album a déjà été offert.`,
+    defaultMessage: `🔴 Désolé cet album a déjà été offert et n'est plus disponible.`,
   },
   album_gallery_title: {
     id: 'app.album_gallery_title',
