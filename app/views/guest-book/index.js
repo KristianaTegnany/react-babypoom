@@ -184,7 +184,7 @@ let GuestBook = ({ bpoom, desktop, noNav, steps, intl, loadSlideshow, openSlides
                       }
                     : null
                 }
-                onGift={(bpoom.shared_by_visits && !bpoom.album_paid && visitorId === msg.uuid)
+                onGift={(false && visitorId === msg.uuid)
                   ? () => goToAlbumOffer()
                   : null
                 }
