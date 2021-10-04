@@ -49,7 +49,7 @@ let GuestBook = ({ bpoom, desktop, noNav, steps, intl, loadSlideshow, openSlides
     friendName = window.localStorage.friendName
   }
 
-  let giftLink = `https://album.babypoom.com/${bpoom.uuid}/gift?donor=${friendName}`
+  let giftLink = `https://album.babypoom.com/${bpoom.uuid}/gift?donor=${friendName}&utm_source=bp`
 
   function goToAlbumOffer() {
     Tracking.track("FriendAlbumOfferBt_Clicked", {bpoom_id: bpoom.id})

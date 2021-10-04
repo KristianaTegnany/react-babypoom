@@ -41,7 +41,7 @@ let Transition = ({ bpoom, steps }) => {
     friendName = window.localStorage.friendName
   }
 
-  let giftLink = `https://album.babypoom.com/${bpoom.uuid}/gift?donor=${friendName}`
+  let giftLink = `https://album.babypoom.com/${bpoom.uuid}/gift?donor=${friendName}&utm_source=bp`
 
   function goToAlbumOffer() {
     Tracking.track("FriendAlbumOfferBt_Clicked", {bpoom_id: bpoom.id})
@@ -58,7 +58,7 @@ let Transition = ({ bpoom, steps }) => {
         share: (
           <div styleName="share-container">
             <span styleName="share">
-              {false ? (
+              {(bpoom.shared_by_visits && !bpoom.album_paid) ? (
                 <div styleName="offer-container" onClick={()=>goToAlbumOffer()}>
                   <p styleName="shine-me"></p>
                 </div>
