@@ -277,6 +277,18 @@ class LandingPage extends Component {
                       </a>
                     </div>
                     <span>
+                      {t(MSG.album_pdf_infos)}
+                    </span>
+                    <div styleName="button-booking-order">
+                      <a href={config.orderLink.replace('{{id}}', bpoom.id)}>
+                        {t(MSG.album_pdf_order, {
+                          babyname: (
+                            bpoom.baby_name
+                          ),
+                        })}
+                      </a>
+                    </div>
+                    <span>
                       {t(MSG.update_infos)}
                     </span>
                     <div styleName="button-update-order">
@@ -288,6 +300,7 @@ class LandingPage extends Component {
                         })}
                       </a>
                     </div>
+
                     {bpoom.expiration_countdown && (
                     <>
                     <span>
@@ -523,6 +536,14 @@ const MSG = defineMessages({
   booking_infos: {
     id: 'app.booking_infos',
     defaultMessage: `🔒 Vous êtes intéressé(e) par ce souvenir mais vous avez besoin encore de temps pour le peaufiner ? Réservez le et prenez le temps qu'il vous faut, l'expiration sera suspendue.`,
+  },
+  album_pdf_infos: {
+    id: 'app.album_pdf_infos',
+    defaultMessage: `🖥  Vous n'êtes pas trop papier ? Une version numérique de votre album au format pdf est aussi diponible au prix de 19 €.`,
+  },
+  album_pdf_order: {
+    id: 'app.album_pdf_order',
+    defaultMessage: `Commander la version numérique pour 19 €`,
   },
   album_gallery_title: {
     id: 'app.album_gallery_title',
