@@ -34,7 +34,7 @@ if (useThemeManifest) fs.writeFileSync('theme-manifest.json', JSON.stringify(the
       }
     })()
   </script>
-  <% htmlWebpackPlugin.files.css.filter(file => !file.slice(1).startsWith('theme-')).forEach(css => { %><link rel="stylesheet" href="<%= css %>?version=3.4" /><% }) %>
+  <% htmlWebpackPlugin.files.css.filter(file => !file.slice(1).startsWith('theme-')).forEach(css => { %><link rel="stylesheet" href="<%= css %>?version=3.5" /><% }) %>
 </head>
 <body>
   <div id="root">{{html}}</div>
