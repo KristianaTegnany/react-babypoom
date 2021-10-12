@@ -13,6 +13,7 @@ import Intro from '../../pages/intro'
 import Arrival from '../../pages/arrival'
 import Trip from '../../pages/trip'
 import Card from '../../pages/card'
+import Firstname from '../../pages/firstname'
 import Guestbook from '../../pages/guest-book'
 import ParentsAndStats from '../../pages/parents-and-stats'
 import BackCover from '../../pages/back-cover'
@@ -324,6 +325,7 @@ class App extends Component {
       3 /* 1 blank page recto/verso + Intro */ +
       2 /* Arrival */ +
       (bpoom.card_id ? 1 : 0) /* Card */ +
+      (bpoom.firstname_infos ? 1 : 0) /* Firstname */ +
       Trip.cntPages(trip_events) /* Trip */ +
       Guestbook.cntPages(guest_book_msgs) /* Guest-book */ +
       parents_reactions /* Parents */ +
@@ -368,6 +370,7 @@ class App extends Component {
                 <Arrival />
                 <Trip />
                 {bpoom.card_id && <Card />}
+                {bpoom.firstname_infos && <Firstname />}
                 <Guestbook />
                 <ParentsAndStats />
                 {missingPages}
