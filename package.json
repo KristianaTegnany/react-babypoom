@@ -21,6 +21,7 @@
     "can-autoplay": "github:shlajin/can-autoplay#master",
     "core-js": "2.6.5",
     "formik": "1.5.7",
+    "html-react-parser": "^1.4.0",
     "isomorphic-fetch": "2.2.1",
     "mangopay-cardregistration-js-kit": "1.2.2",
     "mixpanel-browser": "^2.41.0",

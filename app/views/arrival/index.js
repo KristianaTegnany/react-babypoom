@@ -13,6 +13,7 @@ import InputGroupAddon from 'reactstrap/lib/InputGroupAddon'
 import Button from 'reactstrap/lib/Button'
 import Transition from '../../components/transition'
 import getPhoto from '../../../lib/get-photo'
+import markuptext from '../../../lib/markuptext'
 import Tracking from '../../../lib/tracking'
 import t from '../../i18n/i18n'
 import imgPath from '../../../lib/img-path'
@@ -21,12 +22,23 @@ import Panel from '../../components/panel'
 import { sendCardByEmail } from '../app/Actions'
 import FaEnvelope from 'react-icons/lib/fa/envelope'
 import useToggle from '../../hooks/toggle'
+import Modal from 'reactstrap/lib/Modal'
+import ModalHeader from 'reactstrap/lib/ModalHeader'
+import ModalBody from 'reactstrap/lib/ModalBody'
+import parse from 'html-react-parser'
 import './styles.scss'
 
 const DEFAULT_PHOTO_PARENT_1 = imgPath('/avatars/parent-1.svg' + config.avatarBackgroundQuerystring)
 const DEFAULT_PHOTO_PARENT_2 = imgPath('/avatars/parent-2.svg' + config.avatarBackgroundQuerystring)
 
 let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow, sendCardByEmail }) => {
+  const modal = useToggle(false)
+
+  const showModal = () => {
+    modal.show()
+    Tracking.track("Arrival_FirstnameInfos_Click", {bpoom_id: bpoom.id})
+  }
+
   useSlideshow(bpoom, loadSlideshow, () => [{ src: [bpoom.card_url, bpoom.card_url] }])
 
   const renderBubbleMsg = (pic, msg, side, index) =>
@@ -145,7 +157,10 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow, sendCardBy
                   return (
                     <tr key={pair[0]}>
                       <th>{t(MSG[`title_${pair[0]}`], pair[2])}</th>
-                      <td>{pair[1]}</td>
+                      <td>{pair[1]} {pair[0]==="name" && bpoom.firstname_infos ? (
+                        <span styleName="firstname_infos" onClick={showModal}>{t(MSG.firstname_infos_link)}</span>
+                        ) : ""}
+                      </td>
                     </tr>
                   )
                 })}
@@ -156,7 +171,16 @@ let Arrival = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow, sendCardBy
       ) : (
         ''
       )}
-
+      <Modal size="lg" isOpen={modal.visible} toggle={modal.hide}>
+        <ModalHeader className="modal-primary" toggle={modal.hide}>
+          {bpoom.babyNameFormatted}
+        </ModalHeader>
+        <ModalBody>
+          <div styleName="firstname-infos-modal">
+            {bpoom.firstname_infos && bpoom.firstname_infos.split('\n').map(str => <p>{parse(markuptext(str,"**","strong"))}</p>)}
+          </div>
+        </ModalBody>
+      </Modal>
       {noNav ? '' : renderBubbleMsg(photo, <Transition />, 'left')}
     </div>
   )
@@ -226,6 +250,10 @@ const MSG = defineMessages({
   title_name: {
     id: 'arrival.title_name',
     defaultMessage: 'Mon prénom',
+  },
+  firstname_infos_link: {
+    id: 'arrival.firstname_infos_link',
+    defaultMessage: '(voir histoire)',
   },
   title_other_names: {
     id: 'arrival.title_other_names',

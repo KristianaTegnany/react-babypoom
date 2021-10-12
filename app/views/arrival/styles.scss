@@ -11,6 +11,22 @@
   }
 }
 
+.firstname_infos {
+  font-style: italic;
+  color: var(--brand-primary);
+  cursor: pointer;
+}
+
+.firstname-infos-modal{
+  p {
+    margin-top: 5px;
+  }
+  strong {
+    font-size: large;
+    color: var(--brand-primary);
+  }
+}
+
 .info {
   background: var(--neutral-secondary);
   padding: $main-padding;

@@ -6,15 +6,23 @@ import { loadSlideshow, openSlideshow } from '../../components/slideshow/Actions
 
 // Hooks
 import useSlideshow from '../../hooks/slide-show'
+import useToggle from '../../hooks/toggle'
 
 // Components
 import BubbleSay from '../../components/bubble-say'
 import BubblePic from '../../components/bubble-pic'
 import BpoomImg from '../../components/bpoom-img'
 import Transition from '../../components/transition'
+import Button from 'reactstrap/lib/Button'
+import Modal from 'reactstrap/lib/Modal'
+import ModalHeader from 'reactstrap/lib/ModalHeader'
+import ModalBody from 'reactstrap/lib/ModalBody'
 
 // Lib
 import getPhoto from '../../../lib/get-photo'
+import Tracking from '../../../lib/tracking'
+import markuptext from '../../../lib/markuptext'
+import parse from 'html-react-parser'
 
 // i18n
 import t from '../../i18n/i18n'
@@ -26,9 +34,16 @@ import styles from './styles.scss'
 import BABY_IMAGES from '../../../lib/baby-img'
 
 let GameWin = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
+  const modal = useToggle(false)
+
   useSlideshow(bpoom, loadSlideshow, () => [
     { src: [getPhoto(bpoom.photo_urls, 'normal'), getPhoto(bpoom.photo_urls, 'thumbnail')] },
   ])
+
+  const showModal = () => {
+    modal.show()
+    Tracking.track("GameWin_FirstnameInfos_Click", {bpoom_id: bpoom.id})
+  }
 
   let babyType = bpoom.baby_full_type
   return (
@@ -60,7 +75,7 @@ let GameWin = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
         <div styleName="panel">
           <div styleName="baby-name-container">
             <div>
-              <div styleName="name">
+              <div styleName="name" onClick={bpoom.firstname_infos ? showModal : modal.hide}>
                 {Array.from(bpoom.babyNameFormatted).map((c, i) => {
                   return (
                     <div key={i} styleName="char">
@@ -70,9 +85,24 @@ let GameWin = ({ bpoom, desktop, noNav, loadSlideshow, openSlideshow }) => {
                 })}
               </div>
             </div>
+            {bpoom.firstname_infos && (
+              <div key="text" styleName="mob-fullscreen">
+                {t(MSG.show_firstname_infos)}
+              </div>
+            )}
           </div>
         </div>
       </div>
+      <Modal size="lg" isOpen={modal.visible} toggle={modal.hide}>
+        <ModalHeader className="modal-primary" toggle={modal.hide}>
+          {bpoom.babyNameFormatted}
+        </ModalHeader>
+        <ModalBody>
+          <div styleName="firstname-infos-modal">
+            {bpoom.firstname_infos && bpoom.firstname_infos.split('\n').map(str => <p>{parse(markuptext(str,"**","strong"))}</p>)}
+          </div>
+        </ModalBody>
+      </Modal>
     </div>
   )
 }
@@ -103,5 +133,9 @@ const MSG = defineMessages({
   mobile_fullscreen: {
     id: 'game.mobile_fullscreen',
     defaultMessage: "Clique sur ma photo pour l'afficher en plein écran",
+  },
+  show_firstname_infos: {
+    id: 'game.show_firstname_infos',
+    defaultMessage: "Clique sur mon prénom pour découvrir son histoire",
   },
 })
