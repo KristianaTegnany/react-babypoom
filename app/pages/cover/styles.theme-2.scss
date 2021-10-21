@@ -72,6 +72,7 @@ body .border-box {
     background-size: contain;
     background-position: top left;
     background-image: url('../../images/bg-pages/theme-1/cover/right.svg');
+    top: -4mm;
   }
 }
 
@@ -89,7 +90,7 @@ body .border-box {
     z-index: 5;
   }
   &::before {
-    top: -1mm;
+    top: -3mm;
     right: -5mm;
     width: 10mm;
     height: 10mm;
@@ -97,14 +98,14 @@ body .border-box {
     background: url('../../images/bg-pages/theme-1/cover/box-deco.svg') no-repeat;
   }
   &::after {
-    left: -13mm;
+    left: -17mm;
     bottom: -61mm;
     width: 100%;
     height: 65mm;
     box-sizing: content-box;
     padding: 0 15mm;
     background: transparent url('../../images/bg-pages/theme-1/cover/bottom.svg') no-repeat;
-    background-size: 90%;
+    background-size: 100%;
     //background: transparent url('../../images/bg-pages/bg-resume-front.svg')
     //  center/auto no-repeat;
   }

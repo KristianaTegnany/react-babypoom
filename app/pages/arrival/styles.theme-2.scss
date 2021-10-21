@@ -7,7 +7,7 @@
 }
 
 .info-page {
-  background-image: url('../../images/bg-pages/bg-info.svg');
+  background-image: url('../../images/bg-pages/theme-1/new-arrival/arrival.svg');
   background-position: left top;
   background-size: 100% auto;
   background-repeat: no-repeat;
@@ -47,8 +47,35 @@ body .border-box {
   line-height: normal;
   margin-top: 5mm;
   padding: 6.5mm;
-  background-position: 174.5mm center;
-  background-size: 190.5mm auto;
+  background: #EFF6FE;
+  position: relative;
+
+  &::before{
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-image: url('../../images/bg-pages/theme-1/new-arrival/bird.svg');
+    left: 0;
+    top: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  &::after{
+    position: absolute;
+    content: '';
+    width: 15mm;
+    height: 15mm;
+    background-image: url('../../images/bg-pages/theme-1/cover/box-deco.svg');
+    right: -3mm;
+    top: -2mm;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.5;
+  }
 
   & > * {
     display: inline-block;
