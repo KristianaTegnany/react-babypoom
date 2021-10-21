@@ -4,8 +4,8 @@ import Page from '../../components/page'
 import ContentPanel from '../../components/content-panel'
 import BorderBgBox from '../../components/border-bg-box'
 import { FormattedDate } from 'react-intl'
-// import './styles.theme-BP_ALBUM_THEME.scss'
-import './styles.theme-2.scss'
+import './styles.theme-BP_ALBUM_THEME.scss'
+
 class Cover extends Component {
   birthday = date => {
     if (!date) return ''
