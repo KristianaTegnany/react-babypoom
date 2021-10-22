@@ -10,8 +10,6 @@
 
 .panel {
   padding: 0 8mm;
-  background-position: center !important;
-  background-size: 250mm auto !important;
 }
 
 .panel-content {
@@ -26,6 +24,7 @@
   background-size: 400px !important;
   background-position-x: 49% !important;
   width: 100%;
+  transform: scale(1.3);
   margin-top: -95px;
   background: transparent url('../../images/bg-pages/theme-1/cover/top.svg') top
     center/auto no-repeat;
@@ -99,15 +98,14 @@ body .border-box {
   }
   &::after {
     left: -17mm;
-    bottom: -61mm;
+    bottom: -45mm;
     width: 100%;
-    height: 65mm;
+    height: 50mm;
     box-sizing: content-box;
     padding: 0 15mm;
     background: transparent url('../../images/bg-pages/theme-1/cover/bottom.svg') no-repeat;
-    background-size: 100%;
-    //background: transparent url('../../images/bg-pages/bg-resume-front.svg')
-    //  center/auto no-repeat;
+    background-size: contain;
+    background-position: center top;
   }
 
   hr {
