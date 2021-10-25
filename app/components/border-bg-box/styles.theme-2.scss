@@ -5,14 +5,14 @@
 }
 
 .box {
-  background: var(--color-bg) url("../../images/page-bg.png") left top/1000px auto repeat;
-  padding: 5mm;
-  border-radius: 1.3mm;
+  background: var(--color-bg) left top/1000px auto repeat;
+  padding: 6mm;
+  border-radius: 3mm;
   background-position: 136mm center;
   background-size: 148mm auto;
 
   > * {
     background: white;
-    border-radius: 1.3mm;
+    border-radius: 3mm;
   }
 }
