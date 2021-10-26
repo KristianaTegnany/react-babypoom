@@ -127,7 +127,7 @@ const MSG = defineMessages({
   },
   share_babypoom_description: {
     id: 'transition.share_babypoom_description',
-    defaultMessage: `Voici un service intéressant d'annonce de naissance que je viens de découvrir ;)`,
+    defaultMessage: `Voici un service intéressant d'annonce de naissance que je viens de découvrir, cela pourrait te plaire ;)`,
   },
   giftOffer: {
     id: 'transition.giftOffer',
