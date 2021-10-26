@@ -54,7 +54,7 @@ class Guestbook extends Component {
     return [
       <Page key="guest-book-presentation" styleName="page first-page">
         <PresentationPanel styleName="presentation-panel">
-          <Title label={t(MSG.title)} description={t(MSG.description)} />
+          <Title label={t(MSG.title)} description={t(MSG.description)} hasTitle={false} boxClassName={"bg-decoration-2"}/>
         </PresentationPanel>
         <ContentPanel background centered styleName="content-panel">
           <div styleName="message-container">{firstPageMsgs.map(this.renderGuestbookMsg)}</div>
@@ -63,7 +63,7 @@ class Guestbook extends Component {
       pages.map((messages, index) => {
         return index % 2 ? (
           <Page key={index} styleName="page">
-            <ContentPanel background centered styleName="content-panel left-panel">
+            <ContentPanel background centered styleName="content-panel right-content-panel left-panel">
               <div styleName="message-container">
                 <div styleName="left-container">{messages.slice(0, 2).map(this.renderGuestbookMsg)}</div>
                 <div styleName="right-container">{messages.slice(2).map(this.renderGuestbookMsg)}</div>

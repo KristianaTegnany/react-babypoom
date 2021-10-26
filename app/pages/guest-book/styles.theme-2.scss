@@ -1,5 +1,7 @@
 .presentation-panel {
-  background-image: url("../../images/bg-pages/bg-guestbook.svg");
+  background-image: url("../../images/bg-pages/theme-1/guest-book/bg-left.svg");
+  background-size: 65%;
+  background-position: 50% 10%;
 }
 
 .message-container {
@@ -104,12 +106,21 @@
 
 :global(.high-definition) {
   .content-panel {
-    background-image: url("../../images/hd-page-bg.png");
+    background-image: url("../../images/bg-pages/theme-1/guest-book/bg-right.svg");
   }
 }
 
 .content-panel {
-  background: var(--color-bg) url("../../images/page-bg.png") left top/1000px auto repeat;
+  background-position: 0 20px;
+  background-size: 100% !important;
+  background-repeat: no-repeat;
+  background: var(--color-bg) url("../../images/bg-pages/theme-1/guest-book/bg-right.svg");
+
+  &.right-content-panel{
+    background: var(--color-bg) url("../../images/bg-pages/theme-1/guest-book/bg-right-3.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 }
 
 .right-panel {
@@ -196,7 +207,7 @@
 :global(.high-definition) {
   .right-panel {
     &::before {
-      background-image: url("../../images/hd-page-bg.png");
+      background-image: url("../../images/bg-pages/theme-1/guest-book/bg-left-2.svg");
     }
   }
 }
@@ -210,7 +221,10 @@
     top: 0;
     width: 50%;
     height: 100%;
-    background: var(--color-bg) url("../../images/page-bg.png") left top/1000px auto repeat;
+    background-size: 100% !important;
+    background-repeat: no-repeat;
+    background-position: 6mm 6mm;
+    background: var(--color-bg) url("../../images/bg-pages/theme-1/guest-book/bg-left-2.svg");
   }
   .message {
     display: block;
