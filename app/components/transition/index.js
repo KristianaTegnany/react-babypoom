@@ -32,9 +32,10 @@ let Transition = ({ bpoom, steps }) => {
   function shareIt() {
     Tracking.track("Friend_ShareIt_Clicked", {bpoom_id: bpoom.id})
     // If we have web share enabled use that
+    // TODO : Why intl not work here ?
     navigator.share({
-      title: t(MSG.share_babypoom_title),
-      text: t(MSG.share_babypoom_title_description),
+      title: "Hello !",
+      text: "Voici un service intéressant d'annonce de naissance que je viens de découvrir, cela pourrait te plaire ;)",
       url: "https://www.babypoom.com",
     })
   }
@@ -74,7 +75,7 @@ let Transition = ({ bpoom, steps }) => {
                 <>
                 {SHARE_SUPPORT && (
                   <Button size="sm" color="app" onClick={shareIt} id="IdendifierShareShareButton">
-                    {t(MSG.share_babypoom_bt)}
+                    <span styleName="share-text">{t(MSG.share_babypoom_bt)}</span>
                   </Button>
                 )}
                 <div styleName="offer-container" onClick={()=>goToAlbumOffer()}>
@@ -85,7 +86,7 @@ let Transition = ({ bpoom, steps }) => {
                 <>
                 {SHARE_SUPPORT && (
                   <Button size="sm" color="app" onClick={shareIt} id="IdendifierShareShareButton">
-                    {t(MSG.share_babypoom_bt)}
+                    <span styleName="share-text">{t(MSG.share_babypoom_bt)}</span>
                   </Button>
                 )}
               <div styleName="facebook-container">
