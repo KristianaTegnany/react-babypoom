@@ -42,7 +42,7 @@ class Firstname extends Component {
     return (
       <Page>
         <PresentationPanel styleName="card-presentation-panel">
-          <Title label={t(MSG.card)} description={t(MSG.description, {babyName: bpoom.baby_name} )} />
+          <Title label={t(MSG.card)} description={t(MSG.description, {babyName: bpoom.baby_name} )} styleName="card-presentation-title" />
         </PresentationPanel>
         <ContentPanel styleName="content-panel" background centered>
           <div styleName="text-container">
