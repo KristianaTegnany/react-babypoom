@@ -27,6 +27,19 @@ let Transition = ({ bpoom, steps }) => {
     }
   }, [])
 
+  const SHARE_SUPPORT = !!(typeof navigator !== "undefined" && navigator.share)
+
+  function shareIt() {
+    Tracking.track("Friend_ShareIt_Clicked", {bpoom_id: bpoom.id})
+    // If we have web share enabled use that
+    // TODO : Why intl not work here ?
+    navigator.share({
+      title: "Hello !",
+      text: "Voici un service intéressant d'annonce de naissance que je viens de découvrir, cela pourrait te plaire ;)",
+      url: "https://www.babypoom.com",
+    })
+  }
+
   if (!steps.ok) return ''
 
   let transitionId = `to_${steps.next || 'finish'}`
@@ -59,21 +72,23 @@ let Transition = ({ bpoom, steps }) => {
           <div styleName="share-container">
             <span styleName="share">
               {(bpoom.shared_by_visits && !bpoom.album_paid) ? (
+                <>
+                {SHARE_SUPPORT && (
+                  <Button size="sm" color="app" onClick={shareIt} id="IdendifierShareShareButton">
+                    <span styleName="share-text">{t(MSG.share_babypoom_bt)}</span>
+                  </Button>
+                )}
                 <div styleName="offer-container" onClick={()=>goToAlbumOffer()}>
                   <p styleName="shine-me"></p>
                 </div>
+                </>
               ) : (
                 <>
-                <Button
-                size="sm"
-                tag={ReactGA.OutboundLink}
-                eventLabel={config.shareLink}
-                color="app"
-                to={config.shareLink}
-                target="_blank"
-              >
-                {t(MSG.share)}
-              </Button>
+                {SHARE_SUPPORT && (
+                  <Button size="sm" color="app" onClick={shareIt} id="IdendifierShareShareButton">
+                    <span styleName="share-text">{t(MSG.share_babypoom_bt)}</span>
+                  </Button>
+                )}
               <div styleName="facebook-container">
                 <FacebookProvider appId={config.fbAppId}>
                   <Page href="https://www.facebook.com/babypoom" />
@@ -102,6 +117,18 @@ const MSG = defineMessages({
   share: {
     id: 'transition.share',
     defaultMessage: `Je donne mon avis`,
+  },
+  share_babypoom_bt: {
+    id: 'transition.share_babypoom_bt',
+    defaultMessage: `💭 Partagez ce service à des futurs parents`,
+  },
+  share_babypoom_title: {
+    id: 'transition.share_babypoom_title',
+    defaultMessage: `Hello !`,
+  },
+  share_babypoom_description: {
+    id: 'transition.share_babypoom_description',
+    defaultMessage: `Voici un service intéressant d'annonce de naissance que je viens de découvrir, cela pourrait te plaire ;)`,
   },
   giftOffer: {
     id: 'transition.giftOffer',
