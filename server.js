@@ -105,7 +105,10 @@ app.get('*', (req, res) => {
         const metaTitleKey = bpoom.parent_1_name && bpoom.parent_2_name ? 'title' : 'title_default'
         res.send(
           PAGE_CACHE({
-            ogTitle: 'Mes parents souhaitent te présenter bébé !',
+            ogTitle: interpolateMetaTitle(
+              msgs ? msgs[`metas.${metaTitleKey}`] : metas[metaTitleKey].defaultMessage,
+              bpoom,
+            ),
             ogDescription: interpolateMetaDescription(
               msgs ? msgs['metas.description'] : metas.description.defaultMessage,
               bpoom,

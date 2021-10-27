@@ -9,7 +9,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta property="og:type" content="Article" />
-  <meta property="og:title" content="Hello, il y a un petit bébé qui a très envie de faire ta connaissance, retrouve-le ici " />
+  <meta property="og:title" content="{{ogTitle}}" />
   <meta property="og:description" content="{{ogDescription}}" />
   <meta property="og:image" content="{{ogImage}}" />
   <meta property="og:url" content="https://hello.babypoom.com/{{uuid}}" />
