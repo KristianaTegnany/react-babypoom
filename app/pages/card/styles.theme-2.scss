@@ -1,13 +1,17 @@
 .card-presentation-panel {
-  background-image: url('../../images/bg-pages/bg-card.svg');
+  background-image: url('../../images/bg-pages/theme-1/card/card_bg_left.svg');
   background-size: 60%;
-  background-position: 43% 43%;
+  background-position: 35% 47%;
 }
 
 .content-panel {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-size: 95% !important;
+  background: var(--color-bg) url("../../images/bg-pages/theme-1/card/card_bg.svg");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .img {

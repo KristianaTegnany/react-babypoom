@@ -1,5 +1,7 @@
 .parents-presentation-panel {
-  background-image: url('../../images/bg-pages/bg-parent-reactions.svg');
+  background-image: url('../../images/bg-pages/theme-1/parent/items.svg');
+  background-position: 70% 55%;
+  background-size: 85%;
 }
 
 .parents-reaction-page-content {
@@ -75,7 +77,9 @@
 }
 
 .stat-presentation-panel {
-  background-image: url('../../images/bg-pages/bg-statistics.svg');
+  background-image: url('../../images/bg-pages/theme-1/parent/stats.svg');
+  background-size: 50%;
+  background-position: 40% 28%;
 }
 
 .list {
@@ -130,4 +134,11 @@
 
 .desc {
   width: 38mm;
+}
+
+.panel{
+  background-size: 95% !important;
+  background: var(--color-bg) url("../../images/bg-pages/theme-1/parent/yellow leaves.svg");
+  background-repeat: no-repeat;
+  background-position: center;
 }

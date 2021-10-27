@@ -91,7 +91,7 @@ class Arrival extends Component {
         <PresentationPanel styleName="arrival-presentation-panel">
           <Title label={t(MSG.title)} />
         </PresentationPanel>
-        <ContentPanel background />
+        <ContentPanel background styleName="panel"/>
       </Page>,
       <Page key="arrival-info" styleName="page info-page">
         <PresentationPanel>

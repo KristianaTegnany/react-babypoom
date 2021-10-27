@@ -3,7 +3,16 @@
 }
 
 .arrival-presentation-panel {
-  background-image: url('../../images/bg-pages/bg-arrival.svg');
+  background-image: url('../../images/bg-pages/theme-1/new-arrival/newArrivalAnimaux.svg');
+  background-size: 60%;
+  background-position: 20% 53%;
+}
+
+.panel{
+  background-size: 95% !important;
+  background: var(--color-bg) url("../../images/bg-pages/theme-1/new-arrival/left-bg.svg");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .info-page {

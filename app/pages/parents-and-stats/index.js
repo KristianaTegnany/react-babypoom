@@ -66,7 +66,7 @@ class ParentsAndStats extends Component {
           <PresentationPanel styleName="stat-presentation-panel">
             <Title label={t(MSG.babypoom_results)} />
           </PresentationPanel>
-          <ContentPanel background centered>
+          <ContentPanel background centered styleName="panel">
             <ul styleName="list">
               {[
                 ['tries', bpoom.game_tries_avg, t(MSG.stat_tries)],

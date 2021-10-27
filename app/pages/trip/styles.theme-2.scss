@@ -12,7 +12,7 @@
   width: 18mm;
   height: 22mm;
   margin-top: -75px;
-  background: transparent url("../../images/pictos-pages/sprite-timeline-flags.svg") left top/35mm auto no-repeat;
+  background: transparent url("../../images/bg-pages/theme-1/trip-1/GoEnd.svg") left top/35mm auto no-repeat;
 }
 
 .last-page .presentation-panel::before,
@@ -52,11 +52,11 @@
 .first-page.last-page .content-panel::before {
   width: 84%;
   right: 11%;
-  background: linear-gradient(to right, #bceefb 30%, #ffadbf 30%, #ffadbf 75%, #ff5c70 75%);
+  background: #98d0f4;
 }
 
 .with-1-events .content-panel::before {
-  background: linear-gradient(to right, #98d0f4 35%, #bceefb 35%, #bceefb 65%);
+  background: #98d0f4;
 }
 
 // First page
@@ -64,8 +64,9 @@
 .first-page {
   .presentation-panel {
     width: 40%;
-    background-image: url("../../images/bg-pages/bg-timeline.svg");
-
+    background-image: url("../../images/bg-pages/theme-1/trip-1/left-bg.svg");
+    background-size: 90%;
+    background-position: 105% 10%;
     &::before {
       right: -26mm;
       background-position: 0 0;
@@ -77,7 +78,12 @@
     &::before {
       left: auto;
       right: 0;
-      background: linear-gradient(to right, #bceefb 25%, #ffadbf 25%, #ffadbf 65%, #ff5c70 65%);
+      background: #98d0f4;
+    }
+  }
+  .date{
+    &.red{
+      background: #d9ede9;
     }
   }
 }
@@ -96,30 +102,22 @@
   &.with-4-events {
     .content-panel::before {
       width: 93%;
-      background: linear-gradient(
-        to right,
-        #98d0f4 15%,
-        #bceefb 15%,
-        #bceefb 40%,
-        #ffadbf 40%,
-        #ffadbf 65%,
-        #ff5c70 65%,
-        #ff5c70 90%,
-        #98d0f4 90%
-      );
+      background: #98d0f4;
     }
     .trip-events-container::before {
+      background-image: url("../../images/bg-pages/theme-1/trip-1/timeline-3.svg");
       background-repeat: no-repeat;
+      background-size: 95%;
     }
   }
 
   .content-panel {
     .trip-events-container::before {
-      left: 27mm;
+      left: 0;
     }
 
     &::before {
-      background: linear-gradient(to right, #bceefb 35%, #ffadbf 35%, #ffadbf 75%, #ff5c70 75%);
+      background: #98d0f4;
     }
   }
 
@@ -139,16 +137,37 @@
   }
 
   &.with-3-events .content-panel::before {
-    background: linear-gradient(
-      to right,
-      #98d0f4 15%,
-      #bceefb 15%,
-      #bceefb 40%,
-      #ffadbf 40%,
-      #ffadbf 65%,
-      #ff5c70 65%,
-      #ff5c70 85%
-    );
+    background: #98d0f4;
+  }
+
+  .date{
+    background: #ececec;
+    &.red{
+      background: #d9ede9;
+    }
+  }
+}
+
+.with-4-events{
+  .trip-events-container {
+    &::before {
+      content: "";
+      position: absolute;
+      left: -2mm;
+      top: 50%;
+      z-index: 0;
+      width: 100%;
+      height: 20mm;
+      margin-top: -9mm;
+      background-image: url("../../images/bg-pages/theme-1/trip-1/timeline-2.svg");
+      background-repeat: repeat-x;
+      background-position: left center;
+      background-size: auto 135%;
+    }
+
+    .trip-event:first-child {
+      margin-left: 0;
+    }
   }
 }
 
@@ -157,22 +176,23 @@
   &::before {
     content: "";
     position: absolute;
-    left: 15mm;
+    left: 4mm;
     top: 50%;
     z-index: 0;
     width: 100%;
-    height: 16mm;
-    margin-top: -7mm;
-    background-image: url("../../images/pictos-pages/timeline-pictos.svg");
+    height: 20mm;
+    margin-top: -9mm;
+    background-image: url("../../images/bg-pages/theme-1/trip-1/timeline.svg");
     background-repeat: repeat-x;
     background-position: left center;
-    background-size: auto 100%;
+    background-size: auto 135%;
   }
 
   .trip-event:first-child {
     margin-left: 0;
   }
 }
+
 
 .content-panel {
   text-align: center;
@@ -192,17 +212,7 @@
     z-index: 0;
     width: 100%;
     height: 1.3mm;
-    background: linear-gradient(
-      to right,
-      #98d0f4 15%,
-      #bceefb 15%,
-      #bceefb 40%,
-      #ffadbf 40%,
-      #ffadbf 60%,
-      #ff5c70 60%,
-      #ff5c70 85%,
-      #98d0f4 85%
-    );
+    background: #98d0f4;
   }
 }
 
@@ -263,13 +273,18 @@
   height: 16mm;
   line-height: 16mm;
   text-align: center;
-  background: #f3ed8e;
+  background: #d9ede9 ;
   border-radius: 50%;
+
+  &.red{
+    background: #ececec;
+  }
 
   time {
     display: inline-block;
     line-height: normal;
     font-size: 11px;
     max-width: 90%;
+    font-weight: lighter;
   }
 }

@@ -56,7 +56,7 @@ class Trip extends Component {
         }}
       />
       {tripEvent.message && <div styleName="quote"><TruncatedMessage message={tripEvent.message} /></div>}
-      <div styleName="date">
+      <div styleName={index % 2 !== 0 ? "date" : "date red"}>
         <time>{this.formatDate(tripEvent)}</time>
       </div>
     </div>
@@ -82,7 +82,7 @@ class Trip extends Component {
         >
           {pageEvents.length < 3 && (
             <PresentationPanel styleName="presentation-panel">
-              {firstPage && <Title label={t(MSG.title)} description={t(MSG.description)} />}
+              {firstPage && <Title label={t(MSG.title)} description={t(MSG.description)} boxClassName={"bg-decoration"}/>}
             </PresentationPanel>
           )}
           <ContentPanel styleName="content-panel">

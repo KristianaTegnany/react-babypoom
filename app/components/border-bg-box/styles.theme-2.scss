@@ -5,14 +5,30 @@
 }
 
 .box {
-  background: var(--color-bg) url("../../images/page-bg.png") left top/1000px auto repeat;
-  padding: 5mm;
-  border-radius: 1.3mm;
+  &.bg-decoration{
+    background-image: url("../../images/bg-pages/theme-1/trip-1/yellow leaves bottom.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 0 -12px;
+  }
+  &.bg-decoration-2{
+    margin-top: 65mm;
+    background-image: url("../../images/bg-pages/theme-1/guest-book/box.svg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: 0 5px;
+  }
+  &.hide{
+    display: none !important;
+  }
+  background: var(--color-bg) left top/1000px auto repeat;
+  padding: 6mm;
+  border-radius: 3mm;
   background-position: 136mm center;
   background-size: 148mm auto;
 
   > * {
     background: white;
-    border-radius: 1.3mm;
+    border-radius: 3mm;
   }
 }
