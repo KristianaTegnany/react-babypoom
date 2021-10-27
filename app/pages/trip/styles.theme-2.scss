@@ -12,7 +12,7 @@
   width: 18mm;
   height: 22mm;
   margin-top: -75px;
-  background: transparent url("../../images/bg-pages/theme-1/trip-1/GoEnd.svg") left top/35mm auto no-repeat;
+  background: transparent url("../../images/theme-2/trip-1/GoEnd.svg") left top/35mm auto no-repeat;
 }
 
 .last-page .presentation-panel::before,
@@ -64,7 +64,7 @@
 .first-page {
   .presentation-panel {
     width: 40%;
-    background-image: url("../../images/bg-pages/theme-1/trip-1/left-bg.svg");
+    background-image: url("../../images/theme-2/trip-1/left-bg.svg");
     background-size: 90%;
     background-position: 105% 10%;
     &::before {
@@ -105,7 +105,7 @@
       background: #98d0f4;
     }
     .trip-events-container::before {
-      background-image: url("../../images/bg-pages/theme-1/trip-1/timeline-3.svg");
+      background-image: url("../../images/theme-2/trip-1/timeline-3.svg");
       background-repeat: no-repeat;
       background-size: 95%;
     }
@@ -159,7 +159,7 @@
       width: 100%;
       height: 20mm;
       margin-top: -9mm;
-      background-image: url("../../images/bg-pages/theme-1/trip-1/timeline-2.svg");
+      background-image: url("../../images/theme-2/trip-1/timeline-2.svg");
       background-repeat: repeat-x;
       background-position: left center;
       background-size: auto 135%;
@@ -182,7 +182,7 @@
     width: 100%;
     height: 20mm;
     margin-top: -9mm;
-    background-image: url("../../images/bg-pages/theme-1/trip-1/timeline.svg");
+    background-image: url("../../images/theme-2/trip-1/timeline.svg");
     background-repeat: repeat-x;
     background-position: left center;
     background-size: auto 135%;
