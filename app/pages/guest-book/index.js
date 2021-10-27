@@ -54,7 +54,7 @@ class Guestbook extends Component {
     return [
       <Page key="guest-book-presentation" styleName="page first-page">
         <PresentationPanel styleName="presentation-panel">
-          <Title label={t(MSG.title)} description={t(MSG.description)} hasTitle={false} boxClassName={"bg-decoration-2"}/>
+          <Title label={t(MSG.title)} description={t(MSG.description)} boxClassName={"bg-decoration-2"}/>
         </PresentationPanel>
         <ContentPanel background centered styleName="content-panel">
           <div styleName="message-container">{firstPageMsgs.map(this.renderGuestbookMsg)}</div>
