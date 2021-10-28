@@ -1,5 +1,6 @@
 import React from 'react'
-import './styles.theme-BP_ALBUM_THEME.scss'
+// import './styles.theme-BP_ALBUM_THEME.scss'
+import './styles.theme-3.scss'
 
 let BorderBgBox = ({ children, className }) => {
   return (

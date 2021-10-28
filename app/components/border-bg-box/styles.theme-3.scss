@@ -1,15 +1,15 @@
 :global(.high-definition) {
   .box {
-    background-image: url("../../images/hd-page-bg.png");
+    background-image: url("../../images/theme-3/trip-1/box-deco.svg");
   }
 }
 
 .box {
   &.bg-decoration{
-    background-image: url("../../images/theme-2/trip-1/yellow leaves bottom.svg");
-    background-size: cover;
+    background-image: url("../../images/theme-3/trip-1/box-deco.svg");
+    background-size: contain;
     background-repeat: no-repeat;
-    background-position: 0 -12px;
+    background-position: 100% 50%;
   }
   &.bg-decoration-2{
     margin-top: 65mm;

@@ -9,7 +9,8 @@ import getPhoto from '../../../lib/get-photo'
 import defaultPhoto from '../../images/default.jpeg'
 import t from '../../i18n/i18n'
 import { defineMessages, injectIntl } from 'react-intl'
-import './styles.theme-BP_ALBUM_THEME.scss'
+// import './styles.theme-BP_ALBUM_THEME.scss'
+import './styles.theme-3.scss'
 
 function groupBy(arr, n) {
   var group = []
@@ -82,7 +83,7 @@ class Trip extends Component {
         >
           {pageEvents.length < 3 && (
             <PresentationPanel styleName="presentation-panel">
-              {firstPage && <Title label={t(MSG.title)} description={t(MSG.description)} boxClassName={"bg-decoration"}/>}
+              {firstPage && <Title label={t(MSG.title)} description={t(MSG.description)} boxClassName={"bg-decoration"} styleName="title-first"/>}
             </PresentationPanel>
           )}
           <ContentPanel styleName="content-panel">
