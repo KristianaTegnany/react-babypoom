@@ -24,7 +24,7 @@ const THEMES = {
   zebra: {
     '--color-text': '#81b7c0',
     '--color-bg': '#cbe2dd',
-    '--color-border': '#e4f0ed',
+    '--color-border': '#cbe2dd',
   },
   owl: {
     '--color-text': '#55271d',
