@@ -1,0 +1,208 @@
+.page > * {
+  width: 50% !important;
+}
+
+.arrival-presentation-panel {
+  background-image: url('../../images/theme-3/new-arrival/newArrivalAnimaux.svg');
+  background-size: 65%;
+  background-position: 23% 55%;
+}
+
+.panel{
+  background-size: 93% !important;
+  background: var(--color-bg) url("../../images/theme-3/new-arrival/left-bg.svg");
+  background-repeat: no-repeat;
+  background-position: left;
+}
+
+.info-page {
+  background-image: url('../../images/theme-3/new-arrival/arrival.svg');
+  background-position: left top;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+}
+
+.info-content-panel {
+  text-align: left;
+}
+
+.figure {
+  text-align: center;
+  line-height: normal;
+  display: inline-block;
+  width: 66mm;
+}
+
+.baby-img {
+  width: 58mm;
+  height: 58mm;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #f5f5f5 none center/cover no-repeat;
+}
+
+.fullname {
+  font-size: 7mm;
+  margin-bottom: 2.5mm;
+  color: var(--color-p-theme-3)
+}
+
+.lastname {
+  vertical-align: bottom;
+  color: var(--color-title-theme-3);
+}
+
+body .border-box {
+  display: inline-block;
+  line-height: normal;
+  margin-top: 5mm;
+  padding: 6.5mm;
+  background: #F7EDEA;
+  position: relative;
+
+  &::before{
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    background: url('../../images/theme-3/new-arrival/box-bg.svg');
+    left: 0;
+    top: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  &::after{
+    position: absolute;
+    content: '';
+    width: 15mm;
+    height: 15mm;
+    //background-image: url('../../images/theme-2/cover/box-deco.svg');
+    right: -3mm;
+    top: -2mm;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.5;
+  }
+
+  & > * {
+    display: inline-block;
+    min-width: 65mm;
+    padding: 2.5mm 0;
+
+    &::after {
+      content: '';
+      display: table;
+      clear: both;
+    }
+  }
+}
+
+.baby-info-line {
+  padding: 2.2mm 5mm;
+  word-wrap: break-word;
+  letter-spacing: -1.1mm;
+  display: block;
+  min-width: 84mm;
+  color: var(--color-p-theme-3);
+
+  > i,
+  > span {
+    display: inline-block;
+    vertical-align: middle;
+    letter-spacing: 0;
+  }
+  > i {
+    width: 7mm;
+    height: 7.7mm;
+    margin-right: 2mm;
+    background: transparent url('../../images/theme-3/new-arrival/sprite-info-pictos.svg') left top/100% auto no-repeat;
+  }
+}
+
+.sm:nth-child(even) {
+  clear: both;
+}
+
+.sm {
+  float: left;
+  width: 50%;
+  min-width: 42mm;
+  margin-top: 6mm;
+  position: relative;
+
+  span {
+    text-transform: capitalize;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    display: block;
+    left: 0;
+    right: -100%;
+    top: -3.5mm;
+    border-top: 1mm solid var(--page-border-color);
+  }
+}
+
+.sm,
+.sm + .sm + .sm,
+.sm + .sm + .sm + .sm + .sm {
+  &::after {
+    content: '';
+    position: absolute;
+    display: block;
+    top: -2.5mm;
+    bottom: -5mm;
+    right: -0.5mm;
+    border-right: 1mm solid var(--page-border-color);
+  }
+}
+
+.sm:first-child:last-child,
+.sm + .sm,
+.sm + .sm + .sm + .sm,
+.sm + .sm + .sm + .sm + .sm + .sm {
+  &::after {
+    content: normal;
+  }
+}
+
+.sm + .sm + .sm {
+  margin-top: 0;
+}
+
+.sm:first-child:last-child,
+.sm + .sm {
+  &::before {
+    content: normal;
+  }
+}
+
+.hour i {
+  background-position: left -7.4mm;
+}
+.location i {
+  background-position: left -15.2mm;
+}
+.gender i {
+  background-position: left -23mm;
+}
+.weight i {
+  background-position: left -36.6mm;
+}
+.size i {
+  background-position: left -50mm;
+}
+.zodiac i {
+  background-position: left -29mm;
+}
+.hair i {
+  background-position: left -43.7mm;
+}
+.eyes i {
+  background-position: left -57.5mm;
+}

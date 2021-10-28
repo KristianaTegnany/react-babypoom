@@ -1,0 +1,34 @@
+:global(.high-definition) {
+  .box {
+    background-image: url("../../images/hd-page-bg.png");
+  }
+}
+
+.box {
+  &.bg-decoration{
+    background-image: url("../../images/theme-2/trip-1/yellow leaves bottom.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 0 -12px;
+  }
+  &.bg-decoration-2{
+    margin-top: 65mm;
+    background-image: url("../../images/theme-2/guest-book/box.svg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: 0 5px;
+  }
+  &.hide{
+    display: none !important;
+  }
+  background: var(--color-bg) left top/1000px auto repeat;
+  padding: 6mm;
+  border-radius: 3mm;
+  background-position: 136mm center;
+  background-size: 148mm auto;
+
+  > * {
+    background: white;
+    border-radius: 3mm;
+  }
+}

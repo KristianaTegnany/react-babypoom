@@ -5,6 +5,9 @@ const THEMES = {
     '--color-text': '#aaa',
     '--color-bg': '#eee',
     '--color-border': '#808080',
+    '--color-title-theme-3': '#693527',
+    '--color-light-theme-3': '#c3766c',
+    '--color-p-theme-3': '#559789'
   },
   boy: {
     '--color-text': '#81b7c0',

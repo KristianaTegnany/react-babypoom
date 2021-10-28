@@ -6,16 +6,17 @@ import ContentPanel from '../../components/content-panel'
 import BorderBgBox from '../../components/border-bg-box'
 import t from '../../i18n/i18n'
 import { defineMessages } from 'react-intl'
-import './styles.theme-BP_ALBUM_THEME.scss'
+// import './styles.theme-BP_ALBUM_THEME.scss'
+import './styles.theme-3.scss'
 
 let Intro = () => [
   <Page key="intro-blank" />, // Blank page
   <Page key="intro" styleName="page">
     <PresentationPanel styleName="presentation-panel">
-      <Title general label={t(MSG.my_photo_album)} />
+      <Title general label={t(MSG.my_photo_album)} styleName="titleColor"/>
     </PresentationPanel>
     <ContentPanel styleName="content-panel">
-      <BorderBgBox>
+      <BorderBgBox styleName="border-box">
         <div styleName="content">
           <p styleName="description">{t(MSG.my_photo_album_desc)}</p>
           <ol styleName="list">

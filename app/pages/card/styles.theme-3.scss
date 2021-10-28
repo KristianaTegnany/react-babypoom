@@ -1,0 +1,23 @@
+.card-presentation-panel {
+  background-image: url('../../images/theme-2/card/card_bg_left.svg');
+  background-size: 60%;
+  background-position: 35% 47%;
+}
+
+.content-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: 95% !important;
+  background: var(--color-bg) url("../../images/theme-2/card/card_bg.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.img {
+  border: 13px solid white;
+  transform: rotate(2deg);
+  max-width: 80%;
+  max-height: 80%;
+}
+

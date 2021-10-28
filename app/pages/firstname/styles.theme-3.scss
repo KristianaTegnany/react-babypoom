@@ -1,0 +1,22 @@
+.card-presentation-panel {
+  background-image: url('../../images/bg-pages/bg-card.svg');
+  background-size: 60%;
+  background-position: 43% 43%;
+}
+
+.content-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img {
+  border: 13px solid white;
+  transform: rotate(2deg);
+  max-width: 80%;
+  max-height: 80%;
+}
+
+.card-presentation-title{
+  margin-top: 0 !important;
+}

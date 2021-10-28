@@ -1,0 +1,17 @@
+:global(.high-definition) {
+  .background {
+    background-image: url("../../images/theme-2/bg-page.svg");
+  }
+}
+
+.background {
+  background: var(--color-bg) url("../../images/theme-2/bg-page.svg");
+  background-repeat: no-repeat;
+  background-size: 315mm;
+  background-position: -60px 50%;
+}
+
+.centered {
+  text-align: center;
+  line-height: var(--page-height);
+}
