@@ -276,18 +276,22 @@ class LandingPage extends Component {
                         })}
                       </a>
                     </div>
-                    <span>
-                      {t(MSG.album_pdf_infos)}
-                    </span>
-                    <div styleName="button-booking-order">
-                      <a href={config.orderLink.replace('{{id}}', bpoom.id)}>
-                        {t(MSG.album_pdf_order, {
-                          babyname: (
-                            bpoom.baby_name
-                          ),
-                        })}
-                      </a>
-                    </div>
+                    {bpoom.album_sales_step && bpoom.album_sales_step.includes("expiration") && (
+                      <>
+                        <span>
+                          {t(MSG.album_pdf_infos)}
+                        </span>
+                        <div styleName="button-booking-order">
+                          <a href={config.orderLink.replace('{{id}}', bpoom.id)}>
+                            {t(MSG.album_pdf_order, {
+                              babyname: (
+                                bpoom.baby_name
+                              ),
+                            })}
+                          </a>
+                        </div>
+                      </>
+                    )}
                     <span>
                       {t(MSG.update_infos)}
                     </span>
