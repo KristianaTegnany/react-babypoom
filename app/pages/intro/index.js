@@ -6,8 +6,7 @@ import ContentPanel from '../../components/content-panel'
 import BorderBgBox from '../../components/border-bg-box'
 import t from '../../i18n/i18n'
 import { defineMessages } from 'react-intl'
-// import './styles.theme-BP_ALBUM_THEME.scss'
-import './styles.theme-3.scss'
+import './styles.theme-BP_ALBUM_THEME.scss'
 
 let Intro = () => [
   <Page key="intro-blank" />, // Blank page

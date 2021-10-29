@@ -9,8 +9,7 @@ import getPhoto from '../../../lib/get-photo'
 import defaultPhoto from '../../images/default.jpeg'
 import t from '../../i18n/i18n'
 import { defineMessages, injectIntl } from 'react-intl'
-// import './styles.theme-BP_ALBUM_THEME.scss'
-import './styles.theme-3.scss'
+import './styles.theme-BP_ALBUM_THEME.scss'
 
 function groupBy(arr, n) {
   var group = []

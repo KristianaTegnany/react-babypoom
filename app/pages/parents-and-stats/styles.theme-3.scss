@@ -1,7 +1,7 @@
 .parents-presentation-panel {
-  background-image: url('../../images/theme-2/parent/items.svg');
-  background-position: 70% 55%;
-  background-size: 85%;
+  background-image: url('../../images/theme-3/parent/items.svg');
+  background-position: 55% 48%;
+  background-size: 65%;
 }
 
 .parents-reaction-page-content {
@@ -77,9 +77,9 @@
 }
 
 .stat-presentation-panel {
-  background-image: url('../../images/theme-2/parent/stats.svg');
-  background-size: 50%;
-  background-position: 40% 28%;
+  background-image: url('../../images/theme-3/parent/stats.svg');
+  background-size: 45%;
+  background-position: 50% 57%;
 }
 
 .list {
@@ -130,15 +130,17 @@
   font-size: 22px;
   font-weight: bold;
   word-wrap: break-word;
+  color: #367a91
 }
 
 .desc {
   width: 38mm;
+  color: var(--color-title-theme-3)
 }
 
 .panel{
-  background-size: 95% !important;
-  background: var(--color-bg) url("../../images/theme-2/parent/yellow leaves.svg");
+  background-size: 94% !important;
+  background: var(--color-bg) url("../../images/theme-3/parent/yellow leaves.svg");
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: 124% 190%;
 }

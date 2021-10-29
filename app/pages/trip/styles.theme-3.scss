@@ -110,9 +110,10 @@
       background: #fef5f3;
     }
     .trip-events-container::before {
-      background-image: url("../../images/theme-2/trip-1/timeline-3.svg");
+      background-image: url("../../images/theme-3/trip-1/timeline-3.svg");
       background-repeat: no-repeat;
       background-size: 95%;
+      left: -3mm !important;
     }
   }
 
@@ -146,9 +147,9 @@
   }
 
   .date{
-    background: #ececec;
+    background: #e6dfdf;
     &.red{
-      background: #d9ede9;
+      background: #ececec;
     }
   }
 }
@@ -164,10 +165,10 @@
       width: 100%;
       height: 20mm;
       margin-top: -9mm;
-      background-image: url("../../images/theme-2/trip-1/timeline-2.svg");
+      background-image: url("../../images/theme-3/trip-1/timeline-2.svg");
       background-repeat: repeat-x;
       background-position: left center;
-      background-size: auto 135%;
+      background-size: auto 83%;
     }
 
     .trip-event:first-child {
@@ -291,5 +292,6 @@
     font-size: 11px;
     max-width: 90%;
     font-weight: lighter;
+    color: #2d6578;
   }
 }

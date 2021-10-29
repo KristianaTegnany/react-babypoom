@@ -1,7 +1,6 @@
 import React from 'react'
 import BorderBgBox from '../border-bg-box'
-// import './styles.theme-BP_ALBUM_THEME.scss'
-import './styles.theme-3.scss'
+import './styles.theme-BP_ALBUM_THEME.scss'
 
 export default function Title({ general, label, description, className, boxClassName = "", hasTitle = true }) {
   return general ? (
