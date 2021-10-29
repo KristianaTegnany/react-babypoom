@@ -6,7 +6,7 @@
     "dev": "npm run build:locale-data && node webpack-dev-server.js",
     "start:prod": "rimraf public && THEME_MANIFEST=ok npm run build && node server.bundle.js",
     "build:locale-data": "node generate-locale-data.js",
-    "build:all-client": "BP_ALBUM_THEME=1 npm run build:client && BP_ALBUM_THEME=2 npm run build:client",
+    "build:all-client": "BP_ALBUM_THEME=1 npm run build:client && BP_ALBUM_THEME=2 npm run build:client && BP_ALBUM_THEME=3 npm run build:client",
     "build:client": "webpack --config webpack.production.config.js --progress --profile --colors",
     "build:server": "webpack --config webpack.server.config.js",
     "build": "npm run build:locale-data && cat /dev/null > theme-manifest.json && npm run build:all-client && npm run build:server",
