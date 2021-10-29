@@ -6,6 +6,15 @@
 
 .box {
   &.bg-decoration{
+
+  }
+  &.bg-decoration-2{
+
+  }
+  &.hide{
+    display: none !important;
+  }
+  &.bg-decoration{
     background-image: url("../../images/theme-3/trip-1/box-deco.svg");
     background-size: contain;
     background-repeat: no-repeat;
