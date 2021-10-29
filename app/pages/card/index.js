@@ -8,6 +8,7 @@ import t from '../../i18n/i18n'
 import { defineMessages } from 'react-intl'
 import { cardHdURL, cardThumbnailURL } from 'babypoom-common/lib/cardURL'
 import './styles.theme-BP_ALBUM_THEME.scss'
+
 class Card extends Component {
   render() {
     let { bpoom, params } = this.props

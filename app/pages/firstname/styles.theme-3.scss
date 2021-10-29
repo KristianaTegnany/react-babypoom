@@ -1,7 +1,7 @@
 .card-presentation-panel {
-  background-image: url('../../images/theme-2/firstname/firstname_bg_left.svg');
-  background-size: 60%;
-  background-position: 36% 31%;
+  background-image: url('../../images/theme-3/firstname/firstname_bg_left.svg');
+  background-size: 50%;
+  background-position: 40% 28%;
 }
 
 .content-panel {
@@ -9,7 +9,7 @@
   justify-content: center;
   align-items: center;
   background-size: 95% !important;
-  background: var(--color-bg) url("../../images/theme-2/firstname/firstname_bg.svg");
+  background: var(--color-bg) url("../../images/theme-3/firstname/firstname_bg.svg");
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -87,4 +87,6 @@
   }
 }
 
-.titleFirstname{}
+.titleFirstname{
+
+}

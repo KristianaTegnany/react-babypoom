@@ -1,21 +1,26 @@
 :global(.high-definition) {
   .box {
-    background-image: url("../../images/hd-page-bg.png");
+    background-image: url("../../images/theme-3/trip-1/box-deco.svg");
   }
 }
 
 .box {
   &.bg-decoration{
-    background-image: url("../../images/theme-2/trip-1/yellow leaves bottom.svg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: 0 -12px;
+
   }
   &.bg-decoration-2{
-    background-image: url("../../images/theme-2/guest-book/box.svg");
-    background-size: 100%;
+
+  }
+  &.hide{
+    display: none !important;
+  }
+  &.bg-decoration{
+    background-image: url("../../images/theme-3/trip-1/box-deco.svg");
+    background-size: contain;
     background-repeat: no-repeat;
-    background-position: 0 5px;
+    background-position: 100% 50%;
+  }
+  &.bg-decoration-2{
   }
   &.hide{
     display: none !important;

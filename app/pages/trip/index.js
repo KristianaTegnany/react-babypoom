@@ -82,7 +82,7 @@ class Trip extends Component {
         >
           {pageEvents.length < 3 && (
             <PresentationPanel styleName="presentation-panel">
-              {firstPage && <Title label={t(MSG.title)} description={t(MSG.description)} boxClassName={"bg-decoration"}/>}
+              {firstPage && <Title label={t(MSG.title)} description={t(MSG.description)} boxClassName={"bg-decoration"} styleName="title-first"/>}
             </PresentationPanel>
           )}
           <ContentPanel styleName="content-panel">

@@ -12,10 +12,10 @@ let Intro = () => [
   <Page key="intro-blank" />, // Blank page
   <Page key="intro" styleName="page">
     <PresentationPanel styleName="presentation-panel">
-      <Title general label={t(MSG.my_photo_album)} />
+      <Title general label={t(MSG.my_photo_album)} styleName="titleColor"/>
     </PresentationPanel>
     <ContentPanel styleName="content-panel">
-      <BorderBgBox>
+      <BorderBgBox styleName="border-box">
         <div styleName="content">
           <p styleName="description">{t(MSG.my_photo_album_desc)}</p>
           <ol styleName="list">
