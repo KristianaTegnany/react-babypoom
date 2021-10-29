@@ -5,6 +5,15 @@
 }
 
 .box {
+  &.bg-decoration{
+
+  }
+  &.bg-decoration-2{
+
+  }
+  &.hide{
+    display: none !important;
+  }
   background: var(--color-bg) url("../../images/page-bg.png") left top/1000px auto repeat;
   padding: 5mm;
   border-radius: 1.3mm;

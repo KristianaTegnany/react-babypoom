@@ -32,6 +32,9 @@ body {
   text-align: center;
   transform: rotate(-16deg);
   white-space: pre-line;
+  &.hidden{
+    display: none;
+  }
 }
 
 .description-container {

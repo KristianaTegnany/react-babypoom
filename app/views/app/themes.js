@@ -24,6 +24,16 @@ const THEMES = {
     '--color-bg': '#000000',
     '--color-border': '#000000',
   },
+  zebra: {
+    '--color-text': '#81b7c0',
+    '--color-bg': '#cbe2dd',
+    '--color-border': '#e4f0ed',
+  },
+  owl: {
+    '--color-text': '#55271d',
+    '--color-bg': '#f7f0e7',
+    '--color-border': '#f5e9e4',
+  },
 }
 
 export default THEMES

@@ -110,6 +110,7 @@
 
 .content-panel {
   background: var(--color-bg) url("../../images/page-bg.png") left top/1000px auto repeat;
+  &.right-content-panel{}
 }
 
 .right-panel {
@@ -235,4 +236,7 @@
       border-color: transparent transparent var(--color-bg) transparent;
     }
   }
+}
+
+.titleFirstname{
 }
