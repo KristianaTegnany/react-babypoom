@@ -71,7 +71,7 @@ let Transition = ({ bpoom, steps }) => {
         share: (
           <div styleName="share-container">
             <span styleName="share">
-              {(bpoom.shared_by_visits && !bpoom.album_paid) ? (
+              {false ? (
                 <>
                 {SHARE_SUPPORT && (
                   <Button size="sm" color="app" onClick={shareIt} id="IdendifierShareShareButton">
