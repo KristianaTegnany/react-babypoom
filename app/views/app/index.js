@@ -29,6 +29,7 @@ import loadIntl from '../../../lib/intl-detection'
 import { updateLocale } from '../../i18n/hot-intl-provider/HotIntlProviderActions'
 import twemoji from 'twemoji'
 import './styles.scss'
+import './styles.theme-BP_ALBUM_THEME.scss'
 
 let UNIQ = 0
 

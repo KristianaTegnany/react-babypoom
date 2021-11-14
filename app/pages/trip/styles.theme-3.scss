@@ -81,27 +81,19 @@
       background: #fef5f3;
     }
   }
-  .date{
-    &.red{
+  .date {
+    &.red {
       background: #e6dfdf;
     }
   }
-  .title-first{
-    h1{
+  .title-first {
+    h1 {
       opacity: 1;
     }
   }
 }
 
 // Last page
-:global(.high-definition) {
-  .last-page:not(.first-page) {
-    .presentation-panel {
-      background-image: url("../../images/hd-page-bg.png");
-    }
-  }
-}
-
 .last-page:not(.first-page) {
   &.with-3-events,
   &.with-4-events {
@@ -128,7 +120,7 @@
   }
 
   .presentation-panel {
-    background: var(--color-bg) url("../../images/page-bg.png") left top/1000px auto repeat;
+    background: var(--color-bg) url("../../images/theme-3/guest-book/bg-right.svg") left top/1000px auto repeat; // TODOO: using theme1 image?
 
     &::before {
       left: -10.5mm;
@@ -146,15 +138,15 @@
     background: #fef5f3;
   }
 
-  .date{
+  .date {
     background: #e6dfdf;
-    &.red{
+    &.red {
       background: #ececec;
     }
   }
 }
 
-.with-4-events{
+.with-4-events {
   .trip-events-container {
     &::before {
       content: "";
@@ -198,7 +190,6 @@
     margin-left: 0;
   }
 }
-
 
 .content-panel {
   text-align: center;
@@ -279,10 +270,10 @@
   height: 16mm;
   line-height: 16mm;
   text-align: center;
-  background: #e6dfdf ;
+  background: #e6dfdf;
   border-radius: 50%;
 
-  &.red{
+  &.red {
     background: #ececec;
   }
 
