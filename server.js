@@ -182,8 +182,8 @@ app.get('*', (req, res) => {
     const bpoomUuid = reqPath.slice(1).replace(REG_PDF, '')
     const suffix = params.kiteCover ? 'kite-cover' : params.kitePages ? 'kite-pages' : 'full'
     const path = {
-      pages: `pdf-albums/${bpoomUuid}-${suffix}.pdf`,
-      lock: `pdf-albums/${bpoomUuid}-${suffix}.txt`,
+      pages: `pdf-albums/${bpoomUuid}-${suffix}-theme${params.theme || 1}.pdf`,
+      lock: `pdf-albums/${bpoomUuid}-${suffix}-theme${params.theme || 1}.txt`,
     }
 
     // Manage lock file
@@ -207,7 +207,7 @@ app.get('*', (req, res) => {
     // Render album
     if (fileExists(path.pages)) {
       res.setHeader('Content-Type', 'application/pdf')
-      res.setHeader('Content-Disposition', `inline;filename=${bpoomUuid}-${suffix}.pdf`)
+      res.setHeader('Content-Disposition', `inline;filename=${path.pages}`)
       return fs.readFile(path.pages, (err, data) => {
         if (err) return console.error(err)
         res.send(data)

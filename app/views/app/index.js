@@ -384,13 +384,11 @@ class App extends Component {
                 <div />
               </div>
               {!params.nopurchase && (
-                <>
                 <div className="order">
                   <a href={config.orderLink.replace('{{id}}', bpoom.id)}>{t(MSG.order)}</a>
                   <a href={config.orderLink.replace('{{id}}', bpoom.id)} className="update">{t(MSG.update)}</a>
                   <a href={`${bpoom.uuid}/booking`} className="booking">{t(MSG.booking)}</a>
                 </div>
-                </>
               )}
               <div styleName="rotate-device">
                 <RotateDeviceIcon />
