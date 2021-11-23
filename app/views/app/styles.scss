@@ -256,7 +256,7 @@
     > a {
       padding: 8px 30px;
       color: #333;
-      background-color: #efc45c;
+      background-color: white;
       border: 1px solid #ecbc61;
       border-radius: 3px;
       font-size: 16px;
@@ -271,17 +271,56 @@
     }
 
     .update{
-      background-color: #7fb5b4;
+      background-color: white;
       border: 1px solid #88a8b0;
     }
 
     .booking{
-      background-color: #fbbdb2;
+      background-color: white;
       border: 1px solid #d5797b;
     }
 
   }
 
+  .themes {
+    position: absolute;
+    z-index: 1000;
+    bottom: 55px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-left: 5px;
+
+    > a {
+      padding: 8px 30px;
+      color: #333;
+      background-color: #fbbfb5;
+      border: 1px solid #d5797b;
+      border-radius: 3px;
+      font-size: 16px;
+      text-decoration: none;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+      margin: 5px;
+
+      &:hover {
+        position: relative;
+        transform: translate(1px, 1px);
+      }
+    }
+
+    .zebra{
+      background-color: #7fb5b4;
+      border: 1px solid #88a8b0;
+    }
+
+    .owl{
+      background-color: #daa968;
+      border: 1px solid #55271d;
+    }
+
+  }
 
   @media screen and (max-height: 500px) {
     .preview {

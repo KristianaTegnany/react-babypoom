@@ -395,6 +395,13 @@ class App extends Component {
                 <RotateDeviceIcon />
                 {t(MSG.rotate_device)}
               </div>
+              {!params.nopurchase && (
+                <div className="themes">
+                  <a href={config.previewLink.replace('{{uuid}}', bpoom.uuid).replace('{{themeid}}', 1)} >{t(MSG.stork)}</a>
+                  <a href={config.previewLink.replace('{{uuid}}', bpoom.uuid).replace('{{themeid}}', 2)} className="zebra">{t(MSG.zebra)}</a>
+                  <a href={config.previewLink.replace('{{uuid}}', bpoom.uuid).replace('{{themeid}}', 3)} className="owl">{t(MSG.owl)}</a>
+                </div>
+              )}
               <div className="preview-controls">
                 <div>
                   {this.state.audioSupport && (
@@ -456,5 +463,17 @@ const MSG = defineMessages({
   booking: {
     id: 'app.booking',
     defaultMessage: `Réserver`,
+  },
+  stork: {
+    id: 'app.stork',
+    defaultMessage: `Cigogne`,
+  },
+  zebra: {
+    id: 'app.zebra',
+    defaultMessage: `Zèbre`,
+  },
+  owl: {
+    id: 'app.owl',
+    defaultMessage: `Hibou`,
   },
 })

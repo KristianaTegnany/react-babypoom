@@ -201,7 +201,17 @@ class LandingPageFriends extends Component {
                       margin: 30,
                     }}
                   >
-                    <img styleName="responsive-album" src={bpoom.album_teaser_url}></img>
+                    <Carousel autoPlay infiniteLoop={true} showThumbs={false} showStatus={false}>
+                        <div>
+                          <img styleName="responsive-album" src={bpoom.album_teaser_url} />
+                        </div>
+                        <div>
+                          <img styleName="responsive-album" src={bpoom.album_teaser_url_theme2} />
+                        </div>
+                        <div>
+                          <img styleName="responsive-album" src={bpoom.album_teaser_url_theme3} />
+                        </div>
+                    </Carousel>
                   </Column>
                 </Row>
                 <Row vertical="center">
@@ -248,6 +258,9 @@ class LandingPageFriends extends Component {
                         },
                         {
                           title: t(MSG.album_argument_2_8),
+                        },
+                        {
+                          title: t(MSG.album_argument_2_9),
                         }
                       ]}
                     />
@@ -260,12 +273,24 @@ class LandingPageFriends extends Component {
                       ]}
                     />
                     <h3 styleName="lp-title"> {t(MSG.album_argument_3_title)} </h3>
-                    <Carousel showThumbs={false} showStatus={false}>
+                    <Carousel autoPlay infiniteLoop={true} showThumbs={false} showStatus={false}>
                         <div>
-                            <img src={bpoom.gender=='M' ? imgPath("/album/album-visitorbook-teaser-boy.jpg") : imgPath("/album/album-visitorbook-teaser-girl.jpg")} />
+                          <img src={imgPath("/album/album-open-min.png")} styleName="sample-img" />
                         </div>
                         <div>
-                            <img src={bpoom.album_teaser2_url} />
+                          <img src={imgPath("/album/theme1/album-theme-stork-gift.png")} styleName="sample-img" />
+                        </div>
+                        <div>
+                            <img src={bpoom.album_teaser2_url} styleName="sample-img" />
+                        </div>
+                        <div>
+                          <img src={imgPath("/album/theme1/album-theme-stork-shoes.png")} styleName="sample-img" />
+                        </div>
+                        <div>
+                          <img src={imgPath("/album/theme2/album-theme-zebra-2.jpg")} styleName="sample-img" />
+                        </div>
+                        <div>
+                          <img src={imgPath("/album/theme3/album-theme-owl-2.jpg")} styleName="sample-img" />
                         </div>
                         <div>
                             <img src={imgPath("/album/album-with-mum-2.jpg")} />
@@ -576,7 +601,7 @@ const MSG = defineMessages({
   },
   album_argument_2_2: {
     id: 'app.album_argument_2_2',
-    defaultMessage: `Les infos de naissance de bébé : photo, date, heure, etc...`,
+    defaultMessage: `Les infos de naissance de bébé : photos, date, heure, etc...`,
   },
   album_argument_2_3: {
     id: 'app.album_argument_2_3',
@@ -584,22 +609,26 @@ const MSG = defineMessages({
   },
   album_argument_2_4: {
     id: 'app.album_argument_2_4',
-    defaultMessage: `La réaction des parents`,
+    defaultMessage: `L'histoire du prénom de bébé (étymologie, origine, ...)`,
   },
   album_argument_2_5: {
     id: 'app.album_argument_2_5',
-    defaultMessage: `Toutes les photos chargées sur l'application`,
+    defaultMessage: `La réaction des parents`,
   },
   album_argument_2_6: {
     id: 'app.album_argument_2_6',
-    defaultMessage: `Le faire-part souvenir de bébé`,
+    defaultMessage: `Toutes les photos chargées sur l'application`,
   },
   album_argument_2_7: {
     id: 'app.album_argument_2_7',
-    defaultMessage: `Les statistiques du jeu de devinette du prénom`,
+    defaultMessage: `Le faire-part souvenir de bébé`,
   },
   album_argument_2_8: {
     id: 'app.album_argument_2_8',
+    defaultMessage: `Les statistiques du jeu de devinette du prénom`,
+  },
+  album_argument_2_9: {
+    id: 'app.album_argument_2_9',
     defaultMessage: `Votre dédicace au dos du livre`,
   },
   album_argument_3_title: {
@@ -628,7 +657,7 @@ const MSG = defineMessages({
   },
   album_photos_description: {
     id: 'app.album_photos_description',
-    defaultMessage: `Couverture cartonnée personnalisée - Papier glacé 200g`,
+    defaultMessage: `Couverture cartonnée personnalisée - 3 thèmes (Cigogne, Zèbre, Hibou) au choix pour les parents - Papier glacé 200g`,
   },
   album_pricing_title: {
     id: 'app.album_pricing_title',
@@ -716,7 +745,7 @@ const MSG = defineMessages({
   },
   album_gift_process_3: {
     id: 'app.album_gift_process_3',
-    defaultMessage: `3- L'album est automatiquement rempli mais s'ils le souhaitent, les parents peuvent encore le modifier (ajouter des photos, textes...). Après avoir saisi leur adresse postale, ils recevront ensuite votre cadeau dédicacé directement dans leur boite aux lettres`,
+    defaultMessage: `3- L'album est automatiquement rempli mais s'ils le souhaitent, les parents peuvent encore le modifier (changer le thème, ajouter des photos, textes...). Après avoir saisi leur adresse postale, ils recevront ensuite votre cadeau dédicacé directement dans leur boite aux lettres`,
   },
   album_friend_custom_name: {
     id: 'app.album_friend_custom_name',
