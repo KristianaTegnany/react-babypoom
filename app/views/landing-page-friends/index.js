@@ -140,7 +140,6 @@ class LandingPageFriends extends Component {
             <Column flexGrow={1} horizontal="center"
               style={{
                 backgroundColor: "white",
-                maxWidth: 650,
                 padding: 12,
                 color: "#E0E0E0",
                 borderRadius:"15px",
@@ -725,7 +724,7 @@ const MSG = defineMessages({
   },
   success_album_order: {
     id: 'app.success_album_order',
-    defaultMessage: `Félicitations votre cadeau a bien été envoyé à {babyname} 🙏🏼`,
+    defaultMessage: `Félicitations votre cadeau a bien été envoyé à {babyname} et ses parents ont bien été prévenus. 🙏🏼`,
   },
   close: {
     id: 'app.close',
