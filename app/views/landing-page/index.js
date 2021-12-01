@@ -520,7 +520,7 @@ const MSG = defineMessages({
   },
   album_pricing: {
     id: 'app.album_pricing',
-    defaultMessage: `OPERATION BLACKFRIDAY -25% ! 36,75€ au lieu de 49€`,
+    defaultMessage: `49€`,
   },
   album_coupon_code: {
     id: 'app.album_coupon_code',
