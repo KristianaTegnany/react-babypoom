@@ -1,10 +1,10 @@
-@import '../../../config/styles/variables.scss';
+@import "../../../config/styles/variables.scss";
 
 :global(.kite-cover) {
   .panel {
     padding-right: 20mm + 8mm;
-    background-size: 256mm auto !important;
-    background-position: calc(50% - 10mm) 50% !important;
+    background-size: 324mm auto !important;
+    background-position: calc(50% - 17mm) 50% !important;
   }
 }
 
@@ -27,15 +27,14 @@
   width: 100%;
   transform: scale(1.3);
   margin-top: -95px;
-  background: transparent url('../../images/theme-2/cover/top.svg') top
-    center/auto no-repeat;
+  background: transparent url("../../images/theme-2/cover/top.svg") top center/auto no-repeat;
 }
 
 .border-box,
 .box-content {
   &::before,
   &::after {
-    content: '';
+    content: "";
     position: absolute;
   }
 }
@@ -48,7 +47,7 @@ body .border-box {
   //background-size: 145.5mm auto;
   background-size: 100% !important;
   background-position-y: 100% !important;
-  background: url('../../images/theme-2/cover/content.svg');
+  background: url("../../images/theme-2/cover/content.svg");
 
   &::before,
   &::after {
@@ -65,13 +64,13 @@ body .border-box {
     top: -5mm;
     background-position: top right;
     background-size: contain;
-    background-image: url('../../images/theme-2/cover/left.svg');
+    background-image: url("../../images/theme-2/cover/left.svg");
   }
   &::after {
     right: -26mm;
     background-size: contain;
     background-position: top left;
-    background-image: url('../../images/theme-2/cover/right.svg');
+    background-image: url("../../images/theme-2/cover/right.svg");
     top: -4mm;
   }
 }
@@ -95,7 +94,7 @@ body .border-box {
     width: 10mm;
     height: 10mm;
     background-size: cover !important;
-    background: url('../../images/theme-2/cover/box-deco.svg') no-repeat;
+    background: url("../../images/theme-2/cover/box-deco.svg") no-repeat;
   }
   &::after {
     left: -17mm;
@@ -104,7 +103,7 @@ body .border-box {
     height: 50mm;
     box-sizing: content-box;
     padding: 0 15mm;
-    background: transparent url('../../images/theme-2/cover/bottom.svg') no-repeat;
+    background: transparent url("../../images/theme-2/cover/bottom.svg") no-repeat;
     background-size: contain;
     background-position: center top;
   }
