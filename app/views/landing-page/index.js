@@ -215,34 +215,28 @@ class LandingPage extends Component {
                     <h3 styleName="lp-title"> {t(MSG.album_argument_3_title)} </h3>
                     <Carousel autoPlay infiniteLoop={true} showThumbs={false} showStatus={false}>
                         <div>
-                          <img src={imgPath("/album/theme1/album-theme-stork-gift.png")} styleName="sample-img" />
+                          <img src={imgPath("/album/3-albums-pos1-wall1-min.png")} styleName="sample-img" />
                         </div>
                         <div>
                           <img src={imgPath("/album/album-open-min.png")} styleName="sample-img" />
                         </div>
                         <div>
-                            <img src={bpoom.album_teaser2_url} styleName="sample-img" />
-                        </div>
-                        <div>
                           <img src={imgPath("/album/theme1/album-theme-stork-shoes.png")} styleName="sample-img" />
                         </div>
                         <div>
-                          <img src={imgPath("/album/theme2/album-theme-zebra-2.jpg")} styleName="sample-img" />
+                          <img src={imgPath("/album/theme2/album-cover2-min.png")} styleName="sample-img" />
                         </div>
                         <div>
-                          <img src={imgPath("/album/theme3/album-theme-owl-2.jpg")} styleName="sample-img" />
+                          <img src={imgPath("/album/theme3/album-cover3-min.png")} styleName="sample-img" />
                         </div>
                         <div>
-                            <img src={imgPath("/album/album-with-mum-2.jpg")} />
+                          <img src={imgPath("/album/theme1/album-theme-stork-gift.png")} styleName="sample-img" />
                         </div>
                         <div>
                             <img src={imgPath("/album/album-with-mum.jpg")} />
                         </div>
                         <div>
-                            <img src={imgPath("/album/album-teaser-4-opti.jpg")} />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-teaser-3-opti.jpg")} />
+                            <img src={imgPath("/album/3-albums-pos2-wall2-min.png")} />
                         </div>
                     </Carousel>
                     <span>
