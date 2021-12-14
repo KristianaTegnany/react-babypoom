@@ -392,7 +392,7 @@ class LandingPageFriends extends Component {
                     </div>
                     {bpoom.album_paid ?
                     (<span>
-                       t(MSG.to_late_infos) : t(MSG.update_infos_1)}
+                      {t(MSG.to_late_infos)}
                     </span>)
                     : (
                       <>
