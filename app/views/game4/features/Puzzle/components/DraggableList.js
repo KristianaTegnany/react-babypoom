@@ -7,6 +7,8 @@ import { useGesture } from "react-use-gesture";
 import { useSprings, animated, interpolate } from "react-spring";
 
 import { Content } from "../styles";
+import { useDispatch } from "react-redux";
+import { gameOverGame4 } from "../../../Actions";
 
 let temp = 100;
 
@@ -46,6 +48,7 @@ const fn = (order, down, originalIndex, curIndex, y) => (index) =>
 export default ({ items, setCompleted, img }) => {
   const order = useRef(items.map((_, index) => index)); // Store indicies as a local ref, this represents the item order
   const [springs, setSprings] = useSprings(items.length, fn(order.current)); // Create springs, each corresponds to an item, controlling its transform, scale, etc.
+  const dispatch = useDispatch();
   const bind = useGesture((vars) => {
     const {
       args: [originalIndex],
@@ -64,6 +67,10 @@ export default ({ items, setCompleted, img }) => {
 
     if (vars.event.type === "mouseup" || vars.event.type === "touchend") {
       if (isEqual(newOrder, [4, 1, 0, 3, 2])) {
+        setTimeout(() => {
+          dispatch(gameOverGame4());
+        }, 1500);
+
         setCompleted(true);
       }
     }

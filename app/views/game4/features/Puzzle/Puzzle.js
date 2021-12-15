@@ -15,7 +15,9 @@ export default () => {
 
   useEffect(() => {
     disablePageScroll();
-    return () => enablePageScroll();
+    return () => {
+      enablePageScroll();
+    };
   }, []);
 
   useEffect(() => {

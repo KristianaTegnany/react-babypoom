@@ -1,24 +1,16 @@
-import { MOVE, GAME_OVER } from './types'
+import { GAME_OVER_GAME_4 } from "./types";
 
 let defaultState = {
-  puzzle: [],
-  steps: [],
-  moves: 0,
   win: false,
-}
+};
 
-export default function(state = defaultState, action) {
+export default function (state = defaultState, action) {
   switch (action.type) {
-    case MOVE:
-      return {
-        ...state,
-        ...action,
-      }
-    case GAME_OVER:
+    case GAME_OVER_GAME_4:
       return {
         ...state,
         win: true,
-      }
+      };
   }
-  return state
+  return state;
 }

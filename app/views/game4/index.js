@@ -19,26 +19,16 @@ import PuzzleGameInit from "./Game";
 import BABY_IMAGES from "../../../lib/baby-img";
 
 let Game4 = (props) => {
-  const {
-    bpoom,
-    desktop,
-    win,
-    currentX,
-    currentY,
-    puzzle,
-    moves,
-    steps,
-    stepLen,
-    move,
-    gameOver,
-  } = props;
+  const { bpoom, desktop, win, gameOver } = props;
   let babyType = bpoom.baby_full_type;
   let bubbleText = t(MSG.message);
 
   // Timer
   let timeTracker = useTimeTracker();
 
-  return (
+  return win ? (
+    <GameWin />
+  ) : (
     <>
       {desktop ? (
         <BubbleSay speechDir="left" imgSrc={BABY_IMAGES[babyType]}>
@@ -57,18 +47,11 @@ export default connect(mapStateToProps, { move, gameOver })(Game4);
 function mapStateToProps(state) {
   const {
     app: { bpoom, noNav },
-    game2: { puzzle, moves, steps, stepLen, currentX, currentY, win },
+    game4: { win },
     mediaQueries: { desktop },
   } = state;
   return {
     bpoom,
-    noNav,
-    puzzle,
-    steps,
-    stepLen,
-    currentX,
-    currentY,
-    moves,
     win,
     desktop,
   };
