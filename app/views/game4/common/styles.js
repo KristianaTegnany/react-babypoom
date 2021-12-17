@@ -1,8 +1,5 @@
 import styled, { keyframes } from "styled-components";
 
-export { Nav } from "./Nav";
-export { Roof } from "./Roof";
-
 export const Game = styled.div`
   transform: scale(0.75);
   justify-content: center;
@@ -15,7 +12,7 @@ export const Game = styled.div`
   }};
   background-size: ${({ size }) => size};
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   @media screen and (max-width: 1024px) {
     transform: scale(1);

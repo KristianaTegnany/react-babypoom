@@ -1,12 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { defineMessages } from "react-intl";
-
-import useTimeTracker from "../../hooks/time-tracker";
-
-import { move, gameOver } from "./Actions";
-
-import Button from "reactstrap/lib/Button";
 
 import BubbleSay from "../../components/bubble-say";
 import BubblePic from "../../components/bubble-pic";
@@ -34,16 +28,16 @@ let Game4 = (props) => {
       ) : (
         <BubblePic imgSrc={BABY_IMAGES[babyType]}>{bubbleText}</BubblePic>
       )}
-      <PuzzleGameInit />
+      <PuzzleGameInit bpoom={bpoom} />
     </>
   );
 };
 
-export default connect(mapStateToProps, { move, gameOver })(Game4);
+export default connect(mapStateToProps, )(Game4);
 
 function mapStateToProps(state) {
   const {
-    app: { bpoom, noNav },
+    app: { bpoom },
     game4: { win },
     mediaQueries: { desktop },
   } = state;

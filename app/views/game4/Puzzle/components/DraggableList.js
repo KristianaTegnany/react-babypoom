@@ -8,7 +8,7 @@ import { useSprings, animated, interpolate } from "react-spring";
 
 import { Content } from "../styles";
 import { useDispatch } from "react-redux";
-import { gameOverGame4 } from "../../../Actions";
+import { gameOverGame4 } from "../../Actions";
 
 let temp = 100;
 

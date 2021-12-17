@@ -1,0 +1,41 @@
+import React, { useEffect, useState } from "react";
+import { disablePageScroll, enablePageScroll } from "scroll-lock";
+
+import { Game } from "../common/styles";
+import { WinContainer } from "./styles";
+import DraggableList from "./components/DraggableList";
+import getPhoto from '../../../../lib/get-photo'
+
+export default (props) => {
+  const [completed, setCompleted] = useState(false);
+
+  const currentImage = getPhoto(props.bpoom.photo_urls, 'normal')
+  useEffect(() => {
+    disablePageScroll();
+    return () => {
+      enablePageScroll();
+    };
+  }, []);
+
+  let content = (
+    <DraggableList
+      items={"1 2 3 4 5".split(" ")}
+      setCompleted={setCompleted}
+      img={currentImage}
+    />
+  );
+
+  if (completed) {
+    content = (
+      <WinContainer>
+        <img src={currentImage} alt="puzzle" />
+      </WinContainer>
+    );
+  }
+
+  return (
+    <Game size="300px" filter="1">
+      <div>{content}</div>
+    </Game>
+  );
+};
