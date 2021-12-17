@@ -19,12 +19,9 @@ import PuzzleGameInit from "./Game";
 import BABY_IMAGES from "../../../lib/baby-img";
 
 let Game4 = (props) => {
-  const { bpoom, desktop, win, gameOver } = props;
+  const { bpoom, desktop, win } = props;
   let babyType = bpoom.baby_full_type;
   let bubbleText = t(MSG.message);
-
-  // Timer
-  let timeTracker = useTimeTracker();
 
   return win ? (
     <GameWin />

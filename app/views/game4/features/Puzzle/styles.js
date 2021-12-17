@@ -2,11 +2,11 @@ import styled, { keyframes } from "styled-components";
 
 export const GameContainer = styled.div`
   max-width: 550px;
-  height: 95vh;
+  height: 100vh;
   max-height: 750px;
   width: 100%;
   background: rgba(255, 255, 255, 0.9);
-  margin: 0 auto;
+  margin: 20px auto;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -15,12 +15,20 @@ export const GameContainer = styled.div`
   position: relative;
   padding-top: 20px;
 
+  @media screen and (max-width: 500px) {
+    height: 450px;
+  }
+
+  @media screen and (min-width: 500px) and (max-width: 768px) {
+    height: 500px;
+  }
+
   .inner {
     height: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
-    transform: translateY(-10%);
+    transform: translateY(-9%);
   }
   .options {
     align-self: center;
