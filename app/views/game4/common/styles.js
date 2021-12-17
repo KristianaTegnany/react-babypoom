@@ -3,7 +3,7 @@ import styled, { keyframes } from "styled-components";
 export const Game = styled.div`
   transform: scale(0.75);
   justify-content: center;
-  height: 100%;
+  height: 550px;
   width: 100%;
   background-image: ${({ filter }) => {
     return filter

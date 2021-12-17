@@ -12,9 +12,9 @@ import { gameOverGame4 } from "../../Actions";
 
 let temp = 100;
 
-//if(window.screen.height <= 768) {
-//  temp = 80;
-//}
+if (window.screen.height < 768) {
+  temp = 70;
+}
 
 if (window.screen.height <= 640 || window.screen.width <= 412) {
   temp = 70;

@@ -1,5 +1,57 @@
 import styled, { keyframes } from "styled-components";
 
+export const GameContainer = styled.div`
+  max-width: 550px;
+  height: 100%;
+  max-height: 750px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  margin: 20px auto;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 20px 0;
+
+  @media screen and (max-width: 500px) {
+    margin: 0;
+    height: 380px;
+  }
+
+  @media screen and (min-width: 500px) and (max-width: 768px) {
+    height: 535px;
+  }
+
+  .options {
+    align-self: center;
+    display: flex;
+    justify-content: space-between;
+    height: 15%;
+    width: 100%;
+    padding: 0 10%;
+    max-height: 100px;
+    @media screen and (max-height: 846px) and (orientation: portrait) {
+      max-height: 70px;
+      //      margin-bottom: 10%;
+    }
+    //    margin-bottom: 3%;
+    > img {
+      height: 100%;
+      border: 2px solid #ffffff;
+      padding: 0px;
+      background: lightblue;
+      cursor: pointer;
+      transform: scale(1);
+      transition: 0.1s transform;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+`;
+
 const rotate = keyframes`
 100% {
   transform: rotate(1turn);
@@ -7,6 +59,10 @@ const rotate = keyframes`
 `;
 
 let height = 450;
+
+if (window.screen.height >= 640 && window.screen.height <= 750) {
+  height = 300;
+}
 
 if (window.screen.height <= 640 || window.screen.width <= 412) {
   height = 300;
@@ -18,7 +74,9 @@ if (window.screen.height <= 480) {
 if (window.screen.height <= 412) {
   height = 200;
 }
-
+console.log("height", window.screen.height);
+console.log("width", window.screen.width);
+console.log("realheight", height);
 export const WinContainer = styled.div`
   margin: 0 auto;
   width: ${height}px;

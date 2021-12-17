@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 
 import { Game } from "../common/styles";
-import { WinContainer } from "./styles";
+import { GameContainer, WinContainer } from "./styles";
 import DraggableList from "./components/DraggableList";
-import getPhoto from '../../../../lib/get-photo'
+import getPhoto from "../../../../lib/get-photo";
 
 export default (props) => {
   const [completed, setCompleted] = useState(false);
 
-  const currentImage = getPhoto(props.bpoom.photo_urls, 'normal')
+  const currentImage = getPhoto(props.bpoom.photo_urls, "normal");
   useEffect(() => {
     disablePageScroll();
     return () => {
@@ -35,7 +35,9 @@ export default (props) => {
 
   return (
     <Game size="300px" filter="1">
-      <div>{content}</div>
+      <GameContainer>
+        <div>{content}</div>
+      </GameContainer>
     </Game>
   );
 };
