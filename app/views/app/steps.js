@@ -8,10 +8,14 @@ import Trip from "../trip";
 import GuestBook from "../guest-book";
 import Pot from "../pot";
 import Souvenir from "../souvenir";
+import Game5 from "../game5";
 
 let nameToPaths = [
   ["welcome", { path: "/:uuid/", component: Welcome }],
-  ["game", { path: "/:uuid/game", component: [Game1, Game2, Game3, Game4] }],
+  [
+    "game",
+    { path: "/:uuid/game", component: [Game1, Game2, Game3, Game4, Game5] },
+  ],
   ["arrival", { path: "/:uuid/my-info", component: Arrival }],
   ["trip", { path: "/:uuid/my-trip", component: Trip }],
   ["guest_book", { path: "/:uuid/guest-book", component: GuestBook }],
@@ -36,7 +40,7 @@ export const stepComponent = (name, bpoom) => _stepInfo(name, bpoom, false);
 export const rootPath = (bpoom) => stepPath(null, bpoom);
 
 function _stepInfo(name, bpoom, path) {
-  const fakeGameType = 4;
+  const fakeGameType = 5;
 
   let info =
     (name != null && NAMES_TO_PATHS.get(name)) ||
