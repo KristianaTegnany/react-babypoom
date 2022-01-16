@@ -4,13 +4,14 @@ import { backSideImage } from "../images";
 import "../scss/card.scss";
 
 function Card(props) {
-  // const backSide = "/images/backside.png";
   const backSide = backSideImage;
 
   const handleClick = () => {
-    !props.isFlipped && !props.isDisabled && props.onClick(props.id);
+    !props.isFlipped &&
+      !props.isDisabled &&
+      props.onClick(props.id, props.image.key);
   };
-  console.log("image render", props.image);
+
   return (
     <div
       styleName={classnames("card", {
@@ -23,7 +24,7 @@ function Card(props) {
         <img src={backSide} alt="card backside" />
       </div>
       <div styleName="card-face card-back-face">
-        <img src={props.image} alt="card" />
+        <img src={props.image.src} alt="card" />
       </div>
     </div>
   );

@@ -1,8 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { defineMessages } from "react-intl";
-
-import { gameOver, updateGuessed } from "./Actions";
+import { defineMessages, FormattedDate } from "react-intl";
 
 import BubbleSay from "../../components/bubble-say";
 import BubblePic from "../../components/bubble-pic";
@@ -17,6 +15,7 @@ import ascii from "../../../lib/ascii";
 // Images
 import BABY_IMAGES from "../../../lib/baby-img";
 import Game5Init from "./components/Game";
+import { discoverType } from "./types";
 
 const SPACE_REPLACEMENT = { " ": "_" }; // insecable space
 
@@ -32,7 +31,52 @@ function uniqChars(str) {
 let Game5 = (props) => {
   const { bpoom, desktop, win } = props;
   let babyType = bpoom.baby_full_type;
-  let bubbleText = t(MSG.message);
+  const getTextToShow = (index) => {
+    switch (index) {
+      case "start":
+        return t(MSG.game5_start);
+      case "end":
+        return t(MSG.game5_end);
+      case discoverType.weight:
+        return t(MSG.game5_weight, {
+          weight:
+            bpoom.weight && bpoom.weight_unit
+              ? `${bpoom.weight} ${bpoom.weight_unit}`
+              : "",
+        });
+      case discoverType.size:
+        return t(MSG.game5_size, {
+          size:
+            bpoom.size && bpoom.size_unit
+              ? `${bpoom.size} ${bpoom.size_unit}`
+              : "",
+        });
+      case discoverType.birth_date:
+        return t(MSG.game5_birth_date, {
+          birth_date: birthday(bpoom.birthday),
+        });
+      case discoverType.birth_time:
+        return t(MSG.game5_birth_time, {
+          birth_time: birthtime(bpoom.birth_time),
+        });
+      case discoverType.gender:
+        return t(MSG.game5_gender, { gender: getText(bpoom, "gender") });
+      case discoverType.baby_name:
+        return t(MSG.game5_baby_name, {
+          baby_name: (bpoom.baby_name || "").trim(),
+        });
+    }
+  };
+
+  const [gameText, setGameText] = useState("");
+  const [fundMemoryKey, setFundMemoryKey] = useState("start");
+
+  useEffect(() => {
+    const text = getTextToShow(fundMemoryKey);
+    setGameText(text);
+  }, [fundMemoryKey]);
+
+  console.log("props--->", bpoom);
 
   return win ? (
     <GameWin />
@@ -40,12 +84,12 @@ let Game5 = (props) => {
     <>
       {desktop ? (
         <BubbleSay speechDir="left" imgSrc={BABY_IMAGES[babyType]}>
-          {bubbleText}
+          {gameText}
         </BubbleSay>
       ) : (
-        <BubblePic imgSrc={BABY_IMAGES[babyType]}>{bubbleText}</BubblePic>
+        <BubblePic imgSrc={BABY_IMAGES[babyType]}>{gameText}</BubblePic>
       )}
-      <Game5Init />
+      <Game5Init setFundMemoryKey={setFundMemoryKey} />
     </>
   );
 };
@@ -68,25 +112,69 @@ function mapStateToProps(state) {
 }
 
 const MSG = defineMessages({
-  message: {
-    id: "game1.message",
+  game5_start: {
+    id: "game5.start",
     defaultMessage:
-      "Devine mon prénom et tu verras apparaître progressivement ma première photo...",
+      "Faisons connaissance grâce au jeu bien connu du Memorie ;)",
   },
-  guessed_before_next_step_header: {
-    id: "game1.guessed_before_next_step_header",
-    defaultMessage: "Attention",
+  game5_end: {
+    id: "game5.end",
+    defaultMessage: "Félicitations! Me voilà en photo!",
   },
-  guessed_before_next_step_body: {
-    id: "game1.guessed_before_next_step_body",
-    defaultMessage: "Es-tu sûr de vouloir continuer sans deviner mon prénom ?",
+  game5_weight: {
+    id: "game5.weight.ok",
+    defaultMessage: "Bravo, je pesais {weight} à la naissance!",
   },
-  guessed_ok: {
-    id: "game1.guessed.ok",
-    defaultMessage: 'Bravo, mon prénom contient bien la lettre "{char}" !',
+  game5_size: {
+    id: "game5.size.ok",
+    defaultMessage: "Bravo, je mesure {size}",
   },
-  guessed_ko: {
-    id: "game1.guessed.ko",
-    defaultMessage: 'Hé non, mon prénom ne contient pas la lettre "{char}" !',
+  game5_birth_date: {
+    id: "game5.birth_date.ok",
+    defaultMessage: "Bravo, je suis né le {birth_date}",
+  },
+  game5_birth_time: {
+    id: "game5.birth_time.ok",
+    defaultMessage: "Félicitation! je suis né à {birth_time}",
+  },
+  game5_gender: {
+    id: "game5.gender.ok",
+    defaultMessage: "Félicitation! Eh oui je suis {gender}",
+  },
+  game5_baby_name: {
+    id: "game5.baby_name.ok",
+    defaultMessage: "Félicitation! Je me prénome {baby_name}",
+  },
+  gender_F: {
+    id: "gender.F",
+    defaultMessage: "une petite fille",
+  },
+  gender_M: {
+    id: "gender.M",
+    defaultMessage: "un petit garçon",
   },
 });
+
+function getText(info, attrName, msgName) {
+  let attr = info[attrName];
+  if (!attr) return "";
+  let msg = MSG[`${msgName || attrName}_${attr}`];
+  return msg ? t(msg) : "";
+}
+
+function birthday(date) {
+  if (!date) return "";
+  let attrs = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  };
+
+  return <FormattedDate value={new Date(date)} {...attrs} />;
+}
+
+function birthtime(time) {
+  const splitted = time.split(":");
+  return splitted[0] + "h" + splitted[1];
+}
