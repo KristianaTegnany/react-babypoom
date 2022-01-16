@@ -1,32 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { defineMessages, FormattedDate } from "react-intl";
-
 import BubbleSay from "../../components/bubble-say";
 import BubblePic from "../../components/bubble-pic";
 import GameWin from "../game-win";
 // i18n
 import t from "../../i18n/i18n";
 
-// Lib
-import ascii from "../../../lib/ascii";
-
 // CSS
+import "animate.css";
 // Images
 import BABY_IMAGES from "../../../lib/baby-img";
+
 import Game5Init from "./components/Game";
 import { discoverType } from "./types";
-
-const SPACE_REPLACEMENT = { " ": "_" }; // insecable space
-
-function uniqChars(str) {
-  return Object.keys(
-    Array.from(ascii(str || "")).reduce((h, c) => {
-      h[c] = 1;
-      return h;
-    }, {})
-  ).length;
-}
 
 let Game5 = (props) => {
   const { bpoom, desktop, win } = props;
@@ -70,11 +57,26 @@ let Game5 = (props) => {
 
   const [gameText, setGameText] = useState("");
   const [fundMemoryKey, setFundMemoryKey] = useState("start");
+  const animationRef = useRef(null);
+  const bubbleAnimationRef = useRef(null);
 
   useEffect(() => {
     const text = getTextToShow(fundMemoryKey);
     setGameText(text);
+
+    //remove and reassign animation
+    const el = animationRef.current;
+    const el2 = animationRef.current;
+    removeAndReassignElementAnimation(el);
+    removeAndReassignElementAnimation(el2);
   }, [fundMemoryKey]);
+
+  const removeAndReassignElementAnimation = (el) => {
+    el.setAttribute("class", "animate__animated animate__tada animate__slow");
+    el.addEventListener("animationend", function () {
+      el.setAttribute("class", "");
+    });
+  };
 
   console.log("props--->", bpoom);
 
@@ -84,10 +86,12 @@ let Game5 = (props) => {
     <>
       {desktop ? (
         <BubbleSay speechDir="left" imgSrc={BABY_IMAGES[babyType]}>
-          {gameText}
+          <div ref={animationRef}>{gameText}</div>
         </BubbleSay>
       ) : (
-        <BubblePic imgSrc={BABY_IMAGES[babyType]}>{gameText}</BubblePic>
+        <BubblePic imgSrc={BABY_IMAGES[babyType]}>
+          <div ref={bubbleAnimationRef}>{gameText}</div>
+        </BubblePic>
       )}
       <Game5Init setFundMemoryKey={setFundMemoryKey} />
     </>
