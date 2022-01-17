@@ -1,4 +1,3 @@
-import Score from "./Score";
 import Board from "./Board";
 import React, { useState } from "react";
 import "../scss/index.scss";

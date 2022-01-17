@@ -66,9 +66,13 @@ let Game5 = (props) => {
 
     //remove and reassign animation
     const el = animationRef.current;
-    const el2 = animationRef.current;
-    removeAndReassignElementAnimation(el);
-    removeAndReassignElementAnimation(el2);
+    const el2 = bubbleAnimationRef.current;
+    if (el) {
+      removeAndReassignElementAnimation(el);
+    }
+    if (el2) {
+      removeAndReassignElementAnimation(el2);
+    }
   }, [fundMemoryKey]);
 
   const removeAndReassignElementAnimation = (el) => {

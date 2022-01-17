@@ -54,7 +54,7 @@ function Board(props) {
 
       setTimeout(() => {
         props.finishGameCallback();
-      }, 2500);
+      }, 3500);
     }
   };
 
