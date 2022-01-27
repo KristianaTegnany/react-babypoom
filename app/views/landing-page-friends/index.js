@@ -14,13 +14,14 @@ import NotFound from '../not-found'
 import i18n from '../../i18n/i18n'
 import config from '../../../config'
 import t from '../../i18n/i18n'
-import imgPath from "../../../lib/img-path"
+import imgPath from '../../../lib/img-path'
 import loadIntl from '../../../lib/intl-detection'
 import Tracking from '../../../lib/tracking'
 import { updateLocale } from '../../i18n/hot-intl-provider/HotIntlProviderActions'
-import { Column, Row } from "simple-flexbox";
-import styles from 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { Carousel } from 'react-responsive-carousel';
+import { Column, Row } from 'simple-flexbox'
+import styles from 'react-responsive-carousel/lib/styles/carousel.min.css'
+import ReactPlayer from 'react-player/youtube'
+import { Carousel } from 'react-responsive-carousel'
 import Modal from 'react-modal'
 import { flash } from '../../components/flash/Actions'
 import './styles.scss'
@@ -34,15 +35,13 @@ function getThemeName(bpoom) {
   return hack && hack in THEMES ? hack : bpoom.gender ? ('M' === bpoom.gender ? 'boy' : 'girl') : 'default'
 }
 
-
 class LandingPageFriends extends Component {
-
   constructor(props) {
     super(props)
-    this.state = {donor: "XXX"};
+    this.state = { donor: 'XXX' }
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   static fetchData(store, params) {
@@ -57,7 +56,7 @@ class LandingPageFriends extends Component {
 
   componentDidMount() {
     if (this.props.params.donor) {
-      this.setState({donor: this.props.params.donor})
+      this.setState({ donor: this.props.params.donor })
     }
     if (!this.props.bpoom.uuid) {
       this.props
@@ -69,7 +68,6 @@ class LandingPageFriends extends Component {
               setLocaleData(json.data)
             })
           })
-
         })
         .catch(() => {
           this.props.history.push('/not-found')
@@ -89,13 +87,13 @@ class LandingPageFriends extends Component {
   }
 
   handleChange(event) {
-    this.setState({donor: event.target.value});
+    this.setState({ donor: event.target.value })
   }
 
   handleSubmit(event) {
-    alert('Le nom a été soumis : ' + this.state.donor);
-    event.preventDefault();
-    flash('danger', "Le nom a été soumis : ")
+    alert('Le nom a été soumis : ' + this.state.donor)
+    event.preventDefault()
+    flash('danger', 'Le nom a été soumis : ')
   }
 
   renderFlash() {
@@ -113,47 +111,39 @@ class LandingPageFriends extends Component {
     )
   }
 
-
-
-
-   successModal(bpoom,params) {
-    if (!params.success){
+  successModal(bpoom, params) {
+    if (!params.success) {
       return
     }
 
     return (
-      <Modal
-        isOpen={true}
-        contentLabel="Example Modal"
-      >
+      <Modal isOpen={true} contentLabel="Example Modal">
         <Column flexGrow={1}>
           <Row horizontal="center">
             <h1 styleName="stripe-success">
               {t(MSG.success_album_order, {
-                  babyname: (
-                    bpoom.baby_name
-                  ),
+                babyname: bpoom.baby_name,
               })}
             </h1>
           </Row>
           <Row wrap vertical="center">
-            <Column flexGrow={1} horizontal="center"
+            <Column
+              flexGrow={1}
+              horizontal="center"
               style={{
-                backgroundColor: "white",
+                backgroundColor: 'white',
                 padding: 12,
-                color: "#E0E0E0",
-                borderRadius:"15px",
+                color: '#E0E0E0',
+                borderRadius: '15px',
                 margin: 30,
               }}
             >
-              <img styleName="success-mascot" src={imgPath("/mascot/stork-sitting-on-branch.png")}></img>
+              <img styleName="success-mascot" src={imgPath('/mascot/stork-sitting-on-branch.png')}></img>
             </Column>
           </Row>
           <Row horizontal="center">
             <div styleName="button-order">
-              <a onClick={()=>window.location = window.location.href.split("?")[0]}>
-                {t(MSG.close)}
-              </a>
+              <a onClick={() => (window.location = window.location.href.split('?')[0])}>{t(MSG.close)}</a>
             </div>
           </Row>
         </Column>
@@ -167,13 +157,13 @@ class LandingPageFriends extends Component {
       return <NotFound />
     }
 
-    Tracking.track("FriendAlbumLandingPage_Visited", {bpoom_id: bpoom.id})
+    Tracking.track('FriendAlbumLandingPage_Visited', { bpoom_id: bpoom.id })
 
     return (
       <CSSVariableApplicator data-variables={THEMES[this.state.theme]}>
         {this.renderFlash()}
         {this.successModal(bpoom, params)}
-        <div styleName={`lp-container ${bpoom.gender=='M' ? 'boys': 'girls'}`}>
+        <div styleName={`lp-container ${bpoom.gender == 'M' ? 'boys' : 'girls'}`}>
           {!params.hd && (
             <div>
               <div className="loading-preview" styleName="loading-preview">
@@ -183,53 +173,47 @@ class LandingPageFriends extends Component {
                 <Row horizontal="center">
                   <h1 styleName="lp-slogan">
                     {t(MSG.lp_slogan, {
-                      babyname: (
-                        bpoom.baby_name
-                      ),
+                      babyname: bpoom.baby_name,
                     })}
                   </h1>
                 </Row>
                 <Row wrap vertical="center">
-                  <Column flexGrow={1} horizontal="center"
+                  <Column
+                    flexGrow={1}
+                    horizontal="center"
                     style={{
-                      backgroundColor: "white",
+                      backgroundColor: 'white',
                       maxWidth: 650,
                       padding: 12,
-                      color: "#E0E0E0",
-                      borderRadius:"15px",
+                      color: '#E0E0E0',
+                      borderRadius: '15px',
                       margin: 30,
                     }}
                   >
-                    <Carousel autoPlay infiniteLoop={true} showThumbs={false} showStatus={false}>
-                        <div>
-                          <img styleName="responsive-album" src={bpoom.album_teaser_url} />
-                        </div>
-                        <div>
-                          <img styleName="responsive-album" src={bpoom.album_teaser_url_theme2} />
-                        </div>
-                        <div>
-                          <img styleName="responsive-album" src={bpoom.album_teaser_url_theme3} />
-                        </div>
-                    </Carousel>
+                    <ReactPlayer url="https://youtu.be/3F8ThIDnM2g" />
                   </Column>
                 </Row>
                 <Row vertical="center">
-                  <Column flexGrow={1} horizontal="center"
+                  <Column
+                    flexGrow={1}
+                    horizontal="center"
                     style={{
-                      backgroundColor: "white",
+                      backgroundColor: 'white',
                       maxWidth: 650,
                       padding: 12,
-                      color: "#646781",
-                      borderRadius:"15px",
+                      color: '#646781',
+                      borderRadius: '15px',
                       margin: 30,
                     }}
                   >
-                    <span>
-                      {t(MSG.album_friend_intro, {babyname: bpoom.baby_name})}
-                    </span>
+                    <span>{t(MSG.album_friend_intro, { babyname: bpoom.baby_name })}</span>
                     <h3 styleName="lp-title">{t(MSG.album_description_title)}</h3>
                     <span styleName="lp-description">
-                      {t(MSG.album_description_2, {babyname: bpoom.baby_name, gender_pronoun: 'M' === bpoom.gender ? t(MSG.gender_pronoun_male_2) : t(MSG.gender_pronoun_female)})}
+                      {t(MSG.album_description_2, {
+                        babyname: bpoom.baby_name,
+                        gender_pronoun:
+                          'M' === bpoom.gender ? t(MSG.gender_pronoun_male_2) : t(MSG.gender_pronoun_female),
+                      })}
                     </span>
                     <h3 styleName="lp-title"> {t(MSG.album_argument_2_title)} </h3>
                     <ItemList
@@ -260,47 +244,54 @@ class LandingPageFriends extends Component {
                         },
                         {
                           title: t(MSG.album_argument_2_9),
-                        }
+                        },
                       ]}
                     />
                     <h3 styleName="lp-title"> {t(MSG.album_argument_1_title)} </h3>
                     <ItemList
                       items={[
                         {
-                          title: t(MSG.album_argument_1_1, {babyname: bpoom.baby_name}),
+                          title: t(MSG.album_argument_1_1, { babyname: bpoom.baby_name }),
                         },
                       ]}
                     />
                     <h3 styleName="lp-title"> {t(MSG.album_argument_3_title)} </h3>
                     <Carousel autoPlay infiniteLoop={true} showThumbs={false} showStatus={false}>
-                        <div>
-                            <img src={imgPath("/album/3-albums-pos1-wall1-min.png")} />
-                        </div>
-                        <div>
-                          <img src={imgPath("/album/album-open-min.png")} styleName="sample-img" />
-                        </div>
-                        <div>
-                          <img src={imgPath("/album/theme1/album-theme-stork-gift.png")} styleName="sample-img" />
-                        </div>
-                        <div>
-                          <img src={imgPath("/album/theme1/album-theme-stork-shoes.png")} styleName="sample-img" />
-                        </div>
-                        <div>
-                          <img src={imgPath("/album/theme2/album-cover2-min.png")} styleName="sample-img" />
-                        </div>
-                        <div>
-                          <img src={imgPath("/album/theme3/album-cover3-min.png")} styleName="sample-img" />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-with-mum.jpg")} styleName="sample-img" />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/3-albums-pos2-wall2-min.png")} styleName="sample-img" />
-                        </div>
+                      <div>
+                        <img styleName="responsive-album" src={bpoom.album_teaser_url} />
+                      </div>
+                      <div>
+                        <img styleName="responsive-album" src={bpoom.album_teaser_url_theme2} />
+                      </div>
+                      <div>
+                        <img styleName="responsive-album" src={bpoom.album_teaser_url_theme3} />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/3-albums-pos1-wall1-min.png')} />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/album-open-min.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/theme1/album-theme-stork-gift.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/theme1/album-theme-stork-shoes.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/theme2/album-cover2-min.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/theme3/album-cover3-min.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/album-with-mum.jpg')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/3-albums-pos2-wall2-min.png')} styleName="sample-img" />
+                      </div>
                     </Carousel>
-                    <span>
-                      {t(MSG.album_photos_description)}
-                    </span>
+                    <span>{t(MSG.album_photos_description)}</span>
                     <h3 styleName="lp-title"> {t(MSG.album_argument_4_title)} </h3>
                     <ItemList
                       items={[
@@ -313,60 +304,74 @@ class LandingPageFriends extends Component {
                 </Row>
 
                 <Row wrap vertical="center">
-                  <Column flexGrow={1} horizontal="center"
+                  <Column
+                    flexGrow={1}
+                    horizontal="center"
                     style={{
-                      backgroundColor: "white",
+                      backgroundColor: 'white',
                       maxWidth: 650,
                       padding: 12,
-                      color: "#646781",
-                      borderRadius:"15px",
+                      color: '#646781',
+                      borderRadius: '15px',
                       margin: 30,
                     }}
                   >
                     <h3 styleName="lp-title"> {t(MSG.album_friend_custom_name)} </h3>
-                    <span>
-                      {t(MSG.album_friend_custom_name_form_description)}
-                    </span>
+                    <span>{t(MSG.album_friend_custom_name_form_description)}</span>
                     <span styleName="dedicace">
-                      {t(MSG.album_friend_custom_name_dedicace, {donor: this.state.donor})}
+                      {t(MSG.album_friend_custom_name_dedicace, { donor: this.state.donor })}
                     </span>
-                    <img styleName="responsive-album" src={this.state.donor ? imgPath("/album/friend_custom_name_teaser.jpg") : imgPath("/album/friend_custom_name_teaser.jpg")} />
-                    <hr styleName="little-separation"/>
-                    <h3 styleName="lp-title"> {t(MSG.album_friend_custom_name_form_intro, {babyname: bpoom.baby_name, gender_pronoun: 'M' === bpoom.gender ? t(MSG.gender_pronoun_male) : t(MSG.gender_pronoun_female) })} </h3>
+                    <img
+                      styleName="responsive-album"
+                      src={
+                        this.state.donor
+                          ? imgPath('/album/friend_custom_name_teaser.jpg')
+                          : imgPath('/album/friend_custom_name_teaser.jpg')
+                      }
+                    />
+                    <hr styleName="little-separation" />
+                    <h3 styleName="lp-title">
+                      {' '}
+                      {t(MSG.album_friend_custom_name_form_intro, {
+                        babyname: bpoom.baby_name,
+                        gender_pronoun:
+                          'M' === bpoom.gender ? t(MSG.gender_pronoun_male) : t(MSG.gender_pronoun_female),
+                      })}{' '}
+                    </h3>
                     <div styleName="form-custom">
                       <form onSubmit={this.handleSubmit}>
                         <label>{t(MSG.album_friend_custom_name_form)}</label>
                         <input type="text" value={this.state.donor || ''} onChange={this.handleChange} />
-                        <div styleName="button-preview" >
+                        <div styleName="button-preview">
                           <button type="submit">{t(MSG.album_friend_custom_name_form_bt)}</button>
                         </div>
                       </form>
                     </div>
-
                   </Column>
                 </Row>
 
                 <Row wrap vertical="center">
-                  <Column flexGrow={1} horizontal="center"
+                  <Column
+                    flexGrow={1}
+                    horizontal="center"
                     style={{
-                      backgroundColor: "white",
+                      backgroundColor: 'white',
                       maxWidth: 650,
                       padding: 12,
-                      color: "#646781",
-                      borderRadius:"15px",
+                      color: '#646781',
+                      borderRadius: '15px',
                       margin: 30,
                     }}
                   >
                     <h3 styleName="lp-title"> {t(MSG.album_pricing_title)} </h3>
-                    <span>
-                      {t(MSG.album_pricing_description)}
-                    </span>
+                    <span>{t(MSG.album_pricing_description)}</span>
                     <div styleName="pricing">
-                      <span styleName="pricing-old"><del>{t(MSG.album_pricing_old)}</del></span><span styleName="pricing-new">{t(MSG.album_pricing)}</span>
+                      <span styleName="pricing-old">
+                        <del>{t(MSG.album_pricing_old)}</del>
+                      </span>
+                      <span styleName="pricing-new">{t(MSG.album_pricing)}</span>
                     </div>
-                    <span>
-                      {t(MSG.album_pricing_shipping_free)}
-                    </span>
+                    <span>{t(MSG.album_pricing_shipping_free)}</span>
                     {false && (
                       <div styleName="lp-coupon-container">
                         <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon)}</span>
@@ -377,47 +382,39 @@ class LandingPageFriends extends Component {
                     )}
                     <div styleName="button-update-order">
                       <div styleName="order first">
-                      {!bpoom.album_paid && (
-                      <StripeCheckoutComponent
-                      label={t(MSG.album_order, {
-                        babyname: (
-                          bpoom.baby_name
-                        ),
-                      })}
-                      bpoomId={bpoom.id}
-                      paymentType="BOOKING_ALBUM_FRIEND"
-                      donor={this.state.donor} />
-                      )}
+                        {!bpoom.album_paid && (
+                          <StripeCheckoutComponent
+                            label={t(MSG.album_order, {
+                              babyname: bpoom.baby_name,
+                            })}
+                            bpoomId={bpoom.id}
+                            paymentType="BOOKING_ALBUM_FRIEND"
+                            donor={this.state.donor}
+                          />
+                        )}
                       </div>
                     </div>
-                    {bpoom.album_paid ?
-                    (<span>
-                      {t(MSG.to_late_infos)}
-                    </span>)
-                    : (
+                    {bpoom.album_paid ? (
+                      <span>{t(MSG.to_late_infos)}</span>
+                    ) : (
                       <>
-                      <span>
-                       {t(MSG.update_infos_1)}
-                      </span>
-                      <span>
-                      {t(MSG.update_infos_2)}
-                      </span>
-                      <span styleName="available-offer">
-                      {t(MSG.update_infos_3)}
-                      </span>
+                        <span>{t(MSG.update_infos_1)}</span>
+                        <span>{t(MSG.update_infos_2)}</span>
+                        <span styleName="available-offer">{t(MSG.update_infos_3)}</span>
                       </>
                     )}
                   </Column>
                 </Row>
 
                 <Row wrap vertical="center">
-                  <Column flexGrow={1}
+                  <Column
+                    flexGrow={1}
                     style={{
-                      backgroundColor: "white",
+                      backgroundColor: 'white',
                       maxWidth: 650,
                       padding: 5,
-                      color: "white",
-                      borderRadius:"15px",
+                      color: 'white',
+                      borderRadius: '15px',
                       margin: 30,
                     }}
                   >
@@ -426,107 +423,88 @@ class LandingPageFriends extends Component {
                       <div styleName={'even'}>
                         <div />
                         <div styleName="img">
-                          <BpoomImg
-                            imgSrc={imgPath("/album/gift.png")}
-                            imgText="1"
-                          />
+                          <BpoomImg imgSrc={imgPath('/album/gift.png')} imgText="1" />
                         </div>
                         <div styleName="bubble">
-                          <Bubble speechDir={null}>{t(MSG.album_gift_process_1, {babyname: (
-                          bpoom.baby_name
-                        ),})}</Bubble>
+                          <Bubble speechDir={null}>{t(MSG.album_gift_process_1, { babyname: bpoom.baby_name })}</Bubble>
                         </div>
                       </div>
                       <div styleName={'even'}>
                         <div />
                         <div styleName="img">
-                          <BpoomImg
-                            imgSrc={imgPath("/album/gift-album-notification.png")}
-                            imgText="2"
-                          />
+                          <BpoomImg imgSrc={imgPath('/album/gift-album-notification.png')} imgText="2" />
                         </div>
                         <div styleName="bubble">
                           <Bubble speechDir={null}>
-                            {t(MSG.album_gift_process_2,{
-                            babyname: (
-                              bpoom.baby_name
-                            ),
-                            parent1Name: (
-                              bpoom.parent_1_name
-                            ),
-                            parent2Name: (
-                              bpoom.parent_2_name
-                            ),
+                            {t(MSG.album_gift_process_2, {
+                              babyname: bpoom.baby_name,
+                              parent1Name: bpoom.parent_1_name,
+                              parent2Name: bpoom.parent_2_name,
                             })}
-                        </Bubble>
+                          </Bubble>
                         </div>
                       </div>
                       <div styleName={'even'}>
                         <div />
                         <div styleName="img">
-                          <BpoomImg
-                            imgSrc={imgPath("/album/gift-album-shipping.png")}
-                            imgText="3"
-                          />
+                          <BpoomImg imgSrc={imgPath('/album/gift-album-shipping.png')} imgText="3" />
                         </div>
                         <div styleName="bubble">
                           <Bubble speechDir={null}>{t(MSG.album_gift_process_3)}</Bubble>
                         </div>
                       </div>
-                      </div>
-                      <div styleName="order first">
+                    </div>
+                    <div styleName="order first">
                       {!bpoom.album_paid && (
-                      <StripeCheckoutComponent
-                      label={t(MSG.album_order, {
-                        babyname: (
-                          bpoom.baby_name
-                        ),
-                      })}
-                      bpoomId={bpoom.id}
-                      paymentType="BOOKING_ALBUM_FRIEND"
-                      donor={this.state.donor} />
+                        <StripeCheckoutComponent
+                          label={t(MSG.album_order, {
+                            babyname: bpoom.baby_name,
+                          })}
+                          bpoomId={bpoom.id}
+                          paymentType="BOOKING_ALBUM_FRIEND"
+                          donor={this.state.donor}
+                        />
                       )}
-                      </div>
+                    </div>
                   </Column>
                 </Row>
 
                 <Row wrap vertical="center">
-                  <Column flexGrow={1} horizontal="center"
+                  <Column
+                    flexGrow={1}
+                    horizontal="center"
                     style={{
-                      backgroundColor: "white",
+                      backgroundColor: 'white',
                       maxWidth: 650,
                       padding: 12,
-                      color: "#646781",
-                      borderRadius:"15px",
+                      color: '#646781',
+                      borderRadius: '15px',
                       margin: 30,
                     }}
                   >
                     <h3 styleName="lp-title"> {t(MSG.babypoom_presentation_title)} </h3>
                     <span>
                       {t(MSG.babypoom_presentation_description, {
-                            parent1Name: (
-                              bpoom.parent_1_name
-                            ),
-                            parent2Name: (
-                              bpoom.parent_2_name
-                            ),
-                            })}
+                        parent1Name: bpoom.parent_1_name,
+                        parent2Name: bpoom.parent_2_name,
+                      })}
                     </span>
-                    <img styleName="logo-img" src={imgPath("/corporate/logo-and-brand.png")} />
-                    <iframe src="https://api.babypoom.com/reviews.html"
-                    style={{
-                      marginTop: "15px",
-                      backgroundColor: "white",
-                      width: "100%",
-                      height: "350px",
-                      border:"4px solid #b5ceca",
-                      mozBorderRadius: "15px",
-                      borderRadius: "15px",
-                      overflow: "hidden",
-                    }} />
+                    <img styleName="logo-img" src={imgPath('/corporate/logo-and-brand.png')} />
+                    <iframe
+                      src="https://api.babypoom.com/reviews.html"
+                      style={{
+                        marginTop: '15px',
+                        backgroundColor: 'white',
+                        width: '100%',
+                        height: '350px',
+                        border: '4px solid #b5ceca',
+                        mozBorderRadius: '15px',
+                        borderRadius: '15px',
+                        overflow: 'hidden',
+                      }}
+                    />
                   </Column>
                 </Row>
-
               </Column>
             </div>
           )}
