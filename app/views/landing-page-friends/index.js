@@ -190,7 +190,16 @@ class LandingPageFriends extends Component {
                       margin: 30,
                     }}
                   >
-                    <ReactPlayer url="https://youtu.be/3F8ThIDnM2g" />
+                    <div className="player-wrapper">
+                      <ReactPlayer
+                        url="https://youtu.be/3F8ThIDnM2g"
+                        className="react-player"
+                        width="100%"
+                        height="100%"
+                        controls
+                        playing
+                      />
+                    </div>
                   </Column>
                 </Row>
                 <Row vertical="center">

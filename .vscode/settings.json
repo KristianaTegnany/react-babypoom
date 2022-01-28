@@ -1,6 +1,5 @@
 {
   "workbench.iconTheme": "vscode-great-icons",
-  "explorer.autoReveal": false,
   "editor.wordWrapColumn": 120,
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
