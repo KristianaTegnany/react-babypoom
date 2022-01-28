@@ -4,7 +4,7 @@ $grid-breakpoints: (
   sm: 576px,
   md: 768px,
   lg: 992px,
-  xl: 1200px
+  xl: 1200px,
 ) !default;
 
 $bpoom-img-width: 70px;
@@ -23,10 +23,10 @@ $bpoom-lg-img-height: 80px;
   align-items: center;
   justify-content: center;
   flex-direction: row !important;
-  &.boys{
-    background: linear-gradient(180deg, #7cbde9 0%, #ecd24f 100%)
+  &.boys {
+    background: linear-gradient(180deg, #7cbde9 0%, #ecd24f 100%);
   }
-  &.girls{
+  &.girls {
     background: linear-gradient(180deg, #fbbdb2 0%, #ecd24f 100%);
   }
 }
@@ -62,7 +62,7 @@ $bpoom-lg-img-height: 80px;
   color: #7fb5b4;
 }
 
-.pricing{
+.pricing {
   margin-top: 10px;
   padding: 10px;
 }
@@ -131,8 +131,8 @@ $bpoom-lg-img-height: 80px;
     font-size: 16px;
     text-decoration: none;
     box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 1);
-	  //transform: scale(1);
-	  //animation: pulse 2s infinite;
+    //transform: scale(1);
+    //animation: pulse 2s infinite;
 
     &:hover {
       position: relative;
@@ -148,8 +148,8 @@ $bpoom-lg-img-height: 80px;
     font-size: 16px;
     text-decoration: none;
     box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 1);
-	  //transform: scale(1);
-	  //animation: pulse 2s infinite;
+    //transform: scale(1);
+    //animation: pulse 2s infinite;
 
     &:hover {
       position: relative;
@@ -158,21 +158,25 @@ $bpoom-lg-img-height: 80px;
   }
 }
 
+.bt-close {
+  margin-top: 15px;
+}
+
 @keyframes pulse {
-	0% {
-		transform: scale(0.95);
-		box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
-	}
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+  }
 
-	70% {
-		transform: scale(1);
-		box-shadow: 0 0 0 10px rgba(255, 255, 255,0);
-	}
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+  }
 
-	100% {
-		transform: scale(0.95);
-		box-shadow: 0 0 0 0 rgba(255, 255, 255,0);
-	}
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
 }
 
 .button-order {
@@ -193,7 +197,7 @@ $bpoom-lg-img-height: 80px;
     text-decoration: none;
     box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 1);
     //transform: scale(1);
-	  //animation: pulse 2s infinite;
+    //animation: pulse 2s infinite;
 
     &:hover {
       position: relative;
@@ -220,7 +224,7 @@ $bpoom-lg-img-height: 80px;
     text-decoration: none;
     box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 1);
     //transform: scale(1);
-	  //animation: pulse 2s infinite;
+    //animation: pulse 2s infinite;
 
     &:hover {
       position: relative;
@@ -229,13 +233,12 @@ $bpoom-lg-img-height: 80px;
   }
 }
 
-.lp-coupon-title{
+.lp-coupon-title {
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
-
-.lp-coupon{
+.lp-coupon {
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 10px;
@@ -243,7 +246,7 @@ $bpoom-lg-img-height: 80px;
   border-style: dotted;
 }
 
-.lp-coupon-image{
+.lp-coupon-image {
   margin: auto;
 }
 
@@ -321,7 +324,6 @@ $bpoom-lg-img-height: 80px;
 
 @media (min-width: map-get($grid-breakpoints, md)) {
   .trip-events {
-
     & > div {
       padding-top: ($main-padding * 2);
 
@@ -400,26 +402,24 @@ $bpoom-lg-img-height: 80px;
   }
 }
 
-.form-custom{
-  label{
+.form-custom {
+  label {
     margin: 10px;
     color: #646781;
   }
-  input{
+  input {
     margin: 10px;
     height: 35px;
   }
 }
 
-.little-separation{
+.little-separation {
   width: 100px;
   margin-top: 10px;
 }
 
 .dedicace {
-  font-size:20px;
+  font-size: 20px;
   font-style: italic;
   margin: 10px;
 }
-
-

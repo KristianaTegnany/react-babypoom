@@ -20,10 +20,12 @@ import Tracking from '../../../lib/tracking'
 import { updateLocale } from '../../i18n/hot-intl-provider/HotIntlProviderActions'
 import { Column, Row } from 'simple-flexbox'
 import styles from 'react-responsive-carousel/lib/styles/carousel.min.css'
-import ReactPlayer from 'react-player/youtube'
+import ReactPlayer from 'react-player'
 import { Carousel } from 'react-responsive-carousel'
 import Modal from 'react-modal'
+import videoTeaser from '../../images/video-album-friend-teaser.png'
 import { flash } from '../../components/flash/Actions'
+import { VolumeOnIcon } from '../../icons'
 import './styles.scss'
 
 function setLocaleData(localeData) {
@@ -39,9 +41,16 @@ class LandingPageFriends extends Component {
   constructor(props) {
     super(props)
     this.state = { donor: 'XXX' }
-
+    this.state = {
+      isOpen: false,
+    }
+    this.openModal = this.openModal.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  openModal() {
+    this.setState({ isOpen: true })
   }
 
   static fetchData(store, params) {
@@ -190,16 +199,38 @@ class LandingPageFriends extends Component {
                       margin: 30,
                     }}
                   >
-                    <div className="player-wrapper">
+                    <img styleName="responsive-album" src={videoTeaser} onClick={this.openModal} />
+                    <Modal
+                      isOpen={this.state.isOpen}
+                      contentLabel="Example Modal"
+                      style={{
+                        overlay: {
+                          backgroundColor: '#B6E1D2',
+                        },
+                        content: {
+                          color: 'lightsteelblue',
+                          top: '50%',
+                          left: '50%',
+                          right: 'auto',
+                          bottom: 'auto',
+                          transform: 'translate(-50%, -50%)',
+                          width: '90%',
+                          height: '50%',
+                          'border-radius': '15px',
+                        },
+                      }}
+                    >
                       <ReactPlayer
-                        url="https://youtu.be/3F8ThIDnM2g"
-                        className="react-player"
+                        url="https://babypoom.wistia.com/medias/t1u5w4oemx"
                         width="100%"
-                        height="100%"
+                        height="70%"
                         controls
                         playing
                       />
-                    </div>
+                      <div styleName="button-preview bt-close">
+                        <button onClick={() => this.setState({ isOpen: false })}>{t(MSG.bt_close)}</button>
+                      </div>
+                    </Modal>
                   </Column>
                 </Row>
                 <Row vertical="center">
@@ -770,5 +801,9 @@ const MSG = defineMessages({
   babypoom_presentation_description: {
     id: 'app.babypoom_presentation_description',
     defaultMessage: `Babypoom revisite le concept de faire-part de naissance de façon ludique et originale. Comme {parent1Name} et {parent2Name}, de nombreux parents nous font aujourd'hui confiance pour célébrer l'arrivée de leur bout de chou.`,
+  },
+  bt_close: {
+    id: 'app.bt_close',
+    defaultMessage: `Fermer`,
   },
 })
