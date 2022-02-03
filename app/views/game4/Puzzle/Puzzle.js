@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { disablePageScroll, enablePageScroll } from "scroll-lock";
 
 import { Game } from "../common/styles";
 import { GameContainer, WinContainer } from "./styles";
 import DraggableList from "./components/DraggableList";
 import getPhoto from "../../../../lib/get-photo";
+import { getWinContainerHeight } from "../common/utils";
 
 export default (props) => {
   const [completed, setCompleted] = useState(false);
-
   const currentImage = getPhoto(props.bpoom.photo_urls, "normal");
-  useEffect(() => {
-    disablePageScroll();
-    return () => {
-      enablePageScroll();
-    };
-  }, []);
 
   let content = (
     <DraggableList
@@ -27,7 +20,7 @@ export default (props) => {
 
   if (completed) {
     content = (
-      <WinContainer>
+      <WinContainer height={getWinContainerHeight()}>
         <img src={currentImage} alt="puzzle" />
       </WinContainer>
     );

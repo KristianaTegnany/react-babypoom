@@ -9,6 +9,7 @@ import { useSprings, animated, interpolate } from "react-spring";
 import { Content } from "../styles";
 import { useDispatch } from "react-redux";
 import { gameOverGame4 } from "../../Actions";
+import { getWinContainerHeight } from "../../common/utils";
 
 let temp = 100;
 
@@ -77,7 +78,7 @@ export default ({ items, setCompleted, img }) => {
   });
 
   return (
-    <Content img={img} height={temp}>
+    <Content img={img} height={getWinContainerHeight()}>
       {springs.map(({ zIndex, shadow, y, scale }, i) => (
         <animated.div
           {...bind(i)}

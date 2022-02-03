@@ -58,29 +58,9 @@ const rotate = keyframes`
 }
 `;
 
-let height = 450;
-
-if (window.screen.height >= 640 && window.screen.height <= 750) {
-  height = 300;
-}
-
-if (window.screen.height <= 640 || window.screen.width <= 412) {
-  height = 300;
-}
-
-if (window.screen.height <= 480) {
-  height = 300;
-}
-if (window.screen.height <= 412) {
-  height = 200;
-}
-console.log("height", window.screen.height);
-console.log("width", window.screen.width);
-console.log("realheight", height);
 export const WinContainer = styled.div`
   margin: 0 auto;
-  width: ${height}px;
-  //height:${height}px;
+  width: ${(props) => props.height}px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -129,15 +109,15 @@ export const WinContainer = styled.div`
 export const Content = styled.div`
   grid-area: content;
   position: relative;
-  width: ${height}px;
-  height: ${height}px;
+  width: ${(props) => props.height}px;
+  height: ${(props) => props.height}px;
   align-self: center;
   margin: 0 auto;
   > div {
     cursor: pointer;
     position: absolute;
     width: 100%;
-    height: ${height / 5}px;
+    height: ${(props) => props.height / 5}px;
     overflow: visible;
     pointer-events: auto;
     transform-origin: 50% 50% 0px;
