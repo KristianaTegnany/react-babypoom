@@ -18,3 +18,24 @@ export function getWinContainerHeight() {
 
   return height;
 }
+
+export function getTempUnit() {
+  let temp = 100;
+
+  if (window.screen.height < 768) {
+    temp = 70;
+  }
+
+  if (window.screen.height <= 640 || window.screen.width <= 412) {
+    temp = 70;
+  }
+
+  if (window.screen.height <= 480) {
+    temp = 60;
+  }
+  if (window.screen.height <= 412) {
+    temp = 40;
+  }
+
+  return temp;
+}

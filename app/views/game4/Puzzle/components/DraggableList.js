@@ -1,7 +1,4 @@
 import React, { useRef } from "react";
-
-import clamp from "lodash-es/clamp";
-import { isEqual } from "lodash-es";
 import swap from "lodash-move";
 import { useGesture } from "react-use-gesture";
 import { useSprings, animated, interpolate } from "react-spring";
@@ -9,44 +6,28 @@ import { useSprings, animated, interpolate } from "react-spring";
 import { Content } from "../styles";
 import { useDispatch } from "react-redux";
 import { gameOverGame4 } from "../../Actions";
-import { getWinContainerHeight } from "../../common/utils";
-
-let temp = 100;
-
-if (window.screen.height < 768) {
-  temp = 70;
-}
-
-if (window.screen.height <= 640 || window.screen.width <= 412) {
-  temp = 70;
-}
-
-if (window.screen.height <= 480) {
-  temp = 60;
-}
-if (window.screen.height <= 412) {
-  temp = 40;
-}
-
-// Returns fitting styles for dragged/idle items
-const fn = (order, down, originalIndex, curIndex, y) => (index) =>
-  down && index === originalIndex
-    ? {
-        y: curIndex * temp + y,
-        scale: 1,
-        zIndex: "1",
-        shadow: 15,
-        immediate: (n) => n === "y" || n === "zIndex",
-      }
-    : {
-        y: order.indexOf(index) * temp,
-        scale: 1,
-        zIndex: "0",
-        shadow: 1,
-        immediate: false,
-      };
+import { getTempUnit, getWinContainerHeight } from "../../common/utils";
+import { isEqual, clamp } from "lodash";
 
 export default ({ items, setCompleted, img }) => {
+  // Returns fitting styles for dragged/idle items
+  const fn = (order, down, originalIndex, curIndex, y) => (index) =>
+    down && index === originalIndex
+      ? {
+          y: curIndex * getTempUnit() + y,
+          scale: 1,
+          zIndex: "1",
+          shadow: 15,
+          immediate: (n) => n === "y" || n === "zIndex",
+        }
+      : {
+          y: order.indexOf(index) * getTempUnit(),
+          scale: 1,
+          zIndex: "0",
+          shadow: 1,
+          immediate: false,
+        };
+
   const order = useRef(items.map((_, index) => index)); // Store indicies as a local ref, this represents the item order
   const [springs, setSprings] = useSprings(items.length, fn(order.current)); // Create springs, each corresponds to an item, controlling its transform, scale, etc.
   const dispatch = useDispatch();
@@ -57,6 +38,7 @@ export default ({ items, setCompleted, img }) => {
       delta: [, y],
     } = vars;
     const curIndex = order.current.indexOf(originalIndex);
+    const temp = getTempUnit();
     const curRow = clamp(
       Math.round((curIndex * temp + y) / temp),
       0,

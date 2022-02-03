@@ -8,7 +8,7 @@ import GameWin from "../game-win";
 import t from "../../i18n/i18n";
 
 // CSS
-import "animate.css";
+import "./scss/animate.css";
 // Images
 import BABY_IMAGES from "../../../lib/baby-img";
 
