@@ -40,7 +40,7 @@ export const stepComponent = (name, bpoom) => _stepInfo(name, bpoom, false);
 export const rootPath = (bpoom) => stepPath(null, bpoom);
 
 function _stepInfo(name, bpoom, path) {
-  const fakeGameType = 5;
+  const fakeGameType = 4;
 
   let info =
     (name != null && NAMES_TO_PATHS.get(name)) ||
