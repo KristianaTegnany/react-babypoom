@@ -314,11 +314,10 @@ class App extends Component {
       return <NotFound />
     }
 
-    Tracking.track("ParentAlbumPreview_Visited", {bpoom_id: bpoom.id})
+    Tracking.track('ParentAlbumPreview_Visited', { bpoom_id: bpoom.id })
 
-    let {
-      bpoom: { guest_book_msgs = [], trip_events = [], parent_1_reaction = '', parent_2_reaction = '' } = {},
-    } = this.props
+    let { bpoom: { guest_book_msgs = [], trip_events = [], parent_1_reaction = '', parent_2_reaction = '' } = {} } =
+      this.props
     let parents_reactions = parent_1_reaction && parent_2_reaction ? 1 : 0
 
     let totalPages =
@@ -345,13 +344,17 @@ class App extends Component {
     if ((totalPages + blankPages) % 2) ++blankPages
     //console.log('BLANK PAGE after modulo: ' + blankPages)
     let missingPages = []
-    blankPages = kitePages ? blankPages : blankPages+1 // to fix album preview html end
+    blankPages = kitePages ? blankPages : blankPages + 1 // to fix album preview html end
     for (let i = 0; i < blankPages; ++i) missingPages.push(<Page key={`missing-${i}`} />)
 
     return (
       <CSSVariableApplicator data-variables={THEMES[this.state.theme]}>
         {this.renderFlash()}
-        <div className={`${params.hd ? 'high-definition' : 'preview'} ${(bpoom.gender=='M' && !params.nopurchase) ? 'boys': ''} ${(bpoom.gender=='F' && !params.nopurchase) ? 'girls': ''}`}>
+        <div
+          className={`${params.hd ? 'high-definition' : 'preview'} ${
+            bpoom.gender == 'M' && !params.nopurchase ? 'boys' : ''
+          } ${bpoom.gender == 'F' && !params.nopurchase ? 'girls' : ''}`}
+        >
           <div className="flipbook">
             {kiteCover ? (
               <React.Fragment>
@@ -387,8 +390,12 @@ class App extends Component {
               {!params.nopurchase && (
                 <div className="order">
                   <a href={config.orderLink.replace('{{id}}', bpoom.id)}>{t(MSG.order)}</a>
-                  <a href={config.orderLink.replace('{{id}}', bpoom.id)} className="update">{t(MSG.update)}</a>
-                  <a href={`${bpoom.uuid}/booking`} className="booking">{t(MSG.booking)}</a>
+                  <a href={config.orderLink.replace('{{id}}', bpoom.id)} className="update">
+                    {t(MSG.update)}
+                  </a>
+                  <a href={`${bpoom.uuid}/booking`} className="booking">
+                    {t(MSG.booking)}
+                  </a>
                 </div>
               )}
               <div styleName="rotate-device">
@@ -397,9 +404,21 @@ class App extends Component {
               </div>
               {!params.nopurchase && (
                 <div className="themes">
-                  <a href={config.previewLink.replace('{{uuid}}', bpoom.uuid).replace('{{themeid}}', 1)} >{t(MSG.stork)}</a>
-                  <a href={config.previewLink.replace('{{uuid}}', bpoom.uuid).replace('{{themeid}}', 2)} className="zebra">{t(MSG.zebra)}</a>
-                  <a href={config.previewLink.replace('{{uuid}}', bpoom.uuid).replace('{{themeid}}', 3)} className="owl">{t(MSG.owl)}</a>
+                  <a
+                    href={config.previewLink.replace('{{uuid}}', bpoom.uuid).replace('{{themeid}}', 2)}
+                    className="zebra"
+                  >
+                    {t(MSG.zebra)}
+                  </a>
+                  <a
+                    href={config.previewLink.replace('{{uuid}}', bpoom.uuid).replace('{{themeid}}', 3)}
+                    className="owl"
+                  >
+                    {t(MSG.owl)}
+                  </a>
+                  <a href={config.previewLink.replace('{{uuid}}', bpoom.uuid).replace('{{themeid}}', 1)}>
+                    {t(MSG.stork)}
+                  </a>
                 </div>
               )}
               <div className="preview-controls">

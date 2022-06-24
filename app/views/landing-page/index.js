@@ -357,6 +357,43 @@ class LandingPage extends Component {
                   </Row>
                 )}
 
+                <Row wrap vertical="center">
+                  <Column
+                    flexGrow={1}
+                    horizontal="center"
+                    style={{
+                      backgroundColor: 'white',
+                      maxWidth: 650,
+                      padding: 12,
+                      color: '#646781',
+                      borderRadius: '15px',
+                      margin: 30,
+                    }}
+                  >
+                    <h3 styleName="lp-title"> {t(MSG.babypoom_presentation_title)} </h3>
+                    <span>
+                      {t(MSG.babypoom_presentation_description, {
+                        parent1Name: bpoom.parent_1_name,
+                        parent2Name: bpoom.parent_2_name,
+                      })}
+                    </span>
+                    <img styleName="logo-img" src={imgPath('/corporate/logo-and-brand.png')} />
+                    <iframe
+                      src="https://api.babypoom.com/reviews.html"
+                      style={{
+                        marginTop: '15px',
+                        backgroundColor: 'white',
+                        width: '100%',
+                        height: '350px',
+                        border: '4px solid #b5ceca',
+                        mozBorderRadius: '15px',
+                        borderRadius: '15px',
+                        overflow: 'hidden',
+                      }}
+                    />
+                  </Column>
+                </Row>
+
                 {false && (
                   <Row wrap vertical="center">
                     <Column
@@ -593,5 +630,13 @@ const MSG = defineMessages({
   feedbacks_link: {
     id: 'app.feedbacks_link',
     defaultMessage: `Voir les résultats du dernier sondage`,
+  },
+  babypoom_presentation_title: {
+    id: 'app.babypoom_presentation_title',
+    defaultMessage: `Des parents heureux`,
+  },
+  babypoom_presentation_description: {
+    id: 'app.babypoom_presentation_description',
+    defaultMessage: `{parent1Name} et {parent2Name}, comme vous de nombreux parents font aujourd'hui confiance à Babypoom pour célébrer l'arrivée de leur bout de chou de façon ludique et originale. L'album de naissance est pour eux un merveilleux moyen de garder un souvenir de ce moment de vie ...`,
   },
 })
