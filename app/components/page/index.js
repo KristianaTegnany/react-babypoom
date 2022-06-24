@@ -9,7 +9,7 @@ class Page extends Component {
     return (
       <div>
         <div
-          styleName={cx({ page: true, reverse, trademark: params.hd })}
+          styleName={cx({ page: true, reverse, trademark: !params.hd && !params.full ? true : false })}
           className={`pdf-page ${className || ''}`}
           {...props}
         >
