@@ -11,13 +11,13 @@ import NotFound from '../not-found'
 import i18n from '../../i18n/i18n'
 import config from '../../../config'
 import t from '../../i18n/i18n'
-import imgPath from "../../../lib/img-path"
+import imgPath from '../../../lib/img-path'
 import loadIntl from '../../../lib/intl-detection'
 import Tracking from '../../../lib/tracking'
 import { updateLocale } from '../../i18n/hot-intl-provider/HotIntlProviderActions'
-import { Column, Row } from "simple-flexbox";
-import styles from 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { Carousel } from 'react-responsive-carousel';
+import { Column, Row } from 'simple-flexbox'
+import styles from 'react-responsive-carousel/lib/styles/carousel.min.css'
+import { Carousel } from 'react-responsive-carousel'
 import './styles.scss'
 
 function setLocaleData(localeData) {
@@ -28,7 +28,6 @@ function getThemeName(bpoom) {
   let hack = (('undefined' !== typeof window && window.location.hash) || '').substr(1)
   return hack && hack in THEMES ? hack : bpoom.gender ? ('M' === bpoom.gender ? 'boy' : 'girl') : 'default'
 }
-
 
 class LandingPage extends Component {
   constructor(props) {
@@ -94,12 +93,12 @@ class LandingPage extends Component {
     if (bpoom.not_found) {
       return <NotFound />
     }
-    Tracking.track("ParentAlbumLandingPage_Visited", {bpoom_id: bpoom.id})
+    Tracking.track('ParentAlbumLandingPage_Visited', { bpoom_id: bpoom.id })
 
     return (
       <CSSVariableApplicator data-variables={THEMES[this.state.theme]}>
         {this.renderFlash()}
-        <div styleName={`lp-container ${bpoom.gender=='M' ? 'boys': 'girls'}`}>
+        <div styleName={`lp-container ${bpoom.gender == 'M' ? 'boys' : 'girls'}`}>
           {!params.hd && (
             <div>
               <div className="loading-preview" styleName="loading-preview">
@@ -109,65 +108,63 @@ class LandingPage extends Component {
                 <Row horizontal="center">
                   <h1 styleName="lp-slogan">
                     {t(MSG.lp_slogan, {
-                      babyname: (
-                        bpoom.baby_name
-                      ),
+                      babyname: bpoom.baby_name,
                     })}
                   </h1>
                 </Row>
                 <Row wrap vertical="center">
-                  <Column flexGrow={1} horizontal="center"
+                  <Column
+                    flexGrow={1}
+                    horizontal="center"
                     style={{
-                      backgroundColor: "white",
+                      backgroundColor: 'white',
                       maxWidth: 650,
                       padding: 12,
-                      color: "#E0E0E0",
-                      borderRadius:"15px",
+                      color: '#E0E0E0',
+                      borderRadius: '15px',
                       margin: 30,
                     }}
                   >
                     <Carousel autoPlay infiniteLoop={true} showThumbs={false} showStatus={false}>
-                        <div>
-                          <img styleName="responsive-album" src={bpoom.album_teaser_url} />
-                        </div>
-                        <div>
-                          <img styleName="responsive-album" src={bpoom.album_teaser_url_theme2} />
-                        </div>
-                        <div>
-                          <img styleName="responsive-album" src={bpoom.album_teaser_url_theme3} />
-                        </div>
+                      <div>
+                        <img styleName="responsive-album" src={bpoom.album_teaser_url_theme2} />
+                      </div>
+                      <div>
+                        <img styleName="responsive-album" src={bpoom.album_teaser_url_theme3} />
+                      </div>
+                      <div>
+                        <img styleName="responsive-album" src={bpoom.album_teaser_url} />
+                      </div>
                     </Carousel>
                   </Column>
                 </Row>
                 <Row horizontal="center">
                   <div styleName="button-preview">
-                    <a href={config.previewLink.replace('{{uuid}}', bpoom.uuid).replace('{{themeid}}', 1)}>
+                    <a href={config.previewLink.replace('{{uuid}}', bpoom.uuid).replace('{{themeid}}', 2)}>
                       {t(MSG.album_preview, {
-                        babyname: (
-                          bpoom.baby_name
-                        ),
+                        babyname: bpoom.baby_name,
                       })}
                     </a>
                   </div>
                 </Row>
                 <Row vertical="center">
-                  <Column flexGrow={1} horizontal="center"
+                  <Column
+                    flexGrow={1}
+                    horizontal="center"
                     style={{
-                      backgroundColor: "white",
+                      backgroundColor: 'white',
                       maxWidth: 650,
                       padding: 12,
-                      color: "#646781",
-                      borderRadius:"15px",
+                      color: '#646781',
+                      borderRadius: '15px',
                       margin: 30,
                     }}
                   >
                     <h3 styleName="lp-title">{t(MSG.album_description_title)}</h3>
                     <span>
-                      {t(MSG.album_description,{
-                          babyname: (
-                            bpoom.baby_name
-                          ),
-                        })}
+                      {t(MSG.album_description, {
+                        babyname: bpoom.baby_name,
+                      })}
                     </span>
                     <h3 styleName="lp-title"> {t(MSG.album_argument_2_title)} </h3>
                     <ItemList
@@ -195,7 +192,7 @@ class LandingPage extends Component {
                         },
                         {
                           title: t(MSG.album_argument_2_8),
-                        }
+                        },
                       ]}
                     />
                     <h3 styleName="lp-title"> {t(MSG.album_argument_1_title)} </h3>
@@ -214,34 +211,32 @@ class LandingPage extends Component {
                     />
                     <h3 styleName="lp-title"> {t(MSG.album_argument_3_title)} </h3>
                     <Carousel autoPlay infiniteLoop={true} showThumbs={false} showStatus={false}>
-                        <div>
-                          <img src={imgPath("/album/3-albums-pos1-wall1-min.png")} styleName="sample-img" />
-                        </div>
-                        <div>
-                          <img src={imgPath("/album/album-open-min.png")} styleName="sample-img" />
-                        </div>
-                        <div>
-                          <img src={imgPath("/album/theme1/album-theme-stork-shoes.png")} styleName="sample-img" />
-                        </div>
-                        <div>
-                          <img src={imgPath("/album/theme2/album-cover2-min.png")} styleName="sample-img" />
-                        </div>
-                        <div>
-                          <img src={imgPath("/album/theme3/album-cover3-min.png")} styleName="sample-img" />
-                        </div>
-                        <div>
-                          <img src={imgPath("/album/theme1/album-theme-stork-gift.png")} styleName="sample-img" />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-with-mum.jpg")} />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/3-albums-pos2-wall2-min.png")} />
-                        </div>
+                      <div>
+                        <img src={imgPath('/album/3-albums-pos1-wall1-min.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/album-open-min.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/theme1/album-theme-stork-shoes.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/theme2/album-cover2-min.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/theme3/album-cover3-min.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/theme1/album-theme-stork-gift.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/album-with-mum.jpg')} />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/3-albums-pos2-wall2-min.png')} />
+                      </div>
                     </Carousel>
-                    <span>
-                      {t(MSG.album_photos_description)}
-                    </span>
+                    <span>{t(MSG.album_photos_description)}</span>
                     <h3 styleName="lp-title"> {t(MSG.album_argument_4_title)} </h3>
                     <ItemList
                       items={[
@@ -254,20 +249,20 @@ class LandingPage extends Component {
                 </Row>
 
                 <Row wrap vertical="center">
-                  <Column flexGrow={1} horizontal="center"
+                  <Column
+                    flexGrow={1}
+                    horizontal="center"
                     style={{
-                      backgroundColor: "white",
+                      backgroundColor: 'white',
                       maxWidth: 650,
                       padding: 12,
-                      color: "#646781",
-                      borderRadius:"15px",
+                      color: '#646781',
+                      borderRadius: '15px',
                       margin: 30,
                     }}
                   >
                     <h3 styleName="lp-title"> {t(MSG.album_pricing_title)} </h3>
-                    <span>
-                      {t(MSG.album_pricing_description)}
-                    </span>
+                    <span>{t(MSG.album_pricing_description)}</span>
                     <h1 styleName="lp-title">{t(MSG.album_pricing)}</h1>
                     {bpoom.coupon_album && (
                       <div styleName="lp-coupon-container">
@@ -275,12 +270,14 @@ class LandingPage extends Component {
                           <span styleName="lp-coupon-old-price">{t(MSG.album_pricing_coupon)}</span>
                           <div styleName="lp-coupon-old-price-container">
                             <span styleName="lp-coupon-old-price-discount">{t(MSG.album_pricing_coupon_discount)}</span>
-                            <span styleName="lp-coupon-old-price-before"><del>{t(MSG.album_pricing)}</del></span>
+                            <span styleName="lp-coupon-old-price-before">
+                              <del>{t(MSG.album_pricing)}</del>
+                            </span>
                             <span styleName="lp-coupon-old-price-after">{t(MSG.album_pricing_coupon_new)}</span>
                           </div>
 
-                        <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon_intro)}</span>
-                        <h3 styleName="lp-coupon">{bpoom.coupon_album.code}</h3>
+                          <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon_intro)}</span>
+                          <h3 styleName="lp-coupon">{bpoom.coupon_album.code}</h3>
                         </div>
                         <span styleName="lp-coupon-title">{t(MSG.album_pricing_coupon_expiration)}</span>
                         <img styleName="lp-coupon-image" src={bpoom.coupon_album.link} />
@@ -289,103 +286,108 @@ class LandingPage extends Component {
                     <div styleName="button-order">
                       <a href={config.orderLink.replace('{{id}}', bpoom.id)}>
                         {t(MSG.album_order, {
-                          babyname: (
-                            bpoom.baby_name
-                          ),
+                          babyname: bpoom.baby_name,
                         })}
                       </a>
                     </div>
-                    {bpoom.album_sales_step && bpoom.album_sales_step.includes("expiration") && (
+                    {bpoom.album_sales_step && bpoom.album_sales_step.includes('expiration') && (
                       <>
-                        <span>
-                          {t(MSG.album_pdf_infos)}
-                        </span>
+                        <span>{t(MSG.album_pdf_infos)}</span>
                         <div styleName="button-booking-order">
                           <a href={config.orderLink.replace('{{id}}', bpoom.id)}>
                             {t(MSG.album_pdf_order, {
-                              babyname: (
-                                bpoom.baby_name
-                              ),
+                              babyname: bpoom.baby_name,
                             })}
                           </a>
                         </div>
                       </>
                     )}
-                    <span>
-                      {t(MSG.update_infos)}
-                    </span>
+                    <span>{t(MSG.update_infos)}</span>
                     <div styleName="button-update-order">
                       <a href={config.orderLink.replace('{{id}}', bpoom.id)}>
                         {t(MSG.album_update_order, {
-                          babyname: (
-                            bpoom.baby_name
-                          ),
+                          babyname: bpoom.baby_name,
                         })}
                       </a>
                     </div>
 
                     {bpoom.expiration_countdown && (
-                    <>
-                    <span>
-                      {t(MSG.booking_infos)}
-                    </span>
-                    <div styleName="button-booking-order">
-                      <a href={`/${bpoom.uuid}/booking`}>
-                        {t(MSG.album_booking_order)}
-                      </a>
-                    </div>
-                    </>
+                      <>
+                        <span>{t(MSG.booking_infos)}</span>
+                        <div styleName="button-booking-order">
+                          <a href={`/${bpoom.uuid}/booking`}>{t(MSG.album_booking_order)}</a>
+                        </div>
+                      </>
                     )}
                   </Column>
                 </Row>
 
-                {bpoom.expiration_countdown && (<Row wrap vertical="center">
-                  <Column flexGrow={1} horizontal="center"
-                    style={{
-                      backgroundColor: "white",
-                      maxWidth: 650,
-                      padding: 12,
-                      color: "#E0E0E0",
-                      borderRadius:"15px",
-                      margin: 30,
-                    }}
-                  >
-                    <h3 styleName="lp-title expiration-title"> {t(MSG.expiration_title)} </h3>
-                    <table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td align="center"><img src={bpoom.expiration_countdown} style={{display:"inline-block !important", width: "90% !important", maxWidth: "304px !important"}}/></td></tr></tbody></table>
-                  </Column>
-                </Row>
+                {bpoom.expiration_countdown && (
+                  <Row wrap vertical="center">
+                    <Column
+                      flexGrow={1}
+                      horizontal="center"
+                      style={{
+                        backgroundColor: 'white',
+                        maxWidth: 650,
+                        padding: 12,
+                        color: '#E0E0E0',
+                        borderRadius: '15px',
+                        margin: 30,
+                      }}
+                    >
+                      <h3 styleName="lp-title expiration-title"> {t(MSG.expiration_title)} </h3>
+                      <table width="100%" cellspacing="0" cellpadding="0">
+                        <tbody>
+                          <tr>
+                            <td align="center">
+                              <img
+                                src={bpoom.expiration_countdown}
+                                style={{
+                                  display: 'inline-block !important',
+                                  width: '90% !important',
+                                  maxWidth: '304px !important',
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </Column>
+                  </Row>
                 )}
 
-
-
-                {false && (<Row wrap vertical="center">
-                  <Column flexGrow={1} horizontal="center"
-                    style={{
-                      backgroundColor: "white",
-                      maxWidth: 650,
-                      padding: 12,
-                      color: "#646781",
-                      borderRadius:"15px",
-                      margin: 30,
-                    }}
-                  >
-                    <h3 styleName="lp-title expiration-title"> {t(MSG.feedbacks_title)} </h3>
-                    <span>
-                      {t(MSG.feedbacks_description)}
-                    </span>
-                    <iframe src="https://babypoom.typeform.com/report/UK7ptO7j/kWKZZYr9hmES2wox"
-                    style={{
-                      marginTop: "15px",
-                      backgroundColor: "white",
-                      width: "100%",
-                      height: "350px",
-                      border:"4px solid #b5ceca",
-                      mozBorderRadius: "15px",
-                      borderRadius: "15px",
-                      overflow: "hidden",
-                    }} />
-                  </Column>
-                </Row>
+                {false && (
+                  <Row wrap vertical="center">
+                    <Column
+                      flexGrow={1}
+                      horizontal="center"
+                      style={{
+                        backgroundColor: 'white',
+                        maxWidth: 650,
+                        padding: 12,
+                        color: '#646781',
+                        borderRadius: '15px',
+                        margin: 30,
+                      }}
+                    >
+                      <h3 styleName="lp-title expiration-title"> {t(MSG.feedbacks_title)} </h3>
+                      <span>{t(MSG.feedbacks_description)}</span>
+                      <iframe
+                        src="https://babypoom.typeform.com/report/UK7ptO7j/kWKZZYr9hmES2wox"
+                        style={{
+                          marginTop: '15px',
+                          backgroundColor: 'white',
+                          width: '100%',
+                          height: '350px',
+                          border: '4px solid #b5ceca',
+                          mozBorderRadius: '15px',
+                          borderRadius: '15px',
+                          overflow: 'hidden',
+                        }}
+                      />
+                    </Column>
+                  </Row>
                 )}
               </Column>
             </div>
