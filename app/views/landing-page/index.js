@@ -637,6 +637,6 @@ const MSG = defineMessages({
   },
   babypoom_presentation_description: {
     id: 'app.babypoom_presentation_description',
-    defaultMessage: `{parent1Name} et {parent2Name}, comme vous de nombreux parents font aujourd'hui confiance à Babypoom pour célébrer l'arrivée de leur bout de chou de façon ludique et originale. L'album de naissance est pour eux un merveilleux moyen de garder un souvenir de ce moment de vie ...`,
+    defaultMessage: `{parent1Name} et {parent2Name}, comme vous de nombreux parents font aujourd'hui confiance à Babypoom pour célébrer l'arrivée de leur bout de chou de façon ludique et originale. L'album de naissance est pour eux, un merveilleux moyen de garder un souvenir de ce moment de vie si unique...`,
   },
 })
