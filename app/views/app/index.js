@@ -30,6 +30,7 @@ import { updateLocale } from '../../i18n/hot-intl-provider/HotIntlProviderAction
 import twemoji from 'twemoji'
 import './styles.scss'
 import './styles.theme-BP_ALBUM_THEME.scss'
+import FamilyTree from '../../pages/family-tree'
 
 let UNIQ = 0
 
@@ -330,7 +331,8 @@ class App extends Component {
       Guestbook.cntPages(guest_book_msgs) /* Guest-book */ +
       parents_reactions /* Parents */ +
       1 /* stats */ +
-      1 /* Back Cover */
+      1 /* Back Cover */ +
+      1 /* Family Tree */
 
     const kiteCover = params.hd && params.kiteCover
     const kitePages = params.hd && params.kitePages
@@ -377,6 +379,7 @@ class App extends Component {
                 {bpoom.firstname_infos && <Firstname />}
                 <Guestbook />
                 <ParentsAndStats />
+                <FamilyTree />
                 {missingPages}
                 {!kitePages && <BackCover />}
               </React.Fragment>
