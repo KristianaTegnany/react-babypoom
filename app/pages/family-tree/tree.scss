@@ -1,4 +1,4 @@
-.flexDisplay{
+.flexDisplay {
   display: flex;
 }
 .wrapper {
@@ -6,13 +6,12 @@
   align-items: center;
   display: flex;
   padding-left: 50px;
-  i{
-    font-size: 30px;
-    font-weight: 900 !important;
+  i {
     background-color: rgb(247, 247, 247) !important;
-    border-width: 3px !important;
-    border-color: rgb(247, 247, 247) ;
+    border-width: 2px !important;
+    border-color: #ff5c70;
     border-style: dashed;
+    border-radius: 0px;
   }
 }
 .familyNodeRoot {
@@ -29,7 +28,7 @@
     width: 90px;
     height: 90px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 20px;
   }
 }
 
@@ -37,10 +36,10 @@
   width: 0 !important;
   position: absolute !important;
   left: 32%;
-  top: 25%
+  top: 25%;
 }
 
-.img-tree{
+.img-tree {
   position: absolute;
   top: 50%;
   left: 15%;
@@ -48,10 +47,15 @@
   height: 500px;
 }
 
-.heart{
+.heart {
   position: absolute;
   left: 92%;
   top: 27%;
   width: 30px !important;
   height: 30px !important;
+}
+.familyNameItem{
+  color: rgb(0, 0, 0);
+  font-family: "Varela Round", sans-serif;
+  font-size: 17px;
 }

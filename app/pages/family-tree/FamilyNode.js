@@ -9,7 +9,7 @@ export default class FamilyNode extends React.Component {
     return (
       <div styleName="familyNodeRoot" style={style}>
         <img src={node.img} alt={node.id} />
-        <span styleName="familyName">{node.name}</span>
+        <div styleName="familyNameItem">{node.name}</div>
         {node.spouses.length > 0 && node.gender === 'male' && (
           <img src={require('../../images/heart.png')} alt={'heart'} styleName="heart" />
         )}
