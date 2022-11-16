@@ -9,7 +9,7 @@ import FamilyNode from './FamilyNode'
 import './tree.scss'
 
 const WIDTH = 220
-const HEIGHT = 130
+const HEIGHT = 170
 
 class FamilyTree extends React.Component {
   constructor() {
