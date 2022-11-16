@@ -8,7 +8,7 @@ import ReactFamilyTree from 'react-family-tree'
 import FamilyNode from './FamilyNode'
 import './tree.scss'
 
-const WIDTH = 150
+const WIDTH = 220
 const HEIGHT = 130
 
 class FamilyTree extends React.Component {
@@ -298,7 +298,6 @@ class FamilyTree extends React.Component {
           <div styleName={'wrapper'}>
             {nodeFamily && nodeFamily.length > 0 && (
               <div>
-                <img src={require('../../images/myFamilyTree.png')} styleName="img-tree" />
                 <ReactFamilyTree
                   nodes={nodeFamily}
                   rootId={nodeFamily[0].id}
