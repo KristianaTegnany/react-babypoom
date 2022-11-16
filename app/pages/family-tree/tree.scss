@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'BrushType';
+  font-style: normal;
+  font-weight: 400;
+  src: local('BrushType Normal'), local('BrushType-Normal'),
+      url(./font/brushtype-normal_49ac2595193cc52c8bbe5877e28efa2e.woff) format('woff'),
+      url(./font/brushtype-normal_49ac2595193cc52c8bbe5877e28efa2e.ttf) format('truetype');
+}
+
 .flexDisplay {
   display: flex;
 }
@@ -52,13 +61,15 @@
   position: absolute;
   left: 95%;
   top: 31%;
-  width: 30px !important;
-  height: 30px !important;
-
+  width: 35px !important;
+  height: 35px !important;
+  object-fit: contain !important;
   mask-image: none !important;
 }
 .familyNameItem{
   color: rgb(0, 0, 0);
   font-size: 16px;
-  font-weight: 600;
+  // font-weight: 600;
+  font-family: BrushType;
 }
+
