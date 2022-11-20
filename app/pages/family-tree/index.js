@@ -294,7 +294,7 @@ class FamilyTree extends React.Component {
 
     return (
       <Page>
-        <ContentPanel style={{ display: 'flex' }} background>
+        <ContentPanel style={{ display: 'flex', objectFit: 'cover', width: '297.25936mm', height: '210mm' }} background>
           <div styleName={'wrapper'}>
             {nodeFamily && nodeFamily.length > 0 && (
               <div>
