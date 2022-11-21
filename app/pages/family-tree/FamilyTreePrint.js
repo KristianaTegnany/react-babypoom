@@ -70,6 +70,10 @@ class FamilyTreePrint extends Component {
     })
 
     const image = canvas.toDataURL('image/png', 1.0)
+    var link = document.createElement('a')
+    link.download = 'familyTree.png'
+    link.href = image
+    link.click()
     this.setState({ imgBase64: image })
   }
 
