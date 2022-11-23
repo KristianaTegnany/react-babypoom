@@ -30,6 +30,7 @@ class Intro extends Component {
                   {trip_events.length && <li>{t(MSG.trip)}</li>}
                   <li>{t(MSG.souvenir)}</li>
                   {bpoom.firstname_infos && <li>{t(MSG.firstname)}</li>}
+                  {bpoom.family_tree && <li>{t(MSG.family_tree)}</li>}
                   <li>{t(MSG.guestbook)}</li>
                   <li>{t(MSG.reaction)}</li>
                   <li>{t(MSG.results)}</li>
@@ -79,6 +80,10 @@ marqué mon arrivée dans notre monde.`,
   firstname: {
     id: 'intro.fistname',
     defaultMessage: `Mon prénom`,
+  },
+  family_tree: {
+    id: 'intro.family_tree',
+    defaultMessage: `Mon arbre généalogique`,
   },
   guestbook: {
     id: 'intro.guestbook',

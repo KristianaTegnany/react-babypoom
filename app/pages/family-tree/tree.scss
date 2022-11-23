@@ -1,0 +1,82 @@
+@font-face {
+  font-family: 'BrushType';
+  font-style: normal;
+  font-weight: 400;
+  src: local('BrushType Normal'), local('BrushType-Normal'),
+      url(./font/brushtype-normal_49ac2595193cc52c8bbe5877e28efa2e.woff) format('woff'),
+      url(./font/brushtype-normal_49ac2595193cc52c8bbe5877e28efa2e.ttf) format('truetype');
+}
+
+.flexDisplay {
+  display: flex;
+}
+.wrapper {
+  flex: 1;
+  align-items: center;
+  display: flex;
+  padding-left: 20px;
+  background-color: var(--color-bg);
+  i {
+    background-color: rgb(247, 247, 247) !important;
+    border-width: 2px !important;
+    border-color: #ff5c70;
+    border-style: dashed;
+    border-radius: 0px;
+  }
+}
+.familyNodeRoot {
+  position: absolute;
+  display: flex;
+  padding: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+  top: 20px;
+
+
+  & img {
+    width: 95px;
+    height: 95px;
+    object-fit: cover;
+    // border-radius: 20px;
+    mask-image: url(./mask1.svg);
+  }
+}
+
+.rootTree {
+  width: 0 !important;
+  position: absolute !important;
+  left: 3%;
+  top: 17%;
+}
+
+.img-tree {
+  position: absolute;
+  top: 40%;
+  left: 15%;
+  transform: translateY(-50%);
+  height: 500px;
+}
+
+.heart {
+  position: absolute;
+  left: 95%;
+  top: 31%;
+  width: 35px !important;
+  height: 35px !important;
+  object-fit: contain !important;
+  mask-image: none !important;
+}
+.familyNameItem{
+  color: rgb(0, 0, 0);
+  font-size: 18px;
+  // font-weight: 600;
+  font-family: 'Varela Round';
+}
+
+.familytree-presentation-panel {
+  background-image: url('../../images/bg-pages/bg-familytree.svg');
+  background-size: 60%;
+  background-position: 43% 43%;
+}

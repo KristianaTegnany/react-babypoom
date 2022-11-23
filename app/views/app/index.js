@@ -30,6 +30,7 @@ import { updateLocale } from '../../i18n/hot-intl-provider/HotIntlProviderAction
 import twemoji from 'twemoji'
 import './styles.scss'
 import './styles.theme-BP_ALBUM_THEME.scss'
+import FamilyTree from '../../pages/family-tree'
 
 let UNIQ = 0
 
@@ -326,11 +327,13 @@ class App extends Component {
       2 /* Arrival */ +
       (bpoom.card_id ? 1 : 0) /* Card */ +
       (bpoom.firstname_infos ? 1 : 0) /* Firstname */ +
+      (bpoom.family_tree ? 1 : 0) /* Family tree */ +
       Trip.cntPages(trip_events) /* Trip */ +
       Guestbook.cntPages(guest_book_msgs) /* Guest-book */ +
       parents_reactions /* Parents */ +
       1 /* stats */ +
-      1 /* Back Cover */
+      1 /* Back Cover */ +
+      1 /* Family Tree */
 
     const kiteCover = params.hd && params.kiteCover
     const kitePages = params.hd && params.kitePages
@@ -375,6 +378,7 @@ class App extends Component {
                 <Trip />
                 {bpoom.card_id && <Card />}
                 {bpoom.firstname_infos && <Firstname />}
+                {bpoom.family_tree && <FamilyTree />}
                 <Guestbook />
                 <ParentsAndStats />
                 {missingPages}
