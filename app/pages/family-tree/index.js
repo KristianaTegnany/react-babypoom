@@ -296,7 +296,7 @@ class FamilyTree extends React.Component {
     const nodeFamily = this.createNodeData(familyTree)
 
     return (
-      <Page>
+      <Page style={{ display: 'flex', objectFit: 'cover', width: '297.25936mm', height: '210mm' }}>
         <PresentationPanel styleName="familytree-presentation-panel">
           <Title label={t(MSG.familytree)} />
         </PresentationPanel>

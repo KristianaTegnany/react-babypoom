@@ -7,6 +7,12 @@
       url(./font/brushtype-normal_49ac2595193cc52c8bbe5877e28efa2e.ttf) format('truetype');
 }
 
+
+.previewTree{
+ height: var(--page-height);
+ width: var(--page-width);
+}
+
 .flexDisplay {
   display: flex;
 }
@@ -14,7 +20,6 @@
   flex: 1;
   align-items: center;
   display: flex;
-  padding-left: 20px;
   background-color: var(--color-bg);
   i {
     background-color: rgb(247, 247, 247) !important;
