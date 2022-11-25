@@ -41,8 +41,8 @@
 
 
   & img {
-    width: 95px;
-    height: 95px;
+    // width: 95px;
+    // height: 95px;
     object-fit: cover;
     // border-radius: 20px;
     mask-image: url(./mask1.svg);
@@ -66,10 +66,10 @@
 
 .heart {
   position: absolute;
-  left: 95%;
-  top: 31%;
-  width: 35px !important;
-  height: 35px !important;
+  // left: 95%;
+  top: 33%;
+  // width: 35px !important;
+  // height: 35px !important;
   object-fit: contain !important;
   mask-image: none !important;
 }

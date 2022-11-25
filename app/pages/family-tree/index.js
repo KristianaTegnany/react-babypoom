@@ -13,13 +13,34 @@ import './tree.scss'
 
 const WIDTH = 170
 const HEIGHT = 170
+const CHILD_COUNT_WIDTH = {
+  5: 6,
+  6: 9,
+  7: 10,
+  8: 10.5,
+  9: 10.4,
+  10: 10.4,
+}
 
 class FamilyTree extends React.Component {
   constructor() {
     super()
 
     this.createNodeData = this.createNodeData.bind(this)
+    this.state = {
+      childCount: 0,
+      treeNode: [],
+    }
   }
+
+  componentDidMount() {
+    const familyTree = this.props.bpoom.family_tree
+    const nodeFamily = this.createNodeData(familyTree)
+    this.setState({
+      treeNode: nodeFamily,
+    })
+  }
+
   createNodeData(familyTree) {
     if (!familyTree) {
       return []
@@ -43,6 +64,10 @@ class FamilyTree extends React.Component {
       siblings: [],
       spouses: [],
     }))
+
+    this.setState({
+      childCount: child.length,
+    })
 
     return [
       {
@@ -292,8 +317,8 @@ class FamilyTree extends React.Component {
   }
 
   render() {
-    const familyTree = this.props.bpoom.family_tree
-    const nodeFamily = this.createNodeData(familyTree)
+    const { childCount, treeNode } = this.state
+    const newWIDTH = childCount <= 4 ? WIDTH : WIDTH - childCount * CHILD_COUNT_WIDTH[childCount]
 
     return (
       <Page style={{ display: 'flex', objectFit: 'cover', width: '297.25936mm', height: '210mm' }}>
@@ -302,21 +327,23 @@ class FamilyTree extends React.Component {
         </PresentationPanel>
         <ContentPanel style={{ display: 'flex' }} background>
           <div styleName={'wrapper'}>
-            {nodeFamily && nodeFamily.length > 0 && (
+            {treeNode && treeNode.length > 0 && (
               <div>
                 <ReactFamilyTree
-                  nodes={nodeFamily}
-                  rootId={nodeFamily[0].id}
-                  width={WIDTH}
+                  nodes={treeNode}
+                  rootId={treeNode[0].id}
+                  width={newWIDTH}
                   height={HEIGHT}
                   styleName={'rootTree'}
                   renderNode={(node) => (
                     <FamilyNode
+                      key={node.id}
+                      childCount={childCount}
                       node={node}
                       style={{
-                        width: WIDTH,
+                        width: newWIDTH,
                         height: HEIGHT,
-                        transform: `translate(${node.left * (WIDTH / 2)}px, ${node.top * (HEIGHT / 2)}px)`,
+                        transform: `translate(${node.left * (newWIDTH / 2)}px, ${node.top * (HEIGHT / 2)}px)`,
                       }}
                     />
                   )}
