@@ -1,6 +1,6 @@
 import React, { Component, useDebugValue } from 'react'
 import html2canvas from 'html2canvas'
-import FamilyTree from './index'
+import FamilyTreeComponent from './FamilyTreeComponent'
 import { connect } from 'react-redux'
 import { injectIntl, defineMessages, addLocaleData } from 'react-intl'
 
@@ -63,17 +63,17 @@ class FamilyTreePrint extends Component {
 
   async exportAsImage() {
     const canvas = await html2canvas(this.selectorRef.current, {
-      height: 793,
-      width: 1123,
+      height: 600,
+      width: 750,
       allowTaint: true,
       useCORS: true,
     })
 
     const image = canvas.toDataURL('image/png', 1.0)
-    var link = document.createElement('a')
-    link.download = 'familyTree.png'
-    link.href = image
-    link.click()
+    // var link = document.createElement('a')
+    // link.download = 'familyTree.png'
+    // link.href = image
+    // link.click()
     this.setState({ imgBase64: image })
   }
 
@@ -84,7 +84,7 @@ class FamilyTreePrint extends Component {
       <div ref={this.selectorRef} styleName="previewTree">
         {!base64 ? (
           <CSSVariableApplicator data-variables={THEMES[this.state.theme]}>
-            <FamilyTree {...this.props} />
+            <FamilyTreeComponent {...this.props} />
           </CSSVariableApplicator>
         ) : (
           <img src={base64} alt="image-file" />

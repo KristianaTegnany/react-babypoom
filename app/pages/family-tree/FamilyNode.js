@@ -4,7 +4,7 @@ import './tree.scss'
 
 const DEFAULT_SIZE = 95
 const DEFAULT_HEARTH_SIZE = 35
-const DEFAULT_HEARTH_LEFT = 95
+const DEFAULT_HEARTH_LEFT = 92
 
 export default class FamilyNode extends React.Component {
   render() {

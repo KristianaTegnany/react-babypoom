@@ -1,0 +1,347 @@
+import React from 'react'
+import ReactFamilyTree from 'react-family-tree'
+import FamilyNode from './FamilyNode'
+import './styles.theme-BP_ALBUM_THEME.scss'
+import './tree.scss'
+
+const WIDTH = 170
+const HEIGHT = 170
+const CHILD_COUNT_WIDTH = {
+  5: 6,
+  6: 9,
+  7: 10,
+  8: 10.5,
+  9: 10.4,
+  10: 10.4,
+}
+
+export default class FamilyTreeComponent extends React.Component {
+  constructor() {
+    super()
+    this.createNodeData = this.createNodeData.bind(this)
+    this.state = {
+      childCount: 0,
+      treeNode: [],
+    }
+  }
+
+  componentDidMount() {}
+
+  componentDidUpdate(prevProps) {
+    if (this.props.bpoom.family_tree !== prevProps.bpoom.family_tree) {
+      const familyTree = this.props.bpoom.family_tree
+      const nodeFamily = this.createNodeData(familyTree)
+      this.setState({
+        treeNode: nodeFamily,
+      })
+    }
+  }
+
+  createNodeData(familyTree) {
+    if (!familyTree) {
+      return []
+    }
+
+    const child = familyTree.family_tree_children.map((item, index) => ({
+      id: 'child_' + (index + 6).toString(),
+      name: item.child_name,
+      img: item.child_photo,
+      parents: [
+        {
+          id: 'ypu71w9_Q',
+          type: 'blood',
+        },
+        {
+          id: 'GEf8zF7A4',
+          type: 'blood',
+        },
+      ],
+      children: [],
+      siblings: [],
+      spouses: [],
+    }))
+
+    this.setState({
+      childCount: child.length,
+    })
+
+    return [
+      {
+        id: '011jVS4rb',
+        gender: 'male',
+        parents: [
+          {
+            id: 'ypu71w9_Q',
+            type: 'blood',
+          },
+          {
+            id: 'GEf8zF7A4',
+            type: 'blood',
+          },
+        ],
+        children: [],
+        siblings: [],
+        spouses: [],
+      },
+      {
+        id: 'vRSjcaDGj',
+        gender: 'female',
+        parents: [
+          {
+            id: '6vASIIxhd',
+            type: 'blood',
+          },
+          {
+            id: 'iFiwqrWx-',
+            type: 'blood',
+          },
+        ],
+        children: [
+          {
+            id: 'Fbc9iwnJl',
+            type: 'blood',
+          },
+        ],
+        siblings: [],
+        spouses: [],
+      },
+      {
+        id: 'Fbc9iwnJl',
+        gender: 'female',
+        parents: [
+          {
+            id: 'vRSjcaDGj',
+            type: 'blood',
+          },
+        ],
+        children: [],
+        siblings: [],
+        spouses: [],
+      },
+      {
+        id: 'ypu71w9_Q',
+        gender: 'male',
+        name: familyTree.parent_1_name,
+        img: familyTree.parent_1_photo,
+        parents: [
+          {
+            id: 'TsyAkbF89',
+            type: 'blood',
+          },
+          {
+            id: 'T54Km7uOC',
+            type: 'blood',
+          },
+        ],
+        children: child.map((item) => ({ id: item.id, type: 'blood' })),
+        siblings: [],
+        spouses: [
+          {
+            id: 'GEf8zF7A4',
+            type: 'married',
+          },
+        ],
+      },
+      {
+        id: 'GEf8zF7A4',
+        gender: 'female',
+        name: familyTree.parent_2_name,
+        img: familyTree.parent_2_photo,
+        parents: [
+          {
+            id: 'gsgwGS_Kw',
+            type: 'blood',
+          },
+          {
+            id: 'ZgTZx9uXQ',
+            type: 'blood',
+          },
+        ],
+        children: child.map((item) => ({ id: item.id, type: 'blood' })),
+        siblings: [],
+        spouses: [
+          {
+            id: 'ypu71w9_Q',
+            type: 'married',
+          },
+        ],
+      },
+      {
+        id: '2DlrR0fK8',
+        gender: 'male',
+        parents: [],
+        children: [
+          {
+            id: 'H-06WvsfJ',
+            type: 'blood',
+          },
+        ],
+        siblings: [],
+        spouses: [],
+      },
+      {
+        id: 'gsgwGS_Kw',
+        gender: 'male',
+        name: familyTree.grandparent_2_parent_2_name,
+        img: familyTree.grandparent_2_parent_2_photo,
+        parents: [],
+        children: [
+          {
+            id: 'GEf8zF7A4',
+            type: 'blood',
+          },
+        ],
+        siblings: [],
+        spouses: [
+          {
+            id: 'ZgTZx9uXQ',
+            type: 'married',
+          },
+        ],
+      },
+      {
+        id: 'ZgTZx9uXQ',
+        gender: 'female',
+        name: familyTree.grandparent_1_parent_2_name,
+        img: familyTree.grandparent_1_parent_2_photo,
+        parents: [],
+        children: [
+          {
+            id: 'GEf8zF7A4',
+            type: 'blood',
+          },
+        ],
+        siblings: [],
+        spouses: [
+          {
+            id: 'gsgwGS_Kw',
+            type: 'married',
+          },
+        ],
+      },
+      {
+        id: 'TsyAkbF89',
+        gender: 'male',
+        name: familyTree.grandparent_2_parent_1_name,
+        img: familyTree.grandparent_2_parent_1_photo,
+        parents: [],
+        children: [
+          {
+            id: 'ypu71w9_Q',
+            type: 'blood',
+          },
+        ],
+        siblings: [],
+        spouses: [
+          {
+            id: 'T54Km7uOC',
+            type: 'married',
+          },
+        ],
+      },
+      {
+        id: 'T54Km7uOC',
+        name: familyTree.grandparent_1_parent_1_name,
+        img: familyTree.grandparent_1_parent_1_photo,
+        gender: 'female',
+        parents: [],
+        children: [
+          {
+            id: 'ypu71w9_Q',
+            type: 'blood',
+          },
+        ],
+        siblings: [],
+        spouses: [
+          {
+            id: 'TsyAkbF89',
+            type: 'married',
+          },
+        ],
+      },
+      {
+        id: '6vASIIxhd',
+        gender: 'male',
+        parents: [],
+        children: [
+          {
+            id: 'vRSjcaDGj',
+            type: 'blood',
+          },
+        ],
+        siblings: [],
+        spouses: [
+          {
+            id: 'iFiwqrWx-',
+            type: 'married',
+          },
+        ],
+      },
+      {
+        id: 'iFiwqrWx-',
+        gender: 'female',
+        parents: [],
+        children: [
+          {
+            id: 'vRSjcaDGj',
+            type: 'blood',
+          },
+        ],
+        siblings: [],
+        spouses: [
+          {
+            id: '6vASIIxhd',
+            type: 'married',
+          },
+        ],
+      },
+      {
+        id: 'H-06WvsfJ',
+        gender: 'female',
+        parents: [
+          {
+            id: '2DlrR0fK8',
+            type: 'blood',
+          },
+        ],
+        children: [],
+        siblings: [],
+        spouses: [],
+      },
+      ...child,
+    ]
+  }
+
+  render() {
+    const { childCount, treeNode } = this.state
+    const newWIDTH = childCount <= 4 ? WIDTH : WIDTH - childCount * CHILD_COUNT_WIDTH[childCount]
+
+    return (
+      <div styleName={'wrapper'}>
+        {treeNode && treeNode.length > 0 && (
+          <div>
+            <ReactFamilyTree
+              nodes={treeNode}
+              rootId={treeNode[0].id}
+              width={newWIDTH}
+              height={HEIGHT}
+              styleName={'rootTree'}
+              renderNode={(node) => (
+                <FamilyNode
+                  key={node.id}
+                  childCount={childCount}
+                  node={node}
+                  style={{
+                    width: newWIDTH,
+                    height: HEIGHT,
+                    transform: `translate(${node.left * (newWIDTH / 2)}px, ${node.top * (HEIGHT / 2)}px)`,
+                  }}
+                />
+              )}
+            />
+          </div>
+        )}
+      </div>
+    )
+  }
+}
