@@ -63,8 +63,8 @@ class FamilyTreePrint extends Component {
 
   async exportAsImage() {
     const canvas = await html2canvas(this.selectorRef.current, {
-      height: 600,
-      width: 750,
+      height: 900,
+      width: 1000,
       allowTaint: true,
       useCORS: true,
     })

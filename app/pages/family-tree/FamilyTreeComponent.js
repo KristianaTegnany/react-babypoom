@@ -25,7 +25,15 @@ export default class FamilyTreeComponent extends React.Component {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    if (this.props.bpoom.family_tree) {
+      const familyTree = this.props.bpoom.family_tree
+      const nodeFamily = this.createNodeData(familyTree)
+      this.setState({
+        treeNode: nodeFamily,
+      })
+    }
+  }
 
   componentDidUpdate(prevProps) {
     if (this.props.bpoom.family_tree !== prevProps.bpoom.family_tree) {
