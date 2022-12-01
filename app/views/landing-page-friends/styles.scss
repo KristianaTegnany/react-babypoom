@@ -69,6 +69,7 @@ $bpoom-lg-img-height: 80px;
 
 .available-offer {
   margin: 5px;
+  font-size: 20px;
   color: #63af91;
 }
 
@@ -422,4 +423,21 @@ $bpoom-lg-img-height: 80px;
   font-size: 20px;
   font-style: italic;
   margin: 10px;
+}
+
+.to-late {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+}
+
+.responsive-img {
+  width: 100%;
+  height: auto;
+}
+
+.payment-secure {
+  padding: 10px;
+  margin: 20px;
+  margin-top: 25px;
 }

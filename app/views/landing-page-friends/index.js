@@ -221,7 +221,7 @@ class LandingPageFriends extends Component {
                       }}
                     >
                       <ReactPlayer
-                        url="https://babypoom.wistia.com/medias/t1u5w4oemx"
+                        url="https://babypoom.wistia.com/medias/umymq0kn1n"
                         width="100%"
                         height="70%"
                         controls
@@ -285,6 +285,9 @@ class LandingPageFriends extends Component {
                         {
                           title: t(MSG.album_argument_2_9),
                         },
+                        {
+                          title: t(MSG.album_argument_2_10),
+                        },
                       ]}
                     />
                     <h3 styleName="lp-title"> {t(MSG.album_argument_1_title)} </h3>
@@ -314,6 +317,9 @@ class LandingPageFriends extends Component {
                       </div>
                       <div>
                         <img src={imgPath('/album/theme1/album-theme-stork-gift.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/album-familytree.png')} styleName="sample-img" />
                       </div>
                       <div>
                         <img src={imgPath('/album/theme1/album-theme-stork-shoes.png')} styleName="sample-img" />
@@ -434,18 +440,21 @@ class LandingPageFriends extends Component {
                         )}
                       </div>
                     </div>
+
                     {bpoom.album_paid ? (
-                      <span>{t(MSG.to_late_infos)}</span>
+                      <span styleName="to-late">{t(MSG.to_late_infos)}</span>
                     ) : (
                       <>
                         <span>{t(MSG.update_infos_1)}</span>
                         <span>{t(MSG.update_infos_2)}</span>
                         <span styleName="available-offer">{t(MSG.update_infos_3)}</span>
+                        <div styleName="payment-secure">
+                          <img src={imgPath('/shop/secure-payment.png')} styleName="responsive-img" />
+                        </div>
                       </>
                     )}
                   </Column>
                 </Row>
-
                 <Row wrap vertical="center">
                   <Column
                     flexGrow={1}
@@ -640,6 +649,10 @@ const MSG = defineMessages({
   },
   album_argument_2_9: {
     id: 'app.album_argument_2_9',
+    defaultMessage: `[NOUVEAU 🎉] Le petit arbre généaologique de la famille`,
+  },
+  album_argument_2_10: {
+    id: 'app.album_argument_2_10',
     defaultMessage: `Votre dédicace au dos du livre`,
   },
   album_argument_3_title: {
@@ -724,11 +737,11 @@ const MSG = defineMessages({
   },
   update_infos_3: {
     id: 'app.update_infos_3',
-    defaultMessage: `✅ album disponible`,
+    defaultMessage: `✅ Album disponible`,
   },
   to_late_infos: {
     id: 'app.to_late_infos',
-    defaultMessage: `🔴 Désolé cet album a déjà été offert et n'est plus disponible.`,
+    defaultMessage: `🔴 Désolé mais cet album a déjà été offert et n'est plus disponible.`,
   },
   album_gallery_title: {
     id: 'app.album_gallery_title',

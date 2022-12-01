@@ -11,15 +11,16 @@ import NotFound from '../not-found'
 import i18n from '../../i18n/i18n'
 import config from '../../../config'
 import t from '../../i18n/i18n'
-import imgPath from "../../../lib/img-path"
+import imgPath from '../../../lib/img-path'
 import loadIntl from '../../../lib/intl-detection'
 import Tracking from '../../../lib/tracking'
 import { updateLocale } from '../../i18n/hot-intl-provider/HotIntlProviderActions'
-import { Column, Row } from "simple-flexbox";
-import styles from 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { Carousel } from 'react-responsive-carousel';
+import { Column, Row } from 'simple-flexbox'
+import styles from 'react-responsive-carousel/lib/styles/carousel.min.css'
+import { Carousel } from 'react-responsive-carousel'
 import StripeCheckoutComponent from '../../components/stripe'
 import Modal from 'react-modal'
+import YoutubeEmbed from '../../components/youtube-embed'
 import './styles.scss'
 
 function setLocaleData(localeData) {
@@ -30,7 +31,6 @@ function getThemeName(bpoom) {
   let hack = (('undefined' !== typeof window && window.location.hash) || '').substr(1)
   return hack && hack in THEMES ? hack : bpoom.gender ? ('M' === bpoom.gender ? 'boy' : 'girl') : 'default'
 }
-
 
 class BookingPage extends Component {
   constructor(props) {
@@ -91,45 +91,40 @@ class BookingPage extends Component {
     )
   }
 
-  successModal(bpoom,params) {
-    if (!params.success){
+  successModal(bpoom, params) {
+    if (!params.success) {
       return
     }
 
     return (
-      <Modal
-        isOpen={true}
-        contentLabel="Example Modal"
-      >
+      <Modal isOpen={true} contentLabel="Example Modal">
         <Column flexGrow={1}>
           <Row horizontal="center">
             <h1 styleName="stripe-success">
               {t(MSG.success_album_order, {
-                  babyname: (
-                    bpoom.baby_name
-                  ),
+                babyname: bpoom.baby_name,
               })}
             </h1>
           </Row>
           <Row wrap vertical="center">
-            <Column flexGrow={1} horizontal="center"
+            <Column
+              flexGrow={1}
+              horizontal="center"
               style={{
-                backgroundColor: "white",
+                backgroundColor: 'white',
                 maxWidth: 650,
                 padding: 12,
-                color: "#E0E0E0",
-                borderRadius:"15px",
+                color: '#E0E0E0',
+                borderRadius: '15px',
                 margin: 30,
               }}
             >
-              <img styleName="success-mascot" src={imgPath("/mascot/stork-sitting-on-branch.png")}></img>
+              <img styleName="success-mascot" src={imgPath('/mascot/stork-sitting-on-branch.png')}></img>
             </Column>
           </Row>
           <Row horizontal="center">
             <div styleName="button-order">
-              <a onClick={()=>window.location = window.location.href.split("?")[0]}>
-                {t(MSG.close)}
-              </a>
+              <a onClick={() => (window.location = window.location.href.split('?')[0])}>{t(MSG.close)}</a>
             </div>
           </Row>
         </Column>
@@ -142,13 +137,13 @@ class BookingPage extends Component {
     if (bpoom.not_found) {
       return <NotFound />
     }
-    Tracking.track("ParentAlbumBookingLandingPage_Visited", {bpoom_id: bpoom.id})
+    Tracking.track('ParentAlbumBookingLandingPage_Visited', { bpoom_id: bpoom.id })
 
     return (
       <CSSVariableApplicator data-variables={THEMES[this.state.theme]}>
         {this.renderFlash()}
         {this.successModal(bpoom, params)}
-        <div styleName={`lp-container ${bpoom.gender=='M' ? 'boys': 'girls'}`}>
+        <div styleName={`lp-container ${bpoom.gender == 'M' ? 'boys' : 'girls'}`}>
           {!params.hd && (
             <div>
               <div className="loading-preview" styleName="loading-preview">
@@ -158,20 +153,20 @@ class BookingPage extends Component {
                 <Row horizontal="center">
                   <h1 styleName="lp-slogan">
                     {t(MSG.lp_slogan, {
-                      babyname: (
-                        bpoom.baby_name
-                      ),
+                      babyname: bpoom.baby_name,
                     })}
                   </h1>
                 </Row>
                 <Row wrap vertical="center">
-                  <Column flexGrow={1} horizontal="center"
+                  <Column
+                    flexGrow={1}
+                    horizontal="center"
                     style={{
-                      backgroundColor: "white",
+                      backgroundColor: 'white',
                       maxWidth: 650,
                       padding: 12,
-                      color: "#E0E0E0",
-                      borderRadius:"15px",
+                      color: '#E0E0E0',
+                      borderRadius: '15px',
                       margin: 30,
                     }}
                   >
@@ -179,24 +174,23 @@ class BookingPage extends Component {
                   </Column>
                 </Row>
                 <Row vertical="center">
-                  <Column flexGrow={1} horizontal="center"
+                  <Column
+                    flexGrow={1}
+                    horizontal="center"
                     style={{
-                      backgroundColor: "white",
+                      backgroundColor: 'white',
                       maxWidth: 650,
                       padding: 12,
-                      color: "#646781",
-                      borderRadius:"15px",
+                      color: '#646781',
+                      borderRadius: '15px',
                       margin: 30,
                     }}
                   >
                     <h3 styleName="lp-title">{t(MSG.album_description_title)}</h3>
                     <span>
-                      {t(MSG.album_description,
-                        {
-                          babyname: (
-                            bpoom.baby_name
-                          ),
-                        })}
+                      {t(MSG.album_description, {
+                        babyname: bpoom.baby_name,
+                      })}
                     </span>
                     <h3 styleName="lp-title"> {t(MSG.album_argument_1_title)} </h3>
                     <ItemList
@@ -219,89 +213,135 @@ class BookingPage extends Component {
                 </Row>
 
                 <Row wrap vertical="center">
-                  <Column flexGrow={1} horizontal="center"
+                  <Column
+                    flexGrow={1}
+                    horizontal="center"
                     style={{
-                      backgroundColor: "white",
+                      backgroundColor: 'white',
                       maxWidth: 650,
                       padding: 12,
-                      color: "#646781",
-                      borderRadius:"15px",
+                      color: '#646781',
+                      borderRadius: '15px',
                       margin: 30,
                     }}
                   >
                     <h3 styleName="lp-title"> {t(MSG.album_pricing_title)} </h3>
-                    <span>
-                      {t(MSG.album_pricing_description)}
-                    </span>
+                    <span>{t(MSG.album_pricing_description)}</span>
                     <div styleName="button-update-order">
                       <div styleName="order first">
-                      {!bpoom.album_paid && (
-                      <StripeCheckoutComponent
-                      label={t(MSG.album_order, {
-                        babyname: (
-                          bpoom.baby_name
-                        ),
-                      })}
-                      bpoomId={bpoom.id}
-                      paymentType="BOOKING_ALBUM_PARENT"
-                     />
-                      )}
+                        {!bpoom.album_paid && (
+                          <StripeCheckoutComponent
+                            label={t(MSG.album_order, {
+                              babyname: bpoom.baby_name,
+                            })}
+                            bpoomId={bpoom.id}
+                            paymentType="BOOKING_ALBUM_PARENT"
+                          />
+                        )}
                       </div>
                     </div>
-                    <span>
-                      {bpoom.album_paid ? t(MSG.to_late_infos) : t(MSG.update_infos)}
-                    </span>
-
+                    <span>{bpoom.album_paid ? t(MSG.to_late_infos) : t(MSG.update_infos)}</span>
+                    <div styleName="payment-secure">
+                      <img src={imgPath('/shop/secure-payment.png')} styleName="responsive-img" />
+                    </div>
                   </Column>
                 </Row>
 
                 <Row wrap vertical="center">
-                  <Column flexGrow={1} horizontal="center"
+                  <Column
+                    flexGrow={1}
+                    horizontal="center"
                     style={{
-                      backgroundColor: "white",
+                      backgroundColor: 'white',
                       maxWidth: 650,
                       padding: 12,
-                      color: "#646781",
-                      borderRadius:"15px",
+                      color: '#646781',
+                      borderRadius: '14px',
                       margin: 30,
                     }}
                   >
                     <h3 styleName="lp-title"> {t(MSG.album_gallery_title)} </h3>
                     <Carousel showThumbs={false} showStatus={false}>
-                       <div>
-                            <img src={bpoom.album_teaser2_url} />
+                      <div>
+                        <div styleName="youtube-video">
+                          <YoutubeEmbed embedId="OuyMb3J99_g" />
                         </div>
-                        <div>
-                            <img src={bpoom.gender=='F' ? imgPath("/album/album-visitorbook-teaser-girl.jpg") : imgPath("/album/album-visitorbook-teaser-boy.jpg")} />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-with-mum-2.jpg")} />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-with-mum.jpg")} />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-teaser-4-opti.jpg")} />
-                        </div>
-                        <div>
-                            <img src={imgPath("/album/album-teaser-3-opti.jpg")} />
-                        </div>
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/3-albums-pos1-wall1-min.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/album-open-min.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/theme1/album-theme-stork-shoes.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/theme2/album-cover2-min.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/theme3/album-cover3-min.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/album-familytree.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/theme1/album-theme-stork-gift.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/album-with-mum.jpg')} />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/3-albums-pos2-wall2-min.png')} />
+                      </div>
                     </Carousel>
-                    <span>
-                      {t(MSG.album_order_now)}
-                    </span>
+                    <span>{t(MSG.album_order_now)}</span>
                     <div styleName="button-update-order">
                       <a href={config.orderLink.replace('{{id}}', bpoom.id)}>
                         {t(MSG.album_order_now_bt, {
-                          babyname: (
-                            bpoom.baby_name
-                          ),
+                          babyname: bpoom.baby_name,
                         })}
                       </a>
                     </div>
                   </Column>
                 </Row>
 
+                <Row wrap vertical="center">
+                  <Column
+                    flexGrow={1}
+                    horizontal="center"
+                    style={{
+                      backgroundColor: 'white',
+                      maxWidth: 650,
+                      padding: 12,
+                      color: '#646781',
+                      borderRadius: '15px',
+                      margin: 30,
+                    }}
+                  >
+                    <h3 styleName="lp-title"> {t(MSG.babypoom_presentation_title)} </h3>
+                    <span>
+                      {t(MSG.babypoom_presentation_description, {
+                        parent1Name: bpoom.parent_1_name,
+                        parent2Name: bpoom.parent_2_name,
+                      })}
+                    </span>
+                    <img styleName="logo-img" src={imgPath('/corporate/logo-and-brand.png')} />
+                    <iframe
+                      src="https://api.babypoom.com/reviews.html"
+                      style={{
+                        marginTop: '15px',
+                        backgroundColor: 'white',
+                        width: '100%',
+                        height: '350px',
+                        border: '4px solid #b5ceca',
+                        mozBorderRadius: '15px',
+                        borderRadius: '15px',
+                        overflow: 'hidden',
+                      }}
+                    />
+                  </Column>
+                </Row>
               </Column>
             </div>
           )}
@@ -466,5 +506,13 @@ const MSG = defineMessages({
   to_late_infos: {
     id: 'app.to_late_infos',
     defaultMessage: `⚠️ Désolé cet album a déjà été payé.`,
+  },
+  babypoom_presentation_title: {
+    id: 'app.babypoom_presentation_title',
+    defaultMessage: `Des parents heureux`,
+  },
+  babypoom_presentation_description: {
+    id: 'app.babypoom_presentation_description',
+    defaultMessage: `{parent1Name} et {parent2Name}, comme vous de nombreux parents font aujourd'hui confiance à Babypoom pour célébrer l'arrivée de leur bout de chou de façon ludique et originale. L'album de naissance est pour eux, un merveilleux moyen de garder un souvenir de ce moment de vie si unique...`,
   },
 })

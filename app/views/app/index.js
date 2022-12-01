@@ -327,7 +327,7 @@ class App extends Component {
       2 /* Arrival */ +
       (bpoom.card_id ? 1 : 0) /* Card */ +
       (bpoom.firstname_infos ? 1 : 0) /* Firstname */ +
-      (bpoom.family_tree ? 1 : 0) /* Family tree */ +
+      (bpoom.family_tree_completed ? 1 : 0) /* Family tree */ +
       Trip.cntPages(trip_events) /* Trip */ +
       Guestbook.cntPages(guest_book_msgs) /* Guest-book */ +
       parents_reactions /* Parents */ +
@@ -378,7 +378,7 @@ class App extends Component {
                 <Trip />
                 {bpoom.card_id && <Card />}
                 {bpoom.firstname_infos && <Firstname />}
-                {bpoom.family_tree && <FamilyTree />}
+                {bpoom.family_tree_completed && <FamilyTree />}
                 <Guestbook />
                 <ParentsAndStats />
                 {missingPages}

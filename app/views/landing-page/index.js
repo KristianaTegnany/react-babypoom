@@ -18,6 +18,7 @@ import { updateLocale } from '../../i18n/hot-intl-provider/HotIntlProviderAction
 import { Column, Row } from 'simple-flexbox'
 import styles from 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
+import YoutubeEmbed from '../../components/youtube-embed'
 import './styles.scss'
 
 function setLocaleData(localeData) {
@@ -193,6 +194,9 @@ class LandingPage extends Component {
                         {
                           title: t(MSG.album_argument_2_8),
                         },
+                        {
+                          title: t(MSG.album_argument_2_9),
+                        },
                       ]}
                     />
                     <h3 styleName="lp-title"> {t(MSG.album_argument_1_title)} </h3>
@@ -210,7 +214,12 @@ class LandingPage extends Component {
                       ]}
                     />
                     <h3 styleName="lp-title"> {t(MSG.album_argument_3_title)} </h3>
-                    <Carousel autoPlay infiniteLoop={true} showThumbs={false} showStatus={false}>
+                    <Carousel showThumbs={false} showStatus={false}>
+                      <div>
+                        <div styleName="youtube-video">
+                          <YoutubeEmbed embedId="OuyMb3J99_g" />
+                        </div>
+                      </div>
                       <div>
                         <img src={imgPath('/album/3-albums-pos1-wall1-min.png')} styleName="sample-img" />
                       </div>
@@ -225,6 +234,9 @@ class LandingPage extends Component {
                       </div>
                       <div>
                         <img src={imgPath('/album/theme3/album-cover3-min.png')} styleName="sample-img" />
+                      </div>
+                      <div>
+                        <img src={imgPath('/album/album-familytree.png')} styleName="sample-img" />
                       </div>
                       <div>
                         <img src={imgPath('/album/theme1/album-theme-stork-gift.png')} styleName="sample-img" />
@@ -319,6 +331,9 @@ class LandingPage extends Component {
                         </div>
                       </>
                     )}
+                    <div styleName="payment-secure">
+                      <img src={imgPath('/shop/secure-payment.png')} styleName="responsive-img" />
+                    </div>
                   </Column>
                 </Row>
 
@@ -518,6 +533,10 @@ const MSG = defineMessages({
   album_argument_2_8: {
     id: 'app.album_argument_2_8',
     defaultMessage: `Les statistiques du jeu de devinette du prénom`,
+  },
+  album_argument_2_9: {
+    id: 'app.album_argument_2_9',
+    defaultMessage: `NOUVEAU 🎉 Le petit arbre généalogique de la famille`,
   },
   album_argument_3_title: {
     id: 'app.album_argument_3_title',
